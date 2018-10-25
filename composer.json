@@ -12,10 +12,11 @@
     "laravel/tinker": "^1.0",
     "predis/predis": "^1.1",
     "saritasa/blade-directives": "^1.0",
-    "saritasa/eloquent-custom": "^1.0",
     "saritasa/dingo-api-custom": "^2.0",
+    "saritasa/eloquent-custom": "^1.0",
     "saritasa/laravel-controllers": "^3.0.1",
     "saritasa/laravel-middleware": "^1.0",
+    "saritasa/laravel-repositories": "^3.1",
     "saritasa/roles-simple": "^1.0",
     "tymon/jwt-auth": "1.0.0-rc.2"
   },
