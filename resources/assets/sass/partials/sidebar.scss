@@ -1,0 +1,96 @@
+.sidebar {
+  min-height: 100vh;
+  width: 330px;
+  position: fixed;
+  background: $color-grey-dark;
+  color: white;
+  z-index: 10;
+
+  &__head {
+    padding: 40px 20px 30px;
+    border-bottom: 1px solid #585858;
+  }
+
+  &__company {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  &__user {
+    font-size: 12px;
+    position: relative;
+
+    .ic-avatar {
+      margin-right: 10px;
+      position: relative;
+      top: 3px;
+    }
+
+    .ic-arrow-down {
+      float: right;
+      margin-top: 12px;
+      cursor: pointer;
+    }
+  }
+
+  &__body {
+    margin-top: 20px;
+  }
+
+  &__list {
+    position: relative;
+
+    svg {
+      margin-right: 10px;
+
+      &.ic-document {
+        height: 22px;
+      }
+    }
+
+    a {
+      color: white;
+      padding: 0 15px 0 20px;
+      font-size: 13px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      height: 40px;
+
+      span {
+        flex: 1;
+      }
+
+      &:hover {
+        color: darken(white, 10%);
+        text-decoration: none;
+        background-color: rgba(231, 225, 225, 0.26);
+      }
+    }
+
+    .list__item {
+      position: relative;
+
+      &.active {
+        a {
+          background-color: rgba(126, 124, 124, 0.26);
+          cursor: default;
+        }
+      }
+
+      i {
+        position: relative;
+        color: #fff;
+        font-size: 14px;
+        float: right;
+        padding: 4px 10px;
+        background: #212020;
+        border-radius: 11px;
+        text-align: center;
+        font-weight: 600;
+        min-width: 18px;
+        font-style: normal
+      }
+    }
+  }
+}

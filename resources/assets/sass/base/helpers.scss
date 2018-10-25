@@ -1,0 +1,39 @@
+body {
+  %text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .space-between {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .align-items-start {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .ml-10 {
+    margin-left: -10px;
+  }
+}

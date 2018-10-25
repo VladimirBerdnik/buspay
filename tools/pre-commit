@@ -1,0 +1,47 @@
+#!/bin/bash
+
+branchName="$(git symbolic-ref HEAD 2>/dev/null)" ||
+branchName="(unnamed branch)"     # detached HEAD
+branchName=${branchName##refs/heads/}
+
+if [[ $branchName == feature/* ]]; then
+  # Developer can commit linter violations in his feature branch before task is complete
+  exit 0;
+fi
+# For other branches, if linters fail, deny commit
+
+fonterrors=false
+phperrors=false
+
+echo "Running Code Linters..."
+printf "%0.s-" {1..50}.; printf "\n"
+
+# run PHP_CodeSniffer checks
+# against PHP code we created
+phplint=$(php vendor/bin/phpcs --parallel=4 | grep 'ERROR')
+
+if [[ -n "$phplint" ]]; then
+	phperrors=true
+    echo -e "You got phpcs problems "
+    echo -e "Pls run [make cs] to see errors"
+    printf "\n"
+fi
+
+# run eslint checks
+# against JS code we created
+eslint=$(npm run lint 2>/dev/null | grep ' error ')
+
+if [[ -n "$eslint" ]]; then
+    fonterrors=true
+    echo -e "You got JS/CSS lint problems: "$eslint
+    echo -e "Pls run [npm run lint] to see errors"
+    printf "\n"
+fi
+
+if [[ "$phperrors" = true ]] || [[ "$fonterrors" = true ]] ; then
+    RED='\033[0;31m'
+    YELLOW='\033[1;33m'
+    NC='\033[0m' # No Color
+    printf "${YELLOW}!!! ${RED}Code submit aborted due to errors - pls fix them first!${NC}\n\n"
+    exit 1
+fi

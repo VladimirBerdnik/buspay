@@ -1,0 +1,28 @@
+$bg-wrap-color: #ddd;
+
+.wrap-login {
+  background: $bg-wrap-color;
+  height: 100vh;
+  @extend .flex-center;
+}
+
+.login {
+  padding: 35px 35px 15px;
+  @extend .flex-center;
+  flex-direction: column;
+  border: 1px solid $color-border;
+  border-radius: 5px;
+  background-color: #fff;
+
+  &__logo-name {
+    margin-bottom: 30px;
+    font-size: 18px;
+  }
+
+  &__button {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 9px 12px;
+    margin-top: 15px;
+  }
+}

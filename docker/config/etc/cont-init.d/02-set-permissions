@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv bash
+
+# Application must be able to write to it's folder and composer cache
+# Let them belong to nginx user - application runs with its permissions
+
+chown root:nginx /tmp
+chmod 775 /tmp

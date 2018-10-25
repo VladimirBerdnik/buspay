@@ -1,0 +1,65 @@
+version: '2.1'
+services:
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.local
+      args:
+        hostUID: 1000
+        hostGID: 1000
+    image: buspay-web
+    hostname: buspay-web
+    container_name: buspay-web
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      APP_ENV: local
+      PHP_IDE_CONFIG: serverName=buspay.docker
+      COMPOSER_HOME: /home/www/.composer
+    labels:
+      SERVICE_NAME: buspay-web
+      SERVICE_80_NAME: buspay-web
+      SERVICE_443_NAME: buspay-web
+    volumes:
+    - .:/home/www/app
+    - ~/.composer:/home/www/.composer
+
+  db:
+    image: mysql:5.7
+    hostname: buspay-db
+    container_name: buspay-db
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: buspay
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+    labels:
+      SERVICE_NAME: buspay-db
+    healthcheck:
+      test: "/usr/bin/mysql --user=user --password=secret --execute \"SHOW DATABASES;\""
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:alpine
+    container_name: buspay-redis
+    labels:
+      SERVICE_NAME: buspay-redis
+
+  build-static:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.nodejs
+    image: buspay-nodejs
+    hostname: buspay-nodejs
+    container_name: buspay-nodejs
+    mem_limit: 536870912
+#    user: node
+    volumes:
+    - ./:/home/www/app/
+    command: /bin/sh -c 'sh /static_build.sh'

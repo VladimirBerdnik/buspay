@@ -1,0 +1,16 @@
+.form-group {
+  margin-bottom: 15px;
+
+  &__textarea  {
+    width: 100%;
+    height: 70px;
+    border-radius: 3px;
+    padding: 10px 15px;
+    border: 1px solid $color-border;
+    font-family: $font-roboto;
+
+    &--md {
+      width: 540px;
+    }
+  }
+}

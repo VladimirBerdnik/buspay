@@ -1,0 +1,23 @@
+.form-group {
+  margin-bottom: 15px;
+
+  &__label {
+    @extend .control-label;
+  }
+
+  &__select {
+    @extend .form-control;
+
+    &--xl {
+      width: 360px;
+    }
+
+    &--lg {
+      width: 250px;
+    }
+
+    &--sm {
+      width: 70px;
+    }
+  }
+}

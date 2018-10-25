@@ -1,0 +1,39 @@
+FROM "saritasa/alpine-php71-nginx-phpfpm-s6:1.0"
+
+### Descriptions
+MAINTAINER VladimirBerdnik
+LABEL Vendor="VladimirBerdnik" \
+      Project="BusPay"
+
+ENTRYPOINT ["/init"]
+WORKDIR /home/www/app
+VOLUME /home/www/app
+EXPOSE 80 443
+
+# Replace default nginx user and group with IDs, matching current host user (developer)
+ARG hostUID=1000
+ARG hostGID=1000
+ENV hostUID=$hostUID
+ENV hostGID=$hostGID
+RUN echo "uid:gid=$hostUID:$hostGID" &&\
+    oldUID=`id -u nginx` &&\
+    deluser nginx &&\
+    addgroup -g $hostGID nginx &&\
+    adduser -S -u $hostUID -G nginx -h /home/www -s /sbin/nologin nginx &&\
+    find /var -user $oldUID -exec chown -v $hostUID:$hostGID {} \;
+
+## Add some productivity tools for developer
+RUN apk add --update make mc tmux
+
+### Copy configuration files
+ADD docker/config /
+ADD docker/local /
+
+RUN chown -R nginx:nginx /home/www && \
+    find /etc/cont-init.d -type f -exec dos2unix {} \; &&\
+    find /etc/nginx -type f -exec dos2unix {} \; &&\
+    find /etc/services.d -type f -exec dos2unix {} \; &&\
+    find /root -maxdepth 1 -type f -exec dos2unix {} \; &&\
+    find /tmp -type f -exec dos2unix {} \; &&\
+    nginx -t -c /etc/nginx/nginx.conf &&\
+    nginx -t -c /tmp/nginx.conf

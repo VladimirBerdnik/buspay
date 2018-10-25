@@ -1,0 +1,68 @@
+.link {
+
+  &-back {
+    float: left;
+    padding-right: 10px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &-logout {
+    float: right;
+    width: 12px;
+    height: 6px;
+    background: url($path-image +'/ic_droparrow@2x.png') no-repeat;
+    background-size: cover;
+    margin-top: -8px;
+
+    span {
+      display: none;
+      align-items: center;
+      width: 100%;
+      height: 36px;
+      border: 2px solid $color-border;
+      position: absolute;
+      top: 26px;
+      left: 0;
+      background: #fff;
+      color: #000;
+      padding-left: 15px;
+      font-size: 13px;
+      z-index: 99;
+      margin-top: 0;
+
+      &:hover {
+        background-color: rgb(238, 233, 233);
+      }
+    }
+
+    &.noclass {
+      span {
+        display: flex;
+      }
+    }
+  }
+
+  &--red {
+    color: $color-red;
+
+    &:hover {
+      color: darken($color-red, 10%);
+    }
+  }
+
+  &--black {
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  &--noUnderline {
+    text-decoration: none;
+  }
+}

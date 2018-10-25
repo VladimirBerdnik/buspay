@@ -1,0 +1,12 @@
+<?php
+
+return [
+    'error' => 'Ошибка',
+    'validation_failed' => 'Данные не валидны',
+    'service_not_available' => 'Сервис недоступен',
+    'try_later' => 'Попробуйте позже',
+    'not_found' => 'Не найдено',
+    'page_not_found' => 'Страница не найдена',
+    'access_denied' => 'Доступ закрыт',
+    'no_access' => 'У Вас нет прав на доступ к этой странице',
+];

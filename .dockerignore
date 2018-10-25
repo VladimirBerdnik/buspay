@@ -1,0 +1,10 @@
+.git
+/.data
+/*.php
+Artifacts
+node_modules
+bower_components
+homestead
+/vendor
+Vagrantfile
+.vagrant

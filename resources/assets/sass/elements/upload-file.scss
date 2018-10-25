@@ -1,0 +1,25 @@
+.upload-file {
+  display: flex;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    margin: 0 75px 30px 0;
+
+    &-image {
+      height: 66px;
+      width: 66px;
+      border: 1px solid $color-grey-dark;
+      margin-right: 20px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &-file-name {
+      margin-bottom: 5px;
+    }
+  }
+}

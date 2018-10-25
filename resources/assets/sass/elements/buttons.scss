@@ -1,0 +1,66 @@
+.btn {
+  min-width: 114px;
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  user-select: none;
+  background-image: none;
+  border: 1px solid $color-border;
+  border-radius: 4px;
+  background: white;
+
+  &:hover {
+    background: darken($color-border, 10%);
+  }
+
+  &--green {
+    background: $color-green;
+    color: white;
+    border: 1px solid darken($color-green, 5%);
+
+    &:hover {
+      background: darken($color-green, 10%);
+    }
+  }
+
+  &.btn-file {
+    position: relative;
+    overflow: hidden;
+
+    input[type=file] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 100%;
+      min-height: 100%;
+      font-size: 100px;
+      text-align: right;
+      opacity: 0;
+      outline: none;
+      background: white;
+      cursor: inherit;
+      display: block;
+    }
+  }
+}
+
+.wrap-btn {
+  .btn + .btn {
+    margin-left: 15px;
+  }
+
+  &--fixed {
+    position: fixed;
+    top: 20px;
+    right: 40px;
+  }
+}
+

@@ -1,0 +1,59 @@
+.pagination {
+  margin: 20px 0;
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 5px;
+
+  .paginate_button {
+
+    &.active {
+      a {
+        background: $color-blue;
+        color: #fff;
+        border: 1px solid $color-blue;
+
+        &:hover {
+          background: $color-blue;
+          cursor: default;
+        }
+      }
+    }
+
+    &:first-child {
+      a {
+        margin-left: 0;
+        border-radius: 5px 0 0 5px;
+      }
+    }
+
+    &:last-child {
+      a {
+        border-radius: 0 5px 5px 0;
+      }
+    }
+
+    a {
+      position: relative;
+      display: block;
+      min-width: 34px;
+      padding: 8px 12px;
+      margin-left: -1px;
+      color: #0275d8;
+      background-color: #fff;
+      border: 1px solid $color-border;
+      text-decoration: none;
+      text-align: center;
+
+      &:hover {
+        cursor: pointer;
+        background: $color-grey-light;
+      }
+    }
+  }
+}
+
+.dataTables_info {
+  float: right;
+  margin-top: 12px;
+}

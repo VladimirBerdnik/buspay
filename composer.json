@@ -1,0 +1,77 @@
+{
+  "name": "buspay",
+  "description": "BusPay",
+  "keywords": ["framework", "laravel"],
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "php": ">=7.1",
+    "barryvdh/laravel-cors": "^0.11",
+    "dingo/api": "2.0.0-alpha1",
+    "laravel/framework": "5.6.*",
+    "laravel/tinker": "^1.0",
+    "predis/predis": "^1.1",
+    "saritasa/blade-directives": "^1.0",
+    "saritasa/eloquent-custom": "^1.0",
+    "saritasa/dingo-api-custom": "^2.0",
+    "saritasa/laravel-controllers": "^3.0.1",
+    "saritasa/laravel-middleware": "^1.0",
+    "saritasa/roles-simple": "^1.0",
+    "tymon/jwt-auth": "1.0.0-rc.2"
+  },
+  "require-dev": {
+    "barryvdh/laravel-debugbar": "^3.2",
+    "barryvdh/laravel-ide-helper": "^2.5",
+    "beyondcode/laravel-dump-server": "^1.2",
+    "nunomaduro/collision": "^2.0",
+    "filp/whoops": "^2.0",
+    "doctrine/dbal": "^2.8",
+    "fzaninotto/faker": "^1.7",
+    "mockery/mockery": "^1.1",
+    "phpunit/phpunit": "^7.3",
+    "reliese/laravel": "^0.0.13",
+    "slevomat/coding-standard": "^4.7",
+    "arcanedev/log-viewer": "^4.5"
+  },
+  "autoload": {
+    "classmap": [
+      "database"
+    ],
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ],
+    "post-install-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postInstall",
+      "php tools/install-git-hooks.php"
+    ],
+    "post-update-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+      "php artisan ide-helper:generate",
+      "php artisan ide-helper:meta",
+      "php tools/install-git-hooks.php"
+    ],
+    "post-autoload-dump": [
+      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+      "@php artisan package:discover"
+    ]
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "prefer-stable": true
+}

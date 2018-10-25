@@ -1,0 +1,20 @@
+.info-block {
+  min-width: 190px;
+
+  p {
+    font-weight: bold;
+    margin: 0 0 10px;
+
+    & + p {
+      font-weight: normal;
+      max-width: 125px;
+    }
+  }
+
+  &--full-width {
+
+    p + p {
+      max-width: 100%;
+    }
+  }
+}

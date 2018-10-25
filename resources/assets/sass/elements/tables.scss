@@ -1,0 +1,35 @@
+$border-color: #ddd;
+$bg-tr-hover: rgba(74, 144, 226, 0.25);
+
+.table {
+  margin: 20px 0;
+  border-collapse: collapse;
+  width: 100% !important;
+
+  tr {
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-top: 1px solid $border-color;
+      border-bottom: 1px solid $border-color;
+
+      &:first-child {
+        padding-left: 30px;
+      }
+    }
+  }
+
+  thead {
+    tr {
+      background: $color-grey-light;
+    }
+  }
+
+  tbody {
+    tr {
+      &:hover {
+        background-color: $bg-tr-hover;
+      }
+    }
+  }
+}

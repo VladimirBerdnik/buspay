@@ -1,0 +1,69 @@
+/* gradient */
+@mixin gradient($startColor, $stopColor) {
+  background: linear-gradient(to top, $startColor 0%, $stopColor 100%);
+}
+
+/* placeholder */
+@mixin placeholder($color) {
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+  &::-moz-placeholder {
+    color: $color;
+  }
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+  &::-ms-input-placeholder {
+    color: $color;
+  }
+}
+
+/* font size */
+@for $i from 8 through 40 {
+  .font-size-#{$i} {
+    font-size: ($i*1px) !important;
+  }
+}
+
+/* paddings, margins and width */
+$i: 0;
+@while $i < 51 {
+  .mt#{$i} {
+    margin-top: ($i*1px) !important;
+  }
+
+  .mr#{$i} {
+    margin-right: ($i*1px) !important;
+  }
+
+  .mb#{$i} {
+    margin-bottom: ($i*1px) !important;
+  }
+
+  .ml#{$i} {
+    margin-left: ($i*1px) !important;
+  }
+
+  .pt#{$i} {
+    padding-top: ($i*1px) !important;
+  }
+
+  .pr#{$i} {
+    padding-right: ($i*1px) !important;
+  }
+
+  .pb#{$i} {
+    padding-bottom: ($i*1px) !important;
+  }
+
+  .pl#{$i} {
+    padding-left: ($i*1px) !important;
+  }
+
+  .w#{$i}p {
+    width: ($i*1%) !important;
+  }
+
+  $i: $i + 5;
+}

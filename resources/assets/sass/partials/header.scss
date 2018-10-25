@@ -1,0 +1,24 @@
+header {
+  width: calc(100% - 330px);
+  position: fixed;
+  background: #fff;
+
+  .header {
+    padding-right: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $color-grey;
+  }
+
+  .page-header {
+    padding: 30px 40px 15px;
+
+    h1 {
+      margin: 0;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+  }
+}
+

@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<ruleset name="PHP_CodeSniffer">
+  <description>The coding standard for laravel package</description>
+
+  <file>app</file>
+
+  <exclude-pattern>*.json</exclude-pattern>
+  <exclude-pattern>*.xml</exclude-pattern>
+
+  <arg name="colors"/>
+  <arg value="p"/>
+
+  <rule ref="PSR2"/>
+  <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+    <exclude-pattern>*/database/*</exclude-pattern>
+  </rule>
+  <rule ref="Generic.Commenting.DocComment.MissingShort"/>
+  <rule ref="Generic.Commenting.DocComment.SpacingBeforeTags"/>
+  <rule ref="Generic.Commenting.DocComment.SpacingBeforeTags"/>
+  <rule ref="MySource.Commenting.FunctionComment.InvalidReturn"/>
+  <rule ref="MySource.Commenting.FunctionComment.MissingParamComment"/>
+  <rule ref="MySource.Commenting.FunctionComment.TypeHintMissing"/>
+  <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+  <rule ref="Generic.Classes.DuplicateClassName"/>
+  <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+  <rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>
+  <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+  <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+  <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+  <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+  <rule ref="Generic.Commenting.Fixme"/>
+  <rule ref="Generic.Commenting.Todo"/>
+  <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+
+  <!-- Exceptions for native Laravel classes, violating rules 'out of box' -->
+  <rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
+    <exclude-pattern>app/Providers/EventServiceProvider.php</exclude-pattern>
+    <exclude-pattern>app/Providers/RouteServiceProvider.php</exclude-pattern>
+    <exclude-pattern>app/Exceptions/Handler.php</exclude-pattern>
+  </rule>
+  <rule ref="MySource.Commenting.FunctionComment.TypeHintMissing">
+    <exclude-pattern>app/Exceptions/Handler.php</exclude-pattern>
+  </rule>
+  <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
+    <exclude-pattern>app/Exceptions/Handler.php</exclude-pattern>
+  </rule>
+
+  <!-- Slevomat additioanl rules -->
+
+  <!-- Additional rules that can be enabled -->
+  <!--<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/AssignmentInConditionSniff.php"/>-->
+  <!--<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/DisallowEqualOperatorsSniff.php"/>-->
+  <!--<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/EarlyExitSniff.php"/>-->
+  <!--<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Classes/UnusedPrivateElementsSniff.php"/>-->
+
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Arrays/TrailingArrayCommaSniff.php"/>
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Classes/ClassConstantVisibilitySniff.php"/>
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Classes/TraitUseDeclarationSniff.php"/>
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Classes/TraitUseSpacingSniff.php">
+    <properties>
+      <property name="linesCountBeforeFirstUse" value="0"/>
+      <property name="linesCountAfterLastUseWhenLastInClass" value="0"/>
+    </properties>
+  </rule>
+
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Commenting/DocCommentSpacingSniff.php">
+    <properties>
+      <property name="linesCountBeforeFirstContent" value="0"/>
+      <property name="linesCountBetweenDescriptionAndAnnotations" value="1"/>
+      <property name="linesCountBetweenDifferentAnnotationsTypes" value="1"/>
+      <property name="linesCountAfterLastContent" value="0"/>
+    </properties>
+  </rule>
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Commenting/EmptyCommentSniff.php"/>
+  <rule
+    ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/NewWithParenthesesSniff.php"/>
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Exceptions/DeadCatchSniff.php"/>
+  <rule
+    ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Namespaces/AlphabeticallySortedUsesSniff.php"/>
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Namespaces/ReferenceUsedNamesOnlySniff.php">
+    <properties>
+      <property name="searchAnnotations" value="1"/>
+    </properties>
+  </rule>
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Namespaces/UnusedUsesSniff.php">
+    <properties>
+      <property name="searchAnnotations" value="1"/>
+    </properties>
+  </rule>
+  <rule
+    ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Namespaces/UseDoesNotStartWithBackslashSniff.php"/>
+  <rule
+    ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/NullableTypeForNullDefaultValueSniff.php"/>
+  <rule
+    ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/NullTypeHintOnLastPositionSniff.php"/>
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/TypeHintDeclarationSniff.php">
+    <exclude-pattern>app/Exceptions/Handler.php</exclude-pattern>
+  </rule>
+
+</ruleset>
