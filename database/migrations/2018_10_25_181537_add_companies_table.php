@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class AddCompaniesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('companies', function (Blueprint $table) {
+            $table->increments('id')->comment('Company unique identifier');
+            $table->string('name')->comment('Company name');
+            $table->string('account_number')->comment('Account number for payments');
+            $table->string('contact_information')->comment('Company contact information');
+
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('companies');
+    }
+}
