@@ -17,9 +17,11 @@ class AddRouteSheetsTable extends Migration
     {
         Schema::create('route_sheets', function (Blueprint $table) {
             $table->increments('id')->comment('Route sheet unique identifier');
-            $table->unsignedInteger('route_id')->comment('Bus route identifier, which served the driver on the bus');
+            $table->unsignedInteger('route_id')
+                ->nullable()
+                ->comment('Bus route identifier, which served the driver on the bus');
             $table->unsignedInteger('bus_id')->comment('Bus identifier that is on route');
-            $table->unsignedInteger('driver_id')->comment('Driver identifier that is on bus on route');
+            $table->unsignedInteger('driver_id')->nullable()->comment('Driver identifier that is on bus on route');
             $table->tinyInteger('temporary')->comment('Is this route sheet temporary (reserve) or not');
 
             $this->activityPeriod($table, false);
