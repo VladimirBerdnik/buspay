@@ -23,6 +23,8 @@ class AddValidatorsTable extends Migration
             $table->index('serial_number', 'validators_main_index');
             $table->unique(['serial_number', 'deleted_at'], 'validators_main_unique');
         });
+
+        DB::statement("ALTER TABLE `validators` comment 'Smart devices that can authorize payment cards'");
     }
 
     /**

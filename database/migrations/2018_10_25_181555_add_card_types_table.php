@@ -22,6 +22,8 @@ class AddCardTypesTable extends Migration
 
             $table->unique(['slug', 'deleted_at'], 'card_types_main_unique');
         });
+
+        DB::statement("ALTER TABLE `card_types` comment 'Possible authenticated card types'");
     }
 
     /**

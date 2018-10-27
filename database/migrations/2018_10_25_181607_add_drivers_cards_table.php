@@ -26,6 +26,8 @@ class AddDriversCardsTable extends Migration
 
             $table->index(['driver_id', 'card_id', 'active_from', 'active_to'], 'drivers_cards_main_index');
         });
+
+        DB::statement("ALTER TABLE `drivers_cards` comment 'Historical information about cards to drivers assignments'");
     }
 
     /**

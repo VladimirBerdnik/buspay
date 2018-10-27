@@ -27,6 +27,8 @@ class AddUsersTable extends Migration
 
             $table->unique(['email', 'deleted_at'], 'users_main_unique');
         });
+
+        DB::statement("ALTER TABLE `users` comment 'User of application'");
     }
 
     /**

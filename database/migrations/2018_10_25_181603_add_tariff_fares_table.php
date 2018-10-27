@@ -24,6 +24,8 @@ class AddTariffFaresTable extends Migration
 
             $table->unique(['tariff_id', 'card_type_id', 'deleted_at'], 'tariff_fares_main_unique');
         });
+
+        DB::statement("ALTER TABLE `tariff_fares` comment 'Amount of tariff fare for card type'");
     }
 
     /**

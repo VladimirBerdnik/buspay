@@ -23,6 +23,8 @@ class AddCardsTable extends Migration
 
             $table->unique(['card_number', 'deleted_at'], 'cards_main_unique');
         });
+
+        DB::statement("ALTER TABLE `cards` comment 'Authenticated cards that can be recognized by validators'");
     }
 
     /**

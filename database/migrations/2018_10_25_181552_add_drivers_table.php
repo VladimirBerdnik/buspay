@@ -27,6 +27,8 @@ class AddDriversTable extends Migration
 
             $table->unique(['full_name', 'company_id', 'deleted_at'], 'drivers_main_unique');
         });
+
+        DB::statement("ALTER TABLE `drivers` comment 'Driver that can drive buses. Works in transport companies'");
     }
 
     /**

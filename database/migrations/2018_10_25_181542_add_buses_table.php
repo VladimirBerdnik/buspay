@@ -27,6 +27,8 @@ class AddBusesTable extends Migration
 
             $table->unique(['state_number', 'deleted_at'], 'buses_main_unique');
         });
+
+        DB::statement("ALTER TABLE `buses` comment 'Buses - assets of transport companies. Can serve route'");
     }
 
     /**

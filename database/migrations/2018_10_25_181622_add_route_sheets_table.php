@@ -30,6 +30,8 @@ class AddRouteSheetsTable extends Migration
 
             $table->index(['route_id', 'bus_id', 'driver_id', 'active_from', 'active_to'], 'route_sheets_main_index');
         });
+
+        DB::statement("ALTER TABLE `route_sheets` comment 'Route sheet with driver to bus and route assignment historical information'");
     }
 
     /**

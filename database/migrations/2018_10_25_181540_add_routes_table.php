@@ -22,6 +22,8 @@ class AddRoutesTable extends Migration
 
             $table->unique(['name', 'deleted_at'], 'routes_main_unique');
         });
+
+        DB::statement("ALTER TABLE `routes` comment 'Regular bus routes'");
     }
 
     /**

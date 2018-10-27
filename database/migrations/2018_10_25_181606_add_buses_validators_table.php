@@ -26,6 +26,8 @@ class AddBusesValidatorsTable extends Migration
 
             $table->index(['bus_id', 'validator_id', 'active_from', 'active_to'], 'buses_validators_main_index');
         });
+
+        DB::statement("ALTER TABLE `buses_validators` comment 'Historical bus to validator assignment information'");
     }
 
     /**

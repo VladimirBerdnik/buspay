@@ -26,6 +26,8 @@ class AddCompaniesRoutesTable extends Migration
 
             $table->index(['company_id', 'route_id', 'active_from', 'active_to'], 'companies_routes_main_index');
         });
+
+        DB::statement("ALTER TABLE `companies_routes` comment 'Historical information about transport companies to routes assignments'");
     }
 
     /**

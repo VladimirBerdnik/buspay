@@ -22,6 +22,8 @@ class AddCompaniesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        DB::statement("ALTER TABLE `companies` comment 'Transport companies with buses'");
     }
 
     /**

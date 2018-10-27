@@ -22,6 +22,8 @@ class AddTariffsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        DB::statement("ALTER TABLE `tariffs` comment 'Payment tariffs activity period information'");
     }
 
     /**
