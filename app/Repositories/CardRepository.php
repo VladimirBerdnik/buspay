@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Extensions\PredefinedModelClassRepository as Repository;
 use App\Models\Card;
-use Saritasa\LaravelRepositories\Repositories\Repository;
 
 /**
  * Card records storage.

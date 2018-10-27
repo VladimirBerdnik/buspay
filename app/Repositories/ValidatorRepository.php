@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Extensions\PredefinedModelClassRepository as Repository;
 use App\Models\Validator;
-use Saritasa\LaravelRepositories\Repositories\Repository;
 
 /**
  * Validator records storage.

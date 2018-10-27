@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Extensions\PredefinedModelClassRepository as Repository;
 use App\Models\Bus;
-use Saritasa\LaravelRepositories\Repositories\Repository;
 
 /**
  * Bus records storage.
