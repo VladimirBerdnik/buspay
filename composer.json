@@ -21,18 +21,20 @@
     "tymon/jwt-auth": "1.0.0-rc.2"
   },
   "require-dev": {
+    "arcanedev/log-viewer": "^4.5",
     "barryvdh/laravel-debugbar": "^3.2",
     "barryvdh/laravel-ide-helper": "^2.5",
     "beyondcode/laravel-dump-server": "^1.2",
-    "nunomaduro/collision": "^2.0",
-    "filp/whoops": "^2.0",
     "doctrine/dbal": "^2.8",
+    "filp/whoops": "^2.0",
     "fzaninotto/faker": "^1.7",
     "mockery/mockery": "^1.1",
+    "nunomaduro/collision": "^2.0",
     "phpunit/phpunit": "^7.3",
     "reliese/laravel": "^0.0.13",
+    "saritasa/laravel-tools": "^1.5",
     "slevomat/coding-standard": "^4.7",
-    "arcanedev/log-viewer": "^4.5"
+    "wakeonweb/swagger": "dev-master"
   },
   "autoload": {
     "classmap": [
