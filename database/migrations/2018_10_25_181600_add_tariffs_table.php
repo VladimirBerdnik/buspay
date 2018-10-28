@@ -33,6 +33,6 @@ class AddTariffsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tarifs');
+        Schema::dropIfExists('tariffs');
     }
 }

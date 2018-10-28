@@ -35,6 +35,6 @@ class AddTariffFaresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tarif_fares');
+        Schema::dropIfExists('tariff_fares');
     }
 }

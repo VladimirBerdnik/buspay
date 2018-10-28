@@ -21,7 +21,7 @@ class AddUsersTable extends Migration
             $table->string('last_name')->comment('User last name');
             $table->string('email')->comment('User email address');
             $table->string('password')->comment('User password');
-            $table->string('remember_token')->comment('Authorization token');
+            $table->string('remember_token')->nullable()->comment('Authorization token');
 
             $table->timestamps();
             $table->softDeletes();
