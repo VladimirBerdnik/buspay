@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $route_id Bus route identifier, which served the driver on the bus
  * @property int $bus_id Bus identifier that is on route
  * @property int $driver_id Driver identifier that is on bus on route
- * @property int $temporary Is this route sheet temporary (reserve) or not
+ * @property bool $temporary Is this route sheet temporary (reserve) or not
  * @property Carbon $active_from Start date of activity period of this record
  * @property Carbon $active_to End date of activity period of this record
  * @property Carbon $created_at
@@ -57,7 +57,7 @@ class RouteSheet extends Model
         self::ROUTE_ID => 'int',
         self::BUS_ID => 'int',
         self::DRIVER_ID => 'int',
-        self::TEMPORARY => 'int',
+        self::TEMPORARY => 'bool',
     ];
 
     /**

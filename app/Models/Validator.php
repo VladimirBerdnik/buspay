@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,17 +14,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id Validator unique identifier
  * @property string $serial_number Validator serial number
+ * @property int $bus_id Identifier of bus where this validator installed
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $deleted_at
  *
  * @property Collection|Bus[] $buses Buses on which this validator was installed
+ * @property Bus $bus Bus where this validator installed
  */
 class Validator extends Model
 {
     use SoftDeletes;
 
     public const ID = 'id';
+    public const BUS_ID = 'bus_id';
     public const SERIAL_NUMBER = 'serial_number';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
@@ -62,6 +66,7 @@ class Validator extends Model
      */
     protected $fillable = [
         self::SERIAL_NUMBER,
+        self::BUS_ID,
     ];
 
     /**
@@ -79,5 +84,15 @@ class Validator extends Model
                 BusesValidator::DELETED_AT
             )
             ->withTimestamps();
+    }
+
+    /**
+     * Bus where this validator installed.
+     *
+     * @return BelongsTo
+     */
+    public function bus(): BelongsTo
+    {
+        return $this->belongsTo(Bus::class);
     }
 }

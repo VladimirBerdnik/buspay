@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -19,14 +18,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $state_number Bus state number
  * @property string $description Bus description or notes
  * @property int $route_id Usual route identifier, on which this bus is
- * @property int $active Does this bus works or not, can be assigned to route or not
+ * @property bool $active Does this bus works or not, can be assigned to route or not
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $deleted_at
  *
  * @property Company $company Company to which bus belongs
  * @property Route $route Default route that this bus serves
- * @property Collection|Validator[] $validators Validators that was assigned to this bus
+ * @property Collection|Validator[] $validators Installed in this bus validators
  * @property Collection|Driver[] $drivers Drivers that usually work on this bus
  * @property Collection|RouteSheet[] $routeSheets Route sheets with information when, on which route which driver serves
  */
@@ -61,7 +60,7 @@ class Bus extends Model
         self::ID => 'int',
         self::COMPANY_ID => 'int',
         self::ROUTE_ID => 'int',
-        self::ACTIVE => 'int',
+        self::ACTIVE => 'bool',
     ];
 
     /**
@@ -109,20 +108,13 @@ class Bus extends Model
     }
 
     /**
-     * Validators that was assigned to this bus.
+     * Installed in this bus validators.
      *
-     * @return BelongsToMany
+     * @return HasMany
      */
-    public function validators(): BelongsToMany
+    public function validators(): HasMany
     {
-        return $this->belongsToMany(Validator::class, 'buses_validators')
-            ->withPivot(
-                BusesValidator::ID,
-                BusesValidator::ACTIVE_FROM,
-                BusesValidator::ACTIVE_TO,
-                BusesValidator::DELETED_AT
-            )
-            ->withTimestamps();
+        return $this->hasMany(Validator::class);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $deleted_at
  *
  * @property CardType $cardType Type of card
+ * @property Driver $driver Assigned to card driver
  */
 class Card extends Model
 {
@@ -75,5 +77,15 @@ class Card extends Model
     public function cardType(): BelongsTo
     {
         return $this->belongsTo(CardType::class);
+    }
+
+    /**
+     * Current driver card.
+     *
+     * @return HasOne
+     */
+    public function driver(): HasOne
+    {
+        return $this->hasOne(Driver::class);
     }
 }

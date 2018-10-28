@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Collection|Bus[] $buses All buses that are belongs to this company
  * @property Collection|CompaniesRoute[] $companiesRoutes All route assignment information
  * @property Collection|Driver[] $drivers All drivers that are work in this company
+ * @property Collection|Route[] $routes Currently assigned routes
  * @property Collection|User[] $users All company application users
  */
 class Company extends Model
@@ -101,6 +102,16 @@ class Company extends Model
     public function drivers(): HasMany
     {
         return $this->hasMany(Driver::class);
+    }
+
+    /**
+     * Currently assigned routes to this company.
+     *
+     * @return HasMany
+     */
+    public function routes(): HasMany
+    {
+        return $this->hasMany(Route::class);
     }
 
     /**

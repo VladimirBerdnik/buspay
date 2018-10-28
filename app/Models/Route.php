@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -13,10 +14,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id Route unique identifier
  * @property string $name Route name AKA "bus number"
+ * @property int $company_id Company that is currently assigned to route
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $deleted_at
  *
+ * @property Company $company Currently assigned to route company
  * @property Collection|Bus[] $buses All buses that usually serve this route
  * @property Collection|CompaniesRoute[] $companiesRoutes Assignments of route to company information
  * @property Collection|RouteSheet[] $routeSheets All route sheets information that served this route
@@ -27,6 +30,7 @@ class Route extends Model
 
     public const ID = 'id';
     public const NAME = 'name';
+    public const COMPANY_ID = 'company_id';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
     public const DELETED_AT = 'deleted_at';
@@ -64,6 +68,7 @@ class Route extends Model
      */
     protected $fillable = [
         self::NAME,
+        self::COMPANY_ID,
     ];
 
     /**
@@ -94,5 +99,15 @@ class Route extends Model
     public function routeSheets(): HasMany
     {
         return $this->hasMany(RouteSheet::class);
+    }
+
+    /**
+     * Currently assigned to route company.
+     *
+     * @return BelongsTo
+     */
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 }

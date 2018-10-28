@@ -17,7 +17,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $company_id Company identifier in which this driver works
  * @property string $full_name Driver full name
  * @property int $bus_id Bus identifier, on which this driver usually works
- * @property int $active Does this driver works or not, can be assigned to route or not
+ * @property int $card_id Current driver card identifier
+ * @property bool $active Does this driver works or not, can be assigned to route or not
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $deleted_at
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Bus $bus Bus on which this driver usually works
  * @property Company $company Company in which this driver works
  * @property Collection|Card[] $cards All cards that this driver have had
+ * @property Card $card Current driver card
  * @property Collection|RouteSheet[] $routeSheets All route sheets where this driver was
  */
 class Driver extends Model
@@ -35,6 +37,7 @@ class Driver extends Model
     public const COMPANY_ID = 'company_id';
     public const FULL_NAME = 'full_name';
     public const BUS_ID = 'bus_id';
+    public const CARD_ID = 'card_id';
     public const ACTIVE = 'active';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
@@ -56,7 +59,8 @@ class Driver extends Model
         self::ID => 'int',
         self::COMPANY_ID => 'int',
         self::BUS_ID => 'int',
-        self::ACTIVE => 'int',
+        self::CARD_ID => 'int',
+        self::ACTIVE => 'bool',
     ];
 
     /**
@@ -99,6 +103,16 @@ class Driver extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Current driver card.
+     *
+     * @return BelongsTo
+     */
+    public function card(): BelongsTo
+    {
+        return $this->belongsTo(Card::class);
     }
 
     /**
