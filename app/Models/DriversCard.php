@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\HasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,8 +24,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Card $card Linked to driver card
  * @property Driver $driver Linked to card driver
  */
-class DriversCard extends Model
+class DriversCard extends Model implements IHasActivityPeriod
 {
+    use HasActivityPeriod;
     use SoftDeletes;
 
     public const ID = 'id';

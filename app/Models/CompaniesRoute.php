@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\HasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,8 +24,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Company $company Linked to route company
  * @property Route $route Linked to company route
  */
-class CompaniesRoute extends Model
+class CompaniesRoute extends Model implements IHasActivityPeriod
 {
+    use HasActivityPeriod;
     use SoftDeletes;
 
     public const ID = 'id';

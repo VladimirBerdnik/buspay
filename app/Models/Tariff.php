@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\HasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -20,8 +22,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property Collection|TariffFare[] $tariffFares All fares of card types on this tariff
  */
-class Tariff extends Model
+class Tariff extends Model implements IHasActivityPeriod
 {
+    use HasActivityPeriod;
     use SoftDeletes;
 
     public const ID = 'id';

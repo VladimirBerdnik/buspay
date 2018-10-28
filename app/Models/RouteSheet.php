@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\HasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,8 +27,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Driver $driver Driver that is on bus on route
  * @property Route $route Bus route, which served the driver on the bus
  */
-class RouteSheet extends Model
+class RouteSheet extends Model implements IHasActivityPeriod
 {
+    use HasActivityPeriod;
     use SoftDeletes;
 
     public const ID = 'id';
