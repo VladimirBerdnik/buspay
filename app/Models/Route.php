@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * Regular bus routes.
@@ -24,7 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Collection|CompaniesRoute[] $companiesRoutes Assignments of route to company information
  * @property Collection|RouteSheet[] $routeSheets All route sheets information that served this route
  */
-class Route extends Model
+class Route extends Model implements IHasActivityPeriodsHistory
 {
     use SoftDeletes;
 
@@ -109,5 +111,15 @@ class Route extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Returns list of activity periods.
+     *
+     * @return Collection|IHasActivityPeriod[]
+     */
+    public function getActivityPeriodsRecords(): Collection
+    {
+        return $this->companiesRoutes;
     }
 }

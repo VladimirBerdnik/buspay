@@ -118,4 +118,18 @@ class RouteSheet extends Model implements IHasActivityPeriod
     {
         return $this->belongsTo(Route::class);
     }
+
+    /**
+     * Returns list of attributes involved into activity period. Each of them should be used only once at any moment.
+     *
+     * @return string[]
+     */
+    public function getUniquenessAttributes(): array
+    {
+        return [
+            static::ROUTE_ID,
+            static::DRIVER_ID,
+            static::BUS_ID,
+        ];
+    }
 }

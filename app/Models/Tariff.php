@@ -5,10 +5,10 @@ namespace App\Models;
 use App\Extensions\ActivityPeriod\HasActivityPeriod;
 use App\Extensions\ActivityPeriod\IHasActivityPeriod;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * Payment tariffs activity period information.
@@ -80,5 +80,15 @@ class Tariff extends Model implements IHasActivityPeriod
     public function tariffFares(): HasMany
     {
         return $this->hasMany(TariffFare::class);
+    }
+
+    /**
+     * Returns list of attributes involved into activity period. Each of them should be used only once at any moment.
+     *
+     * @return string[]
+     */
+    public function getUniquenessAttributes(): array
+    {
+        return [];
     }
 }

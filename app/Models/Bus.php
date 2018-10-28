@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * Buses - assets of transport companies. Can serve route.
@@ -26,10 +28,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Company $company Company to which bus belongs
  * @property Route $route Default route that this bus serves
  * @property Collection|Validator[] $validators Installed in this bus validators
+ * @property Collection|BusesValidator[] $busesValidators Information about validators in this bus activity periods
  * @property Collection|Driver[] $drivers Drivers that usually work on this bus
  * @property Collection|RouteSheet[] $routeSheets Route sheets with information when, on which route which driver serves
  */
-class Bus extends Model
+class Bus extends Model implements IHasActivityPeriodsHistory
 {
     use SoftDeletes;
 
@@ -135,5 +138,25 @@ class Bus extends Model
     public function routeSheets(): HasMany
     {
         return $this->hasMany(RouteSheet::class);
+    }
+
+    /**
+     * Information about validators in this bus activity periods.
+     *
+     * @return HasMany
+     */
+    public function busesValidators(): HasMany
+    {
+        return $this->hasMany(BusesValidator::class);
+    }
+
+    /**
+     * Returns list of activity periods.
+     *
+     * @return Collection|IHasActivityPeriod[]
+     */
+    public function getActivityPeriodsRecords(): Collection
+    {
+        return $this->busesValidators;
     }
 }

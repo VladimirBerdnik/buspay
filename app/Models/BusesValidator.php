@@ -99,4 +99,17 @@ class BusesValidator extends Model implements IHasActivityPeriod
     {
         return $this->belongsTo(Validator::class);
     }
+
+    /**
+     * Returns list of attributes involved into activity period. Each of them should be used only once at any moment.
+     *
+     * @return string[]
+     */
+    public function getUniquenessAttributes(): array
+    {
+        return [
+            static::BUS_ID,
+            static::VALIDATOR_ID,
+        ];
+    }
 }

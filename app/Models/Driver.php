@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * Driver that can drive buses. Works in transport companies.
@@ -26,10 +28,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Bus $bus Bus on which this driver usually works
  * @property Company $company Company in which this driver works
  * @property Collection|Card[] $cards All cards that this driver have had
+ * @property Collection|DriversCard[] $driversCards Information about this driver with cards activity periods
  * @property Card $card Current driver card
  * @property Collection|RouteSheet[] $routeSheets All route sheets where this driver was
  */
-class Driver extends Model
+class Driver extends Model implements IHasActivityPeriodsHistory
 {
     use SoftDeletes;
 
@@ -135,5 +138,25 @@ class Driver extends Model
     public function routeSheets(): HasMany
     {
         return $this->hasMany(RouteSheet::class);
+    }
+
+    /**
+     * Information about this driver with cards activity periods.
+     *
+     * @return HasMany
+     */
+    public function driversCards(): HasMany
+    {
+        return $this->hasMany(DriversCard::class);
+    }
+
+    /**
+     * Returns list of activity periods.
+     *
+     * @return Collection|IHasActivityPeriod[]
+     */
+    public function getActivityPeriodsRecords(): Collection
+    {
+        return $this->driversCards;
     }
 }

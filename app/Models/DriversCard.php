@@ -99,4 +99,17 @@ class DriversCard extends Model implements IHasActivityPeriod
     {
         return $this->belongsTo(Driver::class);
     }
+
+    /**
+     * Returns list of attributes involved into activity period. Each of them should be used only once at any moment.
+     *
+     * @return string[]
+     */
+    public function getUniquenessAttributes(): array
+    {
+        return [
+            static::DRIVER_ID,
+            static::CARD_ID,
+        ];
+    }
 }

@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * Smart devices that can authorize payment cards.
@@ -20,9 +23,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $deleted_at
  *
  * @property Collection|Bus[] $buses Buses on which this validator was installed
+ * @property Collection|BusesValidator[] $busesValidators Information about this validator in buses activity periods
  * @property Bus $bus Bus where this validator installed
  */
-class Validator extends Model
+class Validator extends Model implements IHasActivityPeriodsHistory
 {
     use SoftDeletes;
 
@@ -94,5 +98,25 @@ class Validator extends Model
     public function bus(): BelongsTo
     {
         return $this->belongsTo(Bus::class);
+    }
+
+    /**
+     * Information about this validator in buses activity periods.
+     *
+     * @return HasMany
+     */
+    public function busesValidators(): HasMany
+    {
+        return $this->hasMany(BusesValidator::class);
+    }
+
+    /**
+     * Returns list of activity periods.
+     *
+     * @return Collection|IHasActivityPeriod[]
+     */
+    public function getActivityPeriodsRecords(): Collection
+    {
+        return $this->busesValidators;
     }
 }

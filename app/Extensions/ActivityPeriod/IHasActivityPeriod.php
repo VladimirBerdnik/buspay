@@ -36,4 +36,11 @@ interface IHasActivityPeriod
      * @return boolean
      */
     public function activityPeriodActive(): bool;
+
+    /**
+     * Returns list of attributes involved into activity period. Each of them should be used only once at any moment.
+     *
+     * @return string[]
+     */
+    public function getUniquenessAttributes(): array;
 }

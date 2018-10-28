@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * Authenticated cards that can be recognized by validators.
@@ -20,8 +24,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property CardType $cardType Type of card
  * @property Driver $driver Assigned to card driver
+ * @property Collection|DriversCard[] $driversCards Information about this card with driver activity periods
  */
-class Card extends Model
+class Card extends Model implements IHasActivityPeriodsHistory
 {
     use SoftDeletes;
 
@@ -87,5 +92,25 @@ class Card extends Model
     public function driver(): HasOne
     {
         return $this->hasOne(Driver::class);
+    }
+
+    /**
+     * Information about this card with drivers activity periods.
+     *
+     * @return HasMany
+     */
+    public function driversCards(): HasMany
+    {
+        return $this->hasMany(DriversCard::class);
+    }
+
+    /**
+     * Returns list of activity periods.
+     *
+     * @return Collection|IHasActivityPeriod[]
+     */
+    public function getActivityPeriodsRecords(): Collection
+    {
+        return $this->driversCards;
     }
 }

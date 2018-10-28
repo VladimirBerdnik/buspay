@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * Transport companies with buses.
@@ -25,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Collection|Route[] $routes Currently assigned routes
  * @property Collection|User[] $users All company application users
  */
-class Company extends Model
+class Company extends Model implements IHasActivityPeriodsHistory
 {
     use SoftDeletes;
 
@@ -122,5 +124,15 @@ class Company extends Model
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    /**
+     * Returns list of activity periods.
+     *
+     * @return Collection|IHasActivityPeriod[]
+     */
+    public function getActivityPeriodsRecords(): Collection
+    {
+        return $this->companiesRoutes;
     }
 }
