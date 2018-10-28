@@ -20,6 +20,9 @@ class AddDriversTable extends Migration
             $table->unsignedInteger('bus_id')
                 ->nullable()
                 ->comment('Bus identifier, on which this driver usually works');
+            $table->unsignedInteger('card_id')
+                ->nullable()
+                ->comment('Current driver card identifier');
             $table->tinyInteger('active')->comment('Does this driver works or not, can be assigned to route or not');
 
             $table->timestamps();

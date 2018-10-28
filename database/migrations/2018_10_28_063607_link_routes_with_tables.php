@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class LinkDriversWithTables extends Migration
+class LinkRoutesWithTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class LinkDriversWithTables extends Migration
      */
     public function up()
     {
-        Schema::table('drivers', function (Blueprint $table) {
+        Schema::table('routes', function (Blueprint $table) {
             $table->foreign(['company_id'])->on('companies')->references('id')->onDelete('RESTRICT');
-            $table->foreign(['bus_id'])->on('buses')->references('id')->onDelete('RESTRICT');
-            $table->foreign(['card_id'])->on('cards')->references('id')->onDelete('RESTRICT');
         });
     }
 
@@ -27,10 +25,8 @@ class LinkDriversWithTables extends Migration
      */
     public function down()
     {
-        Schema::table('drivers', function (Blueprint $table) {
+        Schema::table('routes', function (Blueprint $table) {
             $table->dropForeign(['company_id']);
-            $table->dropForeign(['bus_id']);
-            $table->dropForeign(['card_id']);
         });
     }
 }

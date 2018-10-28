@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddUsersTable extends Migration
 {
@@ -21,6 +21,7 @@ class AddUsersTable extends Migration
             $table->string('last_name')->comment('User last name');
             $table->string('email')->comment('User email address');
             $table->string('password')->comment('User password');
+            $table->string('remember_token')->comment('Authorization token');
 
             $table->timestamps();
             $table->softDeletes();
