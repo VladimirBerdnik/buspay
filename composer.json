@@ -15,6 +15,7 @@
     "saritasa/dingo-api-custom": "^2.0",
     "saritasa/eloquent-custom": "^1.0",
     "saritasa/laravel-controllers": "^3.0.1",
+    "saritasa/laravel-fluent-validation": "^1.0",
     "saritasa/laravel-middleware": "^1.0",
     "saritasa/laravel-repositories": "^3.1",
     "saritasa/roles-simple": "^1.0",
