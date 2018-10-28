@@ -1,6 +1,19 @@
 <?php
 
+use App\Models\Bus;
+use App\Models\BusesValidator;
+use App\Models\Card;
+use App\Models\CardType;
+use App\Models\CompaniesRoute;
+use App\Models\Company;
+use App\Models\Driver;
+use App\Models\DriversCard;
+use App\Models\Route;
+use App\Models\Tariff;
+use App\Models\TariffFare;
 use App\Models\User;
+use App\Models\Validator;
+use Carbon\Carbon;
 use Faker\Generator;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -20,12 +33,115 @@ use Illuminate\Database\Eloquent\Factory;
  *
  * @var Factory $factory
  */
-$factory->define(User::class, function (Generator $faker) {
+$factory->define(Bus::class, function (Generator $faker, array $parameters) {
     return [
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'email' => $faker->safeEmail,
-        'password' => '123456',
-        'remember_token' => str_random(10),
+        Bus::MODEL_NAME => $faker->linuxProcessor,
+        Bus::STATE_NUMBER => random_int(100, 999) . str_random(2),
+        Bus::DESCRIPTION => $faker->text(128),
+        // Have to be filled outside with valid business-logic value
+        Bus::ACTIVE => $parameters[Bus::ACTIVE] ?? true,
+        Bus::ROUTE_ID => $parameters[Bus::ROUTE_ID] ?? null,
+        Bus::COMPANY_ID => $parameters[Bus::COMPANY_ID] ?? null,
+    ];
+});
+
+$factory->define(BusesValidator::class, function (Generator $faker, array $parameters) {
+    return [
+        BusesValidator::ACTIVE_FROM => Carbon::now(),
+        BusesValidator::ACTIVE_TO => Carbon::now()->addYear(),
+        // Have to be filled outside with valid business-logic value
+        BusesValidator::BUS_ID => $parameters[BusesValidator::BUS_ID] ?? null,
+        BusesValidator::VALIDATOR_ID => $parameters[BusesValidator::VALIDATOR_ID] ?? null,
+    ];
+});
+
+$factory->define(Card::class, function (Generator $faker, array $parameters) {
+    return [
+        Card::CARD_TYPE_ID => $parameters[Card::CARD_TYPE_ID] ?? CardType::query()->inRandomOrder()->first()->getKey(),
+        Card::CARD_NUMBER => $faker->unique()->randomNumber(6, true),
+    ];
+});
+
+$factory->define(Company::class, function (Generator $faker) {
+    return [
+        Company::NAME => $faker->company,
+        Company::ACCOUNT_NUMBER => $faker->randomNumber(6, true),
+        Company::CONTACT_INFORMATION => $faker->phoneNumber,
+    ];
+});
+
+$factory->define(CompaniesRoute::class, function (Generator $faker, array $parameters) {
+    return [
+        CompaniesRoute::ACTIVE_FROM => Carbon::now(),
+        CompaniesRoute::ACTIVE_TO => Carbon::now()->addYear(),
+        // Have to be filled outside with valid business-logic value
+        CompaniesRoute::COMPANY_ID => $parameters[CompaniesRoute::COMPANY_ID] ?? null,
+        CompaniesRoute::ROUTE_ID => $parameters[CompaniesRoute::ROUTE_ID] ?? null,
+    ];
+});
+
+$factory->define(Driver::class, function (Generator $faker, array $parameters) {
+    return [
+        Driver::FULL_NAME => $faker->firstName . ' ' . $faker->lastName,
+        // Have to be filled outside with valid business-logic value
+        Driver::ACTIVE => $parameters[Driver::ACTIVE] ?? true,
+        Driver::BUS_ID => $parameters[Driver::BUS_ID] ?? null,
+        Driver::COMPANY_ID => $parameters[Driver::COMPANY_ID] ?? null,
+        Driver::CARD_ID => $parameters[Driver::CARD_ID] ?? null,
+    ];
+});
+
+$factory->define(DriversCard::class, function (Generator $faker, array $parameters) {
+    return [
+        DriversCard::ACTIVE_FROM => Carbon::now(),
+        DriversCard::ACTIVE_TO => Carbon::now()->addYear(),
+        // Have to be filled outside with valid business-logic value
+        DriversCard::DRIVER_ID => $parameters[DriversCard::DRIVER_ID] ?? null,
+        DriversCard::CARD_ID => $parameters[DriversCard::CARD_ID] ?? null,
+    ];
+});
+
+$factory->define(Route::class, function (Generator $faker, array $parameters) {
+    return [
+        Route::NAME => $faker->unique()->numberBetween(1, 100),
+        // Have to be filled outside with valid business-logic value
+        Route::COMPANY_ID => $parameters[Route::COMPANY_ID] ?? null,
+    ];
+});
+
+$factory->define(User::class, function (Generator $faker, array $parameters) {
+    return [
+        User::FIRST_NAME => $faker->firstName,
+        User::LAST_NAME => $faker->lastName,
+        User::EMAIL => $faker->safeEmail,
+        User::PASSWORD => '123456',
+        User::REMEMBER_TOKEN => str_random(10),
+        // Have to be filled outside with valid business-logic value
+        User::ROLE_ID => $parameters[User::ROLE_ID] ?? null,
+        User::COMPANY_ID => $parameters[User::COMPANY_ID] ?? null,
+    ];
+});
+
+$factory->define(Validator::class, function (Generator $faker, array $parameters) {
+    return [
+        Validator::SERIAL_NUMBER => $faker->unique()->randomNumber(6, true),
+        // Have to be filled outside with valid business-logic value
+        Validator::BUS_ID => $parameters[Validator::BUS_ID] ?? null,
+    ];
+});
+
+$factory->define(Tariff::class, function (Generator $faker) {
+    return [
+        Tariff::ACTIVE_FROM => Carbon::now(),
+        Tariff::ACTIVE_TO => Carbon::now()->addYear(),
+    ];
+});
+
+$factory->define(TariffFare::class, function (Generator $faker, array $parameters) {
+    return [
+        // Have to be filled outside with valid business-logic value
+        TariffFare::TARIFF_ID => $parameters[TariffFare::TARIFF_ID] ?? null,
+        TariffFare::CARD_TYPE_ID => $parameters[TariffFare::CARD_TYPE_ID] ?? null,
+        TariffFare::AMOUNT => $parameters[TariffFare::AMOUNT] ?? null,
     ];
 });
