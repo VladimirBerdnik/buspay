@@ -11,9 +11,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Possible authenticated card types.
  *
  * @property int $id Type unique identifier
- * @property string $name Type displayed name
  * @property string $slug Type machine-readable text identifier
  * @property string $deleted_at
+ *
+ * @property-read string $name Card type displayed name
  *
  * @property Collection|Card[] $cards All cards with this type
  * @property Collection|TariffFare[] $tariffFares All tariff fares for this card type
@@ -56,6 +57,25 @@ class CardType extends Model
      * @var string[]
      */
     protected $fillable = [
+        self::SLUG,
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var string[]
+     */
+    protected $appends = [
+        self::NAME,
+    ];
+
+    /**
+     * The attributes that should be visible in serialization.
+     *
+     * @var string[]
+     */
+    protected $visible = [
+        self::ID,
         self::NAME,
         self::SLUG,
     ];
@@ -78,5 +98,15 @@ class CardType extends Model
     public function tariffFares(): HasMany
     {
         return $this->hasMany(TariffFare::class);
+    }
+
+    /**
+     * Substitutes name attribute retrieving.
+     *
+     * @return string
+     */
+    public function getNameAttribute(): string
+    {
+        return trans("roles.{$this->slug}");
     }
 }

@@ -15,7 +15,6 @@ class AddRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id')->comment('Role unique identifier');
-            $table->string('name', 16)->comment('Role displayed name');
             $table->string('slug', 16)->comment('Role machine-readable text identifier');
         });
 
