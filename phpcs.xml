@@ -48,8 +48,8 @@
   <!-- Slevomat additioanl rules -->
 
   <!-- Additional rules that can be enabled -->
-  <!--<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/AssignmentInConditionSniff.php"/>-->
-  <!--<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/DisallowEqualOperatorsSniff.php"/>-->
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/AssignmentInConditionSniff.php"/>
+  <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/DisallowEqualOperatorsSniff.php"/>
   <!--<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/EarlyExitSniff.php"/>-->
   <!--<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Classes/UnusedPrivateElementsSniff.php"/>-->
 
