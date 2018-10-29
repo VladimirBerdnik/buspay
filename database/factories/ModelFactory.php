@@ -58,7 +58,8 @@ $factory->define(BusesValidator::class, function (Generator $faker, array $param
 $factory->define(Card::class, function (Generator $faker, array $parameters) {
     return [
         Card::CARD_TYPE_ID => $parameters[Card::CARD_TYPE_ID] ?? CardType::query()->inRandomOrder()->first()->getKey(),
-        Card::CARD_NUMBER => $faker->unique()->randomNumber(6, true),
+        Card::CARD_NUMBER => $faker->unique()->randomNumber(8, true),
+        Card::UIN => $faker->unique()->randomNumber(16, true),
     ];
 });
 
@@ -67,6 +68,7 @@ $factory->define(Company::class, function (Generator $faker) {
         Company::NAME => $faker->company,
         Company::ACCOUNT_NUMBER => $faker->randomNumber(6, true),
         Company::CONTACT_INFORMATION => $faker->phoneNumber,
+        Company::BIN => str_random(12),
     ];
 });
 

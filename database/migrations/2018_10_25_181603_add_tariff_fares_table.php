@@ -16,7 +16,7 @@ class AddTariffFaresTable extends Migration
         Schema::create('tariff_fares', function (Blueprint $table) {
             $table->increments('id')->comment('Tariff fare unique identifier');
             $table->unsignedInteger('tariff_id')->comment('Tariff identifier to which this fare belongs');
-            $table->unsignedInteger('card_type_id')->comment('Card type identifier to which this fare applicable');
+            $table->unsignedTinyInteger('card_type_id')->comment('Card type identifier to which this fare applicable');
             $table->unsignedInteger('amount')->comment('Road trip fare');
 
             $table->timestamps();

@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
  * @property string $name Company name
  * @property string $account_number Account number for payments
  * @property string $contact_information Company contact information
+ * @property string $bin Business identification number
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $deleted_at
@@ -34,6 +35,7 @@ class Company extends Model implements IHasActivityPeriodsHistory
     public const ID = 'id';
     public const NAME = 'name';
     public const ACCOUNT_NUMBER = 'account_number';
+    public const BIN = 'bin';
     public const CONTACT_INFORMATION = 'contact_information';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
@@ -74,6 +76,7 @@ class Company extends Model implements IHasActivityPeriodsHistory
         self::NAME,
         self::ACCOUNT_NUMBER,
         self::CONTACT_INFORMATION,
+        self::BIN,
     ];
 
     /**

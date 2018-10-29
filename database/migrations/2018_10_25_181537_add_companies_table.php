@@ -15,8 +15,9 @@ class AddCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id')->comment('Company unique identifier');
-            $table->string('name')->comment('Company name');
-            $table->string('account_number')->comment('Account number for payments');
+            $table->string('name', 64)->comment('Company name');
+            $table->string('bin', 16)->comment('Business identification number');
+            $table->string('account_number', 24)->comment('Account number for payments');
             $table->string('contact_information')->comment('Company contact information');
 
             $table->timestamps();

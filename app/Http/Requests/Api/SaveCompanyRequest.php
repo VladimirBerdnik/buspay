@@ -24,8 +24,9 @@ class SaveCompanyRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            Company::NAME => Rule::required()->string()->max(191),
-            Company::ACCOUNT_NUMBER => Rule::required()->string()->max(191),
+            Company::NAME => Rule::required()->string()->max(64),
+            Company::ACCOUNT_NUMBER => Rule::required()->string()->max(16),
+            Company::BIN => Rule::required()->string()->max(16),
             Company::CONTACT_INFORMATION => Rule::required()->string()->max(191),
         ];
     }

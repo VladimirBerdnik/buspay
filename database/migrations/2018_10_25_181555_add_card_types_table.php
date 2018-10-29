@@ -14,7 +14,7 @@ class AddCardTypesTable extends Migration
     public function up()
     {
         Schema::create('card_types', function (Blueprint $table) {
-            $table->increments('id')->comment('Type unique identifier');
+            $table->unsignedTinyInteger('id', true)->comment('Type unique identifier');
             $table->string('slug', 32)->comment('Type machine-readable text identifier');
 
             $table->softDeletes();

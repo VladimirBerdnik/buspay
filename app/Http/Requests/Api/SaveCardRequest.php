@@ -11,7 +11,7 @@ use Saritasa\Laravel\Validation\Rule;
  * SaveCardRequest form request.
  *
  * @property-read integer $card_type_id Card type
- * @property-read string $card_number Card authentication number
+ * @property-read string $card_number Short card number, written on card case
  */
 class SaveCardRequest extends ApiRequest
 {
@@ -24,7 +24,8 @@ class SaveCardRequest extends ApiRequest
     {
         return [
             Card::CARD_TYPE_ID => Rule::required()->exists('card_types', 'id')->int(),
-            Card::CARD_NUMBER => Rule::required()->string()->max(191),
+            Card::CARD_NUMBER => Rule::required()->string()->max(8),
+            Card::UIN => Rule::required()->string()->max(32),
         ];
     }
 

@@ -13,11 +13,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 /**
- * Authenticated cards that can be recognized by validators.
+ * Authentication cards that can be recognized by validators.
  *
  * @property int $id Card unique identifier
  * @property int $card_type_id Card type
- * @property string $card_number Card authentication number
+ * @property string $card_number Short card number, written on card case
+ * @property string $uin Unique card number, patched to ROM
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $deleted_at
@@ -33,6 +34,7 @@ class Card extends Model implements IHasActivityPeriodsHistory
     public const ID = 'id';
     public const CARD_TYPE_ID = 'card_type_id';
     public const CARD_NUMBER = 'card_number';
+    public const UIN = 'uin';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
     public const DELETED_AT = 'deleted_at';
@@ -72,6 +74,7 @@ class Card extends Model implements IHasActivityPeriodsHistory
     protected $fillable = [
         self::CARD_TYPE_ID,
         self::CARD_NUMBER,
+        self::UIN,
     ];
 
     /**

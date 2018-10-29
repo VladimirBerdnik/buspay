@@ -15,16 +15,18 @@ class AddCardsTable extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->increments('id')->comment('Card unique identifier');
-            $table->unsignedInteger('card_type_id')->comment('Card type');
-            $table->string('card_number')->comment('Card authentication number');
+            $table->unsignedTinyInteger('card_type_id')->comment('Card type');
+            $table->string('card_number', 10)->comment('Short card number, written on card case');
+            $table->string('uin', 32)->comment('Unique card number, patched to ROM');
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->unique(['card_number', 'deleted_at'], 'cards_main_unique');
+            $table->unique(['uin', 'deleted_at'], 'cards_main_unique');
         });
 
-        DB::statement("ALTER TABLE `cards` comment 'Authenticated cards that can be recognized by validators'");
+        DB::statement("ALTER TABLE `cards` comment 'Authentication cards that can be recognized by validators'");
     }
 
     /**

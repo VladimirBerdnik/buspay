@@ -10,12 +10,14 @@ use Saritasa\Dto;
  * @property-read string $name Company name
  * @property-read string $account_number Account number for payments
  * @property-read string $contact_information Company contact information
+ * @property-read string $bin Business identification number
  */
 class CompanyData extends Dto
 {
     public const NAME = 'name';
     public const ACCOUNT_NUMBER = 'account_number';
     public const CONTACT_INFORMATION = 'contact_information';
+    public const BIN = 'bin';
 
     /**
      * Company name.
@@ -37,4 +39,11 @@ class CompanyData extends Dto
      * @var string
      */
     protected $contact_information;
+
+    /**
+     * Business identification number.
+     *
+     * @var string
+     */
+    protected $bin;
 }
