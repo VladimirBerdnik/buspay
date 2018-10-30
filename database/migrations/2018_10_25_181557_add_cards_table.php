@@ -23,7 +23,7 @@ class AddCardsTable extends Migration
             $table->softDeletes();
 
             $table->unique(['card_number', 'deleted_at'], 'cards_main_unique');
-            $table->unique(['uin', 'deleted_at'], 'cards_main_unique');
+            $table->unique(['uin', 'deleted_at'], 'cards_second_unique');
         });
 
         DB::statement("ALTER TABLE `cards` comment 'Authentication cards that can be recognized by validators'");

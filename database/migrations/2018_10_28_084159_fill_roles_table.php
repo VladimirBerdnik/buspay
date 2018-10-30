@@ -12,12 +12,13 @@ class FillRolesTable extends Migration
     public function up()
     {
         $roles = [
-            'admin',
-            'operator',
-            'government',
+            1 => 'admin',
+            2 => 'support',
+            3 => 'operator',
+            4 => 'government',
         ];
-        foreach ($roles as $slug) {
-            DB::table('roles')->insert(['slug' => $slug]);
+        foreach ($roles as $id => $slug) {
+            DB::table('roles')->insert(['id' => $id, 'slug' => $slug]);
         }
     }
 

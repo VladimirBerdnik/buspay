@@ -1,8 +1,7 @@
 <?php
 
-use App\Domain\Enums\Roles;
+use App\Domain\Enums\RolesIdentifiers;
 use App\Models\Company;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,12 +14,10 @@ class CompanyUsersSeeder extends Seeder
      */
     public function run()
     {
-        $operatorRole = Role::query()->where(Role::SLUG, Roles::OPERATOR)->firstOrFail();
-
-        Company::query()->get()->each(function (Company $company) use ($operatorRole) {
+        Company::query()->get()->each(function (Company $company) {
             factory(User::class, 2)->create([
                 User::COMPANY_ID => $company->getKey(),
-                User::ROLE_ID => $operatorRole->getKey(),
+                User::ROLE_ID => RolesIdentifiers::OPERATOR,
             ]);
         });
     }

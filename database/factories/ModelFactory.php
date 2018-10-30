@@ -59,7 +59,7 @@ $factory->define(Card::class, function (Generator $faker, array $parameters) {
     return [
         Card::CARD_TYPE_ID => $parameters[Card::CARD_TYPE_ID] ?? CardType::query()->inRandomOrder()->first()->getKey(),
         Card::CARD_NUMBER => $faker->unique()->randomNumber(8, true),
-        Card::UIN => $faker->unique()->randomNumber(16, true),
+        Card::UIN => $faker->unique()->randomNumber(8, true),
     ];
 });
 

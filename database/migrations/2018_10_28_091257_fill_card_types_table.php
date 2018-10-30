@@ -12,16 +12,16 @@ class FillCardTypesTable extends Migration
     public function up()
     {
         $cardTypes = [
-            'default',
-            'driver',
-            'child',
-            'retire',
-            'reduced',
-            'free',
+            1 => 'service',
+            2 => 'driver',
+            3 => 'default',
+            4 => 'child',
+            5 => 'retire',
+            6 => 'free',
         ];
 
-        foreach ($cardTypes as $slug) {
-            DB::table('card_types')->insert(['slug' => $slug]);
+        foreach ($cardTypes as $id => $slug) {
+            DB::table('card_types')->insert(['id' => $id, 'slug' => $slug]);
         }
     }
 
