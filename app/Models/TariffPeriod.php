@@ -2,29 +2,34 @@
 
 namespace App\Models;
 
+use App\Extensions\ActivityPeriod\HasActivityPeriod;
+use App\Extensions\ActivityPeriod\IHasActivityPeriod;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
- * Payment tariffs information.
+ * Tariffs activity periods.
  *
- * @property int $id Tariff unique identifier
- * @property string $name Tariff name
+ * @property int $id Tariff period unique identifier
+ * @property Carbon $active_from Start date of activity period of this record
+ * @property Carbon $active_to End date of activity period of this record
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $deleted_at
  *
- * @property Collection|TariffFare[] $tariffFares All fares of this tariff with tariff periods information
+ * @property Collection|TariffFare[] $tariffFares Tariff fares that are applicable during this period
  */
-class Tariff extends Model
+class TariffPeriod extends Model implements IHasActivityPeriod
 {
     use SoftDeletes;
+    use HasActivityPeriod;
 
     public const ID = 'id';
-    public const NAME = 'name';
+    public const ACTIVE_FROM = 'active_from';
+    public const ACTIVE_TO = 'active_to';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
     public const DELETED_AT = 'deleted_at';
@@ -34,12 +39,12 @@ class Tariff extends Model
      *
      * @var string
      */
-    protected $table = 'tariffs';
+    protected $table = 'tariff_periods';
 
     /**
      * The attributes that should be cast to native types.
      *
-     * @var string
+     * @var string[]
      */
     protected $casts = [
         self::ID => 'int',
@@ -51,6 +56,8 @@ class Tariff extends Model
      * @var string[]
      */
     protected $dates = [
+        self::ACTIVE_FROM,
+        self::ACTIVE_TO,
         self::CREATED_AT,
         self::UPDATED_AT,
     ];
@@ -58,19 +65,29 @@ class Tariff extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var string
      */
     protected $fillable = [
-        self::NAME,
+        self::ACTIVE_FROM,
+        self::ACTIVE_TO,
     ];
 
     /**
-     * All fares of this tariff with tariff periods information.
+     * Tariff fares that are applicable during this period.
      *
      * @return HasMany
      */
     public function tariffFares(): HasMany
     {
         return $this->hasMany(TariffFare::class);
+    }
+    /**
+     * Returns list of attributes involved into activity period. Each of them should be used only once at any moment.
+     *
+     * @return string[]
+     */
+    public function getUniquenessAttributes(): array
+    {
+        return [];
     }
 }

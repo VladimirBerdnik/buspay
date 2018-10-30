@@ -11,12 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        try {
-            $this->call(TariffSeeder::class);
-        } catch (LogicException $exception) {
-            // no action required
-        }
-
         $this->call(ValidatorsSeeder::class);
         $this->call(CardsSeeder::class);
         $this->call(CompaniesSeeder::class);

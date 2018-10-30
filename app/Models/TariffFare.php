@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Amount of tariff fare for card type.
+ * Amount of tariff fare for card type in tariff period.
  *
  * @property int $id Tariff fare unique identifier
+ * @property int $tariff_period_id Tariff period for which this fare valid
  * @property int $tariff_id Tariff identifier to which this fare belongs
  * @property int $card_type_id Card type identifier to which this fare applicable
  * @property int $amount Road trip fare
@@ -19,13 +20,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $deleted_at
  *
  * @property CardType $cardType Card type to which this fare applicable
- * @property Tariff $tariff Tariff identifier to which this fare belongs
+ * @property Tariff $tariff Tariff to which this fare belongs
+ * @property TariffPeriod $tariffPeriod Tariff activity period during which this fare is applicable
  */
 class TariffFare extends Model
 {
     use SoftDeletes;
 
     public const ID = 'id';
+    public const TARIFF_PERIOD_ID = 'tariff_period_id';
     public const TARIFF_ID = 'tariff_id';
     public const CARD_TYPE_ID = 'card_type_id';
     public const AMOUNT = 'amount';
@@ -47,6 +50,7 @@ class TariffFare extends Model
      */
     protected $casts = [
         self::ID => 'int',
+        self::TARIFF_PERIOD_ID => 'int',
         self::TARIFF_ID => 'int',
         self::CARD_TYPE_ID => 'int',
         self::AMOUNT => 'int',
@@ -68,13 +72,14 @@ class TariffFare extends Model
      * @var string[]
      */
     protected $fillable = [
+        self::TARIFF_PERIOD_ID,
         self::TARIFF_ID,
         self::CARD_TYPE_ID,
         self::AMOUNT,
     ];
 
     /**
-     * Card type to which this fare applicable.
+     * Card type identifier to which this fare applicable.
      *
      * @return BelongsTo
      */
@@ -84,12 +89,22 @@ class TariffFare extends Model
     }
 
     /**
-     * Tariff identifier to which this fare belongs.
+     * Tariff to which this fare belongs.
      *
      * @return BelongsTo
      */
     public function tariff(): BelongsTo
     {
         return $this->belongsTo(Tariff::class);
+    }
+
+    /**
+     * Tariff activity period during which this fare is applicable.
+     *
+     * @return BelongsTo
+     */
+    public function tariffPeriod(): BelongsTo
+    {
+        return $this->belongsTo(TariffPeriod::class);
     }
 }

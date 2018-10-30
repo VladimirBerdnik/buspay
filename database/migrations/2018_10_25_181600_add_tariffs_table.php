@@ -16,14 +16,14 @@ class AddTariffsTable extends Migration
     public function up()
     {
         Schema::create('tariffs', function (Blueprint $table) {
-            $table->increments('id')->comment('Tariff unique identifier');
+            $table->unsignedSmallInteger('id', true)->comment('Tariff unique identifier');
+            $table->string('name')->comment('Tariff name');
 
-            $this->activityPeriod($table);
             $table->timestamps();
             $table->softDeletes();
         });
 
-        DB::statement("ALTER TABLE `tariffs` comment 'Payment tariffs activity period information'");
+        DB::statement("ALTER TABLE `tariffs` comment 'Payment tariffs information'");
     }
 
     /**

@@ -131,19 +131,3 @@ $factory->define(Validator::class, function (Generator $faker, array $parameters
         Validator::BUS_ID => $parameters[Validator::BUS_ID] ?? null,
     ];
 });
-
-$factory->define(Tariff::class, function (Generator $faker) {
-    return [
-        Tariff::ACTIVE_FROM => Carbon::now(),
-        Tariff::ACTIVE_TO => Carbon::now()->addYear(),
-    ];
-});
-
-$factory->define(TariffFare::class, function (Generator $faker, array $parameters) {
-    return [
-        // Have to be filled outside with valid business-logic value
-        TariffFare::TARIFF_ID => $parameters[TariffFare::TARIFF_ID] ?? null,
-        TariffFare::CARD_TYPE_ID => $parameters[TariffFare::CARD_TYPE_ID] ?? null,
-        TariffFare::AMOUNT => $parameters[TariffFare::AMOUNT] ?? null,
-    ];
-});
