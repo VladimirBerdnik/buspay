@@ -55,6 +55,16 @@ class AppServiceProvider extends ServiceProvider
         // Fix for MySQL 5.6. See https://github.com/laravel/framework/issues/17508
         Schema::defaultStringLength(191);
 
+        $this->registerBindings();
+    }
+
+    /**
+     * Registers dependencies bindings.
+     *
+     * @return void
+     */
+    private function registerBindings(): void
+    {
         $this->app->when(BusesValidatorService::class)
             ->needs(IRepository::class)
             ->give(BusesValidatorRepository::class);
