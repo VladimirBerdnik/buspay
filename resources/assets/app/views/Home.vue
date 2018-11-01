@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Hello</h1>
+    <h1>Сайт оплаты проезда в автобусе</h1>
   </div>
 </template>
 

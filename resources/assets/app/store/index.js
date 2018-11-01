@@ -14,6 +14,18 @@ export default new Vuex.Store({
       decodedToken:  null,
       authenticated: false,
     },
+    loginModal: {
+      visible: false,
+      params:  {},
+    },
+    deleteModal: {
+      visible: false,
+      params:  {},
+    },
+    errorNotificationModal: {
+      visible: false,
+      params:  {},
+    },
   },
   mutations,
   getters,

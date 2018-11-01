@@ -1,5 +1,5 @@
 import axios from 'axios';
-import authService from '../services/authService';
+import AuthService from '../services/AuthService';
 import config from '../config';
 
 const http = axios.create({
@@ -11,8 +11,8 @@ const http = axios.create({
 
 http.interceptors.request.use(
   config => {
-    if (authService.isAuthenticated()) {
-      config.headers.Authorization = `Bearer ${authService.getToken()}`;
+    if (AuthService.isAuthenticated()) {
+      config.headers.Authorization = `Bearer ${AuthService.getToken()}`;
     }
 
     return config;

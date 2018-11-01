@@ -1,0 +1,63 @@
+<template>
+  <v-menu :nudge-bottom="0"
+          offset-y>
+    <v-btn slot="activator"
+           flat>
+      <span>{{ profileName }}</span>
+      <v-icon dark>arrow_drop_down</v-icon>
+    </v-btn>
+
+    <v-list>
+      <v-list-tile @click="goToCabinet">
+        <v-list-tile-title>{{ $t('layout.toolbar.menu.cabinet') }}</v-list-tile-title>
+      </v-list-tile>
+      <v-list-tile @click="logout">
+        <v-list-tile-title >{{ $t('layout.toolbar.menu.logout') }}</v-list-tile-title>
+      </v-list-tile>
+    </v-list>
+  </v-menu>
+</template>
+
+<script>
+import ProfileService from '../services/ProfileService';
+import AuthService from '../services/AuthService';
+
+export default {
+  name: 'ProfileMenu',
+  data: () => ({
+
+  }),
+  computed: {
+    /**
+     * Returns authenticated user first name.
+     *
+     * @returns {string}
+     */
+    profileName() {
+      const profile = ProfileService.getProfile();
+
+      if (!profile) {
+        return '...';
+      }
+
+      return profile.first_name;
+    },
+  },
+  mounted() {
+    ProfileService.readProfile();
+  },
+  methods: {
+    goToCabinet() {
+      this.$router.push({ name: 'cabinet' });
+    },
+    logout() {
+      AuthService.logout();
+      this.$router.push({ name: 'home' });
+    },
+  },
+};
+</script>
+
+<style scoped>
+
+</style>
