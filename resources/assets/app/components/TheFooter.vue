@@ -1,7 +1,12 @@
 <template>
   <v-footer color="indigo"
+            dark
             app
-  >2018</v-footer>
+  >
+    <v-spacer/>
+    <div>{{ new Date().getFullYear() }} - {{ $t('app.title') }}</div>
+    <v-spacer/>
+  </v-footer>
 </template>
 
 <script>
