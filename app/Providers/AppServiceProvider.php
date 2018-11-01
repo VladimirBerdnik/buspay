@@ -19,6 +19,8 @@ use App\Domain\Services\TariffService;
 use App\Domain\Services\UserService;
 use App\Domain\Services\ValidatorService;
 use App\Exceptions\ApiExceptionHandler;
+use App\Http\Controllers\Api\v1\ProfileApiController;
+use App\Http\Transformers\Api\ProfileTransformer;
 use App\Repositories\BusesValidatorRepository;
 use App\Repositories\BusRepository;
 use App\Repositories\CardRepository;
@@ -38,6 +40,7 @@ use App\Repositories\ValidatorRepository;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Saritasa\LaravelRepositories\Contracts\IRepository;
+use Saritasa\Transformers\IDataTransformer;
 
 /**
  * Provider with specific for this application settings.
@@ -65,6 +68,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerBindings(): void
     {
+        // Register repositories bindings
         $this->app->when(BusesValidatorService::class)
             ->needs(IRepository::class)
             ->give(BusesValidatorRepository::class);
@@ -85,5 +89,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(TariffFareService::class)->needs(IRepository::class)->give(TariffFareRepository::class);
         $this->app->when(UserService::class)->needs(IRepository::class)->give(UserRepository::class);
         $this->app->when(ValidatorService::class)->needs(IRepository::class)->give(ValidatorRepository::class);
+
+        // Register transformers bindings
+        $this->app->when(ProfileApiController::class)->needs(IDataTransformer::class)->give(ProfileTransformer::class);
     }
 }

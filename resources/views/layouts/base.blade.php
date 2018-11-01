@@ -10,9 +10,7 @@
     </head>
 
     <body>
-        <div class="container">
-            @yield('content')
-        </div>
+        @yield('content')
 
         <link media="all" type="text/css" rel="stylesheet" href="{{ mix('/assets/styles/app.css') }}">
 
