@@ -2,16 +2,6 @@
 This is backend on **PHP / [Laravel 5.6](https://laravel.com/docs/5.5)**
 for BusPay project
 
-# Description
-TODO: write description
-
-# Artifacts
-## Issue Tracker
-TODO: setup link
-
-## UI Invision
-TODO: setup link
-
 # Development
 You have 2 options to run project locally:
 
@@ -269,7 +259,7 @@ Requirements:
 * [PHP](https://php.net) 7.1+
 * [MySQL](https://www.mysql.com) 5.7+
 * [Node.JS](https://nodejs.org) 6.11+ - JavaScript runtime
-* [YARN](https://yarnpkg.com) or [NPM](https://npmjs.com) 3.0+ -  Node.JS package manager
+* [NPM](https://npmjs.com) 3.0+ -  Node.JS package manager
 * [GNU Make](https://www.gnu.org/software/make/) - build tool
 
 Install all required software from above list, then run:
