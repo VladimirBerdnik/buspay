@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 
 class AddSuperadminUser extends Migration
@@ -13,12 +13,14 @@ class AddSuperadminUser extends Migration
     public function up()
     {
         $userDetails = [
-            User::ROLE_ID => DB::table('roles')->where('slug', 'admin')->first()->id,
-            User::COMPANY_ID => null,
-            User::FIRST_NAME => 'Admin',
-            User::LAST_NAME => 'Admin',
-            User::EMAIL => env('INITIAL_ADMIN_EMAIL'),
-            User::PASSWORD => password_hash(env('INITIAL_ADMIN_PASSWORD'), PASSWORD_DEFAULT),
+            'role_id' => DB::table('roles')->where('slug', 'admin')->first()->id,
+            'company_id' => null,
+            'first_name' => 'Admin',
+            'last_name' => 'Admin',
+            'email' => env('INITIAL_ADMIN_EMAIL'),
+            'password' => password_hash(env('INITIAL_ADMIN_PASSWORD'), PASSWORD_DEFAULT),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ];
         DB::table('users')->insert($userDetails);
     }
