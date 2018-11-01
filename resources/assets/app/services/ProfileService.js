@@ -4,6 +4,7 @@ import axios from '../config/axios';
 import store from '../store/index';
 import { PROFILE_MUTATION } from '../store/mutations';
 import { PROFILE_GETTER } from '../store/getters';
+import AuthService from './AuthService';
 
 export default {
   $store: store,
@@ -34,7 +35,7 @@ export default {
       this.profileMutation(response.data);
 
       return response.data;
-    });
+    }, AuthService.logout);
   },
 
   /**

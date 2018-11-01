@@ -32,5 +32,17 @@ export default {
         },
       },
     },
+    drawer: {
+      companies:   'Компании',
+      users:       'Пользователи',
+      routes:      'Маршруты',
+      buses:       'Автобусы',
+      drivers:     'Водители',
+      validators:  'Валидаторы',
+      routeSheets: 'Маршрутные листы',
+      tariffs:     'Тарифы',
+      cardTypes:   'Типы карт',
+      cards:       'Карты',
+    },
   },
 };
