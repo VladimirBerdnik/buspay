@@ -32,7 +32,12 @@ class AddInitialTariff extends Migration
             ];
 
             foreach ($tariffs as $id => $tariff) {
-                DB::table('tariffs')->insert(['id' => $id, 'name' => $tariff, 'created_at' => $now]);
+                DB::table('tariffs')->insert([
+                    'id' => $id,
+                    'name' => $tariff,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]);
             }
 
             // Add tariff activity period record, started from 2017
@@ -41,6 +46,7 @@ class AddInitialTariff extends Migration
                 'id' => $tariffPeriodId,
                 'active_from' => Carbon::now()->year(2017)->startOfYear()->startOfDay(),
                 'created_at' => $now,
+                'updated_at' => $now,
             ]);
 
             $tariffFares = [
@@ -64,6 +70,7 @@ class AddInitialTariff extends Migration
                         'card_type_id' => $cardTypeId,
                         'amount' => $fare,
                         'created_at' => $now,
+                        'updated_at' => $now,
                     ]);
                 }
             }
