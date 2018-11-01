@@ -11,10 +11,11 @@
 |
 */
 
+use App\Http\Controllers\Api\v1\ProfileApiController;
 use Dingo\Api\Routing\Router;
 use Saritasa\LaravelControllers\Api\ApiResourceRegistrar;
-use Saritasa\LaravelControllers\Api\JWTAuthApiController;
 use Saritasa\LaravelControllers\Api\ForgotPasswordApiController;
+use Saritasa\LaravelControllers\Api\JWTAuthApiController;
 use Saritasa\LaravelControllers\Api\ResetPasswordApiController;
 
 /**
@@ -36,6 +37,7 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
     $api->group(['middleware' => ['jwt.auth']], function (Router $api) {
         $registrar = new ApiResourceRegistrar($api);
 
+        $registrar->get('me', ProfileApiController::class, 'me');
         $registrar->delete('auth', JWTAuthApiController::class, 'logout');
     });
 });
