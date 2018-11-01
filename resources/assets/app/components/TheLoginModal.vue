@@ -70,7 +70,7 @@
 import AuthService from '../services/AuthService';
 
 export default {
-  name:  'LoginModal',
+  name:  'TheLoginModal',
   props: {
     visible: {
       type:    Boolean,

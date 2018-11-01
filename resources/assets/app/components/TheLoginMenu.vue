@@ -7,7 +7,7 @@
 import UserInteractionService from '../services/UserInteractionService';
 
 export default {
-  name:    'LoginMenu',
+  name:    'TheLoginMenu',
   methods: {
     performLogin() {
       UserInteractionService.handleLogin();

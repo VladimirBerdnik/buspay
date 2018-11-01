@@ -23,7 +23,7 @@ import ProfileService from '../services/ProfileService';
 import AuthService from '../services/AuthService';
 
 export default {
-  name: 'ProfileMenu',
+  name: 'TheProfileMenu',
   data: () => ({
 
   }),
