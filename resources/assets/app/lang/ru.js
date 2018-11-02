@@ -45,4 +45,13 @@ export default {
       cards:       'Карты',
     },
   },
+  tables: {
+    noResults: 'Нет результатов для выбранных параметров',
+  },
+  cardTypes: {
+    fields: {
+      id:   'ID',
+      name: 'Название',
+    },
+  },
 };

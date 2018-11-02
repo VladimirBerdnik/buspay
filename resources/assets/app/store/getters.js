@@ -4,6 +4,7 @@ export const LOGIN_MODAL_GETTER = 'loginModal';
 export const DELETE_MODAL_GETTER = 'deleteModal';
 export const ERROR_NOTIFICATION_MODAL_GETTER = 'errorNotificationModal';
 export const PROFILE_GETTER = 'profile';
+export const CARD_TYPES_GETTER = 'cardTypes';
 
 export default {
 /**********************************
@@ -27,10 +28,15 @@ export default {
    */
   [AUTHENTICATED_GETTER]: state => state.auth.authenticated,
 
-  /************************************
-   * USER INTERACTION RELATED GETTERS *
-   ************************************/
+  /********************************
+   * USER PROFILE RELATED GETTERS *
+   *******************************/
   [PROFILE_GETTER]: state => state.auth.user,
+
+  /******************************
+   * CARD TYPES RELATED GETTERS *
+   *****************************/
+  [CARD_TYPES_GETTER]: state => state.cardTypes,
 
   /************************************
    * USER INTERACTION RELATED GETTERS *

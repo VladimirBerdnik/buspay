@@ -13,6 +13,8 @@ export const CLOSE_ERROR_NOTIFICATION_MODAL_MUTATION =
 export const OPEN_LOGIN_MODAL_MUTATION = 'openLoginModalMutation';
 export const CLOSE_LOGIN_MODAL_MUTATION = 'closeLoginModalMutation';
 export const PROFILE_MUTATION = 'profileMutation';
+export const CARD_TYPES_MUTATION = 'cardTypesMutation';
+
 export default {
   /************************************
    * AUTHENTICATION RELATED MUTATIONS *
@@ -59,6 +61,22 @@ export default {
   [PROFILE_MUTATION](state, user) {
     state.auth.user = user;
   },
+
+  /********************************
+   * CARD TYPES RELATED MUTATIONS *
+   *******************************/
+  /**
+   * Stores list of card types in application.
+   *
+   * @param {Object} state - Vuex state.
+   * @param {Object[]} cardTypes - List of card types.
+   *
+   * @return void
+   */
+  [CARD_TYPES_MUTATION](state, cardTypes) {
+    state.cardTypes = cardTypes;
+  },
+
   /**************************************
    * USER INTERACTION RELATED MUTATIONS *
    *************************************/

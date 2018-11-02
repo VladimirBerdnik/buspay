@@ -26,6 +26,7 @@ export default new Vuex.Store({
       visible: false,
       params:  {},
     },
+    cardTypes: [],
   },
   mutations,
   getters,
