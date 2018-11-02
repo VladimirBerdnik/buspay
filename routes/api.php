@@ -13,6 +13,7 @@
 
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
+use App\Http\Controllers\Api\v1\TariffsApiController;
 use Dingo\Api\Routing\Router;
 use Saritasa\LaravelControllers\Api\ApiResourceRegistrar;
 use Saritasa\LaravelControllers\Api\ForgotPasswordApiController;
@@ -44,5 +45,12 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
 
         // Card types related routes
         $registrar->get('cardTypes', CardTypesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
+
+        // Tariffs related routes
+        $registrar->get(
+            'tariffPeriods/{tariffPeriod}/tariffs/fares',
+            TariffsApiController::class,
+            ApiResourceRegistrar::ACTION_INDEX
+        );
     });
 });

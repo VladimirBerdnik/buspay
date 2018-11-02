@@ -21,8 +21,10 @@ use App\Domain\Services\ValidatorService;
 use App\Exceptions\ApiExceptionHandler;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
+use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Transformers\Api\CardTypeTransformer;
 use App\Http\Transformers\Api\ProfileTransformer;
+use App\Http\Transformers\Api\TariffTransformer;
 use App\Repositories\BusesValidatorRepository;
 use App\Repositories\BusRepository;
 use App\Repositories\CardRepository;
@@ -39,6 +41,7 @@ use App\Repositories\TariffPeriodRepository;
 use App\Repositories\TariffRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\ValidatorRepository;
+use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Saritasa\LaravelRepositories\Contracts\IRepository;
@@ -106,5 +109,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(CardTypesApiController::class)
             ->needs(IDataTransformer::class)
             ->give(CardTypeTransformer::class);
+        $this->app->when(TariffsApiController::class)->needs(IDataTransformer::class)->give(TariffTransformer::class);
     }
 }
