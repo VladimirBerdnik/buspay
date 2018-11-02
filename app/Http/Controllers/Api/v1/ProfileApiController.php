@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\v1;
 
 use Dingo\Api\Http\Response;
-use Saritasa\LaravelControllers\Api\BaseApiController;
 
 /**
  * Authorized user requests API controller.
