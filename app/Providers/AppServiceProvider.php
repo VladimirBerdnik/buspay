@@ -61,6 +61,15 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         $this->registerBindings();
+
+        /**
+         * Dingo API transformer response factory.
+         *
+         * @var Fractal $dingoApiTransformerFactory
+         */
+        $dingoApiTransformerFactory = $this->app['api.transformer'];
+        // Disable automatic eager loading model relations for requested includes in response transformer
+        $dingoApiTransformerFactory->disableEagerLoading();
     }
 
     /**
