@@ -1,5 +1,5 @@
 <template>
-  <div v-if="profile">
+  <div v-if="authenticated()">
     <v-navigation-drawer
       :clipped="$vuetify.breakpoint.mdAndUp"
       :value:="true"
@@ -26,8 +26,7 @@
 </template>
 
 <script>
-import ProfileService from '../services/ProfileService';
-import CardTypesService from '../services/CardTypesService';
+import AuthService from '../services/AuthService';
 import i18n from '../lang/i18n';
 import * as routes from '../router';
 
@@ -47,20 +46,8 @@ export default {
       { icon: 'credit_card', text: i18n.t('layout.drawer.cards') },
     ],
   }),
-  computed: {
-    /**
-     * Profile details getter.
-     *
-     * @returns {User}
-     */
-    profile: () => ProfileService.getProfile(),
-  },
-  mounted() {
-    /**
-     * Retrieves profile information.
-     */
-    ProfileService.getProfile(true);
-    CardTypesService.getCardTypes(true);
+  methods: {
+    authenticated: () => AuthService.isAuthenticated(),
   },
 };
 </script>
