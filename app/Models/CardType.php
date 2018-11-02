@@ -107,6 +107,6 @@ class CardType extends Model
      */
     public function getNameAttribute(): string
     {
-        return trans("roles.{$this->slug}");
+        return trans("cardTypes.{$this->slug}");
     }
 }

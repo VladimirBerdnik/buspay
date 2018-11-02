@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use Dingo\Api\Routing\Router;
 use Saritasa\LaravelControllers\Api\ApiResourceRegistrar;
@@ -27,9 +28,9 @@ $api = app(Router::class);
 $api->version(config('api.version'), ['middleware' => 'bindings'], function (Router $api) {
     $registrar = new ApiResourceRegistrar($api);
 
+    // Authentication related routes
     $registrar->post('auth', JWTAuthApiController::class, 'login');
     $registrar->put('auth', JWTAuthApiController::class, 'refreshToken');
-
     $registrar->post('auth/password/reset', ForgotPasswordApiController::class, 'sendResetLinkEmail');
     $registrar->put('auth/password/reset', ResetPasswordApiController::class, 'reset');
 
@@ -37,7 +38,11 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
     $api->group(['middleware' => ['jwt.auth']], function (Router $api) {
         $registrar = new ApiResourceRegistrar($api);
 
+        // Authentication related routes
         $registrar->get('me', ProfileApiController::class, 'me');
         $registrar->delete('auth', JWTAuthApiController::class, 'logout');
+
+        // Card types related routes
+        $registrar->get('cardTypes', CardTypesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
     });
 });

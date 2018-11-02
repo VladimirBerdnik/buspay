@@ -19,7 +19,9 @@ use App\Domain\Services\TariffService;
 use App\Domain\Services\UserService;
 use App\Domain\Services\ValidatorService;
 use App\Exceptions\ApiExceptionHandler;
+use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
+use App\Http\Transformers\Api\CardTypeTransformer;
 use App\Http\Transformers\Api\ProfileTransformer;
 use App\Repositories\BusesValidatorRepository;
 use App\Repositories\BusRepository;
@@ -92,5 +94,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Register transformers bindings
         $this->app->when(ProfileApiController::class)->needs(IDataTransformer::class)->give(ProfileTransformer::class);
+        $this->app->when(CardTypesApiController::class)
+            ->needs(IDataTransformer::class)
+            ->give(CardTypeTransformer::class);
     }
 }
