@@ -50,7 +50,7 @@ export default {
     },
   },
   mounted() {
-    ProfileService.readProfile();
+    ProfileService.getProfile(true);
   },
   methods: {
     goToCabinet() {

@@ -21,12 +21,15 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
+    <router-view/>
   </div>
 </template>
 
 <script>
 import ProfileService from '../services/ProfileService';
+import CardTypesService from '../services/CardTypesService';
 import i18n from '../lang/i18n';
+import * as routes from '../router';
 
 export default {
   name: 'Cabinet',
@@ -40,7 +43,7 @@ export default {
       { icon: 'nfc', text: i18n.t('layout.drawer.validators') },
       { icon: 'today', text: i18n.t('layout.drawer.routeSheets') },
       { icon: 'attach_money', text: i18n.t('layout.drawer.tariffs') },
-      { icon: 'style', text: i18n.t('layout.drawer.cardTypes'), to: { name: '' } },
+      { icon: 'style', text: i18n.t('layout.drawer.cardTypes'), to: { name: routes.ROUTE_CARD_TYPES } },
       { icon: 'credit_card', text: i18n.t('layout.drawer.cards') },
     ],
   }),
@@ -52,11 +55,12 @@ export default {
      */
     profile: () => ProfileService.getProfile(),
   },
-  async mounted() {
+  mounted() {
     /**
      * Retrieves profile information.
      */
-    await ProfileService.readProfile();
+    ProfileService.getProfile(true);
+    CardTypesService.getCardTypes(true);
   },
 };
 </script>
