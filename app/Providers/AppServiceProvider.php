@@ -20,10 +20,12 @@ use App\Domain\Services\UserService;
 use App\Domain\Services\ValidatorService;
 use App\Exceptions\ApiExceptionHandler;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
+use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Transformers\Api\CardTypeTransformer;
+use App\Http\Transformers\Api\CompanyTransformer;
 use App\Http\Transformers\Api\ProfileTransformer;
 use App\Http\Transformers\Api\TariffPeriodTransformer;
 use App\Http\Transformers\Api\TariffTransformer;
@@ -115,5 +117,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(TariffPeriodsApiController::class)
             ->needs(IDataTransformer::class)
             ->give(TariffPeriodTransformer::class);
+        $this->app->when(CompaniesApiController::class)
+            ->needs(IDataTransformer::class)
+            ->give(CompanyTransformer::class);
     }
 }

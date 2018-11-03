@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\Api\v1\CardTypesApiController;
+use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
@@ -54,5 +55,8 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
             ApiResourceRegistrar::ACTION_INDEX
         );
         $registrar->get('tariffPeriods', TariffPeriodsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
+
+        // Companies related routes
+        $registrar->get('companies', CompaniesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
     });
 });
