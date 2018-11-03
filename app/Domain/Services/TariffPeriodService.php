@@ -24,7 +24,19 @@ class TariffPeriodService extends EntityService
      */
     public function getForDate(Carbon $date): ?TariffPeriod
     {
-        $tariffPeriods = $this->getRepository()->getWith([], [], [[TariffPeriod::ACTIVE_FROM, '>=', $date]]);
+        $tariffPeriods = $this->getRepository()->getWith(
+            [],
+            [],
+            [
+                [TariffPeriod::ACTIVE_FROM, '<=', $date],
+                [
+                    [
+                        [TariffPeriod::ACTIVE_TO, '=', null, 'or'],
+                        [TariffPeriod::ACTIVE_TO, '>=', $date, 'or'],
+                    ],
+                ],
+            ]
+        );
 
         if ($tariffPeriods->count() > 1) {
             throw new TooManyTariffPeriodsForDateException($date, $tariffPeriods);
