@@ -66,8 +66,9 @@ class TooManyTariffPeriodsForDateException extends BusinessLogicIntegrityExcepti
     public function __toString(): string
     {
         $periodsIdentifiers = $this->getTariffPeriods()->pluck(TariffPeriod::ID)->toArray();
+        $date = $this->getDate()->toIso8601String();
 
-        return "На дату {$this->getDate()->toIso8601String()} есть несколько периодов тарифов: " .
+        return "На дату {$date} есть несколько периодов тарифов: " .
             implode(', ', $periodsIdentifiers);
     }
 }
