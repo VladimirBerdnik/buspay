@@ -21,10 +21,10 @@ function formatDate(date, format, wrongDateResult = '') {
 
 // Vue date filters
 const dateFilters = {
-  monthDay:     'M/D',
-  timeStamp:    'MM/DD/YYYY h:mm A',
-  shortDate:    'M/D/YY',
-  fullDate:     'MMMM D, YYYY',
+  monthDay:     'M.D',
+  timeStamp:    'DD.MM.YYYY hh:mm',
+  shortDate:    'DD.MM.YYYY',
+  fullDate:     'D MMMM YYYY',
   shortIsoDate: 'YYYY-MM-DD',
 };
 

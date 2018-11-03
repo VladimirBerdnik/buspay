@@ -16,7 +16,7 @@
                     x-large>{{ menuItem.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content class="my-2">
-            <v-list-tile-title class="title">{{ menuItem.text }}</v-list-tile-title>
+            <v-list-tile-title class="subheading">{{ menuItem.text }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -41,7 +41,7 @@ export default {
       { icon: 'recent_actors', text: i18n.t('layout.drawer.drivers') },
       { icon: 'nfc', text: i18n.t('layout.drawer.validators') },
       { icon: 'today', text: i18n.t('layout.drawer.routeSheets') },
-      { icon: 'attach_money', text: i18n.t('layout.drawer.tariffs') },
+      { icon: 'attach_money', text: i18n.t('layout.drawer.tariffs'), to: { name: routes.ROUTE_TARIFFS } },
       { icon: 'style', text: i18n.t('layout.drawer.cardTypes'), to: { name: routes.ROUTE_CARD_TYPES } },
       { icon: 'credit_card', text: i18n.t('layout.drawer.cards') },
     ],

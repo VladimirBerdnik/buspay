@@ -51,9 +51,9 @@ const headers = [
   { value: 'name', align: 'left' },
 ];
 
-  // Table headers translates
+// Table headers translates
 Object.values(headers).forEach((header, key) => {
-  headers[key].text = i18n.t(`cardTypes.fields.${header.value}`);
+  headers[key].text = i18n.t(`cardType.fields.${header.value}`);
 });
 
 export default {

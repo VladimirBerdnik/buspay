@@ -5,12 +5,14 @@ export const DELETE_MODAL_GETTER = 'deleteModal';
 export const ERROR_NOTIFICATION_MODAL_GETTER = 'errorNotificationModal';
 export const PROFILE_GETTER = 'profile';
 export const CARD_TYPES_GETTER = 'cardTypes';
+export const TARIFF_PERIODS_GETTER = 'tariffPeriods';
+export const TARIFFS_GETTER = 'tariffs';
 
 export default {
-/**********************************
- * AUTHENTICATION RELATED GETTERS *
- **********************************/
-/**
+  /**********************************
+   * AUTHENTICATION RELATED GETTERS *
+   **********************************/
+  /**
    * Returns authentication token.
    *
    * @param {Object} state - Vuex state.
@@ -37,6 +39,13 @@ export default {
    * CARD TYPES RELATED GETTERS *
    *****************************/
   [CARD_TYPES_GETTER]: state => state.cardTypes,
+
+  /**************************
+   * TARIFF RELATED GETTERS *
+   *************************/
+  [TARIFF_PERIODS_GETTER]: state => state.tariffPeriods,
+
+  [TARIFFS_GETTER]: state => state.tariffs,
 
   /************************************
    * USER INTERACTION RELATED GETTERS *

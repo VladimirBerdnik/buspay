@@ -14,6 +14,8 @@ export const OPEN_LOGIN_MODAL_MUTATION = 'openLoginModalMutation';
 export const CLOSE_LOGIN_MODAL_MUTATION = 'closeLoginModalMutation';
 export const PROFILE_MUTATION = 'profileMutation';
 export const CARD_TYPES_MUTATION = 'cardTypesMutation';
+export const TARIFF_PERIODS_MUTATION = 'tariffPeriodsMutation';
+export const TARIFFS_MUTATION = 'tariffsMutation';
 
 export default {
   /************************************
@@ -75,6 +77,32 @@ export default {
    */
   [CARD_TYPES_MUTATION](state, cardTypes) {
     state.cardTypes = cardTypes;
+  },
+
+  /*****************************
+   * TARIFFS RELATED MUTATIONS *
+   ****************************/
+  /**
+   * Stores list of tariff periods in application.
+   *
+   * @param {Object} state - Vuex state.
+   * @param {Object[]} tariffPeriods - List of tariff periods.
+   *
+   * @return void
+   */
+  [TARIFF_PERIODS_MUTATION](state, tariffPeriods) {
+    state.tariffPeriods = tariffPeriods;
+  },
+  /**
+   * Stores list of tariffs in application.
+   *
+   * @param {Object} state - Vuex state.
+   * @param {Object[]} tariffs - List of tariff.
+   *
+   * @return void
+   */
+  [TARIFFS_MUTATION](state, tariffs) {
+    state.tariffs = tariffs;
   },
 
   /**************************************

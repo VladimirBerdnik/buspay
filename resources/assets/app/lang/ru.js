@@ -48,7 +48,26 @@ export default {
   tables: {
     noResults: 'Нет результатов для выбранных параметров',
   },
-  cardTypes: {
+  periods: {
+    toNow: 'По текущее время',
+  },
+  cardType: {
+    name:   'Тип карты',
+    fields: {
+      id:   'ID',
+      name: 'Название',
+    },
+  },
+  tariffPeriod: {
+    name:   'Период действия тарифа',
+    fields: {
+      id:          'ID',
+      active_from: 'Действует с',
+      active_to:   'Действует по',
+    },
+  },
+  tariff: {
+    name:   'Тариф',
     fields: {
       id:   'ID',
       name: 'Название',

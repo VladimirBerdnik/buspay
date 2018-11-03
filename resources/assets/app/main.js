@@ -8,6 +8,7 @@ import App from './App';
 import i18n from './lang/i18n';
 import router from './router';
 import store from './store';
+import './utils/filters';
 
 Vue.use(VeeValidate, {
   locale:     'ru',

@@ -22,14 +22,14 @@ export default {
   /**
    * Reads card types list.
    *
-   * @return {string}
+   * @return {CardType[]}
    *
    * @throws Error
    */
   async readCardTypes() {
     const response = await axios.get('/cardTypes/');
 
-    this.cardTypesMutation(response.data.results);
+    this.cardTypesMutation(response.data);
 
     return response.data;
   },
@@ -38,7 +38,7 @@ export default {
    * Returns list of card types.
    *
    * @param {boolean} forceFresh Force service to read actual information
-   * @return {Object|null}
+   * @return {CardType[]}
    */
   getCardTypes(forceFresh = false) {
     if (forceFresh) {
