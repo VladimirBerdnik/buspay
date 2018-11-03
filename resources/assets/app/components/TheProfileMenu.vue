@@ -1,8 +1,10 @@
 <template>
   <v-menu :nudge-bottom="0"
-          offset-y>
+          offset-y
+  >
     <v-btn slot="activator"
-           flat>
+           flat
+    >
       <span>{{ profileName }}</span>
       <v-icon dark>arrow_drop_down</v-icon>
     </v-btn>

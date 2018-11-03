@@ -1,9 +1,9 @@
 <template>
   <v-toolbar :clipped-left="$vuetify.breakpoint.mdAndUp"
-             color="indigo"
              dark
              fixed
-             app>
+             app
+  >
     <v-toolbar-items>
       <v-btn :to="{name: 'home'}"
              exact
@@ -18,7 +18,6 @@
       hide-details
       prepend-inner-icon="credit_card"
       append-outer-icon="search"
-      class="hidden-sm-and-down"
     />
     <v-spacer/>
     <v-toolbar-items>

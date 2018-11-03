@@ -10,15 +10,12 @@
     >
       <v-flex xs12>
         <v-card class="elevation-12">
-          <v-toolbar dark
-                     color="indigo">
+          <v-toolbar dark>
             <v-toolbar-title>{{ $t('forms.login.title') }}</v-toolbar-title>
             <v-spacer/>
           </v-toolbar>
           <v-card-text>
-            <v-form
-              @keyup.native.enter="login"
-            >
+            <v-form @keyup.native.enter="login">
               <v-text-field
                 v-validate="'required|email'"
                 v-model="email"
@@ -53,10 +50,14 @@
                       justify-end>
               <v-spacer/>
               <v-btn color="default"
-                     @click="close">{{ $t('forms.login.buttons.close') }}
+                     @click="close"
+              >
+                {{ $t('common.buttons.close') }}
               </v-btn>
               <v-btn color="primary"
-                     @click="login">{{ $t('forms.login.buttons.login') }}
+                     @click="login"
+              >
+                {{ $t('forms.login.buttons.login') }}
               </v-btn>
             </v-layout>
           </v-card-actions>

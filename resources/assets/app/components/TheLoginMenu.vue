@@ -1,6 +1,9 @@
 <template>
   <v-btn flat
-         @click="performLogin">{{ $t('layout.toolbar.menu.login') }}</v-btn>
+         @click="performLogin"
+  >
+    {{ $t('layout.toolbar.menu.login') }}
+  </v-btn>
 </template>
 
 <script>

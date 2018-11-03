@@ -13,7 +13,10 @@
         >
           <v-list-tile-action class="my-2">
             <v-icon v-if="menuItem.icon"
-                    x-large>{{ menuItem.icon }}</v-icon>
+                    x-large
+            >
+              {{ menuItem.icon }}
+            </v-icon>
           </v-list-tile-action>
           <v-list-tile-content class="my-2">
             <v-list-tile-title class="subheading">{{ menuItem.text }}</v-list-tile-title>

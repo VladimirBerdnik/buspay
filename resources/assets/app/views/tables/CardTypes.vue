@@ -7,7 +7,8 @@
   >
     <v-progress-linear slot="progress"
                        color="blue"
-                       indeterminate/>
+                       indeterminate
+    />
 
     <template slot="headers"
               slot-scope="props"

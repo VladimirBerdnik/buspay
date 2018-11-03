@@ -2,7 +2,19 @@ export default {
   app: {
     title: 'BusPay',
   },
+  common: {
+    buttons: {
+      save:   'Сохранить',
+      ok:     'ОК',
+      close:  'Отмена',
+      add:    'Добавить',
+      delete: 'Удалить',
+    },
+  },
   forms: {
+    common: {
+
+    },
     login: {
       title:  'Вход',
       inputs: {
@@ -17,8 +29,10 @@ export default {
       },
       buttons: {
         login: 'Войти',
-        close: 'Отмена',
       },
+    },
+    company: {
+      title: 'Параметры компании',
     },
   },
   layout: {

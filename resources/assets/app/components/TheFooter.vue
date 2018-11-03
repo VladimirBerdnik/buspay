@@ -1,6 +1,5 @@
 <template>
-  <v-footer color="indigo"
-            dark
+  <v-footer dark
             app
   >
     <v-spacer/>

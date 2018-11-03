@@ -1,6 +1,7 @@
 <template>
   <v-layout row
-            wrap>
+            wrap
+  >
     <v-flex xs12>
       <v-select :items="tariffPeriods"
                 :return-object="true"
@@ -33,7 +34,8 @@
       >
         <v-progress-linear slot="progress"
                            color="blue"
-                           indeterminate/>
+                           indeterminate
+        />
 
         <template slot="headers"
                   slot-scope="props"
