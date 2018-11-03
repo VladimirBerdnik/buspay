@@ -1,7 +1,7 @@
 export const TOKEN_GETTER = 'tokenGetter';
 export const AUTHENTICATED_GETTER = 'authenticatedGetter';
 export const LOGIN_MODAL_GETTER = 'loginModal';
-export const DELETE_MODAL_GETTER = 'deleteModal';
+export const CONFIRM_MODAL_GETTER = 'confirmModal';
 export const ERROR_NOTIFICATION_MODAL_GETTER = 'errorNotificationModal';
 export const ALERTS_GETTER = 'alerts';
 export const PROFILE_GETTER = 'profile';
@@ -63,14 +63,16 @@ export default {
    * @param {Object} state
    * @returns {boolean}
    */
-  [LOGIN_MODAL_GETTER]:              state => state.loginModal,
+  [LOGIN_MODAL_GETTER]: state => state.loginModal,
+
   /**
-   * Returns delete modal visible and params.
+   * Returns confirm modal visibility and params.
    *
    * @param {Object} state
    * @returns {{visible: boolean, params: Object}}
    */
-  [DELETE_MODAL_GETTER]:             state => state.deleteModal,
+  [CONFIRM_MODAL_GETTER]: state => state.confirmModal,
+
   /**
    * Returns error notification modal visible and params.
    *
@@ -78,6 +80,7 @@ export default {
    * @returns {{visible: boolean, params: Object}}
    */
   [ERROR_NOTIFICATION_MODAL_GETTER]: state => state.errorNotificationModal,
+
   /**
    * Returns alerts that should be displayed to user.
    *
@@ -85,6 +88,6 @@ export default {
    *
    * @returns {Object}
    */
-  [ALERTS_GETTER]:                   state => state.alerts,
+  [ALERTS_GETTER]: state => state.alerts,
 
 };

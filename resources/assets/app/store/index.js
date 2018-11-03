@@ -20,9 +20,12 @@ export default new Vuex.Store({
       visible: false,
       params:  {},
     },
-    deleteModal: {
+    confirmModal: {
       visible: false,
-      params:  {},
+      params:  {
+        message: '',
+        title:   '',
+      },
     },
     errorNotificationModal: {
       visible: false,

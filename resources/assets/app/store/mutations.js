@@ -2,10 +2,10 @@ import jwtDecode from 'jwt-decode';
 
 export const LOGIN_MUTATION = 'loginMutation';
 export const LOGOUT_MUTATION = 'logoutMutation';
-export const OPEN_DELETE_CONFIRMATION_MODAL_MUTATION =
-  'openDeleteConfirmationModalMutation';
-export const CLOSE_DELETE_CONFIRMATION_MODAL_MUTATION =
-  'closeDeleteConfirmationModalMutation';
+export const OPEN_CONFIRMATION_MODAL_MUTATION =
+  'openConfirmationModalMutation';
+export const CLOSE_CONFIRMATION_MODAL_MUTATION =
+  'closeConfirmationModalMutation';
 export const OPEN_ERROR_NOTIFICATION_MODAL_MUTATION =
   'openErrorNotificationModalMutation';
 export const CLOSE_ERROR_NOTIFICATION_MODAL_MUTATION =
@@ -157,32 +157,32 @@ export default {
   },
 
   /**
-   * Open model delete confirm modal.
+   * Open model confirm modal.
    *
    * @param {Object} state
    * @param {Object} params Modal window params
    * @returns {Object}
    */
-  [OPEN_DELETE_CONFIRMATION_MODAL_MUTATION](state, params) {
-    state.deleteModal = {
+  [OPEN_CONFIRMATION_MODAL_MUTATION](state, params) {
+    state.confirmModal = {
       visible: true,
       params,
     };
   },
 
   /**
-   * Close model delete confirm modal.
+   * Close model confirm modal.
    *
    * @param {Object} state
-   * @param {Boolean} closeResult User delete confirmation result
+   * @param {Boolean} closeResult User confirmation result
    * @returns {Object}
    *
    */
-  [CLOSE_DELETE_CONFIRMATION_MODAL_MUTATION](
+  [CLOSE_CONFIRMATION_MODAL_MUTATION](
     state,
     closeResult, // eslint-disable-line no-unused-vars
   ) {
-    state.deleteModal = {
+    state.confirmModal = {
       visible: false,
       params:  {},
     };
