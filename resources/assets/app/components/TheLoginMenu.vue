@@ -12,6 +12,9 @@ import UserInteractionService from '../services/UserInteractionService';
 export default {
   name:    'TheLoginMenu',
   methods: {
+    /**
+     * Initiates login process.
+     */
     performLogin() {
       UserInteractionService.handleLogin();
     },

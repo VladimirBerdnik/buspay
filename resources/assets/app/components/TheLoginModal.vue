@@ -2,7 +2,7 @@
   <v-dialog
     :value="visible"
     max-width="360"
-    @input="$emit('close', false)"
+    @input="close"
   >
     <v-layout
       align-center
@@ -47,7 +47,8 @@
           <v-card-actions>
             <v-layout row
                       wrap
-                      justify-end>
+                      justify-end
+            >
               <v-spacer/>
               <v-btn color="default"
                      @click="close"

@@ -22,7 +22,7 @@
     <v-spacer/>
     <v-toolbar-items>
       <TheLoginMenu v-if="!authenticated"/>
-      <TheProfileMenu v-if="authenticated"/>
+      <TheProfileMenu v-else/>
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -41,6 +41,5 @@ export default {
   computed: {
     authenticated: () => AuthService.isAuthenticated(),
   },
-
 };
 </script>

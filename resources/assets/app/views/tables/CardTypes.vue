@@ -67,6 +67,9 @@ export default {
     this.reloadTable();
   },
   methods: {
+    /**
+     * Reloads table data.
+     */
     reloadTable() {
       CardTypesService.getCardTypes(true);
     },

@@ -1,7 +1,13 @@
 <template>
   <v-app id="inspire">
 
-    <TheGlobalAlerts/>
+    <TheGlobalAlerts />
+
+    <TheConfirmationModal :visible="confirmationDetails.visible"
+                          :message="confirmationDetails.params.message"
+                          :title="confirmationDetails.params.title"
+                          @close="closeConfirmation"
+    />
 
     <TheToolbar/>
 
@@ -11,9 +17,8 @@
       </v-container>
     </v-content>
 
-    <TheLoginModal
-      :visible="loginModal.visible"
-      @close="closeLogin"
+    <TheLoginModal :visible="loginModal.visible"
+                   @close="closeLogin"
     />
 
     <TheFooter/>
@@ -23,38 +28,61 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
+import { ERROR_NOTIFICATION_MODAL_GETTER } from './store/getters';
+import { CLOSE_ERROR_NOTIFICATION_MODAL_MUTATION } from './store/mutations';
 import TheLoginModal from './components/TheLoginModal';
+import TheConfirmationModal from './components/TheConfirmationModal';
 import TheGlobalAlerts from './components/TheGlobalAlerts';
-import TheFooter from './components/TheFooter';
-import {
-  LOGIN_MODAL_GETTER,
-  ERROR_NOTIFICATION_MODAL_GETTER,
-} from './store/getters';
-import {
-  CLOSE_LOGIN_MODAL_MUTATION,
-  CLOSE_ERROR_NOTIFICATION_MODAL_MUTATION,
-} from './store/mutations';
 import TheToolbar from './components/TheToolbar';
+import TheFooter from './components/TheFooter';
+import UserInteractionService from './services/UserInteractionService';
 
 export default {
   name:       'App',
   components: {
     TheToolbar,
     TheLoginModal,
+    TheConfirmationModal,
     TheFooter,
     TheGlobalAlerts,
   },
   computed: {
     ...mapGetters({
-      loginModal:             LOGIN_MODAL_GETTER,
       errorNotificationModal: ERROR_NOTIFICATION_MODAL_GETTER,
     }),
+    /**
+     * Login modal window details.
+     *
+     * @return {{visible: boolean}}
+     */
+    loginModal:          () => UserInteractionService.loginWindowParameters(),
+    /**
+     * Confirmation modal window details.
+     *
+     * @return {{visible: boolean, params: {message: string, title: string}}}
+     */
+    confirmationDetails: () => UserInteractionService.confirmationWindowParameters(),
   },
   methods: {
     ...mapMutations({
-      closeLogin:             CLOSE_LOGIN_MODAL_MUTATION,
       closeErrorNotification: CLOSE_ERROR_NOTIFICATION_MODAL_MUTATION,
     }),
+    /**
+     * Close login window with authentication result.
+     *
+     * @param {boolean} result Authenticated or not
+     */
+    closeLogin(result) {
+      UserInteractionService.closeLoginModal(result);
+    },
+    /**
+     * Close confirmation modal with confirmation result.
+     *
+     * @param {boolean} result Confirmation dialog result
+     */
+    closeConfirmation(result) {
+      UserInteractionService.closeConfirmationModal(result);
+    },
   },
 };
 </script>

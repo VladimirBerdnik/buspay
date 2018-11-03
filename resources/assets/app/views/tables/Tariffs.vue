@@ -118,6 +118,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * Reloads table data.
+     */
     reloadTable() {
       TariffsService.readTariffs(this.tariffPeriod);
     },

@@ -29,6 +29,7 @@
 <script>
 import ProfileService from '../services/ProfileService';
 import AuthService from '../services/AuthService';
+import * as router from '../router';
 
 export default {
   name: 'TheProfileMenu',
@@ -55,12 +56,18 @@ export default {
     ProfileService.getProfile(true);
   },
   methods: {
+    /**
+     * Navigates user to personal cabinet page.
+     */
     goToCabinet() {
-      this.$router.push({ name: 'cabinet' });
+      this.$router.push({ name: router.ROUTE_CABINET });
     },
+    /**
+     * Performs user logout.
+     */
     logout() {
       AuthService.logout();
-      this.$router.push({ name: 'home' });
+      this.$router.push({ name: router.ROUTE_HOME });
     },
   },
 };

@@ -2,7 +2,7 @@
   <v-dialog
     :value="visible"
     max-width="360"
-    @input="$emit('close', false)"
+    @input="close"
   >
     <v-layout
       align-center
@@ -132,8 +132,7 @@ export default {
      * Performs save request.
      */
     async save() {
-      this.$validator.errors.clear();
-      if (!await this.$validator.validateAll()) {
+      if (!await this.revalidateForm()) {
         return;
       }
 
@@ -144,8 +143,9 @@ export default {
           this.close();
         })
         .catch(error => {
-          AlertsService.error(this.$i18n.t('common.notifications.savingError'));
-          this.handleValidationError(error.response.data.errors);
+          if (this.isValidationError(error)) {
+            this.handleValidationError(error.response.data.errors);
+          }
         });
     },
     /**
