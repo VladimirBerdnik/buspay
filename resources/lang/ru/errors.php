@@ -2,7 +2,7 @@
 
 return [
     'error' => 'Ошибка',
-    'validation_failed' => 'Данные не валидны',
+    'validation_failed' => 'Некоторые поля имеют неправильные значения',
     'service_not_available' => 'Сервис недоступен',
     'try_later' => 'Попробуйте позже',
     'not_found' => 'Не найдено',

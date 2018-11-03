@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Dingo\Api\Facade\API;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Saritasa\DingoApi\Exceptions\ApiExceptionHandler as DingoApiExceptionHandler;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -34,6 +35,11 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
     {
         API::error(function (InvalidEnumValueException $exception) {
             return $this->handle(new BadRequestHttpException($exception->getMessage(), $exception));
+        });
+        API::error(function (ValidationException $exception) {
+            return $this->handleValidation(
+                new TranslatableValidationException($exception->validator, $exception->response, $exception->errorBag)
+            );
         });
     }
 }
