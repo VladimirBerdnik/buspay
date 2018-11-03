@@ -66,6 +66,9 @@ export default {
       bin:                 'БИН',
       account_number:      'Номер счета',
       contact_information: 'Контактная информация',
+      buses_count:         'Автобусов',
+      drivers_count:       'Водителей',
+      routes_count:        'Маршрутов',
     },
   },
   tariffPeriod: {

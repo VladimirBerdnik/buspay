@@ -45,6 +45,10 @@ class CompanyTransformer extends BaseTransformer
             'bin' => $company->bin,
             'account_number' => $company->account_number,
             'contact_information' => $company->contact_information,
+            // possible related records count
+            'buses_count' => $company->getAttribute('buses_count'),
+            'drivers_count' => $company->getAttribute('drivers_count'),
+            'routes_count' => $company->getAttribute('routes_count'),
         ];
     }
 }

@@ -64,4 +64,7 @@
  * @property {string} bin - Business identification number.
  * @property {string} account_number - Account number for payments.
  * @property {string} contact_information - Company contact information.
+ * @property {Number|null} buses_count - Company's buses count.
+ * @property {Number|null} drivers_count - Company's drivers count.
+ * @property {Number|null} routes_count - Company's routes count.
  */

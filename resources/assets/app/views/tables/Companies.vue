@@ -30,6 +30,9 @@
       <td>{{ props.item.bin }}</td>
       <td>{{ props.item.account_number }}</td>
       <td>{{ props.item.contact_information }}</td>
+      <td>{{ props.item.buses_count }}</td>
+      <td>{{ props.item.drivers_count }}</td>
+      <td>{{ props.item.routes_count }}</td>
     </template>
 
     <template slot="no-data">
@@ -52,6 +55,9 @@ const headers = [
   { value: 'bin' },
   { value: 'account_number' },
   { value: 'contact_information' },
+  { value: 'buses_count' },
+  { value: 'drivers_count' },
+  { value: 'routes_count' },
 ];
 
 // Table headers translates
