@@ -24,7 +24,7 @@ export default {
   /**
    * Reads authenticated user profile details.
    *
-   * @return {string}
+   * @return {User}
    *
    * @throws Error
    */
@@ -42,7 +42,7 @@ export default {
    * Returns authenticated user details.
    *
    * @param {boolean} forceFresh Force service to read actual information
-   * @return {Object|null}
+   * @return {User}
    */
   getProfile(forceFresh = false) {
     if (forceFresh) {
