@@ -12,5 +12,31 @@ export default {
         });
       });
     },
+    /**
+     * Checks whether error is validation error.
+     *
+     * @param error
+     * @return {boolean} Validation error or not
+     */
+    isValidationError(error) {
+      const BAD_REQUEST_RESPONSE_STATUS = 400;
+
+      return error
+        && error.response
+        && error.response.status
+        && error.response.status === BAD_REQUEST_RESPONSE_STATUS
+        && error.response.data
+        && error.response.data.errors;
+    },
+    /**
+     * Resets all errors and validates form again.
+     *
+     * @return {Promise<any>}
+     */
+    revalidateForm() {
+      this.$validator.errors.clear();
+
+      return this.$validator.validateAll();
+    },
   },
 };
