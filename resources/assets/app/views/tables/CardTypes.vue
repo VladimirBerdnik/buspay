@@ -1,32 +1,28 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="cardTypes"
-    item-key="id"
-    class="elevation-1"
-    hide-actions
+  <v-data-table :headers="headers"
+                :items="cardTypes"
+                item-key="id"
+                class="elevation-1"
+                hide-actions
   >
     <v-progress-linear slot="progress"
                        color="blue"
                        indeterminate/>
 
-    <template
-      slot="headers"
-      slot-scope="props"
+    <template slot="headers"
+              slot-scope="props"
     >
       <tr>
-        <th
-          v-for="header in props.headers"
-          :key="header.text"
+        <th v-for="header in props.headers"
+            :key="header.text"
         >
           {{ header.text }}
         </th>
       </tr>
     </template>
 
-    <template
-      slot="items"
-      slot-scope="props"
+    <template slot="items"
+              slot-scope="props"
     >
       <td>{{ props.item.id }}</td>
       <td>{{ props.item.name }}</td>
@@ -47,8 +43,8 @@ import CardTypesService from '../../services/CardTypesService';
 
 // Table headers
 const headers = [
-  { value: 'id', align: 'left' },
-  { value: 'name', align: 'left' },
+  { value: 'id' },
+  { value: 'name' },
 ];
 
 // Table headers translates

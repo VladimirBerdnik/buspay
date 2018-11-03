@@ -2,24 +2,21 @@
   <v-layout row
             wrap>
     <v-flex xs12>
-      <v-select
-        :items="tariffPeriods"
-        :return-object="true"
-        v-model="tariffPeriod"
-        :label="$t('tariffPeriod.name')"
-        item-text="active_from"
-        item-value="id"
+      <v-select :items="tariffPeriods"
+                :return-object="true"
+                v-model="tariffPeriod"
+                :label="$t('tariffPeriod.name')"
+                item-text="active_from"
+                item-value="id"
       >
-        <template
-          slot="item"
-          slot-scope="props"
+        <template slot="item"
+                  slot-scope="props"
         >
           {{ props.item.active_from | shortDate }}
           - {{ props.item.active_to | shortDate($t('periods.toNow')) }}
         </template>
-        <template
-          slot="selection"
-          slot-scope="props"
+        <template slot="selection"
+                  slot-scope="props"
         >
           {{ props.item.active_from | shortDate }}
           - {{ props.item.active_to | shortDate($t('periods.toNow')) }}
@@ -27,35 +24,31 @@
       </v-select>
     </v-flex>
     <v-layout child-flex>
-      <v-data-table
-        :headers="tariffFareHeaders"
-        :items="tariffs"
-        item-key="id"
-        class="elevation-1"
-        hide-actions
-        xs12
+      <v-data-table :headers="tariffFareHeaders"
+                    :items="tariffs"
+                    item-key="id"
+                    class="elevation-1"
+                    hide-actions
+                    xs12
       >
         <v-progress-linear slot="progress"
                            color="blue"
                            indeterminate/>
 
-        <template
-          slot="headers"
-          slot-scope="props"
+        <template slot="headers"
+                  slot-scope="props"
         >
           <tr>
-            <th
-              v-for="header in props.headers"
-              :key="header.text"
+            <th v-for="header in props.headers"
+                :key="header.text"
             >
               {{ header.text }}
             </th>
           </tr>
         </template>
 
-        <template
-          slot="items"
-          slot-scope="props"
+        <template slot="items"
+                  slot-scope="props"
         >
           <td>{{ props.item.id }}</td>
           <td>{{ props.item.name }}</td>
