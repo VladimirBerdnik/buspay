@@ -14,12 +14,16 @@ export default {
       savingError:   'Ошибка сохранения',
       deletionError: 'Ошибка удаления',
       changesSaved:  'Изменения сохранены',
+      recordDeleted: 'Запись удалена',
+      serverError:   'Непредвиденная ошибка на сервере',
+      clientError:   'Ошибка запроса',
+      networkError:  'Непредвиденная ошибка, проверьте соединение с сетью',
+    },
+    titles: {
+      confirmAction: 'Подтвердите действие',
     },
   },
   forms: {
-    common: {
-
-    },
     login: {
       title:  'Вход',
       inputs: {
