@@ -3,6 +3,7 @@
 namespace App\Domain\Services;
 
 use App\Domain\Dto\CompanyData;
+use App\Domain\Exceptions\Constraint\CompanyDeletionException;
 use App\Extensions\EntityService;
 use App\Models\Company;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
@@ -58,6 +59,9 @@ class CompanyService extends EntityService
      */
     public function destroy(Company $company): void
     {
+        if ($company->routes->isNotEmpty() || $company->drivers->isNotEmpty() || $company->buses->isNotEmpty()) {
+            throw new CompanyDeletionException($company);
+        }
         $this->getRepository()->delete($company);
     }
 }
