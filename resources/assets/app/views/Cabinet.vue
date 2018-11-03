@@ -34,7 +34,7 @@ export default {
   name: 'Cabinet',
   data: () => ({
     menuItems: [
-      { icon: 'business', text: i18n.t('layout.drawer.companies') },
+      { icon: 'business', text: i18n.t('layout.drawer.companies'), to: { name: routes.ROUTE_COMPANIES } },
       { icon: 'supervisor_account', text: i18n.t('layout.drawer.users') },
       { icon: 'map', text: i18n.t('layout.drawer.routes') },
       { icon: 'directions_bus', text: i18n.t('layout.drawer.buses') },

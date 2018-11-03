@@ -58,6 +58,16 @@ export default {
       name: 'Название',
     },
   },
+  company: {
+    name:   'Компания',
+    fields: {
+      id:                  'ID',
+      name:                'Название',
+      bin:                 'БИН',
+      account_number:      'Номер счета',
+      contact_information: 'Контактная информация',
+    },
+  },
   tariffPeriod: {
     name:   'Период действия тарифа',
     fields: {

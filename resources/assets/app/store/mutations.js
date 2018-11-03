@@ -16,6 +16,7 @@ export const PROFILE_MUTATION = 'profileMutation';
 export const CARD_TYPES_MUTATION = 'cardTypesMutation';
 export const TARIFF_PERIODS_MUTATION = 'tariffPeriodsMutation';
 export const TARIFFS_MUTATION = 'tariffsMutation';
+export const COMPANIES_MUTATION = 'companiesMutation';
 
 export default {
   /************************************
@@ -103,6 +104,21 @@ export default {
    */
   [TARIFFS_MUTATION](state, tariffs) {
     state.tariffs = tariffs;
+  },
+
+  /*******************************
+   * COMPANIES RELATED MUTATIONS *
+   ******************************/
+  /**
+   * Stores list of companies in application.
+   *
+   * @param {Object} state - Vuex state.
+   * @param {Object[]} companies - List of companies.
+   *
+   * @return void
+   */
+  [COMPANIES_MUTATION](state, companies) {
+    state.companies = companies;
   },
 
   /**************************************

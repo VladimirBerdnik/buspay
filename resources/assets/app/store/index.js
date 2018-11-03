@@ -29,6 +29,7 @@ export default new Vuex.Store({
     cardTypes:     [],
     tariffPeriods: [],
     tariffs:       [],
+    companies:     [],
   },
   mutations,
   getters,
