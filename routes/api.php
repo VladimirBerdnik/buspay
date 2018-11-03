@@ -58,5 +58,7 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
 
         // Companies related routes
         $registrar->get('companies', CompaniesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
+        $registrar->post('companies', CompaniesApiController::class, ApiResourceRegistrar::ACTION_CREATE);
+        $registrar->put('companies/{company}', CompaniesApiController::class, ApiResourceRegistrar::ACTION_UPDATE);
     });
 });

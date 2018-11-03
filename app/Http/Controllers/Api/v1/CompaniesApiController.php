@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\Services\CompanyService;
+use App\Http\Requests\Api\SaveCompanyRequest;
 use App\Models\Company;
 use Dingo\Api\Http\Response;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
+use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Saritasa\Transformers\IDataTransformer;
 
 /**
@@ -46,5 +48,38 @@ class CompaniesApiController extends BaseApiController
             $this->companyService->getWith([], ['buses', 'drivers', 'routes'], [], new SortOptions(Company::NAME)),
             $this->transformer
         );
+    }
+
+    /**
+     * Stores new company in application.
+     *
+     * @param SaveCompanyRequest $request Request with new company information
+     *
+     * @return Response
+     *
+     * @throws RepositoryException
+     */
+    public function store(SaveCompanyRequest $request): Response
+    {
+        $company = $this->companyService->store($request->getCompanyData());
+
+        return $this->response->item($company, $this->transformer);
+    }
+
+    /**
+     * Updates company details.
+     *
+     * @param SaveCompanyRequest $request Request with new company information
+     * @param Company $company Company to update
+     *
+     * @return Response
+     *
+     * @throws RepositoryException
+     */
+    public function update(SaveCompanyRequest $request, Company $company): Response
+    {
+        $this->companyService->update($company, $request->getCompanyData());
+
+        return $this->response->item($company, $this->transformer);
     }
 }

@@ -11,6 +11,7 @@ use Saritasa\Laravel\Validation\Rule;
  * SaveCompanyRequest form request.
  *
  * @property-read string $name Company name
+ * @property-read string $bin Business identification number
  * @property-read string $account_number Account number for payments
  * @property-read string $contact_information Company contact information
  */
@@ -25,8 +26,8 @@ class SaveCompanyRequest extends ApiRequest
     {
         return [
             Company::NAME => Rule::required()->string()->max(64),
-            Company::ACCOUNT_NUMBER => Rule::required()->string()->max(16),
-            Company::BIN => Rule::required()->string()->max(16),
+            Company::ACCOUNT_NUMBER => Rule::required()->string()->max(20),
+            Company::BIN => Rule::required()->string()->max(12),
             Company::CONTACT_INFORMATION => Rule::required()->string()->max(191),
         ];
     }
@@ -36,7 +37,7 @@ class SaveCompanyRequest extends ApiRequest
      *
      * @return CompanyData
      */
-    public function getCompany(): CompanyData
+    public function getCompanyData(): CompanyData
     {
         return new CompanyData($this->all());
     }
