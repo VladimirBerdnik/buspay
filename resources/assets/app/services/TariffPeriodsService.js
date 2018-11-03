@@ -29,7 +29,7 @@ export default {
   async readTariffPeriods() {
     const response = await axios.get('/tariffPeriods/');
 
-    this.tariffPeriodsMutation(response.data);
+    this.tariffPeriodsMutation(response.data.results || []);
 
     return response.data;
   },

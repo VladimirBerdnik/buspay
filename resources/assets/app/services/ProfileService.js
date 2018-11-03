@@ -32,7 +32,7 @@ export default {
     UserInteractionService.withAuth(async () => {
       const response = await axios.get('/me/');
 
-      this.profileMutation(response.data);
+      this.profileMutation(response.data || {});
 
       return response.data;
     }, AuthService.logout);

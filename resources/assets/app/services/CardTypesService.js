@@ -29,7 +29,7 @@ export default {
   async readCardTypes() {
     const response = await axios.get('/cardTypes/');
 
-    this.cardTypesMutation(response.data);
+    this.cardTypesMutation(response.data.results || []);
 
     return response.data;
   },

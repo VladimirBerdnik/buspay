@@ -63,7 +63,7 @@
               :key="cardType.id"
               class="text-xs-right"
           >
-            {{ findTariffFareForCardType(props.item.tariff_fares, cardType) }}
+            {{ findTariffFareForCardType(props.item.tariffFares, cardType) }}
           </td>
         </template>
 

@@ -52,7 +52,7 @@
  * @typedef {Object} Tariff
  * @property {Number} id - Tariff identifier.
  * @property {string} name - Tariff name.
- * @property {TariffFare[]|null} tariff_fares - Applicable for tariff fares.
+ * @property {TariffFare[]|null} tariffFares - Applicable for tariff fares.
  */
 
 /**
