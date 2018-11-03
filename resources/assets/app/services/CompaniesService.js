@@ -53,6 +53,18 @@ export default {
     return response.data;
   },
 
+
+  /**
+   * Deletes company.
+   *
+   * @param {Company} company Company to delete
+   *
+   * @return {*}
+   */
+  delete(company) {
+    return axios.delete(`/companies/${company.id}/`);
+  },
+
   /**
    * Returns list of companies.
    *

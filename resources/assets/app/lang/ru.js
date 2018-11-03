@@ -82,8 +82,9 @@ export default {
     },
   },
   company: {
-    name:   'Компания',
-    fields: {
+    name:          'Компания',
+    deleteConfirm: 'Удалить компанию {company}?',
+    fields:        {
       id:                  'ID',
       name:                'Название',
       bin:                 'БИН',

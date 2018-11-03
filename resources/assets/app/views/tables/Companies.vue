@@ -27,6 +27,7 @@
       <v-data-table :headers="headers"
                     :items="companies"
                     :search="filter"
+                    :no-results-text="$t('tables.noResults')"
                     item-key="id"
                     class="elevation-1"
                     hide-actions
@@ -69,6 +70,13 @@
               >
                 <v-icon>edit</v-icon>
               </v-btn>
+              <v-btn flat
+                     icon
+                     class="mx-0"
+                     @click.stop="deleteCompany(props.item)"
+              >
+                <v-icon>delete</v-icon>
+              </v-btn>
             </div>
           </td>
         </template>
@@ -95,6 +103,8 @@
 import i18n from '../../lang/i18n';
 import CompaniesService from '../../services/CompaniesService';
 import CompanyForm from '../../views/forms/CompanyForm';
+import UserInteractionService from '../../services/UserInteractionService';
+import AlertsService from '../../services/AlertsService';
 
 // Table headers
 const headers = [
@@ -138,13 +148,27 @@ export default {
     reloadTable() {
       CompaniesService.getCompanies(true);
     },
-    openCompanyModal(companyToEdit = {}) {
+    openCompanyModal(companyToEdit) {
       this.companyToEdit = companyToEdit;
       this.companyModalVisible = true;
     },
     closeCompanyModal() {
       this.companyModalVisible = false;
       this.companyToEdit = {};
+    },
+    deleteCompany(company) {
+      UserInteractionService.handleConfirm({
+        message: this.$i18n.t('company.deleteConfirm', { company: company.name }),
+      })
+        .then(() => {
+          CompaniesService.delete(company)
+            .then(() => {
+              AlertsService.info(this.$i18n.t('common.notifications.recordDeleted'));
+              this.reloadTable();
+            })
+            .catch(() => {});
+        })
+        .catch(() => {});
     },
   },
 };
