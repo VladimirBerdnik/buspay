@@ -1,6 +1,8 @@
 <template>
   <v-app id="inspire">
 
+    <TheGlobalAlerts/>
+
     <TheToolbar/>
 
     <v-content>
@@ -22,6 +24,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 import TheLoginModal from './components/TheLoginModal';
+import TheGlobalAlerts from './components/TheGlobalAlerts';
 import TheFooter from './components/TheFooter';
 import {
   LOGIN_MODAL_GETTER,
@@ -39,6 +42,7 @@ export default {
     TheToolbar,
     TheLoginModal,
     TheFooter,
+    TheGlobalAlerts,
   },
   computed: {
     ...mapGetters({

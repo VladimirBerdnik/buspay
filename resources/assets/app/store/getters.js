@@ -3,6 +3,7 @@ export const AUTHENTICATED_GETTER = 'authenticatedGetter';
 export const LOGIN_MODAL_GETTER = 'loginModal';
 export const DELETE_MODAL_GETTER = 'deleteModal';
 export const ERROR_NOTIFICATION_MODAL_GETTER = 'errorNotificationModal';
+export const ALERTS_GETTER = 'alerts';
 export const PROFILE_GETTER = 'profile';
 export const CARD_TYPES_GETTER = 'cardTypes';
 export const TARIFF_PERIODS_GETTER = 'tariffPeriods';
@@ -77,5 +78,13 @@ export default {
    * @returns {{visible: boolean, params: Object}}
    */
   [ERROR_NOTIFICATION_MODAL_GETTER]: state => state.errorNotificationModal,
+  /**
+   * Returns alerts that should be displayed to user.
+   *
+   * @param {Object} state
+   *
+   * @returns {Object}
+   */
+  [ALERTS_GETTER]:                   state => state.alerts,
 
 };

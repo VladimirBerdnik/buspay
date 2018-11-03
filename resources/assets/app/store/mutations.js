@@ -12,6 +12,8 @@ export const CLOSE_ERROR_NOTIFICATION_MODAL_MUTATION =
   'closeErrorNotificationModalMutation';
 export const OPEN_LOGIN_MODAL_MUTATION = 'openLoginModalMutation';
 export const CLOSE_LOGIN_MODAL_MUTATION = 'closeLoginModalMutation';
+export const ADD_ALERT_MUTATION = 'addAlertMutation';
+export const FORGOT_ALERT_MUTATION = 'forgotAlertMutation';
 export const PROFILE_MUTATION = 'profileMutation';
 export const CARD_TYPES_MUTATION = 'cardTypesMutation';
 export const TARIFF_PERIODS_MUTATION = 'tariffPeriodsMutation';
@@ -211,5 +213,30 @@ export default {
       visible: false,
       params:  {},
     };
+  },
+
+  /**
+   * Adds new alerts to list of alerts to display.
+   *
+   * @param {Object} state
+   * @param {{message: string, type: string}} alert Alert to show
+   * @returns {Object}
+   */
+  [ADD_ALERT_MUTATION](state, alert) {
+    state.alerts.push(alert);
+  },
+
+  /**
+   * Removes alerts from list of alerts to display.
+   *
+   * @param {Object} state
+   * @param {{message: string, type: string}} alert Alert to fogot
+   * @returns {Object}
+   */
+  [FORGOT_ALERT_MUTATION](state, alert) {
+    const { alerts } = state;
+
+    alerts.splice(alerts.indexOf(alert), 1);
+    state.alerts = alerts;
   },
 };
