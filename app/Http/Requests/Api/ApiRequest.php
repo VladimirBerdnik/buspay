@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\Api;
 
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Base API request. Authorizes all requests by default.
  */
-abstract class ApiRequest extends Request
+abstract class ApiRequest extends FormRequest
 {
     /**
      * Returns whether this request authorized for executing or not.
