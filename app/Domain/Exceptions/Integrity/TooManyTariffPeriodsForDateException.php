@@ -33,7 +33,7 @@ class TooManyTariffPeriodsForDateException extends BusinessLogicIntegrityExcepti
      */
     public function __construct(Carbon $date, Collection $tariffPeriods)
     {
-        parent::__construct("Несколько периодов тарифов на дату");
+        parent::__construct('Несколько периодов тарифов на дату');
         $this->date = $date;
         $this->tariffPeriods = $tariffPeriods;
     }

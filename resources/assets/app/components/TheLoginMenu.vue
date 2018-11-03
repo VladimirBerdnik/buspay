@@ -16,7 +16,7 @@ export default {
      * Initiates login process.
      */
     performLogin() {
-      UserInteractionService.handleLogin();
+      UserInteractionService.handleLogin().catch(() => {});
     },
   },
 };

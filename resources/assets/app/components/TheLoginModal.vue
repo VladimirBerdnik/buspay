@@ -29,7 +29,7 @@
                 required
               />
               <v-text-field
-                v-validate="'required|min:6'"
+                v-validate="'required'"
                 v-model="password"
                 :append-icon="passwordHidden ? 'visibility' : 'visibility_off'"
                 :type="passwordHidden ? 'password' : 'text'"
@@ -70,10 +70,12 @@
 
 <script>
 import AuthService from '../services/AuthService';
+import FormValidationMixin from '../mixins/FormValidationMixin';
 
 export default {
-  name:  'TheLoginModal',
-  props: {
+  name:   'TheLoginModal',
+  mixins: [FormValidationMixin],
+  props:  {
     visible: {
       type:    Boolean,
       default: false,
@@ -91,19 +93,16 @@ export default {
      * Performs login request.
      */
     async login() {
-      this.$validator.errors.clear();
-      if (!await this.$validator.validateAll()) {
+      if (!await this.revalidateForm()) {
         return;
       }
       AuthService.login(this.email, this.password)
         .then(() => {
-          this.$emit('close', true);
-          this.clearForm();
+          this.close();
         }).catch(error => {
-          const errorMessage = error.response.data.message;
-
-          this.$validator.errors.add({ field: 'email', msg: errorMessage });
-          this.$validator.errors.add({ field: 'password', msg: errorMessage });
+          if (this.isValidationError(error)) {
+            this.handleValidationError(error.response.data.errors);
+          }
         });
     },
     /**
@@ -113,12 +112,12 @@ export default {
       this.email = '';
       this.password = '';
       this.passwordHidden = true;
-      this.$validator.errors.clear();
     },
     /**
      * Closes modal window.
      */
     close() {
+      this.clearForm();
       this.$emit('close', false);
     },
   },
