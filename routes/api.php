@@ -13,6 +13,7 @@
 
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
+use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use Dingo\Api\Routing\Router;
 use Saritasa\LaravelControllers\Api\ApiResourceRegistrar;
@@ -48,9 +49,10 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
 
         // Tariffs related routes
         $registrar->get(
-            'tariffPeriods/{tariffPeriod}/tariffs/fares',
+            'tariffPeriods/{tariffPeriod}/tariffs',
             TariffsApiController::class,
             ApiResourceRegistrar::ACTION_INDEX
         );
+        $registrar->get('tariffPeriods', TariffPeriodsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
     });
 });

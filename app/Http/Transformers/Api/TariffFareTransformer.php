@@ -41,6 +41,8 @@ class TariffFareTransformer extends BaseTransformer
     {
         return [
             'id' => $tariffFare->id,
+            'tariff_id' => $tariffFare->tariff_id,
+            'tariff_period_id' => $tariffFare->tariff_period_id,
             'card_type_id' => $tariffFare->card_type_id,
             'amount' => $tariffFare->amount,
         ];
