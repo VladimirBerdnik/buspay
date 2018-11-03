@@ -29,7 +29,7 @@ class TariffPeriodsServiceTest extends TestCase
         $tariffPeriods = new Collection([new TariffPeriod(), new TariffPeriod()]);
         $tariffPeriodsRepository->shouldReceive('getWith')->andReturn($tariffPeriods);
 
-        $tariffPeriodsService = new TariffPeriodService(app(ConnectionInterface::class), $tariffPeriodsRepository);
+        $tariffPeriodsService = new TariffPeriodService(Mockery::mock(ConnectionInterface::class), $tariffPeriodsRepository);
 
         $this->expectException(TooManyTariffPeriodsForDateException::class);
 
@@ -51,7 +51,7 @@ class TariffPeriodsServiceTest extends TestCase
         $tariffPeriods = new Collection([]);
         $tariffPeriodsRepository->shouldReceive('getWith')->andReturn($tariffPeriods);
 
-        $tariffPeriodsService = new TariffPeriodService(app(ConnectionInterface::class), $tariffPeriodsRepository);
+        $tariffPeriodsService = new TariffPeriodService(Mockery::mock(ConnectionInterface::class), $tariffPeriodsRepository);
 
         $this->expectException(NoTariffPeriodForDateException::class);
 
