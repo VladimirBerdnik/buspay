@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use Dingo\Api\Http\Response;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Saritasa\LaravelControllers\Api\BaseApiController as SaritasaBaseApiController;
 use Saritasa\Transformers\IDataTransformer;
 
@@ -23,7 +23,7 @@ class BaseApiController extends SaritasaBaseApiController
     protected function json($data, ?IDataTransformer $transformer = null): Response
     {
         if ($data instanceof Collection) {
-            return $this->response->collection($data, $transformer ?? $this->transformer);
+            $data = $data->toBase();
         }
 
         return parent::json($data, $transformer);
