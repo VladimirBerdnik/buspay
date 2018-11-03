@@ -10,6 +10,11 @@ export default {
       add:    'Добавить',
       delete: 'Удалить',
     },
+    notifications: {
+      savingError:   'Ошибка сохранения',
+      deletionError: 'Ошибка удаления',
+      changesSaved:  'Изменения сохранены',
+    },
   },
   forms: {
     common: {

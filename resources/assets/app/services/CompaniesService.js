@@ -35,6 +35,25 @@ export default {
   },
 
   /**
+   * Saves company. Creates new or updates existing.
+   *
+   * @param {Company} company Company to save
+   *
+   * @return {Company}
+   */
+  async saveCompany(company) {
+    let response = null;
+
+    if (company.id) {
+      response = await axios.put(`/companies/${company.id}/`, company);
+    } else {
+      response = await axios.post('/companies/', company);
+    }
+
+    return response.data;
+  },
+
+  /**
    * Returns list of companies.
    *
    * @param {boolean} forceFresh Force service to read actual information

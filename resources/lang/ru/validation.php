@@ -152,7 +152,6 @@ return [
     |
     */
     'attributes' => [
-        'name' => 'Имя',
         'username' => 'Никнейм',
         'email' => 'E-Mail адрес',
         'first_name' => 'Имя',
@@ -181,5 +180,12 @@ return [
         'time' => 'Время',
         'available' => 'Доступно',
         'size' => 'Размер',
+        // General attributes
+        'name' => 'Название',
+        'id' => 'Идентификатор',
+        // Company attributes
+        'bin' => 'БИН',
+        'account_number' => 'Номер счета',
+        'contact_information' => 'Контактная информация',
     ],
 ];

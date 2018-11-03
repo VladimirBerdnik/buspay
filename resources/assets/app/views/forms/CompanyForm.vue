@@ -92,8 +92,15 @@
 </template>
 
 <script>
+import AlertsService from '../../services/AlertsService';
+import CompaniesService from '../../services/CompaniesService';
+import FormValidationMixin from '../../mixins/FormValidationMixin';
+
 export default {
-  name:  'CompanyForm',
+  name:   'CompanyForm',
+  mixins: [
+    FormValidationMixin,
+  ],
   props: {
     value: {
       type:    Object,
@@ -126,7 +133,20 @@ export default {
      */
     async save() {
       this.$validator.errors.clear();
-      await this.$validator.validateAll();
+      if (!await this.$validator.validateAll()) {
+        return;
+      }
+
+      CompaniesService.saveCompany(this.company)
+        .then(() => {
+          AlertsService.info(this.$i18n.t('common.notifications.changesSaved'));
+          this.$emit('saved');
+          this.close();
+        })
+        .catch(error => {
+          AlertsService.error(this.$i18n.t('common.notifications.savingError'));
+          this.handleValidationError(error.response.data.errors);
+        });
     },
     /**
      * Closes modal window.

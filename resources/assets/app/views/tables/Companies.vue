@@ -85,6 +85,7 @@
         :visible="companyModalVisible"
         :value="companyToEdit"
         @close="closeCompanyModal"
+        @saved="reloadTable"
       />
     </v-flex>
   </v-layout>
