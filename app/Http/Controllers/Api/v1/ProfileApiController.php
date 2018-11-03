@@ -16,6 +16,6 @@ class ProfileApiController extends BaseApiController
      */
     public function me(): Response
     {
-        return $this->json($this->user);
+        return $this->response->item($this->user, $this->transformer);
     }
 }

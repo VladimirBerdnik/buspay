@@ -42,6 +42,9 @@ class TariffPeriodsApiController extends BaseApiController
      */
     public function index(): Response
     {
-        return $this->json($this->tariffPeriodService->getWith([], [], [], new SortOptions(TariffPeriod::ID)));
+        return $this->response->collection(
+            $this->tariffPeriodService->getWith([], [], [], new SortOptions(TariffPeriod::ID)),
+            $this->transformer
+        );
     }
 }

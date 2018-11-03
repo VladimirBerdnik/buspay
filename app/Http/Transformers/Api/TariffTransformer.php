@@ -3,6 +3,7 @@
 namespace App\Http\Transformers\Api;
 
 use App\Models\Tariff;
+use App\Models\TariffFare;
 use Illuminate\Contracts\Support\Arrayable;
 use League\Fractal\Resource\ResourceInterface;
 use Saritasa\Transformers\BaseTransformer;
@@ -64,6 +65,14 @@ class TariffTransformer extends BaseTransformer
      */
     protected function includeTariffFares(Tariff $tariff): ResourceInterface
     {
-        return $this->collection($tariff->tariffFares, app(TariffFareTransformer::class));
+        $tariffFaresTransformer = app(TariffFareTransformer::class);
+
+        $tariffFares = $tariff->tariffFares->map(
+            function (TariffFare $tariffFare) use ($tariffFaresTransformer) {
+                return $tariffFaresTransformer->transform($tariffFare);
+            }
+        );
+
+        return $this->primitive($tariffFares);
     }
 }
