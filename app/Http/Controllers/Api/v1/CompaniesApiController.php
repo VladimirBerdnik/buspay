@@ -82,4 +82,20 @@ class CompaniesApiController extends BaseApiController
 
         return $this->response->item($company, $this->transformer);
     }
+
+    /**
+     * Removes company from application.
+     *
+     * @param Company $company Company to delete
+     *
+     * @return Response
+     *
+     * @throws RepositoryException
+     */
+    public function destroy(Company $company): Response
+    {
+        $this->companyService->destroy($company);
+
+        return $this->response->noContent();
+    }
 }

@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
+use App\Models\Company;
 use Dingo\Api\Routing\Router;
 use Saritasa\LaravelControllers\Api\ApiResourceRegistrar;
 use Saritasa\LaravelControllers\Api\ForgotPasswordApiController;
@@ -57,8 +58,13 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         $registrar->get('tariffPeriods', TariffPeriodsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
         // Companies related routes
-        $registrar->get('companies', CompaniesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
-        $registrar->post('companies', CompaniesApiController::class, ApiResourceRegistrar::ACTION_CREATE);
-        $registrar->put('companies/{company}', CompaniesApiController::class, ApiResourceRegistrar::ACTION_UPDATE);
+        $registrar->resource('companies', CompaniesApiController::class, [
+            ApiResourceRegistrar::OPTION_ONLY => [
+                ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_CREATE,
+                ApiResourceRegistrar::ACTION_UPDATE,
+                ApiResourceRegistrar::ACTION_DESTROY,
+            ],
+        ], Company::class);
     });
 });

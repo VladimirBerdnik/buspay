@@ -48,4 +48,16 @@ class CompanyService extends EntityService
 
         return $company;
     }
+
+    /**
+     * Deletes company.
+     *
+     * @param Company $company Company to delete
+     *
+     * @throws RepositoryException
+     */
+    public function destroy(Company $company): void
+    {
+        $this->getRepository()->delete($company);
+    }
 }
