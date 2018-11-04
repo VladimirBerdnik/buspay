@@ -16,7 +16,6 @@ use Saritasa\Laravel\Validation\Rule;
  * @property-read string $last_name User last name
  * @property-read string $email User email address
  * @property-read string $password User password
- * @property-read string|null $remember_token Authorization token
  */
 class SaveUserRequest extends ApiRequest
 {
@@ -34,7 +33,6 @@ class SaveUserRequest extends ApiRequest
             User::LAST_NAME => Rule::required()->string()->max(191),
             User::EMAIL => Rule::required()->string()->max(191),
             User::PASSWORD => Rule::required()->string()->max(191),
-            User::REMEMBER_TOKEN => Rule::nullable()->string()->max(191),
         ];
     }
 

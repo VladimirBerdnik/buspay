@@ -22,7 +22,6 @@ class UserData extends Dto
     public const LAST_NAME = 'last_name';
     public const EMAIL = 'email';
     public const PASSWORD = 'password';
-    public const REMEMBER_TOKEN = 'remember_token';
 
     /**
      * User role identifier.
@@ -65,11 +64,4 @@ class UserData extends Dto
      * @var string
      */
     protected $password;
-
-    /**
-     * Authorization token.
-     *
-     * @var string|null
-     */
-    protected $remember_token;
 }
