@@ -55,6 +55,8 @@ class ProfileTransformer extends BaseTransformer
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,
+            'role_id' => $user->role_id,
+            'company_id' => $user->company_id,
         ];
     }
 
