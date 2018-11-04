@@ -5,6 +5,7 @@ namespace App\Http\Requests\Api;
 use App\Domain\Dto\UserData;
 use App\Domain\Enums\RolesIdentifiers;
 use App\Models\User;
+use Illuminate\Validation\Rules\Unique;
 use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
 use Saritasa\Laravel\Validation\RuleSet;
@@ -40,9 +41,18 @@ class SaveUserRequest extends ApiRequest
                     return $rules->nullable();
                 }
             ),
-            User::FIRST_NAME => Rule::required()->string()->max(191),
-            User::LAST_NAME => Rule::required()->string()->max(191),
-            User::EMAIL => Rule::required()->string()->max(191),
+            User::FIRST_NAME => Rule::required()->string()->max(64),
+            User::LAST_NAME => Rule::required()->string()->max(64),
+            User::EMAIL => Rule::required()
+                ->unique('users', 'email', function (Unique $rule) {
+                    if ($this->id) {
+                        $rule->whereNot(User::ID, $this->id);
+                    }
+
+                    return $rule->whereNull(User::DELETED_AT);
+                })
+                ->string()
+                ->max(64),
             User::PASSWORD => Rule::string()->max(191)->when(!$this->id, function (RuleSet $rules) {
                 return $rules->required();
             }),
