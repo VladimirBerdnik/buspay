@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
+use App\Http\Controllers\Api\v1\UsersApiController;
 use App\Http\Transformers\Api\CardTypeTransformer;
 use App\Http\Transformers\Api\CompanyTransformer;
 use App\Http\Transformers\Api\ProfileTransformer;
@@ -110,6 +111,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Register transformers bindings
         $this->app->when(ProfileApiController::class)->needs(IDataTransformer::class)->give(ProfileTransformer::class);
+        $this->app->when(UsersApiController::class)->needs(IDataTransformer::class)->give(ProfileTransformer::class);
         $this->app->when(CardTypesApiController::class)
             ->needs(IDataTransformer::class)
             ->give(CardTypeTransformer::class);

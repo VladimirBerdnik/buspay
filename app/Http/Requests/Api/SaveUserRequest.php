@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use App\Domain\Dto\UserData;
+use App\Domain\Enums\RolesIdentifiers;
 use App\Models\User;
 use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
@@ -28,7 +29,15 @@ class SaveUserRequest extends ApiRequest
     {
         return [
             User::ROLE_ID => Rule::required()->exists('roles', 'id')->int(),
-            User::COMPANY_ID => Rule::nullable()->exists('companies', 'id')->int(),
+            User::COMPANY_ID => Rule::int()->when(
+                in_array($this->role_id, [RolesIdentifiers::OPERATOR]),
+                function (GenericRuleSet $rules) {
+                    return $rules->required()->exists('companies', 'id');
+                },
+                function (GenericRuleSet $rules) {
+                    return $rules->nullable();
+                }
+            ),
             User::FIRST_NAME => Rule::required()->string()->max(191),
             User::LAST_NAME => Rule::required()->string()->max(191),
             User::EMAIL => Rule::required()->string()->max(191),

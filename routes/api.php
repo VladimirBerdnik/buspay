@@ -16,7 +16,9 @@ use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
+use App\Http\Controllers\Api\v1\UsersApiController;
 use App\Models\Company;
+use App\Models\User;
 use Dingo\Api\Routing\Router;
 use Saritasa\LaravelControllers\Api\ApiResourceRegistrar;
 use Saritasa\LaravelControllers\Api\ForgotPasswordApiController;
@@ -66,5 +68,15 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
                 ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], Company::class);
+
+        // Users related routes
+        $registrar->resource('users', UsersApiController::class, [
+            ApiResourceRegistrar::OPTION_ONLY => [
+                ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_CREATE,
+                ApiResourceRegistrar::ACTION_UPDATE,
+                ApiResourceRegistrar::ACTION_DESTROY,
+            ],
+        ], User::class);
     });
 });
