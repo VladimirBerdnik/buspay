@@ -7,6 +7,7 @@ use App\Models\TariffPeriod;
 use Dingo\Api\Http\Response;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
+use Saritasa\LaravelRepositories\Enums\OrderDirections;
 use Saritasa\Transformers\IDataTransformer;
 
 /**
@@ -43,7 +44,12 @@ class TariffPeriodsApiController extends BaseApiController
     public function index(): Response
     {
         return $this->response->collection(
-            $this->tariffPeriodService->getWith([], [], [], new SortOptions(TariffPeriod::ID)),
+            $this->tariffPeriodService->getWith(
+                [],
+                [],
+                [],
+                new SortOptions(TariffPeriod::ACTIVE_FROM, OrderDirections::DESC)
+            ),
             $this->transformer
         );
     }
