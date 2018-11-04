@@ -107,6 +107,7 @@ export default {
       buses_count:         'Автобусов',
       drivers_count:       'Водителей',
       routes_count:        'Маршрутов',
+      users_count:         'Пользователей',
     },
   },
   user: {

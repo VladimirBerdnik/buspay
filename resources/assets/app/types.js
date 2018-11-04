@@ -68,4 +68,5 @@
  * @property {number|null} buses_count - Company's buses count.
  * @property {number|null} drivers_count - Company's drivers count.
  * @property {number|null} routes_count - Company's routes count.
+ * @property {number|null} users_count - Company's users count.
  */

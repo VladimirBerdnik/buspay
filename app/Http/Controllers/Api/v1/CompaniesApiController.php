@@ -45,7 +45,12 @@ class CompaniesApiController extends BaseApiController
     public function index(): Response
     {
         return $this->response->collection(
-            $this->companyService->getWith([], ['buses', 'drivers', 'routes'], [], new SortOptions(Company::NAME)),
+            $this->companyService->getWith(
+                [],
+                ['buses', 'drivers', 'routes', 'users'],
+                [],
+                new SortOptions(Company::NAME)
+            ),
             $this->transformer
         );
     }

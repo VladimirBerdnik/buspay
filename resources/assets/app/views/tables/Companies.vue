@@ -53,6 +53,7 @@
           <td>{{ props.item.buses_count }}</td>
           <td>{{ props.item.drivers_count }}</td>
           <td>{{ props.item.routes_count }}</td>
+          <td>{{ props.item.users_count }}</td>
           <td class="px-0">
             <div class="cell-buttons">
               <v-btn flat
@@ -108,6 +109,7 @@ const headers = [
   { value: 'buses_count' },
   { value: 'drivers_count' },
   { value: 'routes_count' },
+  { value: 'users_count' },
 ];
 
 // Table headers translates

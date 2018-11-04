@@ -49,6 +49,7 @@ class CompanyTransformer extends BaseTransformer
             'buses_count' => $company->getAttribute('buses_count'),
             'drivers_count' => $company->getAttribute('drivers_count'),
             'routes_count' => $company->getAttribute('routes_count'),
+            'users_count' => $company->getAttribute('users_count'),
         ];
     }
 }

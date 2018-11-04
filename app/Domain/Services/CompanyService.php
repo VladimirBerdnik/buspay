@@ -70,7 +70,11 @@ class CompanyService extends EntityService
     {
         Log::debug("Delete company [{$company->id}] attempt");
 
-        if ($company->routes->isNotEmpty() || $company->drivers->isNotEmpty() || $company->buses->isNotEmpty()) {
+        if ($company->routes->isNotEmpty()
+            || $company->drivers->isNotEmpty()
+            || $company->buses->isNotEmpty()
+            || $company->users->isNotEmpty()
+        ) {
             Log::debug("Company [{$company->id}] has related records. Can't delete");
 
             throw new CompanyDeletionException($company);
