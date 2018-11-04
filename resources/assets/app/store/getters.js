@@ -9,6 +9,7 @@ export const CARD_TYPES_GETTER = 'cardTypes';
 export const TARIFF_PERIODS_GETTER = 'tariffPeriods';
 export const TARIFFS_GETTER = 'tariffs';
 export const COMPANIES_GETTER = 'companies';
+export const USERS_GETTER = 'users';
 
 export default {
   /**********************************
@@ -53,6 +54,11 @@ export default {
    * COMPANIES RELATED GETTERS *
    ****************************/
   [COMPANIES_GETTER]: state => state.companies,
+
+  /*************************
+   * USERS RELATED GETTERS *
+   ************************/
+  [USERS_GETTER]: state => state.users,
 
   /************************************
    * USER INTERACTION RELATED GETTERS *

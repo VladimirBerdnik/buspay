@@ -38,6 +38,7 @@ export default new Vuex.Store({
     tariffPeriods: [],
     tariffs:       [],
     companies:     [],
+    users:         [],
   },
   mutations,
   getters,
