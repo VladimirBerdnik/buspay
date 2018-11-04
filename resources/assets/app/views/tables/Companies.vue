@@ -54,7 +54,8 @@
           slot-scope="props"
         >
           <td>{{ props.item.id }}</td>
-          <td>{{ props.item.name }}</td>
+          <td class="action-cell"
+              @click.stop="openCompanyModal(props.item)">{{ props.item.name }}</td>
           <td>{{ props.item.bin }}</td>
           <td>{{ props.item.account_number }}</td>
           <td>{{ props.item.contact_information }}</td>
@@ -62,7 +63,7 @@
           <td>{{ props.item.drivers_count }}</td>
           <td>{{ props.item.routes_count }}</td>
           <td class="px-0">
-            <div class="buttons">
+            <div class="cell-buttons">
               <v-btn flat
                      icon
                      class="mx-0"
@@ -173,7 +174,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-</style>

@@ -86,3 +86,14 @@ export default {
   },
 };
 </script>
+
+<style>
+  td.action-cell {
+    cursor: pointer;
+    color: #1976d2;
+  }
+
+  .cell-buttons {
+    display: flex;
+  }
+</style>
