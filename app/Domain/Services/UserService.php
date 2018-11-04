@@ -28,7 +28,7 @@ class UserService extends EntityService
 
         $user = new User($userData->toArray());
 
-        $this->getRepository()->save($user);
+        $this->getRepository()->create($user);
 
         Log::debug("User [{$user->id}] created");
 

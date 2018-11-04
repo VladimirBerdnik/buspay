@@ -29,7 +29,7 @@ class CompanyService extends EntityService
 
         $company = new Company($companyData->toArray());
 
-        $this->getRepository()->save($company);
+        $this->getRepository()->create($company);
 
         Log::debug("Company [{$company->id}] created");
 
