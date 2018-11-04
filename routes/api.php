@@ -14,6 +14,7 @@
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
+use App\Http\Controllers\Api\v1\RolesApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
@@ -50,6 +51,9 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
 
         // Card types related routes
         $registrar->get('cardTypes', CardTypesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
+
+        // Card types related routes
+        $registrar->get('roles', RolesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
         // Tariffs related routes
         $registrar->get(
