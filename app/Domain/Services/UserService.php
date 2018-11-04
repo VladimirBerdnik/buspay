@@ -3,16 +3,67 @@
 namespace App\Domain\Services;
 
 use App\Domain\Dto\UserData;
+use App\Domain\Enums\RolesIdentifiers;
 use App\Extensions\EntityService;
 use App\Models\User;
+use Illuminate\Validation\Rules\Unique;
+use Illuminate\Validation\ValidationException;
 use Log;
+use Saritasa\Laravel\Validation\GenericRuleSet;
+use Saritasa\Laravel\Validation\Rule;
+use Saritasa\Laravel\Validation\RuleSet;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
+use Validator;
 
 /**
  * User business-logic service.
  */
 class UserService extends EntityService
 {
+    /**
+     * List of user roles that should have assigned company.
+     *
+     * @var string[]
+     */
+    protected $rolesWithCompany = [RolesIdentifiers::OPERATOR];
+
+    /**
+     * Returns validation rule to store or update user.
+     *
+     * @param UserData $userData User data to build conditional rules
+     * @param User $user User to build rules for
+     *
+     * @return string[]|GenericRuleSet[]
+     */
+    protected function getUserValidationRules(UserData $userData, User $user): array
+    {
+        return [
+            User::ROLE_ID => Rule::required()->exists('roles', 'id')->int(),
+            User::FIRST_NAME => Rule::required()->string()->max(64),
+            User::LAST_NAME => Rule::required()->string()->max(64),
+            User::COMPANY_ID => Rule::when(
+                in_array($userData->role_id, $this->rolesWithCompany),
+                function (RuleSet $rules) {
+                    return $rules->exists('companies', 'id')->required();
+                },
+                function (RuleSet $rules) {
+                    return $rules->nullable()->max(0);
+                }
+            ),
+            User::EMAIL => Rule::unique('users', 'email', function (Unique $rule) use ($user) {
+                if ($user->exists) {
+                    $rule->whereNot(User::ID, $user->id);
+                }
+
+                return $rule->whereNull(User::DELETED_AT);
+            })
+                ->required()->string()->max(64),
+            User::PASSWORD => Rule::when(!$user->exists || $userData->password, function (RuleSet $rules) {
+                return $rules->required()->max(64)->min(6);
+            }),
+        ];
+    }
+
     /**
      * Stores new user.
      *
@@ -21,12 +72,15 @@ class UserService extends EntityService
      * @return User
      *
      * @throws RepositoryException
+     * @throws ValidationException
      */
     public function store(UserData $userData): User
     {
         Log::debug("Create user with email [{$userData->email}] attempt");
 
         $user = new User($userData->toArray());
+
+        Validator::validate($userData->toArray(), $this->getUserValidationRules($userData, $user));
 
         $this->getRepository()->create($user);
 
@@ -44,10 +98,13 @@ class UserService extends EntityService
      * @return User
      *
      * @throws RepositoryException
+     * @throws ValidationException
      */
     public function update(User $user, UserData $userData): User
     {
         Log::debug("Update user [{$user->id}] attempt");
+
+        Validator::validate($userData->toArray(), $this->getUserValidationRules($userData, $user));
 
         $newAttributes = $userData->toArray();
 

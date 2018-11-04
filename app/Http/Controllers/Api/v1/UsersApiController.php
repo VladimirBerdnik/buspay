@@ -6,6 +6,8 @@ use App\Domain\Services\UserService;
 use App\Http\Requests\Api\SaveUserRequest;
 use App\Models\User;
 use Dingo\Api\Http\Response;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Validation\ValidationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
@@ -58,6 +60,7 @@ class UsersApiController extends BaseApiController
      * @return Response
      *
      * @throws RepositoryException
+     * @throws ValidationException
      */
     public function store(SaveUserRequest $request): Response
     {
@@ -75,6 +78,7 @@ class UsersApiController extends BaseApiController
      * @return Response
      *
      * @throws RepositoryException
+     * @throws ValidationException
      */
     public function update(SaveUserRequest $request, User $user): Response
     {
