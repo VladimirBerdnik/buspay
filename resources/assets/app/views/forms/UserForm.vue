@@ -110,21 +110,19 @@ import UsersService from '../../services/UsersService';
 import FormValidationMixin from '../../mixins/FormValidationMixin';
 import CompanySelect from '../dropdowns/CompanySelect';
 import RoleSelect from '../dropdowns/RoleSelect';
+import ModalFormMixin from '../../mixins/ModalFormMixin';
 
 export default {
   name:       'UserForm',
   components: { RoleSelect, CompanySelect },
   mixins:     [
     FormValidationMixin,
+    ModalFormMixin,
   ],
   props: {
     value: {
       type:    Object,
       default: () => {},
-    },
-    visible: {
-      type:    Boolean,
-      default: false,
     },
   },
   data() {

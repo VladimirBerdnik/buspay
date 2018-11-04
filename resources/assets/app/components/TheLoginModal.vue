@@ -71,16 +71,14 @@
 <script>
 import AuthService from '../services/AuthService';
 import FormValidationMixin from '../mixins/FormValidationMixin';
+import ModalFormMixin from '../mixins/ModalFormMixin';
 
 export default {
   name:   'TheLoginModal',
-  mixins: [FormValidationMixin],
-  props:  {
-    visible: {
-      type:    Boolean,
-      default: false,
-    },
-  },
+  mixins: [
+    FormValidationMixin,
+    ModalFormMixin,
+  ],
   data() {
     return {
       passwordHidden: true,

@@ -91,20 +91,18 @@
 import AlertsService from '../../services/AlertsService';
 import CompaniesService from '../../services/CompaniesService';
 import FormValidationMixin from '../../mixins/FormValidationMixin';
+import ModalFormMixin from '../../mixins/ModalFormMixin';
 
 export default {
   name:   'CompanyForm',
   mixins: [
     FormValidationMixin,
+    ModalFormMixin,
   ],
   props: {
     value: {
       type:    Object,
       default: () => {},
-    },
-    visible: {
-      type:    Boolean,
-      default: false,
     },
   },
   data() {
@@ -153,7 +151,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-</style>
