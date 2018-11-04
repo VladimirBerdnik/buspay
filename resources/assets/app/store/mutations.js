@@ -135,7 +135,7 @@ export default {
    *
    * @return void
    */
-  [COMPANIES_MUTATION](state, users) {
+  [USERS_MUTATION](state, users) {
     state.users = users;
   },
 
