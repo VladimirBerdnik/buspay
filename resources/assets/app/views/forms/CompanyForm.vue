@@ -25,7 +25,6 @@
                 :data-vv-as="$t('company.fields.name')"
                 name="name"
                 type="text"
-                data-vv-name="name"
                 required
               />
 
@@ -37,7 +36,6 @@
                 :data-vv-as="$t('company.fields.bin')"
                 name="bin"
                 type="text"
-                data-vv-name="bin"
                 required
               />
 
@@ -49,7 +47,6 @@
                 :data-vv-as="$t('company.fields.account_number')"
                 name="account_number"
                 type="text"
-                data-vv-name="account_number"
                 required
               />
 
@@ -61,7 +58,6 @@
                 :data-vv-as="$t('company.fields.contact_information')"
                 name="contact_information"
                 type="text"
-                data-vv-name="contact_information"
                 required
               />
 
