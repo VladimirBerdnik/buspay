@@ -49,8 +49,8 @@ export default {
       title:  'Параметры пользователя',
       inputs: {
         password: {
-          labelRequired: 'Пароль',
-          labelOptional: 'Пароль (оставьте пустым если не хотите менять)',
+          required: 'Пароль',
+          optional: 'Пароль (пустой - оставить прежним)',
         },
       },
     },

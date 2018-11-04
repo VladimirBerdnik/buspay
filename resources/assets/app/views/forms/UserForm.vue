@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     :value="visible"
-    max-width="360"
+    max-width="400"
     @input="close"
   >
     <v-layout
@@ -15,7 +15,9 @@
             <v-spacer/>
           </v-toolbar>
           <v-card-text>
-            <v-form @keyup.native.enter="save">
+            <v-form autocomplete="off"
+                    @keyup.native.enter="save"
+            >
 
               <v-text-field
                 v-validate="'required'"
@@ -49,12 +51,12 @@
                 required
               />
               <v-text-field
-                v-validate="'required'"
+                v-validate="existingUser ? 'min:6' : 'required|min:6'"
                 v-model="user.password"
                 :append-icon="passwordHidden ? 'visibility' : 'visibility_off'"
                 :type="passwordHidden ? 'password' : 'text'"
                 :error-messages="errors.collect('password')"
-                :label="$t('forms.user.inputs.password.labelOptional')"
+                :label="$t(`forms.user.inputs.password.${existingUser ? 'optional' : 'required'}`)"
                 :data-vv-as="$t('user.fields.password')"
                 name="password"
                 browser-autocomplete="off"
@@ -62,7 +64,14 @@
                 required
                 @click:append="() => (passwordHidden = !passwordHidden)"
               />
+              <RoleSelect v-validate="'required'"
+                          v-model="user.role_id"
+                          :error-messages="errors.collect('role_id')"
+                          :data-vv-as="$t('user.fields.role.name')"
+                          name="role_id"
+              />
               <CompanySelect v-validate="'required'"
+                             v-if="companyRequired"
                              v-model="user.company_id"
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('user.fields.company.name')"
@@ -100,10 +109,11 @@ import AlertsService from '../../services/AlertsService';
 import UsersService from '../../services/UsersService';
 import FormValidationMixin from '../../mixins/FormValidationMixin';
 import CompanySelect from '../dropdowns/CompanySelect';
+import RoleSelect from '../dropdowns/RoleSelect';
 
 export default {
   name:       'UserForm',
-  components: { CompanySelect },
+  components: { RoleSelect, CompanySelect },
   mixins:     [
     FormValidationMixin,
   ],
@@ -131,9 +141,22 @@ export default {
       },
     };
   },
+  computed: {
+    existingUser() {
+      return this.user.id;
+    },
+    companyRequired() {
+      return this.user.role_id && UsersService.roleWithCompany(this.user.role_id);
+    },
+  },
   watch: {
     value(newValue) {
       this.user = Object.assign({}, newValue);
+    },
+    companyRequired(newValue) {
+      if (!newValue) {
+        this.user.company_id = null;
+      }
     },
   },
   methods: {
