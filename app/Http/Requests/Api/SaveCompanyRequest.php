@@ -8,7 +8,7 @@ use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
 
 /**
- * SaveCompanyRequest form request.
+ * Request to save company details.
  *
  * @property-read string $name Company name
  * @property-read string $bin Business identification number
