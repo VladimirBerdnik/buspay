@@ -1,3 +1,5 @@
+import roles from '../enums/roles';
+
 export default {
   app: {
     title: 'BusPay',
@@ -43,6 +45,15 @@ export default {
     company: {
       title: 'Параметры компании',
     },
+    user: {
+      title:  'Параметры пользователя',
+      inputs: {
+        password: {
+          labelRequired: 'Пароль',
+          labelOptional: 'Пароль (оставьте пустым если не хотите менять)',
+        },
+      },
+    },
   },
   layout: {
     toolbar: {
@@ -71,6 +82,9 @@ export default {
   tables: {
     noResults: 'Нет результатов для выбранных параметров',
   },
+  dropdowns: {
+    noResults: '(пусто)',
+  },
   periods: {
     toNow: 'По текущее время',
   },
@@ -93,6 +107,36 @@ export default {
       buses_count:         'Автобусов',
       drivers_count:       'Водителей',
       routes_count:        'Маршрутов',
+    },
+  },
+  user: {
+    name:          'Пользователь',
+    deleteConfirm: 'Удалить пользователя {user_name}?',
+    fields:        {
+      id:         'ID',
+      first_name: 'Имя',
+      last_name:  'Фамилия',
+      email:      'Email',
+      password:   'Пароль',
+      role:       {
+        name: 'Роль',
+      },
+      company: {
+        name: 'Компания',
+      },
+    },
+  },
+  role: {
+    name:   'Роль',
+    fields: {
+      id:   'ID',
+      name: 'Название',
+    },
+    items: {
+      [roles.ADMIN]:      'Администратор',
+      [roles.SUPPORT]:    'Тех.поддержка',
+      [roles.OPERATOR]:   'Оператор',
+      [roles.GOVERNMENT]: 'Гос.служащщий',
     },
   },
   tariffPeriod: {
