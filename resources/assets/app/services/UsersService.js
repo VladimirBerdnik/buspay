@@ -1,6 +1,7 @@
 import { mapGetters, mapMutations } from 'vuex';
 import axios from '../config/axios';
 import store from '../store/index';
+import roles from '../enums/roles';
 import { USERS_MUTATION } from '../store/mutations';
 import { USERS_GETTER } from '../store/getters';
 
@@ -78,5 +79,16 @@ export default {
     }
 
     return this.users();
+  },
+
+  /**
+   * Returns whether user with given role should be with company or not.
+   *
+   * @param {number} roleId Role identifier to check
+   *
+   * @return {boolean} Witch company or not
+   */
+  roleWithCompany(roleId) {
+    return [ roles.ADMIN, roles.GOVERNMENT, roles.SUPPORT ].indexOf(roleId) === -1;
   },
 };
