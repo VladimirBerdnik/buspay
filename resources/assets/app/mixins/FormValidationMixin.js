@@ -38,5 +38,13 @@ export default {
 
       return this.$validator.validateAll();
     },
+    /**
+     * Validates single field.
+     *
+     * @param {string} fieldName Field name to validate
+     */
+    validateField(fieldName) {
+      this.$validator.validate(fieldName);
+    },
   },
 };
