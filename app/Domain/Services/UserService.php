@@ -51,7 +51,7 @@ class UserService extends EntityService
 
         $newAttributes = $userData->toArray();
 
-        if (empty($userData->password)) {
+        if (!$userData->password) {
             unset($newAttributes[UserData::PASSWORD]);
         }
 
