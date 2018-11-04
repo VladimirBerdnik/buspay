@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use Illuminate\Auth\Access\HandlesAuthorization;
 use Saritasa\LaravelControllers\Api\BaseApiController as SaritasaBaseApiController;
 
 /**
@@ -9,4 +10,5 @@ use Saritasa\LaravelControllers\Api\BaseApiController as SaritasaBaseApiControll
  */
 class BaseApiController extends SaritasaBaseApiController
 {
+    use HandlesAuthorization;
 }

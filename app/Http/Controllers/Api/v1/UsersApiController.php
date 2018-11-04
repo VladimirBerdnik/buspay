@@ -91,9 +91,13 @@ class UsersApiController extends BaseApiController
      * @return Response
      *
      * @throws RepositoryException
+     * @throws AuthorizationException
      */
     public function destroy(User $user): Response
     {
+        if ($this->user->getKey() === $user->getKey()) {
+            $this->deny();
+        }
         $this->userService->destroy($user);
 
         return $this->response->noContent();
