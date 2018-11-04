@@ -134,15 +134,12 @@ export default {
   computed: {
     companies: () => CompaniesService.getCompanies(),
   },
-  mounted() {
-    this.reloadTable();
-  },
   methods: {
     /**
      * Reloads table data.
      */
     reloadTable() {
-      CompaniesService.getCompanies(true);
+      CompaniesService.readCompanies();
     },
     /**
      * Opens company modal window to create\edit company.

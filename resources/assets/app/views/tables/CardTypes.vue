@@ -51,15 +51,12 @@ export default {
   computed: {
     cardTypes: () => CardTypesService.getCardTypes(),
   },
-  mounted() {
-    this.reloadTable();
-  },
   methods: {
     /**
      * Reloads table data.
      */
     reloadTable() {
-      CardTypesService.getCardTypes(true);
+      CardTypesService.readCardTypes();
     },
   },
 };

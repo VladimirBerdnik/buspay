@@ -130,15 +130,12 @@ export default {
   computed: {
     users: () => UsersService.getUsers(),
   },
-  mounted() {
-    this.reloadTable();
-  },
   methods: {
     /**
      * Reloads table data.
      */
     reloadTable() {
-      UsersService.getUsers(true);
+      UsersService.readUsers();
     },
     /**
      * Opens company modal window to create\edit user.

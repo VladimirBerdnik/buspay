@@ -97,13 +97,8 @@ export default {
     },
   },
   async mounted() {
-    await CardTypesService.readCardTypes();
     await TariffPeriodsService.readTariffPeriods();
     this.tariffPeriod = this.tariffPeriods[0] || null;
-
-    if (this.tariffPeriod) {
-      this.reloadTable();
-    }
   },
   methods: {
     /**

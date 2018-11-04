@@ -33,6 +33,9 @@ import AuthService from '../services/AuthService';
 import i18n from '../lang/i18n';
 import * as routes from '../router';
 import CompaniesService from '../services/CompaniesService';
+import RolesService from '../services/RolesService';
+import CardTypesService from '../services/CardTypesService';
+import UsersService from '../services/UsersService';
 
 export default {
   name: 'Cabinet',
@@ -51,7 +54,10 @@ export default {
     ],
   }),
   async mounted() {
+    await RolesService.readRoles();
+    await CardTypesService.readCardTypes();
     await CompaniesService.readCompanies();
+    await UsersService.readUsers();
   },
   methods: {
     authenticated: () => AuthService.isAuthenticated(),
