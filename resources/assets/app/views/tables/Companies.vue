@@ -53,7 +53,11 @@
           <td>{{ props.item.buses_count }}</td>
           <td>{{ props.item.drivers_count }}</td>
           <td>{{ props.item.routes_count }}</td>
-          <td>{{ props.item.users_count }}</td>
+          <td class="action-cell"
+              @click.stop="goToUsers(props.item.id)"
+          >
+            {{ props.item.users_count }}
+          </td>
           <td class="px-0">
             <div class="cell-buttons">
               <v-btn flat
@@ -94,6 +98,7 @@
 
 <script>
 import i18n from '../../lang/i18n';
+import * as routes from '../../router';
 import CompaniesService from '../../services/CompaniesService';
 import CompanyForm from '../../views/forms/CompanyForm';
 import UserInteractionService from '../../services/UserInteractionService';
@@ -177,6 +182,14 @@ export default {
             .catch(() => {});
         })
         .catch(() => {});
+    },
+    /**
+     * Navigates user to company users list page.
+     *
+     * @param {number} companyId Company identifier to display users list for
+     */
+    goToUsers(companyId) {
+      this.$router.push({ name: routes.ROUTE_USERS, query: { companyId } });
     },
   },
 };

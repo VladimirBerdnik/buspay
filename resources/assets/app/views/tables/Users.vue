@@ -8,6 +8,11 @@
       <v-layout row
                 wrap
       >
+        <CompanySelect v-model="companyId"
+                       class="mr-3"
+                       clearable
+                       @input="filterCompany"
+        />
         <v-text-field
           v-model="filter"
           append-icon="search"
@@ -95,6 +100,7 @@ import UsersService from '../../services/UsersService';
 import UserForm from '../../views/forms/UserForm';
 import UserInteractionService from '../../services/UserInteractionService';
 import AlertsService from '../../services/AlertsService';
+import CompanySelect from '../dropdowns/CompanySelect';
 
 // Table headers
 const headers = [
@@ -117,6 +123,7 @@ headers.push({ text: '', sortable: false });
 export default {
   name:       'Users',
   components: {
+    CompanySelect,
     UserForm,
   },
   data() {
@@ -125,12 +132,50 @@ export default {
       filter:           null,
       userModalVisible: false,
       userToEdit:       {},
+      companyId:        null,
     };
   },
   computed: {
-    users: () => UsersService.getUsers(),
+    users() {
+      const users = UsersService.getUsers();
+
+      if (!this.companyId) {
+        return users;
+      }
+
+      return users.filter(user => user.company_id === this.companyId);
+    },
+  },
+  watch: {
+    companyId() {
+      this.$forceUpdate();
+    },
+    $route(to) {
+      this.parseCompanyFromRoute(to);
+    },
+  },
+  mounted() {
+    this.parseCompanyFromRoute(this.$route);
   },
   methods: {
+    /**
+     * Parses company filter parameter from route query.
+     *
+     * @param {*} route Route to retrieve company identifier from.
+     */
+    parseCompanyFromRoute(route) {
+      this.companyId = Number.parseInt(route.query.companyId, 10);
+    },
+    /**
+     * Performs filtering of users by given company.
+     */
+    filterCompany() {
+      const query = Object.assign({}, this.$route.query);
+
+      // Replace company identifier parameter in current route query
+      query.companyId = this.companyId || null;
+      this.$router.push({ to: this.$route.name, query });
+    },
     /**
      * Reloads table data.
      */
