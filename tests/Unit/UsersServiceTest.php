@@ -7,6 +7,8 @@ use App\Domain\Services\UserService;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Mockery;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Tests\TestCase;
@@ -19,9 +21,12 @@ class UsersServiceTest extends TestCase
      * @return void
      *
      * @throws RepositoryException
+     * @throws ValidationException
      */
     public function testStoreMethod(): void
     {
+        Validator::shouldReceive('validate')->andReturnTrue();
+
         $usersRepository = Mockery::mock(UserRepository::class);
 
         $usersRepository->shouldReceive('create')->andReturnUsing(function (User $user) {
@@ -37,6 +42,7 @@ class UsersServiceTest extends TestCase
             UserData::ROLE_ID => 1,
             UserData::COMPANY_ID => 2,
         ]);
+
         $user = $usersService->store($userData);
         foreach ($userData->toArray() as $attribute => $value) {
             if ($attribute === UserData::PASSWORD) {
@@ -55,9 +61,12 @@ class UsersServiceTest extends TestCase
      * @return void
      *
      * @throws RepositoryException
+     * @throws ValidationException
      */
     public function testUpdateMethod(UserData $userData): void
     {
+        Validator::shouldReceive('validate')->andReturnTrue();
+
         $usersRepository = Mockery::mock(UserRepository::class);
 
         $usersRepository->shouldReceive('save')->andReturnUsing(function (User $user) {
