@@ -32,6 +32,7 @@
 import AuthService from '../services/AuthService';
 import i18n from '../lang/i18n';
 import * as routes from '../router';
+import CompaniesService from '../services/CompaniesService';
 
 export default {
   name: 'Cabinet',
@@ -49,6 +50,9 @@ export default {
       { icon: 'credit_card', text: i18n.t('layout.drawer.cards') },
     ],
   }),
+  async mounted() {
+    await CompaniesService.readCompanies();
+  },
   methods: {
     authenticated: () => AuthService.isAuthenticated(),
   },
