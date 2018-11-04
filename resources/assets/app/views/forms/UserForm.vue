@@ -70,13 +70,14 @@
                           :data-vv-as="$t('user.fields.role.name')"
                           name="role_id"
               />
-              <CompanySelect v-validate="'required'"
-                             v-if="companyRequired"
+              <CompanySelect v-validate="companyRequired ? 'required' : ''"
+                             v-show="companyRequired"
                              v-model="user.company_id"
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('user.fields.company.name')"
                              clearable
                              name="company_id"
+                             @input="validateField('company_id')"
               />
             </v-form>
           </v-card-text>
@@ -151,8 +152,8 @@ export default {
     value(newValue) {
       this.user = Object.assign({}, newValue);
     },
-    companyRequired(newValue) {
-      if (!newValue) {
+    companyRequired(required) {
+      if (!required) {
         this.user.company_id = null;
       }
     },
@@ -188,7 +189,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-</style>
