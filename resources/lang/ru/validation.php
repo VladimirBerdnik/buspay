@@ -180,12 +180,13 @@ return [
         'time' => 'Время',
         'available' => 'Доступно',
         'size' => 'Размер',
-        // General attributes
+        // Custom attributes
         'name' => 'Название',
         'id' => 'Идентификатор',
-        // Company attributes
         'bin' => 'БИН',
         'account_number' => 'Номер счета',
         'contact_information' => 'Контактная информация',
+        'role_id' => 'Роль',
+        'company_id' => 'Компания',
     ],
 ];
