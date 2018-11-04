@@ -37,25 +37,16 @@
                            indeterminate
         />
 
-        <template slot="headers"
-                  slot-scope="props"
-        >
-          <tr>
-            <th v-for="header in props.headers"
-                :key="header.text"
-            >
-              {{ header.text }}
-            </th>
-          </tr>
-        </template>
-
         <template
           slot="items"
           slot-scope="props"
         >
           <td>{{ props.item.id }}</td>
           <td class="action-cell"
-              @click.stop="openCompanyModal(props.item)">{{ props.item.name }}</td>
+              @click.stop="openCompanyModal(props.item)"
+          >
+            {{ props.item.name }}
+          </td>
           <td>{{ props.item.bin }}</td>
           <td>{{ props.item.account_number }}</td>
           <td>{{ props.item.contact_information }}</td>
@@ -124,7 +115,8 @@ Object.values(headers).forEach((header, key) => {
   headers[key].text = i18n.t(`company.fields.${header.value}`);
 });
 
-headers.push({ text: '' });
+// Actions column
+headers.push({ text: '', sortable: false });
 
 export default {
   name:       'Companies',
@@ -146,17 +138,33 @@ export default {
     this.reloadTable();
   },
   methods: {
+    /**
+     * Reloads table data.
+     */
     reloadTable() {
       CompaniesService.getCompanies(true);
     },
+    /**
+     * Opens company modal window to create\edit company.
+     *
+     * @param {Company} companyToEdit Company to edit
+     */
     openCompanyModal(companyToEdit) {
       this.companyToEdit = companyToEdit;
       this.companyModalVisible = true;
     },
+    /**
+     * Closes company details modal window.
+     */
     closeCompanyModal() {
       this.companyModalVisible = false;
       this.companyToEdit = {};
     },
+    /**
+     * Deletes company.
+     *
+     * @param {Company} company Company to delete
+     */
     deleteCompany(company) {
       UserInteractionService.handleConfirm({
         message: this.$i18n.t('company.deleteConfirm', { company: company.name }),

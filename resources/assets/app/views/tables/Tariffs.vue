@@ -37,18 +37,6 @@
                            indeterminate
         />
 
-        <template slot="headers"
-                  slot-scope="props"
-        >
-          <tr>
-            <th v-for="header in props.headers"
-                :key="header.text"
-            >
-              {{ header.text }}
-            </th>
-          </tr>
-        </template>
-
         <template slot="items"
                   slot-scope="props"
         >
@@ -97,7 +85,7 @@ export default {
       ];
 
       this.cardTypes.forEach(cardType => {
-        headers.push({ value: cardType.id, text: cardType.name });
+        headers.push({ value: cardType.id, text: cardType.name, sortable: false });
       });
 
       return headers;
