@@ -12,7 +12,7 @@
             transition="slide-y-reverse-transition"
             class="custom-alert"
           >
-            <b>{{ showAlert(alert) }}</b>
+            <b>{{ getAlertMessage(alert) }}</b>
           </v-alert>
         </v-flex>
       </v-layout>
@@ -29,10 +29,16 @@ export default {
     alerts: () => AlertsService.getAlerts(),
   },
   methods: {
-    showAlert(alert) {
-      setTimeout(() => {
-        AlertsService.removeAlert(alert);
-      }, 5000);
+    getAlertMessage(alert) {
+      // Called from markup to retrieve alert text and register alert disappearing.
+      if (!alert.disappearing) {
+        setTimeout(() => {
+          AlertsService.removeAlert(alert);
+        }, 5000);
+      }
+
+      // eslint-disable-next-line no-unused-expressions,no-param-reassign
+      alert.disappearing = true;
 
       return alert.message;
     },

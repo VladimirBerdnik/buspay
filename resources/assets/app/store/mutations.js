@@ -267,8 +267,11 @@ export default {
    */
   [FORGOT_ALERT_MUTATION](state, alert) {
     const { alerts } = state;
+    const alertPosition = alerts.indexOf(alert);
 
-    alerts.splice(alerts.indexOf(alert), 1);
-    state.alerts = alerts;
+    if (alertPosition !== -1) {
+      alerts.splice(alertPosition, 1);
+      state.alerts = alerts;
+    }
   },
 };
