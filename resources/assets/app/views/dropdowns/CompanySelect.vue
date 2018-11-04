@@ -10,7 +10,6 @@
     item-text="name"
     item-value="id"
     persistent-hint
-    prepend-icon="business"
   />
 </template>
 
