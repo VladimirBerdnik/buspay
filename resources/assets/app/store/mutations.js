@@ -20,6 +20,7 @@ export const TARIFF_PERIODS_MUTATION = 'tariffPeriodsMutation';
 export const TARIFFS_MUTATION = 'tariffsMutation';
 export const COMPANIES_MUTATION = 'companiesMutation';
 export const USERS_MUTATION = 'usersMutation';
+export const ROLES_MUTATION = 'rolesMutation';
 
 export default {
   /************************************
@@ -137,6 +138,21 @@ export default {
    */
   [USERS_MUTATION](state, users) {
     state.users = users;
+  },
+
+  /***************************
+   * ROLES RELATED MUTATIONS *
+   **************************/
+  /**
+   * Stores list of roles in application.
+   *
+   * @param {Object} state - Vuex state.
+   * @param {Object[]} roles - List of roles.
+   *
+   * @return void
+   */
+  [ROLES_MUTATION](state, roles) {
+    state.roles = roles;
   },
 
   /**************************************

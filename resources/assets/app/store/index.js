@@ -39,6 +39,7 @@ export default new Vuex.Store({
     tariffs:       [],
     companies:     [],
     users:         [],
+    roles:         [],
   },
   mutations,
   getters,
