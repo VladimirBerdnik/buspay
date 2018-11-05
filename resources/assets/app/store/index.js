@@ -40,6 +40,7 @@ export default new Vuex.Store({
     companies:     [],
     users:         [],
     roles:         [],
+    routes:        [],
   },
   mutations,
   getters,

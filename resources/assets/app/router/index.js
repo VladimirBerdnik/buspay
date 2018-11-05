@@ -6,6 +6,7 @@ import CardTypes from '../views/tables/CardTypes';
 import Tariffs from '../views/tables/Tariffs';
 import Companies from '../views/tables/Companies';
 import Users from '../views/tables/Users';
+import Routes from '../views/tables/Routes';
 
 export const ROUTE_HOME = 'home';
 export const ROUTE_CABINET = 'cabinet';
@@ -13,6 +14,7 @@ export const ROUTE_CARD_TYPES = 'cardTypes';
 export const ROUTE_TARIFFS = 'tariffs';
 export const ROUTE_COMPANIES = 'companies';
 export const ROUTE_USERS = 'users';
+export const ROUTE_ROUTES = 'routes';
 
 Vue.use(Router);
 
@@ -32,6 +34,7 @@ export default new Router({
       { path: 'tariffs', component: Tariffs, name: ROUTE_TARIFFS },
       { path: 'companies', component: Companies, name: ROUTE_COMPANIES },
       { path: 'users', component: Users, name: ROUTE_USERS },
+      { path: 'routes', component: Routes, name: ROUTE_ROUTES },
     ],
   } ],
 });

@@ -57,6 +57,15 @@
  */
 
 /**
+ * Determines bus route that transport company serves by it's buses.
+ *
+ * @typedef {Object} Route
+ * @property {number} id - Route identifier.
+ * @property {string} name - Route name.
+ * @property {Company|null} company - Transport company that is now assigned to route.
+ */
+
+/**
  * Transport company with buses that can serve routes. Company users have access to application.
  *
  * @typedef {Object} Company

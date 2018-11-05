@@ -45,6 +45,9 @@ export default {
     company: {
       title: 'Параметры компании',
     },
+    route: {
+      title: 'Параметры маршрута',
+    },
     user: {
       title:  'Параметры пользователя',
       inputs: {
@@ -125,6 +128,18 @@ export default {
       company: {
         name: 'Компания',
       },
+    },
+  },
+  route: {
+    name:          'Маршрут',
+    deleteConfirm: 'Удалить маршрут {route_name}?',
+    fields:        {
+      id:      'ID',
+      name:    'Название',
+      company: {
+        name: 'Компания',
+      },
+      buses_count: 'Автобусов',
     },
   },
   role: {

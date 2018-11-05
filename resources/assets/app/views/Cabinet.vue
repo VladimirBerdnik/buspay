@@ -36,6 +36,7 @@ import CompaniesService from '../services/CompaniesService';
 import RolesService from '../services/RolesService';
 import CardTypesService from '../services/CardTypesService';
 import UsersService from '../services/UsersService';
+import RoutesService from '../services/RoutesService';
 
 export default {
   name: 'Cabinet',
@@ -43,7 +44,7 @@ export default {
     menuItems: [
       { icon: 'business', text: i18n.t('layout.drawer.companies'), to: { name: routes.ROUTE_COMPANIES } },
       { icon: 'supervisor_account', text: i18n.t('layout.drawer.users'), to: { name: routes.ROUTE_USERS } },
-      { icon: 'map', text: i18n.t('layout.drawer.routes') },
+      { icon: 'map', text: i18n.t('layout.drawer.routes'), to: { name: routes.ROUTE_ROUTES } },
       { icon: 'directions_bus', text: i18n.t('layout.drawer.buses') },
       { icon: 'recent_actors', text: i18n.t('layout.drawer.drivers') },
       { icon: 'nfc', text: i18n.t('layout.drawer.validators') },
@@ -58,6 +59,7 @@ export default {
     await CardTypesService.readCardTypes();
     await CompaniesService.readCompanies();
     await UsersService.readUsers();
+    await RoutesService.readRoutes();
   },
   methods: {
     authenticated: () => AuthService.isAuthenticated(),

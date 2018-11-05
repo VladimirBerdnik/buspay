@@ -11,6 +11,7 @@ export const TARIFFS_GETTER = 'tariffs';
 export const COMPANIES_GETTER = 'companies';
 export const USERS_GETTER = 'users';
 export const ROLES_GETTER = 'roles';
+export const ROUTES_GETTER = 'routes';
 
 export default {
   /**********************************
@@ -65,6 +66,11 @@ export default {
    * ROLES RELATED GETTERS *
    ************************/
   [ROLES_GETTER]: state => state.roles,
+
+  /**************************
+   * ROUTES RELATED GETTERS *
+   *************************/
+  [ROUTES_GETTER]: state => state.routes,
 
   /************************************
    * USER INTERACTION RELATED GETTERS *

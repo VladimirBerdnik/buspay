@@ -21,6 +21,7 @@ export const TARIFFS_MUTATION = 'tariffsMutation';
 export const COMPANIES_MUTATION = 'companiesMutation';
 export const USERS_MUTATION = 'usersMutation';
 export const ROLES_MUTATION = 'rolesMutation';
+export const ROUTES_MUTATION = 'routesMutation';
 
 export default {
   /************************************
@@ -153,6 +154,21 @@ export default {
    */
   [ROLES_MUTATION](state, roles) {
     state.roles = roles;
+  },
+
+  /****************************
+   * ROUTES RELATED MUTATIONS *
+   ***************************/
+  /**
+   * Stores list of bus routes in application.
+   *
+   * @param {Object} state - Vuex state.
+   * @param {Object[]} routes - List of routes.
+   *
+   * @return void
+   */
+  [ROUTES_MUTATION](state, routes) {
+    state.routes = routes;
   },
 
   /**************************************
