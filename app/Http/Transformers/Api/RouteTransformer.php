@@ -53,6 +53,8 @@ class RouteTransformer extends BaseTransformer
             'id' => $route->id,
             'name' => $route->name,
             'company_id' => $route->company_id,
+            // possible related records count
+            'buses_count' => $route->getAttribute('buses_count'),
         ];
     }
 
