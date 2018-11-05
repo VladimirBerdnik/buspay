@@ -2,11 +2,18 @@
 
 namespace App\Exceptions;
 
+use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
+use App\Domain\Exceptions\Constraint\CompanyDeletionException;
+use App\Domain\Exceptions\Constraint\RouteDeletionException;
+use App\Domain\Exceptions\Constraint\RouteReassignException;
 use Dingo\Api\Facade\API;
+use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Saritasa\DingoApi\Exceptions\ApiExceptionHandler as DingoApiExceptionHandler;
 use Saritasa\Exceptions\InvalidEnumValueException;
+use Saritasa\LaravelControllers\Responses\ErrorMessage;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -41,5 +48,33 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
                 new TranslatableValidationException($exception->validator, $exception->response, $exception->errorBag)
             );
         });
+        API::error(function (BusinessLogicConstraintException $exception) {
+            return $this->genericResponse($exception);
+        });
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param Exception $exception Exception to render
+     *
+     * @return Response
+     *
+     * @throws Exception
+     */
+    protected function genericResponse(Exception $exception): Response
+    {
+        if ($exception instanceof RouteDeletionException) {
+            return response()
+                ->json(new ErrorMessage(trans('exceptions.routeDeletionException')), Response::HTTP_BAD_REQUEST);
+        } elseif ($exception instanceof RouteReassignException) {
+            return response()
+                ->json(new ErrorMessage(trans('exceptions.routeReassignmentException')), Response::HTTP_BAD_REQUEST);
+        } elseif ($exception instanceof CompanyDeletionException) {
+            return response()
+                ->json(new ErrorMessage(trans('exceptions.companyDeletionException')), Response::HTTP_BAD_REQUEST);
+        }
+
+        return parent::genericResponse($exception);
     }
 }
