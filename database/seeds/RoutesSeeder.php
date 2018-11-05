@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\CompaniesRoute;
 use App\Models\Company;
 use App\Models\Route;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class RoutesSeeder extends Seeder
@@ -13,11 +15,16 @@ class RoutesSeeder extends Seeder
      */
     public function run()
     {
-        factory(Route::class, 20)->make()->each(function (Route $route) {
+        factory(Route::class, 20)->create()->each(function (Route $route) {
             if (random_int(0, 1)) {
                 $route->company_id = Company::query()->inRandomOrder()->first()->getKey();
+                CompaniesRoute::query()->create([
+                    CompaniesRoute::COMPANY_ID => $route->company_id,
+                    CompaniesRoute::ROUTE_ID => $route->id,
+                    CompaniesRoute::ACTIVE_FROM => Carbon::now(),
+                ]);
+                $route->save();
             }
-            $route->save();
         });
     }
 }
