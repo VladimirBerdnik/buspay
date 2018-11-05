@@ -52,7 +52,11 @@
           <td>{{ props.item.contact_information }}</td>
           <td>{{ props.item.buses_count }}</td>
           <td>{{ props.item.drivers_count }}</td>
-          <td>{{ props.item.routes_count }}</td>
+          <td class="action-cell"
+              @click.stop="goToRoutes(props.item.id)"
+          >
+            {{ props.item.routes_count }}
+          </td>
           <td class="action-cell"
               @click.stop="goToUsers(props.item.id)"
           >
@@ -190,6 +194,14 @@ export default {
      */
     goToUsers(companyId) {
       this.$router.push({ name: routes.ROUTE_USERS, query: { companyId } });
+    },
+    /**
+     * Navigates user to company routes list page.
+     *
+     * @param {number} companyId Company identifier to display routes list for
+     */
+    goToRoutes(companyId) {
+      this.$router.push({ name: routes.ROUTE_ROUTES, query: { companyId } });
     },
   },
 };

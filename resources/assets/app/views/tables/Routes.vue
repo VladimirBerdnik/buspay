@@ -22,7 +22,7 @@
           clearable
         />
         <v-btn color="primary"
-               @click="openRouteModal({})"
+               @click="openRouteModal({company_id: companyId})"
         >
           {{ $t('common.buttons.add') }}
         </v-btn>
