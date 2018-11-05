@@ -53,7 +53,7 @@ export default {
     },
   },
   mounted() {
-    ProfileService.getProfile(true);
+    ProfileService.readProfile();
   },
   methods: {
     /**
