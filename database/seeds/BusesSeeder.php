@@ -14,7 +14,7 @@ class BusesSeeder extends Seeder
     public function run()
     {
         Company::query()->get()->each(function (Company $company) {
-            factory(Bus::class, 20)->create([Bus::COMPANY_ID => $company->getKey()]);
+            factory(Bus::class, random_int(10, 40))->create([Bus::COMPANY_ID => $company->getKey()]);
         });
     }
 }

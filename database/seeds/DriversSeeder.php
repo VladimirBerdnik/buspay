@@ -14,7 +14,7 @@ class DriversSeeder extends Seeder
     public function run()
     {
         Company::query()->get()->each(function (Company $company) {
-            factory(Driver::class, 20)->create([Driver::COMPANY_ID => $company->getKey()]);
+            factory(Driver::class, random_int(20, 50))->create([Driver::COMPANY_ID => $company->getKey()]);
         });
     }
 }

@@ -15,7 +15,7 @@ class CompanyUsersSeeder extends Seeder
     public function run()
     {
         Company::query()->get()->each(function (Company $company) {
-            factory(User::class, 2)->create([
+            factory(User::class, random_int(1, 3))->create([
                 User::COMPANY_ID => $company->getKey(),
                 User::ROLE_ID => RolesIdentifiers::OPERATOR,
             ]);
