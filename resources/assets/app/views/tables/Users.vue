@@ -11,7 +11,7 @@
         <CompanySelect v-model="companyId"
                        class="mr-3"
                        clearable
-                       @input="filterCompany"
+                       @input="switchCompany"
         />
         <v-text-field
           v-model="filter"
@@ -101,6 +101,7 @@ import UserForm from '../../views/forms/UserForm';
 import UserInteractionService from '../../services/UserInteractionService';
 import AlertsService from '../../services/AlertsService';
 import CompanySelect from '../dropdowns/CompanySelect';
+import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
 
 // Table headers
 const headers = [
@@ -126,13 +127,13 @@ export default {
     CompanySelect,
     UserForm,
   },
+  mixins: [WithCompanyFilterMixin],
   data() {
     return {
       headers,
       filter:           null,
       userModalVisible: false,
       userToEdit:       {},
-      companyId:        null,
     };
   },
   computed: {
@@ -146,36 +147,7 @@ export default {
       return users.filter(user => user.company_id === this.companyId);
     },
   },
-  watch: {
-    companyId() {
-      this.$forceUpdate();
-    },
-    $route(to) {
-      this.parseCompanyFromRoute(to);
-    },
-  },
-  mounted() {
-    this.parseCompanyFromRoute(this.$route);
-  },
   methods: {
-    /**
-     * Parses company filter parameter from route query.
-     *
-     * @param {*} route Route to retrieve company identifier from.
-     */
-    parseCompanyFromRoute(route) {
-      this.companyId = Number.parseInt(route.query.companyId, 10);
-    },
-    /**
-     * Performs filtering of users by given company.
-     */
-    filterCompany() {
-      const query = Object.assign({}, this.$route.query);
-
-      // Replace company identifier parameter in current route query
-      query.companyId = this.companyId || null;
-      this.$router.push({ to: this.$route.name, query });
-    },
     /**
      * Reloads table data.
      */
