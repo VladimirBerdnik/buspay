@@ -29,11 +29,11 @@ class TooManyTariffPeriodsForDateException extends BusinessLogicIntegrityExcepti
      * Thrown when multiple tariff periods for date are exists.
      *
      * @param Carbon $date Date for which many tariff periods exists
-     * @param Collection $tariffPeriods List of tariff periods for date
+     * @param Collection|TariffPeriod[] $tariffPeriods List of tariff periods for date
      */
     public function __construct(Carbon $date, Collection $tariffPeriods)
     {
-        parent::__construct('Несколько периодов тарифов на дату');
+        parent::__construct('Few tariff periods for date');
         $this->date = $date;
         $this->tariffPeriods = $tariffPeriods;
     }
@@ -68,7 +68,6 @@ class TooManyTariffPeriodsForDateException extends BusinessLogicIntegrityExcepti
         $periodsIdentifiers = $this->getTariffPeriods()->pluck(TariffPeriod::ID)->toArray();
         $date = $this->getDate()->toIso8601String();
 
-        return "На дату {$date} есть несколько периодов тарифов: " .
-            implode(', ', $periodsIdentifiers);
+        return "For date {$date} few tariff periods exists: " . implode(', ', $periodsIdentifiers);
     }
 }

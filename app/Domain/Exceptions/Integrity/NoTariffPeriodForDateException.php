@@ -23,7 +23,7 @@ class NoTariffPeriodForDateException extends BusinessLogicIntegrityException
      */
     public function __construct(Carbon $date)
     {
-        parent::__construct('Нет периода тарифа на дату');
+        parent::__construct('No tariff period for date');
         $this->date = $date;
     }
 
@@ -44,6 +44,6 @@ class NoTariffPeriodForDateException extends BusinessLogicIntegrityException
      */
     public function __toString(): string
     {
-        return "На дату {$this->getDate()->toIso8601String()} нет периода тарифа";
+        return "No tariff period for date {$this->getDate()->toIso8601String()}";
     }
 }
