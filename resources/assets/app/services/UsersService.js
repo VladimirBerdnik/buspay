@@ -54,7 +54,6 @@ export default {
     return response.data;
   },
 
-
   /**
    * Deletes user.
    *
@@ -69,15 +68,9 @@ export default {
   /**
    * Returns list of users.
    *
-   * @param {boolean} forceFresh Force service to read actual information
-   *
    * @return {User[]}
    */
-  getUsers(forceFresh = false) {
-    if (forceFresh) {
-      this.readUsers();
-    }
-
+  getUsers() {
     return this.users();
   },
 

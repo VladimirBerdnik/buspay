@@ -41,14 +41,9 @@ export default {
   /**
    * Returns authenticated user details.
    *
-   * @param {boolean} forceFresh Force service to read actual information
    * @return {User}
    */
-  getProfile(forceFresh = false) {
-    if (forceFresh) {
-      this.readProfile();
-    }
-
+  getProfile() {
     return this.profile();
   },
 };

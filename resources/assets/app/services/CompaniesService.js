@@ -53,7 +53,6 @@ export default {
     return response.data;
   },
 
-
   /**
    * Deletes company.
    *
@@ -68,15 +67,9 @@ export default {
   /**
    * Returns list of companies.
    *
-   * @param {boolean} forceFresh Force service to read actual information
-   *
    * @return {Company[]}
    */
-  getCompanies(forceFresh = false) {
-    if (forceFresh) {
-      this.readCompanies();
-    }
-
+  getCompanies() {
     return this.companies();
   },
 };

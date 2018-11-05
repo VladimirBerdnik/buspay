@@ -39,15 +39,9 @@ export default {
   /**
    * Returns list of tariffs.
    *
-   * @param {boolean} forceFresh Force service to read actual information
-   *
    * @return {Tariff[]}
    */
-  getTariffs(forceFresh = false) {
-    if (forceFresh) {
-      this.readTariffs();
-    }
-
+  getTariffs() {
     return this.tariffs();
   },
 };

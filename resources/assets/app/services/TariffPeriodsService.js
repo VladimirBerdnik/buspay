@@ -37,15 +37,9 @@ export default {
   /**
    * Returns list of tariff periods.
    *
-   * @param {boolean} forceFresh Force service to read actual information
-   *
    * @return {TariffPeriod[]}
    */
-  getTariffPeriods(forceFresh = false) {
-    if (forceFresh) {
-      this.readTariffPeriods();
-    }
-
+  getTariffPeriods() {
     return this.tariffPeriods();
   },
 };

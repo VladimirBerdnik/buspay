@@ -37,14 +37,9 @@ export default {
   /**
    * Returns list of card types.
    *
-   * @param {boolean} forceFresh Force service to read actual information
    * @return {CardType[]}
    */
-  getCardTypes(forceFresh = false) {
-    if (forceFresh) {
-      this.readCardTypes();
-    }
-
+  getCardTypes() {
     return this.cardTypes();
   },
 };

@@ -57,7 +57,6 @@ export default {
     loginDetails:        LOGIN_MODAL_GETTER,
   }),
 
-
   /**
    * Open login dialog and wait login results.
    *

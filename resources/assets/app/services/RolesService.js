@@ -37,15 +37,9 @@ export default {
   /**
    * Returns list of roles.
    *
-   * @param {boolean} forceFresh Force service to read actual information
-   *
    * @return {Role[]}
    */
-  getRoles(forceFresh = false) {
-    if (forceFresh) {
-      this.readRoles();
-    }
-
+  getRoles() {
     return this.roles();
   },
 };
