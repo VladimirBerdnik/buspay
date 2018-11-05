@@ -62,6 +62,7 @@
  * @typedef {Object} Route
  * @property {number} id - Route identifier.
  * @property {string} name - Route name.
+ * @property {number|null} buses_count - Assigned to route buses count.
  * @property {Company|null} company - Transport company that is now assigned to route.
  */
 
