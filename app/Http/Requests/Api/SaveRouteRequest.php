@@ -8,7 +8,7 @@ use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
 
 /**
- * SaveRouteRequest form request.
+ * Request with route details to save.
  *
  * @property-read integer|null $company_id Currently assigned to route company identifier
  * @property-read string $name Route name AKA "bus number"
@@ -23,8 +23,8 @@ class SaveRouteRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            Route::COMPANY_ID => Rule::nullable()->exists('companies', 'id')->int(),
-            Route::NAME => Rule::required()->string()->max(191),
+            Route::COMPANY_ID => Rule::nullable()->int(),
+            Route::NAME => Rule::required()->string()->max(16),
         ];
     }
 

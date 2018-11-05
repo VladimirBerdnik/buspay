@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\RolesApiController;
+use App\Http\Controllers\Api\v1\RoutesApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
@@ -30,6 +31,7 @@ use App\Http\Transformers\Api\CardTypeTransformer;
 use App\Http\Transformers\Api\CompanyTransformer;
 use App\Http\Transformers\Api\ProfileTransformer;
 use App\Http\Transformers\Api\RoleTransformer;
+use App\Http\Transformers\Api\RouteTransformer;
 use App\Http\Transformers\Api\TariffPeriodTransformer;
 use App\Http\Transformers\Api\TariffTransformer;
 use App\Repositories\BusesValidatorRepository;
@@ -124,8 +126,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(CompaniesApiController::class)
             ->needs(IDataTransformer::class)
             ->give(CompanyTransformer::class);
-        $this->app->when(RolesApiController::class)
-            ->needs(IDataTransformer::class)
-            ->give(RoleTransformer::class);
+        $this->app->when(RolesApiController::class)->needs(IDataTransformer::class)->give(RoleTransformer::class);
+        $this->app->when(RoutesApiController::class)->needs(IDataTransformer::class)->give(RouteTransformer::class);
     }
 }
