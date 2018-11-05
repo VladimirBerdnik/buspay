@@ -8,12 +8,12 @@ use Saritasa\Transformers\BaseTransformer;
 use Saritasa\Transformers\Exceptions\TransformTypeMismatchException;
 
 /**
- * Transforms role to display as user role relation.
+ * Transforms role to display details.
  */
 class RoleTransformer extends BaseTransformer
 {
     /**
-     * Transforms role to display as user role relation.
+     * Transforms role to display details.
      *
      * @param Arrayable $model Model to transform
      *
@@ -41,7 +41,6 @@ class RoleTransformer extends BaseTransformer
     {
         return [
             'id' => $role->id,
-            'slug' => $role->slug,
             'name' => $role->name,
         ];
     }

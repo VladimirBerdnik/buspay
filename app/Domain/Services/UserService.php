@@ -5,6 +5,8 @@ namespace App\Domain\Services;
 use App\Domain\Dto\UserData;
 use App\Domain\Enums\RolesIdentifiers;
 use App\Extensions\EntityService;
+use App\Models\Company;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Validation\Rules\Unique;
 use Illuminate\Validation\ValidationException;
@@ -38,19 +40,19 @@ class UserService extends EntityService
     protected function getUserValidationRules(UserData $userData, User $user): array
     {
         return [
-            User::ROLE_ID => Rule::required()->exists('roles', 'id')->int(),
+            User::ROLE_ID => Rule::required()->exists('roles', Role::ID)->int(),
             User::FIRST_NAME => Rule::required()->string()->max(64),
             User::LAST_NAME => Rule::required()->string()->max(64),
             User::COMPANY_ID => Rule::when(
                 in_array($userData->role_id, $this->rolesWithCompany),
                 function (RuleSet $rules) {
-                    return $rules->exists('companies', 'id')->required();
+                    return $rules->exists('companies', Company::ID)->required();
                 },
                 function (RuleSet $rules) {
                     return $rules->nullable()->max(0);
                 }
             ),
-            User::EMAIL => Rule::unique('users', 'email', function (Unique $rule) use ($user) {
+            User::EMAIL => Rule::unique('users', User::EMAIL, function (Unique $rule) use ($user) {
                 if ($user->exists) {
                     $rule->whereNot(User::ID, $user->id);
                 }
