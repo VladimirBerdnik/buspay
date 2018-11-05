@@ -7,6 +7,7 @@ use App\Domain\Services\UserService;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Mockery;
@@ -26,6 +27,7 @@ class UsersServiceTest extends TestCase
     public function testStoreMethod(): void
     {
         Validator::shouldReceive('validate')->andReturnTrue();
+        Log::shouldReceive('debug')->andReturnTrue();
 
         $usersRepository = Mockery::mock(UserRepository::class);
 
@@ -66,6 +68,7 @@ class UsersServiceTest extends TestCase
     public function testUpdateMethod(UserData $userData): void
     {
         Validator::shouldReceive('validate')->andReturnTrue();
+        Log::shouldReceive('debug')->andReturnTrue();
 
         $usersRepository = Mockery::mock(UserRepository::class);
 

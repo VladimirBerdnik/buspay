@@ -10,6 +10,7 @@ use App\Repositories\TariffPeriodRepository;
 use Carbon\Carbon;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Mockery;
 use Tests\TestCase;
 
@@ -25,6 +26,7 @@ class TariffPeriodsServiceTest extends TestCase
     public function testExceptionWhenMultipleForDate(): void
     {
         $tariffPeriodsRepository = Mockery::mock(TariffPeriodRepository::class);
+        Log::shouldReceive('debug')->andReturnTrue();
 
         $tariffPeriods = new Collection([new TariffPeriod(), new TariffPeriod()]);
         $tariffPeriodsRepository->shouldReceive('getWith')->andReturn($tariffPeriods);
@@ -47,6 +49,7 @@ class TariffPeriodsServiceTest extends TestCase
     public function testExceptionWhenNoForNow(): void
     {
         $tariffPeriodsRepository = Mockery::mock(TariffPeriodRepository::class);
+        Log::shouldReceive('debug')->andReturnTrue();
 
         $tariffPeriods = new Collection([]);
         $tariffPeriodsRepository->shouldReceive('getWith')->andReturn($tariffPeriods);
