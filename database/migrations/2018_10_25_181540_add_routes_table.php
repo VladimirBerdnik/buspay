@@ -15,7 +15,7 @@ class AddRoutesTable extends Migration
     {
         Schema::create('routes', function (Blueprint $table) {
             $table->increments('id')->comment('Route unique identifier');
-            $table->string('name')->comment('Route name AKA "bus number"');
+            $table->string('name', 16)->comment('Route name AKA "bus number"');
             $table->unsignedInteger('company_id')
                 ->nullable()
                 ->comment('Currently assigned to route company identifier');
