@@ -1,29 +1,26 @@
 import jwtDecode from 'jwt-decode';
 
-export const LOGIN_MUTATION = 'loginMutation';
-export const LOGOUT_MUTATION = 'logoutMutation';
-export const OPEN_CONFIRMATION_MODAL_MUTATION =
-  'openConfirmationModalMutation';
-export const CLOSE_CONFIRMATION_MODAL_MUTATION =
-  'closeConfirmationModalMutation';
-export const OPEN_ERROR_NOTIFICATION_MODAL_MUTATION =
-  'openErrorNotificationModalMutation';
-export const CLOSE_ERROR_NOTIFICATION_MODAL_MUTATION =
-  'closeErrorNotificationModalMutation';
-export const OPEN_LOGIN_MODAL_MUTATION = 'openLoginModalMutation';
-export const CLOSE_LOGIN_MODAL_MUTATION = 'closeLoginModalMutation';
-export const ADD_ALERT_MUTATION = 'addAlertMutation';
-export const FORGOT_ALERT_MUTATION = 'forgotAlertMutation';
-export const PROFILE_MUTATION = 'profileMutation';
-export const CARD_TYPES_MUTATION = 'cardTypesMutation';
-export const TARIFF_PERIODS_MUTATION = 'tariffPeriodsMutation';
-export const TARIFFS_MUTATION = 'tariffsMutation';
-export const COMPANIES_MUTATION = 'companiesMutation';
-export const USERS_MUTATION = 'usersMutation';
-export const ROLES_MUTATION = 'rolesMutation';
-export const ROUTES_MUTATION = 'routesMutation';
+export const LOGIN_MUTATION = 'login';
+export const LOGOUT_MUTATION = 'logout';
+export const OPEN_CONFIRMATION_MODAL_MUTATION = 'openConfirmationModal';
+export const CLOSE_CONFIRMATION_MODAL_MUTATION = 'closeConfirmationModal';
+export const OPEN_ERROR_NOTIFICATION_MODAL_MUTATION = 'openErrorNotificationModal';
+export const CLOSE_ERROR_NOTIFICATION_MODAL_MUTATION = 'closeErrorNotificationModal';
+export const OPEN_LOGIN_MODAL_MUTATION = 'openLoginModal';
+export const CLOSE_LOGIN_MODAL_MUTATION = 'closeLoginModal';
+export const ADD_ALERT_MUTATION = 'addAlert';
+export const FORGOT_ALERT_MUTATION = 'forgotAlert';
+export const PROFILE_MUTATION = 'profile';
+export const CARD_TYPES_MUTATION = 'cardTypes';
+export const TARIFF_PERIODS_MUTATION = 'tariffPeriods';
+export const TARIFFS_MUTATION = 'tariffs';
+export const COMPANIES_MUTATION = 'companies';
+export const USERS_MUTATION = 'users';
+export const ROLES_MUTATION = 'roles';
+export const ROUTES_MUTATION = 'routes';
+export const BUSES_MUTATION = 'buses';
 
-export default {
+const mutations = {
   /************************************
    * AUTHENTICATION RELATED MUTATIONS *
    ***********************************/
@@ -68,107 +65,6 @@ export default {
    */
   [PROFILE_MUTATION](state, user) {
     state.auth.user = user;
-  },
-
-  /********************************
-   * CARD TYPES RELATED MUTATIONS *
-   *******************************/
-  /**
-   * Stores list of card types in application.
-   *
-   * @param {Object} state - Vuex state.
-   * @param {Object[]} cardTypes - List of card types.
-   *
-   * @return void
-   */
-  [CARD_TYPES_MUTATION](state, cardTypes) {
-    state.cardTypes = cardTypes;
-  },
-
-  /*****************************
-   * TARIFFS RELATED MUTATIONS *
-   ****************************/
-  /**
-   * Stores list of tariff periods in application.
-   *
-   * @param {Object} state - Vuex state.
-   * @param {Object[]} tariffPeriods - List of tariff periods.
-   *
-   * @return void
-   */
-  [TARIFF_PERIODS_MUTATION](state, tariffPeriods) {
-    state.tariffPeriods = tariffPeriods;
-  },
-  /**
-   * Stores list of tariffs in application.
-   *
-   * @param {Object} state - Vuex state.
-   * @param {Object[]} tariffs - List of tariff.
-   *
-   * @return void
-   */
-  [TARIFFS_MUTATION](state, tariffs) {
-    state.tariffs = tariffs;
-  },
-
-  /*******************************
-   * COMPANIES RELATED MUTATIONS *
-   ******************************/
-  /**
-   * Stores list of companies in application.
-   *
-   * @param {Object} state - Vuex state.
-   * @param {Object[]} companies - List of companies.
-   *
-   * @return void
-   */
-  [COMPANIES_MUTATION](state, companies) {
-    state.companies = companies;
-  },
-
-  /***************************
-   * USERS RELATED MUTATIONS *
-   **************************/
-  /**
-   * Stores list of users in application.
-   *
-   * @param {Object} state - Vuex state.
-   * @param {Object[]} users - List of users.
-   *
-   * @return void
-   */
-  [USERS_MUTATION](state, users) {
-    state.users = users;
-  },
-
-  /***************************
-   * ROLES RELATED MUTATIONS *
-   **************************/
-  /**
-   * Stores list of roles in application.
-   *
-   * @param {Object} state - Vuex state.
-   * @param {Object[]} roles - List of roles.
-   *
-   * @return void
-   */
-  [ROLES_MUTATION](state, roles) {
-    state.roles = roles;
-  },
-
-  /****************************
-   * ROUTES RELATED MUTATIONS *
-   ***************************/
-  /**
-   * Stores list of bus routes in application.
-   *
-   * @param {Object} state - Vuex state.
-   * @param {Object[]} routes - List of routes.
-   *
-   * @return void
-   */
-  [ROUTES_MUTATION](state, routes) {
-    state.routes = routes;
   },
 
   /**************************************
@@ -291,3 +187,25 @@ export default {
     }
   },
 };
+
+/**
+ * List of simple mutations that sets same value to storage as it's names.
+ *
+ * @type {string[]}
+ */
+const simpleMutations = [
+  CARD_TYPES_MUTATION,
+  TARIFF_PERIODS_MUTATION,
+  TARIFFS_MUTATION,
+  COMPANIES_MUTATION,
+  USERS_MUTATION,
+  ROLES_MUTATION,
+  ROUTES_MUTATION,
+  BUSES_MUTATION,
+];
+
+simpleMutations.forEach(mutationType => {
+  mutations[mutationType] = (state, data) => { state[mutationType] = data; };
+});
+
+export default mutations;

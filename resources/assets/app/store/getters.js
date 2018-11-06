@@ -12,11 +12,9 @@ export const COMPANIES_GETTER = 'companies';
 export const USERS_GETTER = 'users';
 export const ROLES_GETTER = 'roles';
 export const ROUTES_GETTER = 'routes';
+export const BUSES_GETTER = 'buses';
 
-export default {
-  /**********************************
-   * AUTHENTICATION RELATED GETTERS *
-   **********************************/
+const getters = {
   /**
    * Returns authentication token.
    *
@@ -35,77 +33,38 @@ export default {
    */
   [AUTHENTICATED_GETTER]: state => state.auth.authenticated,
 
-  /********************************
-   * USER PROFILE RELATED GETTERS *
-   *******************************/
+  /**
+   * Returns authenticated user details.
+   *
+   * @param {Object} state - Vuex state.
+   *
+   * @return {User}
+   */
   [PROFILE_GETTER]: state => state.auth.user,
-
-  /******************************
-   * CARD TYPES RELATED GETTERS *
-   *****************************/
-  [CARD_TYPES_GETTER]: state => state.cardTypes,
-
-  /**************************
-   * TARIFF RELATED GETTERS *
-   *************************/
-  [TARIFF_PERIODS_GETTER]: state => state.tariffPeriods,
-
-  [TARIFFS_GETTER]: state => state.tariffs,
-
-  /*****************************
-   * COMPANIES RELATED GETTERS *
-   ****************************/
-  [COMPANIES_GETTER]: state => state.companies,
-
-  /*************************
-   * USERS RELATED GETTERS *
-   ************************/
-  [USERS_GETTER]: state => state.users,
-
-  /*************************
-   * ROLES RELATED GETTERS *
-   ************************/
-  [ROLES_GETTER]: state => state.roles,
-
-  /**************************
-   * ROUTES RELATED GETTERS *
-   *************************/
-  [ROUTES_GETTER]: state => state.routes,
-
-  /************************************
-   * USER INTERACTION RELATED GETTERS *
-   ************************************/
-  /**
-   * Whether it is necessary to show login modal.
-   *
-   * @param {Object} state
-   * @returns {boolean}
-   */
-  [LOGIN_MODAL_GETTER]: state => state.loginModal,
-
-  /**
-   * Returns confirm modal visibility and params.
-   *
-   * @param {Object} state
-   * @returns {{visible: boolean, params: Object}}
-   */
-  [CONFIRM_MODAL_GETTER]: state => state.confirmModal,
-
-  /**
-   * Returns error notification modal visible and params.
-   *
-   * @param {Object} state
-   * @returns {{visible: boolean, params: Object}}
-   */
-  [ERROR_NOTIFICATION_MODAL_GETTER]: state => state.errorNotificationModal,
-
-  /**
-   * Returns alerts that should be displayed to user.
-   *
-   * @param {Object} state
-   *
-   * @returns {Object}
-   */
-  [ALERTS_GETTER]: state => state.alerts,
-
 };
+
+/**
+ * List of simple getters that returns same value from storage as it's names.
+ *
+ * @type {string[]}
+ */
+const simpleGetters = [
+  LOGIN_MODAL_GETTER,
+  CONFIRM_MODAL_GETTER,
+  ERROR_NOTIFICATION_MODAL_GETTER,
+  ALERTS_GETTER,
+  CARD_TYPES_GETTER,
+  TARIFF_PERIODS_GETTER,
+  TARIFFS_GETTER,
+  COMPANIES_GETTER,
+  USERS_GETTER,
+  ROLES_GETTER,
+  ROUTES_GETTER,
+  BUSES_GETTER,
+];
+
+simpleGetters.forEach(getterType => {
+  getters[getterType] = state => state[getterType];
+});
+
+export default getters;
