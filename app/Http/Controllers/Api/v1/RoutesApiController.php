@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Domain\Exceptions\Integrity\TooManyCompanyRoutesException;
 use App\Domain\Services\RouteService;
 use App\Http\Requests\Api\SaveRouteRequest;
 use App\Models\Route;
@@ -11,6 +12,7 @@ use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Saritasa\Transformers\IDataTransformer;
+use Throwable;
 
 /**
  * Routes requests API controller.
@@ -60,6 +62,7 @@ class RoutesApiController extends BaseApiController
      *
      * @throws RepositoryException
      * @throws ValidationException
+     * @throws Throwable
      */
     public function store(SaveRouteRequest $request): Response
     {
@@ -77,7 +80,9 @@ class RoutesApiController extends BaseApiController
      * @return Response
      *
      * @throws RepositoryException
+     * @throws Throwable
      * @throws ValidationException
+     * @throws TooManyCompanyRoutesException
      */
     public function update(SaveRouteRequest $request, Route $route): Response
     {
@@ -94,6 +99,9 @@ class RoutesApiController extends BaseApiController
      * @return Response
      *
      * @throws RepositoryException
+     * @throws Throwable
+     * @throws TooManyCompanyRoutesException
+     * @throws ValidationException
      */
     public function destroy(Route $route): Response
     {
