@@ -16,7 +16,7 @@ class RoutesSeeder extends Seeder
     public function run()
     {
         factory(Route::class, 20)->create()->each(function (Route $route) {
-            if (random_int(0, 1)) {
+            if (random_int(0, 3)) {
                 $route->company_id = Company::query()->inRandomOrder()->first()->getKey();
                 CompaniesRoute::query()->create([
                     CompaniesRoute::COMPANY_ID => $route->company_id,
