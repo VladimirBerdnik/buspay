@@ -27,7 +27,7 @@ export default {
    *
    * @throws Error
    */
-  async readUsers() {
+  async read() {
     const response = await axios.get('/users/');
 
     this.usersMutation(response.data.results || []);
@@ -42,7 +42,7 @@ export default {
    *
    * @return {User}
    */
-  async saveUser(user) {
+  async save(user) {
     let response = null;
 
     if (user.id) {
@@ -70,7 +70,7 @@ export default {
    *
    * @return {User[]}
    */
-  getUsers() {
+  get() {
     return this.users();
   },
 

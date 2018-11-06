@@ -28,7 +28,7 @@ export default {
    *
    * @throws Error
    */
-  async readTariffs(tariffPeriod) {
+  async read(tariffPeriod) {
     const response = await axios.get(`/tariffPeriods/${tariffPeriod.id}/tariffs/`);
 
     this.tariffsMutation(response.data.results || []);
@@ -41,7 +41,7 @@ export default {
    *
    * @return {Tariff[]}
    */
-  getTariffs() {
+  get() {
     return this.tariffs();
   },
 };

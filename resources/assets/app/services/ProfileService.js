@@ -28,7 +28,7 @@ export default {
    *
    * @throws Error
    */
-  async readProfile() {
+  async read() {
     UserInteractionService.withAuth(async () => {
       const response = await axios.get('/me/');
 
@@ -43,7 +43,7 @@ export default {
    *
    * @return {User}
    */
-  getProfile() {
+  get() {
     return this.profile();
   },
 };

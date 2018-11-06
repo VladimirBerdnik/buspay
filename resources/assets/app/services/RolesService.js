@@ -26,7 +26,7 @@ export default {
    *
    * @throws Error
    */
-  async readRoles() {
+  async read() {
     const response = await axios.get('/roles/');
 
     this.rolesMutation(response.data.results || []);
@@ -39,7 +39,7 @@ export default {
    *
    * @return {Role[]}
    */
-  getRoles() {
+  get() {
     return this.roles();
   },
 };

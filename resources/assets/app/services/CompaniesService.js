@@ -26,7 +26,7 @@ export default {
    *
    * @throws Error
    */
-  async readCompanies() {
+  async read() {
     const response = await axios.get('/companies/');
 
     this.companiesMutation(response.data.results || []);
@@ -41,7 +41,7 @@ export default {
    *
    * @return {Company}
    */
-  async saveCompany(company) {
+  async save(company) {
     let response = null;
 
     if (company.id) {
@@ -69,7 +69,7 @@ export default {
    *
    * @return {Company[]}
    */
-  getCompanies() {
+  get() {
     return this.companies();
   },
 };

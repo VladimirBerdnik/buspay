@@ -26,7 +26,7 @@ export default {
    *
    * @throws Error
    */
-  async readRoutes() {
+  async read() {
     const response = await axios.get('/routes/');
 
     this.routesMutation(response.data.results || []);
@@ -41,7 +41,7 @@ export default {
    *
    * @return {Route}
    */
-  async saveRoute(route) {
+  async save(route) {
     let response = null;
 
     if (route.id) {
@@ -69,7 +69,7 @@ export default {
    *
    * @return {Route[]}
    */
-  getRoutes() {
+  get() {
     return this.routes();
   },
 };
