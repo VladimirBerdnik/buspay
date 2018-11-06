@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\Api\v1\BusesApiController;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
@@ -94,5 +95,15 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
                 ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], Route::class);
+
+        // Bus related routes
+        $registrar->resource('buses', BusesApiController::class, [
+            ApiResourceRegistrar::OPTION_ONLY => [
+                ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_CREATE,
+                ApiResourceRegistrar::ACTION_UPDATE,
+                ApiResourceRegistrar::ACTION_DESTROY,
+            ],
+        ], Bus::class);
     });
 });
