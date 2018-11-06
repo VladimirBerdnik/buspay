@@ -55,11 +55,11 @@ export default {
     ],
   }),
   async mounted() {
-    await RolesService.readRoles();
-    await CardTypesService.readCardTypes();
-    await CompaniesService.readCompanies();
-    await UsersService.readUsers();
-    await RoutesService.readRoutes();
+    await RolesService.read();
+    await CardTypesService.read();
+    await CompaniesService.read();
+    await UsersService.read();
+    await RoutesService.read();
   },
   methods: {
     authenticated: () => AuthService.isAuthenticated(),

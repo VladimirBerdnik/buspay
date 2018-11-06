@@ -38,7 +38,7 @@ export default {
     };
   },
   computed: {
-    companies: () => CompaniesService.getCompanies(),
+    companies: () => CompaniesService.get(),
   },
   watch: {
     /**

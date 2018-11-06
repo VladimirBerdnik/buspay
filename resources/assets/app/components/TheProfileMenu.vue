@@ -43,7 +43,7 @@ export default {
      * @returns {string}
      */
     profileName() {
-      const profile = ProfileService.getProfile();
+      const profile = ProfileService.get();
 
       if (!profile) {
         return '...';
@@ -53,7 +53,7 @@ export default {
     },
   },
   mounted() {
-    ProfileService.readProfile();
+    ProfileService.read();
   },
   methods: {
     /**

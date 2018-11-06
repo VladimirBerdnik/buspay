@@ -49,14 +49,14 @@ export default {
     };
   },
   computed: {
-    cardTypes: () => CardTypesService.getCardTypes(),
+    cardTypes: () => CardTypesService.get(),
   },
   methods: {
     /**
      * Reloads table data.
      */
     reloadTable() {
-      CardTypesService.readCardTypes();
+      CardTypesService.read();
     },
   },
 };

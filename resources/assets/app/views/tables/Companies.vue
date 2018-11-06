@@ -143,14 +143,14 @@ export default {
     };
   },
   computed: {
-    companies: () => CompaniesService.getCompanies(),
+    companies: () => CompaniesService.get(),
   },
   methods: {
     /**
      * Reloads table data.
      */
     reloadTable() {
-      CompaniesService.readCompanies();
+      CompaniesService.read();
     },
     /**
      * Opens company modal window to create\edit company.

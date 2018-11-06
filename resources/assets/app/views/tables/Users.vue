@@ -138,7 +138,7 @@ export default {
   },
   computed: {
     users() {
-      const users = UsersService.getUsers();
+      const users = UsersService.get();
 
       if (!this.companyId) {
         return users;
@@ -152,7 +152,7 @@ export default {
      * Reloads table data.
      */
     reloadTable() {
-      UsersService.readUsers();
+      UsersService.read();
     },
     /**
      * Opens company modal window to create\edit user.

@@ -35,7 +35,7 @@ export default {
     };
   },
   computed: {
-    roles: () => RolesService.getRoles(),
+    roles: () => RolesService.get(),
   },
   watch: {
     /**

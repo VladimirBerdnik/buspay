@@ -167,7 +167,7 @@ export default {
         return;
       }
 
-      UsersService.saveUser(this.user)
+      UsersService.save(this.user)
         .then(() => {
           AlertsService.info(this.$i18n.t('common.notifications.changesSaved'));
           this.$emit('saved');

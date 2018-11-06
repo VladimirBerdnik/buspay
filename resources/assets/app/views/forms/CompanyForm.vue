@@ -130,7 +130,7 @@ export default {
         return;
       }
 
-      CompaniesService.saveCompany(this.company)
+      CompaniesService.save(this.company)
         .then(() => {
           AlertsService.info(this.$i18n.t('common.notifications.changesSaved'));
           this.$emit('saved');

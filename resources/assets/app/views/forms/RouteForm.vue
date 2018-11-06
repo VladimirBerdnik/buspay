@@ -106,7 +106,7 @@ export default {
         return;
       }
 
-      RoutesService.saveRoute(this.route)
+      RoutesService.save(this.route)
         .then(() => {
           AlertsService.info(this.$i18n.t('common.notifications.changesSaved'));
           this.$emit('saved');

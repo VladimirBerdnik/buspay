@@ -134,7 +134,7 @@ export default {
   },
   computed: {
     routes() {
-      const routes = RoutesService.getRoutes();
+      const routes = RoutesService.get();
 
       if (!this.companyId) {
         return routes;
@@ -148,7 +148,7 @@ export default {
      * Reloads table data.
      */
     reloadTable() {
-      RoutesService.readRoutes();
+      RoutesService.read();
     },
     /**
      * Opens company modal window to create\edit route.

@@ -75,9 +75,9 @@ export default {
     };
   },
   computed: {
-    cardTypes:     () => CardTypesService.getCardTypes(),
-    tariffPeriods: () => TariffPeriodsService.getTariffPeriods(),
-    tariffs:       () => TariffsService.getTariffs(),
+    cardTypes:     () => CardTypesService.get(),
+    tariffPeriods: () => TariffPeriodsService.get(),
+    tariffs:       () => TariffsService.get(),
     tariffFareHeaders() {
       const headers = [
         { value: 'id', text: i18n.t('tariff.fields.id') },
@@ -97,7 +97,7 @@ export default {
     },
   },
   async mounted() {
-    await TariffPeriodsService.readTariffPeriods();
+    await TariffPeriodsService.read();
     this.tariffPeriod = this.tariffPeriods[0] || null;
   },
   methods: {
@@ -105,7 +105,7 @@ export default {
      * Reloads table data.
      */
     reloadTable() {
-      TariffsService.readTariffs(this.tariffPeriod);
+      TariffsService.read(this.tariffPeriod);
     },
     /**
      * Searches amount of tariff fare for given card type.
