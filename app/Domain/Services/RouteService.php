@@ -6,6 +6,7 @@ use App\Domain\Dto\RouteData;
 use App\Domain\Exceptions\Constraint\RouteDeletionException;
 use App\Domain\Exceptions\Constraint\RouteReassignException;
 use App\Domain\Exceptions\Integrity\TooManyCompanyRoutesException;
+use App\Domain\Exceptions\Integrity\UnexpectedCompanyForRouteException;
 use App\Extensions\EntityService;
 use App\Models\Company;
 use App\Models\Route;
@@ -143,6 +144,9 @@ class RouteService extends EntityService
             if ($companyWasAssigned && $companyChanged) {
                 // Close period for old company
                 $companyRoute = $this->companiesRouteService->getForRoute($route, $date);
+                if ($companyRoute->company_id !== $route->company_id) {
+                    throw new UnexpectedCompanyForRouteException($companyRoute, $route->company);
+                }
                 $this->companiesRouteService->closePeriod($companyRoute, $date);
             }
 
@@ -184,6 +188,9 @@ class RouteService extends EntityService
         $this->handleTransaction(function () use ($route): void {
             if ($route->company_id) {
                 $companyRoute = $this->companiesRouteService->getForRoute($route);
+                if ($companyRoute->company_id !== $route->company_id) {
+                    throw new UnexpectedCompanyForRouteException($companyRoute, $route->company);
+                }
                 $this->companiesRouteService->closePeriod($companyRoute);
             }
 

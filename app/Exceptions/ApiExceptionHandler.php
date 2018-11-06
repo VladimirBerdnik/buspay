@@ -4,8 +4,10 @@ namespace App\Exceptions;
 
 use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
 use App\Domain\Exceptions\Constraint\CompanyDeletionException;
+use App\Domain\Exceptions\Constraint\CompanyRouteExistsException;
 use App\Domain\Exceptions\Constraint\RouteDeletionException;
 use App\Domain\Exceptions\Constraint\RouteReassignException;
+use App\Domain\Exceptions\Integrity\BusinessLogicIntegrityException;
 use Dingo\Api\Facade\API;
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -51,6 +53,9 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
         API::error(function (BusinessLogicConstraintException $exception) {
             return $this->genericResponse($exception);
         });
+        API::error(function (BusinessLogicIntegrityException $exception) {
+            return $this->genericResponse($exception);
+        });
     }
 
     /**
@@ -73,6 +78,12 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
         } elseif ($exception instanceof CompanyDeletionException) {
             return response()
                 ->json(new ErrorMessage(trans('exceptions.companyDeletionException')), Response::HTTP_BAD_REQUEST);
+        } elseif ($exception instanceof CompanyRouteExistsException) {
+            return response()
+                ->json(new ErrorMessage(trans('exceptions.companyRouteExistsException')), Response::HTTP_BAD_REQUEST);
+        } elseif ($exception instanceof BusinessLogicIntegrityException) {
+            return response()
+                ->make(new ErrorMessage($exception->__toString()), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return parent::genericResponse($exception);
