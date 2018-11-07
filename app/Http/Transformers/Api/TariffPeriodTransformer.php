@@ -40,9 +40,9 @@ class TariffPeriodTransformer extends BaseTransformer
     protected function transformModel(TariffPeriod $tariffPeriod): array
     {
         return [
-            'id' => $tariffPeriod->id,
-            'active_from' => $tariffPeriod->active_from->toIso8601String(),
-            'active_to' => $tariffPeriod->active_to ? $tariffPeriod->active_to->toIso8601String() : null,
+            TariffPeriod::ID => $tariffPeriod->id,
+            TariffPeriod::ACTIVE_FROM => $tariffPeriod->active_from->toIso8601String(),
+            TariffPeriod::ACTIVE_TO => $tariffPeriod->active_to ? $tariffPeriod->active_to->toIso8601String() : null,
         ];
     }
 }

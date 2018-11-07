@@ -40,9 +40,8 @@ class CardTypeTransformer extends BaseTransformer
     protected function transformModel(CardType $cardType): array
     {
         return [
-            'id' => $cardType->id,
-            'slug' => $cardType->slug,
-            'name' => $cardType->name,
+            CardType::ID => $cardType->id,
+            CardType::NAME => $cardType->name,
         ];
     }
 }

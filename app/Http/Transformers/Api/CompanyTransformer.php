@@ -40,11 +40,11 @@ class CompanyTransformer extends BaseTransformer
     protected function transformModel(Company $company): array
     {
         return [
-            'id' => $company->id,
-            'name' => $company->name,
-            'bin' => $company->bin,
-            'account_number' => $company->account_number,
-            'contact_information' => $company->contact_information,
+            Company::ID => $company->id,
+            Company::NAME => $company->name,
+            Company::BIN => $company->bin,
+            Company::ACCOUNT_NUMBER => $company->account_number,
+            Company::CONTACT_INFORMATION => $company->contact_information,
             // possible related records count
             'buses_count' => $company->getAttribute('buses_count'),
             'drivers_count' => $company->getAttribute('drivers_count'),

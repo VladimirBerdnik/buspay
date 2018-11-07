@@ -71,9 +71,9 @@ class RouteTransformer extends BaseTransformer
     protected function transformModel(Route $route): array
     {
         return [
-            'id' => $route->id,
-            'name' => $route->name,
-            'company_id' => $route->company_id,
+            Route::ID => $route->id,
+            Route::NAME => $route->name,
+            Route::COMPANY_ID => $route->company_id,
             // possible related records count
             'buses_count' => $route->getAttribute('buses_count'),
         ];

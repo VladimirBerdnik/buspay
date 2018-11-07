@@ -40,11 +40,11 @@ class TariffFareTransformer extends BaseTransformer
     protected function transformModel(TariffFare $tariffFare): array
     {
         return [
-            'id' => $tariffFare->id,
-            'tariff_id' => $tariffFare->tariff_id,
-            'tariff_period_id' => $tariffFare->tariff_period_id,
-            'card_type_id' => $tariffFare->card_type_id,
-            'amount' => $tariffFare->amount,
+            TariffFare::ID => $tariffFare->id,
+            TariffFare::TARIFF_ID => $tariffFare->tariff_id,
+            TariffFare::TARIFF_PERIOD_ID => $tariffFare->tariff_period_id,
+            TariffFare::CARD_TYPE_ID => $tariffFare->card_type_id,
+            TariffFare::AMOUNT => $tariffFare->amount,
         ];
     }
 }

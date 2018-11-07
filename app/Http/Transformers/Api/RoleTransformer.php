@@ -40,8 +40,8 @@ class RoleTransformer extends BaseTransformer
     protected function transformModel(Role $role): array
     {
         return [
-            'id' => $role->id,
-            'name' => $role->name,
+            Role::ID => $role->id,
+            Role::NAME => $role->name,
         ];
     }
 }

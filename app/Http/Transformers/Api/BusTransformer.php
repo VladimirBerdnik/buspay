@@ -83,11 +83,11 @@ class BusTransformer extends BaseTransformer
     protected function transformModel(Bus $bus): array
     {
         return [
-            'id' => $bus->id,
-            'model_name' => $bus->model_name,
-            'state_number' => $bus->state_number,
-            'route_id' => $bus->route_id,
-            'company_id' => $bus->company_id,
+            Bus::ID => $bus->id,
+            Bus::MODEL_NAME => $bus->model_name,
+            Bus::STATE_NUMBER => $bus->state_number,
+            Bus::ROUTE_ID => $bus->route_id,
+            Bus::COMPANY_ID => $bus->company_id,
             // possible related records count
             'drivers_count' => $bus->getAttribute('drivers_count'),
             'validators_count' => $bus->getAttribute('validators_count'),

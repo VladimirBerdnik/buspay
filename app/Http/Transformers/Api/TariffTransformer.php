@@ -72,8 +72,8 @@ class TariffTransformer extends BaseTransformer
     protected function transformModel(Tariff $tariff): array
     {
         return [
-            'id' => $tariff->id,
-            'name' => $tariff->name,
+            Tariff::ID => $tariff->id,
+            Tariff::NAME => $tariff->name,
         ];
     }
 

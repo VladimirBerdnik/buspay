@@ -83,12 +83,12 @@ class ProfileTransformer extends BaseTransformer
     protected function transformModel(User $user): array
     {
         return [
-            'id' => $user->id,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'email' => $user->email,
-            'role_id' => $user->role_id,
-            'company_id' => $user->company_id,
+            User::ID => $user->id,
+            User::FIRST_NAME => $user->first_name,
+            User::LAST_NAME => $user->last_name,
+            User::EMAIL => $user->email,
+            User::ROLE_ID => $user->role_id,
+            User::COMPANY_ID => $user->company_id,
         ];
     }
 
