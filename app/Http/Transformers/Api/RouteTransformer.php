@@ -9,18 +9,39 @@ use Saritasa\Transformers\BaseTransformer;
 use Saritasa\Transformers\Exceptions\TransformTypeMismatchException;
 
 /**
- * Transforms route to display on route page.
+ * Transforms route to display on routes page.
  */
 class RouteTransformer extends BaseTransformer
 {
+    public const INCLUDE_COMPANY = 'company';
+
     /**
      * Include resources without needing it to be requested.
      *
      * @var string[]
      */
     protected $defaultIncludes = [
-        'company',
+        self::INCLUDE_COMPANY,
     ];
+
+    /**
+     * Company transformer to display as route relation.
+     *
+     * @var CompanyTransformer
+     */
+    private $companyTransformer;
+
+    /**
+     * Transforms route to display on routes page.
+     *
+     * @param CompanyTransformer $companyTransformer Company transformer to display as route relation
+     */
+    public function __construct(CompanyTransformer $companyTransformer)
+    {
+        $this->companyTransformer = $companyTransformer;
+
+        $this->companyTransformer->setDefaultIncludes([]);
+    }
 
     /**
      * Transforms route to display on route page.
@@ -71,6 +92,6 @@ class RouteTransformer extends BaseTransformer
             return $this->null();
         }
 
-        return $this->item($route->company, app(CompanyTransformer::class));
+        return $this->item($route->company, $this->companyTransformer);
     }
 }

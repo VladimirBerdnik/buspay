@@ -13,15 +13,47 @@ use Saritasa\Transformers\Exceptions\TransformTypeMismatchException;
  */
 class ProfileTransformer extends BaseTransformer
 {
+    public const INCLUDE_ROLE = 'role';
+    public const INCLUDE_COMPANY = 'company';
+
     /**
      * Include resources without needing it to be requested.
      *
      * @var string[]
      */
     protected $defaultIncludes = [
-        'role',
-        'company',
+        self::INCLUDE_ROLE,
+        self::INCLUDE_COMPANY,
     ];
+
+    /**
+     * Transforms user role to display as profile relation.
+     *
+     * @var RoleTransformer
+     */
+    private $roleTransformer;
+
+    /**
+     * Transforms user company to display as profile relation.
+     *
+     * @var CompanyTransformer
+     */
+    private $companyTransformer;
+
+    /**
+     * Transforms user profile to display on profile page.
+     *
+     * @param RoleTransformer $roleTransformer Transforms user role to display as profile relation
+     * @param CompanyTransformer $companyTransformer Transforms user company to display as profile relation
+     */
+    public function __construct(RoleTransformer $roleTransformer, CompanyTransformer $companyTransformer)
+    {
+        $this->roleTransformer = $roleTransformer;
+        $this->companyTransformer = $companyTransformer;
+
+        $this->roleTransformer->setDefaultIncludes([]);
+        $this->companyTransformer->setDefaultIncludes([]);
+    }
 
     /**
      * Transforms user profile to display on profile page.
@@ -69,7 +101,7 @@ class ProfileTransformer extends BaseTransformer
      */
     protected function includeRole(User $user): ResourceInterface
     {
-        return $this->item($user->role, app(RoleTransformer::class));
+        return $this->item($user->role, $this->roleTransformer);
     }
 
     /**
@@ -85,6 +117,6 @@ class ProfileTransformer extends BaseTransformer
             return $this->null();
         }
 
-        return $this->item($user->company, app(CompanyTransformer::class));
+        return $this->item($user->company, $this->companyTransformer);
     }
 }

@@ -10,18 +10,39 @@ use Saritasa\Transformers\BaseTransformer;
 use Saritasa\Transformers\Exceptions\TransformTypeMismatchException;
 
 /**
- * Transforms tariff to display on tariff page.
+ * Transforms tariff to display on tariffs page.
  */
 class TariffTransformer extends BaseTransformer
 {
+    public const INCLUDE_TARIFF_FARES = 'tariffFares';
+
     /**
      * Include resources without needing it to be requested.
      *
      * @var string[]
      */
     protected $defaultIncludes = [
-        'tariffFares',
+        self::INCLUDE_TARIFF_FARES,
     ];
+
+    /**
+     * Transforms tariff fares to display as tariff relation.
+     *
+     * @var TariffFareTransformer
+     */
+    private $tariffFareTransformer;
+
+    /**
+     * Transforms tariff to display on tariffs page.
+     *
+     * @param TariffFareTransformer $tariffFareTransformer Transforms tariff fares to display as tariff relation
+     */
+    public function __construct(TariffFareTransformer $tariffFareTransformer)
+    {
+        $this->tariffFareTransformer = $tariffFareTransformer;
+
+        $this->tariffFareTransformer->setDefaultIncludes([]);
+    }
 
     /**
      * Transforms tariff to display on tariff page.
@@ -65,11 +86,9 @@ class TariffTransformer extends BaseTransformer
      */
     protected function includeTariffFares(Tariff $tariff): ResourceInterface
     {
-        $tariffFaresTransformer = app(TariffFareTransformer::class);
-
         $tariffFares = $tariff->tariffFares->map(
-            function (TariffFare $tariffFare) use ($tariffFaresTransformer) {
-                return $tariffFaresTransformer->transform($tariffFare);
+            function (TariffFare $tariffFare) {
+                return $this->tariffFareTransformer->transform($tariffFare);
             }
         );
 

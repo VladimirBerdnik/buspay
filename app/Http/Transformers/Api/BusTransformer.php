@@ -13,15 +13,47 @@ use Saritasa\Transformers\Exceptions\TransformTypeMismatchException;
  */
 class BusTransformer extends BaseTransformer
 {
+    public const INCLUDE_ROUTE = 'route';
+    public const INCLUDE_COMPANY = 'company';
+
     /**
      * Include resources without needing it to be requested.
      *
      * @var string[]
      */
     protected $defaultIncludes = [
-        'route',
-        'company',
+        self::INCLUDE_ROUTE,
+        self::INCLUDE_COMPANY,
     ];
+
+    /**
+     * Transforms route to display as bus relation.
+     *
+     * @var RouteTransformer
+     */
+    private $routeTransformer;
+
+    /**
+     * Transforms company to display as bus relation.
+     *
+     * @var CompanyTransformer
+     */
+    private $companyTransformer;
+
+    /**
+     * Transforms bus to display on buses page.
+     *
+     * @param RouteTransformer $routeTransformer Transforms route to display as bus relation
+     * @param CompanyTransformer $companyTransformer Transforms company to display as bus relation
+     */
+    public function __construct(RouteTransformer $routeTransformer, CompanyTransformer $companyTransformer)
+    {
+        $this->routeTransformer = $routeTransformer;
+        $this->companyTransformer = $companyTransformer;
+
+        $this->routeTransformer->setDefaultIncludes([]);
+        $this->companyTransformer->setDefaultIncludes([]);
+    }
 
     /**
      * Transforms bus to display on buses page.
@@ -64,18 +96,6 @@ class BusTransformer extends BaseTransformer
     }
 
     /**
-     * Includes role into transformed response.
-     *
-     * @param Bus $bus Bus to retrieve role details
-     *
-     * @return ResourceInterface
-     */
-    protected function includeRole(Bus $bus): ResourceInterface
-    {
-        return $this->item($bus->role, app(RoleTransformer::class));
-    }
-
-    /**
      * Includes company into transformed response.
      *
      * @param Bus $bus Bus to retrieve company details
@@ -88,7 +108,7 @@ class BusTransformer extends BaseTransformer
             return $this->null();
         }
 
-        return $this->item($bus->company, app(CompanyTransformer::class));
+        return $this->item($bus->company, $this->companyTransformer);
     }
 
     /**
@@ -104,6 +124,6 @@ class BusTransformer extends BaseTransformer
             return $this->null();
         }
 
-        return $this->item($bus->route, app(RouteTransformer::class));
+        return $this->item($bus->route, $this->routeTransformer);
     }
 }
