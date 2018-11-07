@@ -22,6 +22,7 @@
                        @input="switchCompany"
         />
         <RouteSelect v-model="routeId"
+                     :company-id="companyId"
                      @input="switchRoute"
         />
         <v-btn color="primary"
