@@ -40,7 +40,10 @@ export default {
       const query = Object.assign({}, this.$route.query);
 
       // Replace company identifier parameter in current route query
-      query.companyId = this.companyId || null;
+      query.companyId = this.companyId;
+      if (!query.companyId) {
+        delete query.companyId;
+      }
       this.$router.push({ to: this.$route.name, query });
     },
   },

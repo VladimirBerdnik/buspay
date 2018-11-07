@@ -40,7 +40,10 @@ export default {
       const query = Object.assign({}, this.$route.query);
 
       // Replace bus route identifier parameter in current route query
-      query.routeId = this.routeId || null;
+      query.routeId = this.routeId;
+      if (!query.routeId) {
+        delete query.routeId;
+      }
       this.$router.push({ to: this.$route.name, query });
     },
   },
