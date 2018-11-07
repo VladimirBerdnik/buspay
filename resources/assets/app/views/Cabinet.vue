@@ -37,6 +37,7 @@ import RolesService from '../services/RolesService';
 import CardTypesService from '../services/CardTypesService';
 import UsersService from '../services/UsersService';
 import RoutesService from '../services/RoutesService';
+import BusesService from '../services/BusesService';
 
 export default {
   name: 'Cabinet',
@@ -45,7 +46,7 @@ export default {
       { icon: 'business', text: i18n.t('layout.drawer.companies'), to: { name: routes.ROUTE_COMPANIES } },
       { icon: 'supervisor_account', text: i18n.t('layout.drawer.users'), to: { name: routes.ROUTE_USERS } },
       { icon: 'map', text: i18n.t('layout.drawer.routes'), to: { name: routes.ROUTE_ROUTES } },
-      { icon: 'directions_bus', text: i18n.t('layout.drawer.buses') },
+      { icon: 'directions_bus', text: i18n.t('layout.drawer.buses'), to: { name: routes.ROUTE_BUSES } },
       { icon: 'recent_actors', text: i18n.t('layout.drawer.drivers') },
       { icon: 'nfc', text: i18n.t('layout.drawer.validators') },
       { icon: 'today', text: i18n.t('layout.drawer.routeSheets') },
@@ -60,6 +61,7 @@ export default {
     await CompaniesService.read();
     await UsersService.read();
     await RoutesService.read();
+    await BusesService.read();
   },
   methods: {
     authenticated: () => AuthService.isAuthenticated(),

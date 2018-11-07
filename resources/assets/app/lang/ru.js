@@ -142,6 +142,23 @@ export default {
       buses_count: 'Автобусов',
     },
   },
+  bus: {
+    name:          'Автобус',
+    deleteConfirm: 'Удалить автобус {state_number}?',
+    fields:        {
+      id:           'ID',
+      state_number: 'Гос.номер',
+      model_name:   'Модель',
+      company:      {
+        name: 'Компания',
+      },
+      route: {
+        name: 'Маршрут',
+      },
+      drivers_count:    'Водителей',
+      validators_count: 'Валидаторов',
+    },
+  },
   role: {
     name:   'Роль',
     fields: {
