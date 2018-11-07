@@ -133,6 +133,23 @@ export default {
       },
     },
   },
+  driver: {
+    name:          'Водитель',
+    deleteConfirm: 'Удалить водителя "{item}"?',
+    fields:        {
+      id:        'ID',
+      full_name: 'ФИО',
+      company:   {
+        name: 'Компания',
+      },
+      bus: {
+        state_number: 'Автобус',
+      },
+      card: {
+        card_number: 'Карта',
+      },
+    },
+  },
   route: {
     name:          'Маршрут',
     deleteConfirm: 'Удалить маршрут "{item}"?',

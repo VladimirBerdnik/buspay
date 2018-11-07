@@ -20,7 +20,7 @@
  */
 
 /**
- * User role in application. Determines access to different application features
+ * User role in application. Determines access to different application features.
  *
  * @typedef {Object} Role
  * @property {number} id - Role identifier.
@@ -62,6 +62,7 @@
  * @typedef {Object} Route
  * @property {number} id - Route identifier.
  * @property {string} name - Route name.
+ * @property {number|null} company_id - Company identifier that serves this route.
  * @property {number|null} buses_count - Assigned to route buses count.
  * @property {Company|null} company - Transport company that is now assigned to route.
  */
@@ -90,9 +91,34 @@
  * @property {string} model_name - Bus model name.
  * @property {string} state_number - Bus state number.
  * @property {number} company_id - Company identifier to which this bus belongs to.
- * @property {number} route_id - Route identifier to which this bus assigned by default.
+ * @property {number|null} route_id - Route identifier to which this bus assigned by default.
  * @property {number|null} drivers_count - Assigned to bus drivers count.
  * @property {number|null} validators_count - Assigned to bus validators count.
  * @property {Company|null} company - Transport company to which this bus belongs to.
  * @property {Route|null} route - Route that this bus serves by default.
+ */
+
+/**
+ * Driver that can drive buses. Works in transport companies.
+ *
+ * @typedef {Object} Driver
+ * @property {number} id - Driver identifier.
+ * @property {string} full_name - Drivers full name.
+ * @property {number} company_id - Transport company identifier in which this driver works.
+ * @property {number|null} bus_id - Bus identifier on which this driver works by default.
+ * @property {number|null} card_id - Driver's authentication card identifier.
+ * @property {Company|null} company - Transport company in which this driver works.
+ * @property {Bus|null} bus - Bus on which this driver works by default.
+ * @property {Card|null} card - Driver's authentication card.
+ */
+
+/**
+ * Authentication cards that can be recognized by validators.
+ *
+ * @typedef {Object} Card
+ * @property {number} id - Card identifier.
+ * @property {number} card_type_id - Card type identifier.
+ * @property {string} uin - Unique card number, patched to ROM.
+ * @property {string} card_number - Short card number, written on card case.
+ * @property {CardType} cardType - Card type.
  */

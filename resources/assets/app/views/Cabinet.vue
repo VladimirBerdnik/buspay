@@ -38,6 +38,7 @@ import CardTypesService from '../services/CardTypesService';
 import UsersService from '../services/UsersService';
 import RoutesService from '../services/RoutesService';
 import BusesService from '../services/BusesService';
+import DriversService from '../services/DriversService';
 
 export default {
   name: 'Cabinet',
@@ -47,7 +48,7 @@ export default {
       { icon: 'supervisor_account', text: i18n.t('layout.drawer.users'), to: { name: routes.ROUTE_USERS } },
       { icon: 'map', text: i18n.t('layout.drawer.routes'), to: { name: routes.ROUTE_ROUTES } },
       { icon: 'directions_bus', text: i18n.t('layout.drawer.buses'), to: { name: routes.ROUTE_BUSES } },
-      { icon: 'recent_actors', text: i18n.t('layout.drawer.drivers') },
+      { icon: 'recent_actors', text: i18n.t('layout.drawer.drivers'), to: { name: routes.ROUTE_DRIVERS } },
       { icon: 'nfc', text: i18n.t('layout.drawer.validators') },
       { icon: 'today', text: i18n.t('layout.drawer.routeSheets') },
       { icon: 'attach_money', text: i18n.t('layout.drawer.tariffs'), to: { name: routes.ROUTE_TARIFFS } },
@@ -62,6 +63,7 @@ export default {
     await UsersService.read();
     await RoutesService.read();
     await BusesService.read();
+    await DriversService.read();
   },
   methods: {
     authenticated: () => AuthService.isAuthenticated(),

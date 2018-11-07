@@ -13,6 +13,7 @@ export const USERS_GETTER = 'users';
 export const ROLES_GETTER = 'roles';
 export const ROUTES_GETTER = 'routes';
 export const BUSES_GETTER = 'buses';
+export const DRIVERS_GETTER = 'drivers';
 
 const getters = {
   /**
@@ -61,6 +62,7 @@ const simpleGetters = [
   ROLES_GETTER,
   ROUTES_GETTER,
   BUSES_GETTER,
+  DRIVERS_GETTER,
 ];
 
 simpleGetters.forEach(getterType => {

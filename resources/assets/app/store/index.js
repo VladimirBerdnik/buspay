@@ -42,6 +42,7 @@ export default new Vuex.Store({
     roles:         [],
     routes:        [],
     buses:         [],
+    drivers:       [],
   },
   mutations,
   getters,

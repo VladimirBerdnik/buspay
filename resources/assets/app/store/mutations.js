@@ -19,6 +19,7 @@ export const USERS_MUTATION = 'users';
 export const ROLES_MUTATION = 'roles';
 export const ROUTES_MUTATION = 'routes';
 export const BUSES_MUTATION = 'buses';
+export const DRIVERS_MUTATION = 'drivers';
 
 const mutations = {
   /************************************
@@ -202,6 +203,7 @@ const simpleMutations = [
   ROLES_MUTATION,
   ROUTES_MUTATION,
   BUSES_MUTATION,
+  DRIVERS_MUTATION,
 ];
 
 simpleMutations.forEach(mutationType => {
