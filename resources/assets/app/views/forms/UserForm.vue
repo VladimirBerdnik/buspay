@@ -75,6 +75,7 @@
                              v-model="user.company_id"
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('user.fields.company.name')"
+                             :clearable="false"
                              name="company_id"
                              @input="validateField('company_id')"
               />
