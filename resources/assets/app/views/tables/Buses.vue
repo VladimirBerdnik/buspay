@@ -21,9 +21,11 @@
                        class="mr-3"
                        @input="switchCompany"
         />
-        <RouteSelect v-model="routeId"/>
+        <RouteSelect v-model="routeId"
+                     @input="switchRoute"
+        />
         <v-btn color="primary"
-               @click="openBusModal({company_id: companyId})"
+               @click="openBusModal({company_id: companyId, route_id: routeId})"
         >
           {{ $t('common.buttons.add') }}
         </v-btn>
@@ -96,6 +98,7 @@ import AlertsService from '../../services/AlertsService';
 import CompanySelect from '../dropdowns/CompanySelect';
 import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
 import RouteSelect from '../dropdowns/RouteSelect';
+import WithRouteFilterMixin from '../../mixins/WithRouteFilterMixin';
 
 // Table headers
 const headers = [
@@ -122,14 +125,13 @@ export default {
     RouteSelect,
     CompanySelect,
   },
-  mixins: [WithCompanyFilterMixin],
+  mixins: [ WithCompanyFilterMixin, WithRouteFilterMixin ],
   data() {
     return {
       headers,
       filter:          null,
       busModalVisible: false,
       busToEdit:       {},
-      routeId:         null,
     };
   },
   computed: {

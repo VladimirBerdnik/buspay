@@ -52,7 +52,11 @@
             {{ props.item.name }}
           </td>
           <td>{{ props.item.company.name }}</td>
-          <td>{{ props.item.buses_count }}</td>
+          <td class="action-cell"
+              @click.stop="goToBuses(props.item.id)"
+          >
+            {{ props.item.buses_count }}
+          </td>
           <td class="px-0">
             <div class="cell-buttons">
               <v-btn flat
@@ -99,6 +103,7 @@ import UserInteractionService from '../../services/UserInteractionService';
 import AlertsService from '../../services/AlertsService';
 import CompanySelect from '../dropdowns/CompanySelect';
 import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
+import * as routes from '../../router';
 
 // Table headers
 const headers = [
@@ -183,6 +188,14 @@ export default {
             .catch(() => {});
         })
         .catch(() => {});
+    },
+    /**
+     * Navigates user to buses routes list page.
+     *
+     * @param {number} routeId Route identifier to display buses list for
+     */
+    goToBuses(routeId) {
+      this.$router.push({ name: routes.ROUTE_BUSES, query: { routeId } });
     },
   },
 };
