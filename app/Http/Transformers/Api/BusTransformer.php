@@ -87,7 +87,7 @@ class BusTransformer extends BaseTransformer
             'first_name' => $bus->model_name,
             'last_name' => $bus->state_number,
             'email' => $bus->company_id,
-            'role_id' => $bus->route_id,
+            'route_id' => $bus->route_id,
             'company_id' => $bus->company_id,
             // possible related records count
             'drivers_count' => $bus->getAttribute('drivers_count'),
