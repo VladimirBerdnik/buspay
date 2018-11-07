@@ -4,6 +4,7 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VeeValidate from 'vee-validate';
 import ru from 'vee-validate/dist/locale/ru';
+import ruVuetify from 'vuetify/es5/locale/ru';
 import App from './App';
 import i18n from './lang/i18n';
 import router from './router';
@@ -16,7 +17,12 @@ Vue.use(VeeValidate, {
     ru,
   },
 });
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  lang: {
+    locales: { ru: ruVuetify },
+    current: 'ru',
+  },
+});
 
 // eslint-disable-next-line no-new
 new Vue({
