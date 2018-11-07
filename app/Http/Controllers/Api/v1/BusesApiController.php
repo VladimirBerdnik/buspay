@@ -103,7 +103,6 @@ class BusesApiController extends BaseApiController
      *
      * @throws RepositoryException
      * @throws Throwable
-     * @throws ValidationException
      */
     public function destroy(Bus $bus): Response
     {

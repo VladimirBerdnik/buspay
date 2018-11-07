@@ -84,9 +84,8 @@ class BusTransformer extends BaseTransformer
     {
         return [
             'id' => $bus->id,
-            'first_name' => $bus->model_name,
-            'last_name' => $bus->state_number,
-            'email' => $bus->company_id,
+            'model_name' => $bus->model_name,
+            'state_number' => $bus->state_number,
             'route_id' => $bus->route_id,
             'company_id' => $bus->company_id,
             // possible related records count

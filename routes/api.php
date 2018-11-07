@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\v1\RoutesApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
+use App\Models\Bus;
 use App\Models\Company;
 use App\Models\Route;
 use App\Models\User;
