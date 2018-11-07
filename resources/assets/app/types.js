@@ -80,3 +80,19 @@
  * @property {number|null} routes_count - Company's routes count.
  * @property {number|null} users_count - Company's users count.
  */
+
+/**
+ * Bus that belongs to transport company and serves bus routes. Has assigned validators
+ * and drivers that are rides this bus.
+ *
+ * @typedef {Object} Bus
+ * @property {number} id - Bus identifier.
+ * @property {string} model_name - Bus model name.
+ * @property {string} state_number - Bus state number.
+ * @property {number} company_id - Company identifier to which this bus belongs to.
+ * @property {number} route_id - Route identifier to which this bus assigned by default.
+ * @property {number|null} drivers_count - Assigned to bus drivers count.
+ * @property {number|null} validators_count - Assigned to bus validators count.
+ * @property {Company|null} company - Transport company to which this bus belongs to.
+ * @property {Route|null} route - Route that this bus serves by default.
+ */
