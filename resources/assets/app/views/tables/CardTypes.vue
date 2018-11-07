@@ -1,6 +1,6 @@
 <template>
   <v-data-table :headers="headers"
-                :items="cardTypes"
+                :items="items"
                 item-key="id"
                 class="elevation-1"
                 hide-actions
@@ -29,6 +29,7 @@
 <script>
 import i18n from '../../lang/i18n';
 import CardTypesService from '../../services/CardTypesService';
+import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 
 // Table headers
 const headers = [
@@ -42,22 +43,13 @@ Object.values(headers).forEach((header, key) => {
 });
 
 export default {
-  name: 'CardTypes',
+  name:   'CardTypes',
+  mixins: [SimpleTableMixin],
   data() {
     return {
       headers,
+      service: CardTypesService,
     };
-  },
-  computed: {
-    cardTypes: () => CardTypesService.get(),
-  },
-  methods: {
-    /**
-     * Reloads table data.
-     */
-    reloadTable() {
-      CardTypesService.read();
-    },
   },
 };
 </script>

@@ -21,7 +21,7 @@
                        @input="switchCompany"
         />
         <v-btn color="primary"
-               @click="openUserModal({})"
+               @click="openModalForm({})"
         >
           {{ $t('common.buttons.add') }}
         </v-btn>
@@ -29,7 +29,7 @@
     </v-flex>
     <v-flex child-flex>
       <v-data-table :headers="headers"
-                    :items="users"
+                    :items="items"
                     :search="filter"
                     :no-results-text="$t('tables.noResults')"
                     item-key="id"
@@ -47,7 +47,7 @@
         >
           <td>{{ props.item.id }}</td>
           <td class="action-cell"
-              @click.stop="openUserModal(props.item)"
+              @click.stop="openModalForm(props.item)"
           >
             {{ props.item.first_name }}
           </td>
@@ -60,14 +60,14 @@
               <v-btn flat
                      icon
                      class="mx-0"
-                     @click.stop="openUserModal(props.item)"
+                     @click.stop="openModalForm(props.item)"
               >
                 <v-icon>edit</v-icon>
               </v-btn>
               <v-btn flat
                      icon
                      class="mx-0"
-                     @click.stop="deleteUser(props.item)"
+                     @click.stop="deleteItem(props.item)"
               >
                 <v-icon>delete</v-icon>
               </v-btn>
@@ -84,9 +84,9 @@
       </v-data-table>
 
       <UserForm
-        :visible="userModalVisible"
-        :value="userToEdit"
-        @close="closeUserModal"
+        :visible="editModalVisible"
+        :value="itemToEdit"
+        @close="closeModalForm"
         @saved="reloadTable"
       />
     </v-flex>
@@ -97,10 +97,9 @@
 import i18n from '../../lang/i18n';
 import UsersService from '../../services/UsersService';
 import UserForm from '../../views/forms/UserForm';
-import UserInteractionService from '../../services/UserInteractionService';
-import AlertsService from '../../services/AlertsService';
 import CompanySelect from '../dropdowns/CompanySelect';
 import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
+import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 
 // Table headers
 const headers = [
@@ -126,17 +125,18 @@ export default {
     CompanySelect,
     UserForm,
   },
-  mixins: [WithCompanyFilterMixin],
+  mixins: [ WithCompanyFilterMixin, CRUDTableMixin ],
   data() {
     return {
       headers,
-      filter:           null,
-      userModalVisible: false,
-      userToEdit:       {},
+      filter:               null,
+      service:              UsersService,
+      itemType:             'user',
+      itemStringIdentifier: 'email',
     };
   },
   computed: {
-    users() {
+    items() {
       const users = UsersService.get();
 
       if (!this.companyId) {
@@ -144,49 +144,6 @@ export default {
       }
 
       return users.filter(user => user.company_id === this.companyId);
-    },
-  },
-  methods: {
-    /**
-     * Reloads table data.
-     */
-    reloadTable() {
-      UsersService.read();
-    },
-    /**
-     * Opens company modal window to create\edit user.
-     *
-     * @param {User} userToEdit User to edit
-     */
-    openUserModal(userToEdit) {
-      this.userToEdit = userToEdit;
-      this.userModalVisible = true;
-    },
-    /**
-     * Closes user details modal window.
-     */
-    closeUserModal() {
-      this.userModalVisible = false;
-      this.userToEdit = {};
-    },
-    /**
-     * Deletes user.
-     *
-     * @param {User} user User to delete
-     */
-    deleteUser(user) {
-      UserInteractionService.handleConfirm({
-        message: this.$i18n.t('user.deleteConfirm', { user_name: `${user.first_name} ${user.last_name}` }),
-      })
-        .then(() => {
-          UsersService.delete(user)
-            .then(() => {
-              AlertsService.info(this.$i18n.t('common.notifications.recordDeleted'));
-              this.reloadTable();
-            })
-            .catch(() => {});
-        })
-        .catch(() => {});
     },
   },
 };

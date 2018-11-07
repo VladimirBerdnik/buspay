@@ -17,7 +17,7 @@
           clearable
         />
         <v-btn color="primary"
-               @click="openCompanyModal({})"
+               @click="openModalForm({})"
         >
           {{ $t('common.buttons.add') }}
         </v-btn>
@@ -25,7 +25,7 @@
     </v-flex>
     <v-flex child-flex>
       <v-data-table :headers="headers"
-                    :items="companies"
+                    :items="items"
                     :search="filter"
                     :no-results-text="$t('tables.noResults')"
                     item-key="id"
@@ -43,7 +43,7 @@
         >
           <td>{{ props.item.id }}</td>
           <td class="action-cell"
-              @click.stop="openCompanyModal(props.item)"
+              @click.stop="openModalForm(props.item)"
           >
             {{ props.item.name }}
           </td>
@@ -71,14 +71,14 @@
               <v-btn flat
                      icon
                      class="mx-0"
-                     @click.stop="openCompanyModal(props.item)"
+                     @click.stop="openModalForm(props.item)"
               >
                 <v-icon>edit</v-icon>
               </v-btn>
               <v-btn flat
                      icon
                      class="mx-0"
-                     @click.stop="deleteCompany(props.item)"
+                     @click.stop="deleteItem(props.item)"
               >
                 <v-icon>delete</v-icon>
               </v-btn>
@@ -95,9 +95,9 @@
       </v-data-table>
 
       <CompanyForm
-        :visible="companyModalVisible"
-        :value="companyToEdit"
-        @close="closeCompanyModal"
+        :visible="editModalVisible"
+        :value="itemToEdit"
+        @close="closeModalForm"
         @saved="reloadTable"
       />
     </v-flex>
@@ -109,8 +109,7 @@ import i18n from '../../lang/i18n';
 import * as routes from '../../router';
 import CompaniesService from '../../services/CompaniesService';
 import CompanyForm from '../../views/forms/CompanyForm';
-import UserInteractionService from '../../services/UserInteractionService';
-import AlertsService from '../../services/AlertsService';
+import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 
 // Table headers
 const headers = [
@@ -138,59 +137,17 @@ export default {
   components: {
     CompanyForm,
   },
+  mixins: [CRUDTableMixin],
   data() {
     return {
       headers,
-      filter:              null,
-      companyModalVisible: false,
-      companyToEdit:       {},
+      filter:               null,
+      service:              CompaniesService,
+      itemType:             'company',
+      itemStringIdentifier: 'name',
     };
   },
-  computed: {
-    companies: () => CompaniesService.get(),
-  },
   methods: {
-    /**
-     * Reloads table data.
-     */
-    reloadTable() {
-      CompaniesService.read();
-    },
-    /**
-     * Opens company modal window to create\edit company.
-     *
-     * @param {Company} companyToEdit Company to edit
-     */
-    openCompanyModal(companyToEdit) {
-      this.companyToEdit = companyToEdit;
-      this.companyModalVisible = true;
-    },
-    /**
-     * Closes company details modal window.
-     */
-    closeCompanyModal() {
-      this.companyModalVisible = false;
-      this.companyToEdit = {};
-    },
-    /**
-     * Deletes company.
-     *
-     * @param {Company} company Company to delete
-     */
-    deleteCompany(company) {
-      UserInteractionService.handleConfirm({
-        message: this.$i18n.t('company.deleteConfirm', { company: company.name }),
-      })
-        .then(() => {
-          CompaniesService.delete(company)
-            .then(() => {
-              AlertsService.info(this.$i18n.t('common.notifications.recordDeleted'));
-              this.reloadTable();
-            })
-            .catch(() => {});
-        })
-        .catch(() => {});
-    },
     /**
      * Navigates user to company users list page.
      *

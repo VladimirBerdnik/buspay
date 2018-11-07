@@ -26,7 +26,7 @@
                      @input="switchRoute"
         />
         <v-btn color="primary"
-               @click="openBusModal({company_id: companyId, route_id: routeId})"
+               @click="openModalForm({company_id: companyId, route_id: routeId})"
         >
           {{ $t('common.buttons.add') }}
         </v-btn>
@@ -34,7 +34,7 @@
     </v-flex>
     <v-flex child-flex>
       <v-data-table :headers="headers"
-                    :items="buses"
+                    :items="items"
                     :search="filter"
                     :no-results-text="$t('tables.noResults')"
                     item-key="id"
@@ -51,7 +51,7 @@
         >
           <td>{{ props.item.id }}</td>
           <td class="action-cell"
-              @click.stop="openBusModal(props.item)"
+              @click.stop="openModalForm(props.item)"
           >
             {{ props.item.state_number }}
           </td>
@@ -65,14 +65,14 @@
               <v-btn flat
                      icon
                      class="mx-0"
-                     @click.stop="openBusModal(props.item)"
+                     @click.stop="openModalForm(props.item)"
               >
                 <v-icon>edit</v-icon>
               </v-btn>
               <v-btn flat
                      icon
                      class="mx-0"
-                     @click.stop="deleteBus(props.item)"
+                     @click.stop="deleteItem(props.item)"
               >
                 <v-icon>delete</v-icon>
               </v-btn>
@@ -89,9 +89,9 @@
       </v-data-table>
 
       <BusForm
-        :visible="busModalVisible"
-        :value="busToEdit"
-        @close="closeBusModal"
+        :visible="editModalVisible"
+        :value="itemToEdit"
+        @close="closeModalForm"
         @saved="reloadTable"
       />
     </v-flex>
@@ -101,13 +101,12 @@
 <script>
 import i18n from '../../lang/i18n';
 import BusesService from '../../services/BusesService';
-import UserInteractionService from '../../services/UserInteractionService';
-import AlertsService from '../../services/AlertsService';
 import CompanySelect from '../dropdowns/CompanySelect';
 import BusForm from '../forms/BusForm';
 import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
 import RouteSelect from '../dropdowns/RouteSelect';
 import WithRouteFilterMixin from '../../mixins/WithRouteFilterMixin';
+import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 
 // Table headers
 const headers = [
@@ -135,17 +134,18 @@ export default {
     CompanySelect,
     BusForm,
   },
-  mixins: [ WithCompanyFilterMixin, WithRouteFilterMixin ],
+  mixins: [ WithCompanyFilterMixin, WithRouteFilterMixin, CRUDTableMixin ],
   data() {
     return {
       headers,
-      filter:          null,
-      busModalVisible: false,
-      busToEdit:       {},
+      filter:               null,
+      service:              BusesService,
+      itemType:             'bus',
+      itemStringIdentifier: 'state_number',
     };
   },
   computed: {
-    buses() {
+    items() {
       let buses = BusesService.get();
 
       const filters = {
@@ -164,49 +164,6 @@ export default {
       });
 
       return buses;
-    },
-  },
-  methods: {
-    /**
-     * Reloads table data.
-     */
-    reloadTable() {
-      BusesService.read();
-    },
-    /**
-     * Opens company modal window to create\edit bus.
-     *
-     * @param {Bus} busToEdit Bus to edit
-     */
-    openBusModal(busToEdit) {
-      this.busToEdit = busToEdit;
-      this.busModalVisible = true;
-    },
-    /**
-     * Closes bus details modal window.
-     */
-    closeBusModal() {
-      this.busModalVisible = false;
-      this.busToEdit = {};
-    },
-    /**
-     * Deletes bus.
-     *
-     * @param {Bus} bus Bus to delete
-     */
-    deleteBus(bus) {
-      UserInteractionService.handleConfirm({
-        message: this.$i18n.t('bus.deleteConfirm', { state_number: `${bus.state_number}` }),
-      })
-        .then(() => {
-          BusesService.delete(bus)
-            .then(() => {
-              AlertsService.info(this.$i18n.t('common.notifications.recordDeleted'));
-              this.reloadTable();
-            })
-            .catch(() => {});
-        })
-        .catch(() => {});
     },
   },
 };

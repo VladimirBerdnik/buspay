@@ -103,7 +103,7 @@ export default {
   },
   company: {
     name:          'Компания',
-    deleteConfirm: 'Удалить компанию "{company}"?',
+    deleteConfirm: 'Удалить компанию "{item}"?',
     fields:        {
       id:                  'ID',
       name:                'Название',
@@ -118,7 +118,7 @@ export default {
   },
   user: {
     name:          'Пользователь',
-    deleteConfirm: 'Удалить пользователя "{user_name}"?',
+    deleteConfirm: 'Удалить пользователя "{item}"?',
     fields:        {
       id:         'ID',
       first_name: 'Имя',
@@ -135,7 +135,7 @@ export default {
   },
   route: {
     name:          'Маршрут',
-    deleteConfirm: 'Удалить маршрут "{route_name}"?',
+    deleteConfirm: 'Удалить маршрут "{item}"?',
     fields:        {
       id:      'ID',
       name:    'Название',
@@ -147,7 +147,7 @@ export default {
   },
   bus: {
     name:          'Автобус',
-    deleteConfirm: 'Удалить автобус "{state_number}"?',
+    deleteConfirm: 'Удалить автобус "{item}"?',
     fields:        {
       id:           'ID',
       state_number: 'Гос.номер',
