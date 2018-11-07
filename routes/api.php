@@ -14,6 +14,7 @@
 use App\Http\Controllers\Api\v1\BusesApiController;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
+use App\Http\Controllers\Api\v1\DriversApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\RolesApiController;
 use App\Http\Controllers\Api\v1\RoutesApiController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
 use App\Models\Bus;
 use App\Models\Company;
+use App\Models\Driver;
 use App\Models\Route;
 use App\Models\User;
 use Dingo\Api\Routing\Router;
@@ -106,5 +108,15 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
                 ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], Bus::class);
+
+        // Driver related routes
+        $registrar->resource('drivers', DriversApiController::class, [
+            ApiResourceRegistrar::OPTION_ONLY => [
+                ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_CREATE,
+                ApiResourceRegistrar::ACTION_UPDATE,
+                ApiResourceRegistrar::ACTION_DESTROY,
+            ],
+        ], Driver::class);
     });
 });
