@@ -28,7 +28,7 @@ class RouteReassignException extends BusinessLogicConstraintException
     }
 
     /**
-     * Returns route that can't be reassigned
+     * Returns route that can't be reassigned.
      *
      * @return Route
      */
