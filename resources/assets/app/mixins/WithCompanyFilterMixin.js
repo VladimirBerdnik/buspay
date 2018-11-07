@@ -31,7 +31,7 @@ export default {
      * @param {*} route Route to retrieve company identifier from
      */
     parseCompanyFromRoute(route) {
-      this.companyId = Number.parseInt(route.query.companyId, 10);
+      this.companyId = Number.parseInt(route.query.companyId, 10) || null;
     },
     /**
      * Switches selected on component company identifier.
