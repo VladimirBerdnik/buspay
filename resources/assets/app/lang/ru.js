@@ -48,6 +48,9 @@ export default {
     route: {
       title: 'Параметры маршрута',
     },
+    bus: {
+      title: 'Параметры автобуса',
+    },
     user: {
       title:  'Параметры пользователя',
       inputs: {

@@ -87,6 +87,13 @@
         </template>
 
       </v-data-table>
+
+      <BusForm
+        :visible="busModalVisible"
+        :value="busToEdit"
+        @close="closeBusModal"
+        @saved="reloadTable"
+      />
     </v-flex>
   </v-layout>
 </template>
@@ -97,6 +104,7 @@ import BusesService from '../../services/BusesService';
 import UserInteractionService from '../../services/UserInteractionService';
 import AlertsService from '../../services/AlertsService';
 import CompanySelect from '../dropdowns/CompanySelect';
+import BusForm from '../forms/BusForm';
 import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
 import RouteSelect from '../dropdowns/RouteSelect';
 import WithRouteFilterMixin from '../../mixins/WithRouteFilterMixin';
@@ -125,6 +133,7 @@ export default {
   components: {
     RouteSelect,
     CompanySelect,
+    BusForm,
   },
   mixins: [ WithCompanyFilterMixin, WithRouteFilterMixin ],
   data() {
