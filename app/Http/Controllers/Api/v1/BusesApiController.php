@@ -7,6 +7,8 @@ use App\Http\Requests\Api\SaveBusRequest;
 use App\Models\Bus;
 use Dingo\Api\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Saritasa\Exceptions\InvalidEnumValueException;
+use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Saritasa\Transformers\IDataTransformer;
 use Throwable;
@@ -39,11 +41,18 @@ class BusesApiController extends BaseApiController
      * Returns buses list.
      *
      * @return Response
+     *
+     * @throws InvalidEnumValueException
      */
     public function index(): Response
     {
         return $this->response->collection(
-            $this->busService->getWith(['company', 'route'], ['drivers', 'validators']),
+            $this->busService->getWith(
+                ['company', 'route'],
+                ['drivers', 'validators'],
+                [],
+                new SortOptions(Bus::COMPANY_ID)
+            ),
             $this->transformer
         );
     }
