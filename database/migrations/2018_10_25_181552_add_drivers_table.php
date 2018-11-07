@@ -16,14 +16,16 @@ class AddDriversTable extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->increments('id')->comment('Driver unique identifier');
             $table->unsignedInteger('company_id')->comment('Company identifier in which this driver works');
-            $table->string('full_name')->comment('Driver full name');
+            $table->string('full_name', 96)->comment('Driver full name');
             $table->unsignedInteger('bus_id')
                 ->nullable()
                 ->comment('Bus identifier, on which this driver usually works');
             $table->unsignedInteger('card_id')
                 ->nullable()
                 ->comment('Current driver card identifier');
-            $table->tinyInteger('active')->comment('Does this driver works or not, can be assigned to route or not');
+            $table->tinyInteger('active')
+                ->nullable()
+                ->comment('Does this driver works or not, can be assigned to route or not');
 
             $table->timestamps();
             $table->softDeletes();
