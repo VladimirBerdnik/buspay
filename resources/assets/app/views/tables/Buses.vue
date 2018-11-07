@@ -8,10 +8,6 @@
       <v-layout row
                 wrap
       >
-        <CompanySelect v-model="companyId"
-                       class="mr-3"
-                       @input="switchCompany"
-        />
         <v-text-field
           v-model="filter"
           append-icon="search"
@@ -19,7 +15,13 @@
           hide-details
           single-line
           clearable
+          class="mr-3"
         />
+        <CompanySelect v-model="companyId"
+                       class="mr-3"
+                       @input="switchCompany"
+        />
+        <RouteSelect v-model="routeId"/>
         <v-btn color="primary"
                @click="openBusModal({company_id: companyId})"
         >
@@ -93,6 +95,7 @@ import UserInteractionService from '../../services/UserInteractionService';
 import AlertsService from '../../services/AlertsService';
 import CompanySelect from '../dropdowns/CompanySelect';
 import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
+import RouteSelect from '../dropdowns/RouteSelect';
 
 // Table headers
 const headers = [
@@ -116,6 +119,7 @@ headers.push({ text: '', sortable: false });
 export default {
   name:       'Buses',
   components: {
+    RouteSelect,
     CompanySelect,
   },
   mixins: [WithCompanyFilterMixin],
@@ -125,17 +129,29 @@ export default {
       filter:          null,
       busModalVisible: false,
       busToEdit:       {},
+      routeId:         null,
     };
   },
   computed: {
     buses() {
-      const buses = BusesService.get();
+      let buses = BusesService.get();
 
-      if (!this.companyId) {
-        return buses;
-      }
+      const filters = {
+        company_id: this.companyId,
+        route_id:   this.routeId,
+      };
 
-      return buses.filter(bus => bus.company_id === this.companyId);
+
+      Object.entries(filters).forEach(entry => {
+        const [ filterField, value ] = entry;
+
+        if (!value) {
+          return;
+        }
+        buses = buses.filter(bus => bus[filterField] === value);
+      });
+
+      return buses;
     },
   },
   methods: {
