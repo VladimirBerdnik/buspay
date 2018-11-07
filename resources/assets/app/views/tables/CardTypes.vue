@@ -1,5 +1,6 @@
 <template>
   <v-data-table :headers="headers"
+                :rows-per-page-items="datatablesConfig.paginatorValues"
                 :items="items"
                 item-key="id"
                 class="elevation-1"

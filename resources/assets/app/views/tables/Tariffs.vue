@@ -25,7 +25,8 @@
       </v-select>
     </v-flex>
     <v-layout child-flex>
-      <v-data-table :headers="tariffFareHeaders"
+      <v-data-table :headers="headers"
+                    :rows-per-page-items="datatablesConfig.paginatorValues"
                     :items="tariffs"
                     item-key="id"
                     class="elevation-1"
@@ -78,7 +79,7 @@ export default {
     cardTypes:     () => CardTypesService.get(),
     tariffPeriods: () => TariffPeriodsService.get(),
     tariffs:       () => TariffsService.get(),
-    tariffFareHeaders() {
+    headers() {
       const headers = [
         { value: 'id', text: i18n.t('tariff.fields.id') },
         { value: 'name', text: i18n.t('tariff.fields.name') },

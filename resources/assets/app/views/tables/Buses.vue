@@ -10,8 +10,8 @@
       >
         <v-text-field
           v-model="filter"
+          :label="$t('common.placeholders.search')"
           append-icon="search"
-          label="Поиск"
           hide-details
           single-line
           clearable
@@ -34,6 +34,7 @@
     </v-flex>
     <v-flex child-flex>
       <v-data-table :headers="headers"
+                    :rows-per-page-items="datatablesConfig.paginatorValues"
                     :items="items"
                     :search="filter"
                     :no-results-text="$t('tables.noResults')"

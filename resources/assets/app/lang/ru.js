@@ -24,6 +24,9 @@ export default {
     titles: {
       confirmAction: 'Подтвердите действие',
     },
+    placeholders: {
+      search: 'Поиск',
+    },
   },
   forms: {
     login: {
