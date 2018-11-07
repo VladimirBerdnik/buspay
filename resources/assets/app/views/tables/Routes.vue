@@ -8,10 +8,6 @@
       <v-layout row
                 wrap
       >
-        <CompanySelect v-model="companyId"
-                       class="mr-3"
-                       @input="switchCompany"
-        />
         <v-text-field
           v-model="filter"
           append-icon="search"
@@ -19,6 +15,10 @@
           hide-details
           single-line
           clearable
+          class="mr-3"
+        />
+        <CompanySelect v-model="companyId"
+                       @input="switchCompany"
         />
         <v-btn color="primary"
                @click="openRouteModal({company_id: companyId})"
