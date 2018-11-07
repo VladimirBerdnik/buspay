@@ -33,7 +33,6 @@
                              v-model="route.company_id"
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('route.fields.company.name')"
-                             clearable
                              name="company_id"
                              @input="validateField('company_id')"
               />

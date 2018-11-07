@@ -10,7 +10,6 @@
       >
         <CompanySelect v-model="companyId"
                        class="mr-3"
-                       clearable
                        @input="switchCompany"
         />
         <v-text-field
