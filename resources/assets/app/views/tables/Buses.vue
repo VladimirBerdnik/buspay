@@ -58,8 +58,8 @@
           <td>{{ props.item.model_name }}</td>
           <td>{{ props.item.company.name }}</td>
           <td>{{ props.item.route.name }}</td>
-          <td>{{ props.item.drivers_count }}</td>
-          <td>{{ props.item.validators_count }}</td>
+          <td class="text-xs-right">{{ props.item.drivers_count }}</td>
+          <td class="text-xs-right">{{ props.item.validators_count }}</td>
           <td class="px-0">
             <div class="cell-buttons">
               <v-btn flat

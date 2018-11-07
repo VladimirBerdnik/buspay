@@ -52,7 +52,7 @@
             {{ props.item.name }}
           </td>
           <td>{{ props.item.company.name }}</td>
-          <td class="action-cell"
+          <td class="action-cell text-xs-right"
               @click.stop="goToBuses(props.item.id)"
           >
             {{ props.item.buses_count }}

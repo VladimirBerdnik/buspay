@@ -50,18 +50,18 @@
           <td>{{ props.item.bin }}</td>
           <td>{{ props.item.account_number }}</td>
           <td>{{ props.item.contact_information }}</td>
-          <td class="action-cell"
+          <td class="action-cell text-xs-right"
               @click.stop="goToBuses(props.item.id)"
           >
             {{ props.item.buses_count }}
           </td>
-          <td>{{ props.item.drivers_count }}</td>
-          <td class="action-cell"
+          <td class="text-xs-right">{{ props.item.drivers_count }}</td>
+          <td class="action-cell text-xs-right"
               @click.stop="goToRoutes(props.item.id)"
           >
             {{ props.item.routes_count }}
           </td>
-          <td class="action-cell"
+          <td class="action-cell text-xs-right"
               @click.stop="goToUsers(props.item.id)"
           >
             {{ props.item.users_count }}
