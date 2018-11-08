@@ -32,7 +32,7 @@ class UnexpectedCompanyForRouteException extends BusinessLogicIntegrityException
      */
     public function __construct(CompaniesRoute $companiesRoute, Company $company)
     {
-        parent::__construct('Unexpected company in company route');
+        parent::__construct('Unexpected company in company to route historical assignment');
         $this->companiesRoute = $companiesRoute;
         $this->company = $company;
     }
@@ -67,7 +67,6 @@ class UnexpectedCompanyForRouteException extends BusinessLogicIntegrityException
         $companiesRoute = $this->getCompaniesRoute();
 
         return "Unexpected company [{$companiesRoute->company_id}] for route [{$companiesRoute->route_id}] found " .
-            "in company to route assignment [{$companiesRoute->id}]. " .
-            "Expected company [{$this->getCompany()->id}]";
+            "in company to route assignment [{$companiesRoute->id}]. Expected company is [{$this->getCompany()->id}]";
     }
 }

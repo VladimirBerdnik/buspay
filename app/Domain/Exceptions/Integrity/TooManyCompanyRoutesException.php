@@ -3,7 +3,6 @@
 namespace App\Domain\Exceptions\Integrity;
 
 use App\Models\CompaniesRoute;
-use App\Models\Company;
 use App\Models\Route;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -28,13 +27,6 @@ class TooManyCompanyRoutesException extends BusinessLogicIntegrityException
     private $companyRoutes;
 
     /**
-     * Company to which few assignments exists.
-     *
-     * @var Company
-     */
-    private $company;
-
-    /**
      * Route for which few assignments exists.
      *
      * @var Route
@@ -45,16 +37,14 @@ class TooManyCompanyRoutesException extends BusinessLogicIntegrityException
      * Thrown when multiple company to route assignments for date are exists.
      *
      * @param Carbon $date Date for which many company to route assignments exists
-     * @param Company $company Company to which few assignments exists
      * @param Route $route Route for which few assignments exists
      * @param Collection|CompaniesRoute[] $companyRoutes List of company to route assignments for date
      */
-    public function __construct(Carbon $date, Company $company, Route $route, Collection $companyRoutes)
+    public function __construct(Carbon $date, Route $route, Collection $companyRoutes)
     {
         parent::__construct('Few company to route assignments for date');
         $this->date = $date;
         $this->companyRoutes = $companyRoutes;
-        $this->company = $company;
         $this->route = $route;
     }
 
@@ -66,16 +56,6 @@ class TooManyCompanyRoutesException extends BusinessLogicIntegrityException
     public function getDate(): Carbon
     {
         return $this->date;
-    }
-
-    /**
-     * Company to which few assignments exists.
-     *
-     * @return Company
-     */
-    public function getCompany(): Company
-    {
-        return $this->company;
     }
 
     /**
@@ -108,7 +88,7 @@ class TooManyCompanyRoutesException extends BusinessLogicIntegrityException
         $periodsIdentifiers = $this->getCompanyRoutes()->pluck(CompaniesRoute::ID)->toArray();
         $date = $this->getDate()->toIso8601String();
 
-        return "For date {$date} few company [{$this->getCompany()->id}] to route [{$this->getRoute()->id}] " .
+        return "For date {$date} few companies to route [{$this->getRoute()->id}] " .
             "assignments exists: " . implode(', ', $periodsIdentifiers);
     }
 }
