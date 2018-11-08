@@ -85,7 +85,7 @@ class CardTransformer extends BaseTransformer
      *
      * @return ResourceInterface
      */
-    protected function includeCompany(Card $card): ResourceInterface
+    protected function includeCardType(Card $card): ResourceInterface
     {
         if (!$card->cardType) {
             return $this->null();
