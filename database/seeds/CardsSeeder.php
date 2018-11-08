@@ -14,7 +14,7 @@ class CardsSeeder extends Seeder
     public function run()
     {
         CardType::query()->get()->each(function (CardType $cardType) {
-            factory(Card::class, 100)->create([Card::CARD_TYPE_ID => $cardType->getKey()]);
+            factory(Card::class, 1000)->create([Card::CARD_TYPE_ID => $cardType->getKey()]);
         });
     }
 }
