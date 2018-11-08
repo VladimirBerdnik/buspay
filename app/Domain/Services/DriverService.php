@@ -210,15 +210,7 @@ class DriverService extends EntityService
             throw new DriverDeletionException($driver);
         }
 
-        $this->handleTransaction(function () use ($driver): void {
-            $driversCard = $this->driversCardService->getForDriver($driver);
-            if ($driversCard->card_id !== $driver->card_id) {
-                throw new UnexpectedCardForDriverException($driversCard, $driver->card);
-            }
-            $this->driversCardService->closePeriod($driversCard);
-
-            $this->getRepository()->delete($driver);
-        });
+        $this->getRepository()->delete($driver);
 
         Log::debug("Driver [{$driver->id}] deleted");
     }
