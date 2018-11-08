@@ -12,6 +12,7 @@ use App\Models\Route;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
 use Log;
+use Saritasa\Laravel\Validation\DateRuleSet;
 use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
 use Saritasa\Laravel\Validation\RuleSet;
@@ -35,10 +36,20 @@ class CompaniesRouteService extends EntityService
         return [
             CompaniesRoute::ACTIVE_FROM => Rule::required()->date()
                 ->when($companiesRoute->active_to, function (RuleSet $rule) {
+                    /**
+                     * Date rules set.
+                     *
+                     * @var DateRuleSet $rule
+                     */
                     return $rule->before(CompaniesRoute::ACTIVE_TO);
                 }),
             CompaniesRoute::ACTIVE_TO => Rule::nullable()->date()
                 ->when($companiesRoute->active_to, function (RuleSet $rule) {
+                    /**
+                     * Date rules set.
+                     *
+                     * @var DateRuleSet $rule
+                     */
                     return $rule->after(CompaniesRoute::ACTIVE_FROM);
                 }),
             CompaniesRoute::COMPANY_ID => Rule::required()->exists('companies', Company::ID),
@@ -144,7 +155,7 @@ class CompaniesRouteService extends EntityService
         );
 
         if ($companyRoutes->count() > 1) {
-            throw new TooManyCompanyRoutesException($date, $route->company, $route, $companyRoutes);
+            throw new TooManyCompanyRoutesException($date, $route, $companyRoutes);
         }
 
         if ($companyRoutes->count() === 1) {

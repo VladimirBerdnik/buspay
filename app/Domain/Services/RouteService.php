@@ -61,13 +61,15 @@ class RouteService extends EntityService
     {
         return [
             Route::COMPANY_ID => Rule::nullable()->exists('companies', Company::ID),
-            Route::NAME => Rule::unique('routes', Route::NAME, function (Unique $rule) use ($route) {
-                if ($route->exists) {
-                    $rule->whereNot(Route::ID, $route->id);
-                }
+            Route::NAME => Rule::required()
+                // Route name should be unique
+                ->unique('routes', Route::NAME, function (Unique $rule) use ($route) {
+                    if ($route->exists) {
+                        $rule->whereNot(Route::ID, $route->id);
+                    }
 
-                return $rule->whereNull(Route::DELETED_AT);
-            }),
+                    return $rule->whereNull(Route::DELETED_AT);
+                }),
         ];
     }
 

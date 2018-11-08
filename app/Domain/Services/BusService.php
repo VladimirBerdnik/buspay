@@ -36,6 +36,7 @@ class BusService extends EntityService
             Bus::COMPANY_ID => Rule::required()->exists('companies', Company::ID)->int(),
             Bus::MODEL_NAME => Rule::required()->string()->max(24),
             Bus::STATE_NUMBER => Rule::required()
+                // Bus should have unique state number between all the companies
                 ->unique('buses', Bus::STATE_NUMBER, function (Unique $rule) use ($bus) {
                     if ($bus->exists) {
                         $rule->whereNot(Bus::ID, $bus->id);
@@ -45,11 +46,13 @@ class BusService extends EntityService
                 })
                 ->string()
                 ->max(10),
-            Bus::ROUTE_ID => Rule::nullable()->exists('routes', Route::ID, function (Exists $rule) use ($bus) {
-                $rule->where(Route::COMPANY_ID, $bus->company_id);
+            Bus::ROUTE_ID => Rule::nullable()
+                // Route should be in the same company with bus
+                ->exists('routes', Route::ID, function (Exists $rule) use ($bus) {
+                    $rule->where(Route::COMPANY_ID, $bus->company_id);
 
-                return $rule->whereNull(Bus::DELETED_AT);
-            }),
+                    return $rule->whereNull(Route::DELETED_AT);
+                }),
         ];
     }
 

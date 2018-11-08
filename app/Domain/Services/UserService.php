@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Validation\Rules\Unique;
 use Illuminate\Validation\ValidationException;
 use Log;
+use Saritasa\Laravel\Validation\DatabaseRuleSet;
 use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
 use Saritasa\Laravel\Validation\RuleSet;
@@ -45,22 +46,33 @@ class UserService extends EntityService
             User::LAST_NAME => Rule::required()->string()->max(64),
             User::COMPANY_ID => Rule::when(
                 in_array($userData->role_id, $this->rolesWithCompany),
-                function (RuleSet $rules) {
+                function (
+                    RuleSet $rules
+                ) {
+                    // When user has role with company than company is required, otherwise should be empty
+                    /**
+                     * Database rules set.
+                     *
+                     * @var DatabaseRuleSet $rules
+                     */
                     return $rules->exists('companies', Company::ID)->required();
                 },
                 function (RuleSet $rules) {
                     return $rules->nullable()->max(0);
                 }
             ),
-            User::EMAIL => Rule::unique('users', User::EMAIL, function (Unique $rule) use ($user) {
-                if ($user->exists) {
-                    $rule->whereNot(User::ID, $user->id);
-                }
+            User::EMAIL => Rule::required()
+                // Email field should be unique
+                ->unique('users', User::EMAIL, function (Unique $rule) use ($user) {
+                    if ($user->exists) {
+                        $rule->whereNot(User::ID, $user->id);
+                    }
 
-                return $rule->whereNull(User::DELETED_AT);
-            })
-                ->required()->string()->max(64),
+                    return $rule->whereNull(User::DELETED_AT);
+                })
+                ->string()->max(64),
             User::PASSWORD => Rule::when(!$user->exists || $userData->password, function (RuleSet $rules) {
+                // For new user or for existing user with passed password
                 return $rules->required()->max(64)->min(6);
             }),
         ];
