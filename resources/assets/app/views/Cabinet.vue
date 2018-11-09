@@ -57,6 +57,7 @@ import UsersService from '../services/UsersService';
 import RoutesService from '../services/RoutesService';
 import BusesService from '../services/BusesService';
 import DriversService from '../services/DriversService';
+import DriversCardsService from '../services/DriversCardsService';
 
 export default {
   name: 'Cabinet',
@@ -83,6 +84,7 @@ export default {
     await RoutesService.read();
     await BusesService.read();
     await DriversService.read();
+    await DriversCardsService.read();
   },
   methods: {
     authenticated: () => AuthService.isAuthenticated(),

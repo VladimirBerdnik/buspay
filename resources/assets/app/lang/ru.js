@@ -54,6 +54,9 @@ export default {
     bus: {
       title: 'Параметры автобуса',
     },
+    driver: {
+      title: 'Параметры водителя',
+    },
     user: {
       title:  'Параметры пользователя',
       inputs: {
@@ -146,6 +149,7 @@ export default {
         name: 'Компания',
       },
       bus: {
+        name:         'Автобус',
         state_number: 'Автобус',
       },
       card: {
@@ -208,6 +212,17 @@ export default {
     fields: {
       id:   'ID',
       name: 'Название',
+    },
+  },
+  card: {
+    name:   'Карта',
+    fields: {
+      id:          'ID',
+      card_number: 'Номер карты',
+      uin:         'UIN',
+      cardType:    {
+        name: 'Тип карты',
+      },
     },
   },
 };

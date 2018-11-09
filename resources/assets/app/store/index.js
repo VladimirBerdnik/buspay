@@ -43,6 +43,8 @@ export default new Vuex.Store({
     routes:        [],
     buses:         [],
     drivers:       [],
+    cards:         [],
+    driversCards:  [],
   },
   mutations,
   getters,

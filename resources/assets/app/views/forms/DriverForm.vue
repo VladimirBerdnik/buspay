@@ -44,6 +44,12 @@
                          :data-vv-as="$t('driver.fields.bus.name')"
                          name="bus_id"
               />
+              <DriverCardSelect v-validate="''"
+                                v-model="driver.card_id"
+                                :error-messages="errors.collect('card_id')"
+                                :data-vv-as="$t('driver.fields.card.card_number')"
+                                name="card_id"
+              />
             </v-form>
           </v-card-text>
           <v-card-actions>
@@ -78,11 +84,14 @@ import CompanySelect from '../dropdowns/CompanySelect';
 import RoleSelect from '../dropdowns/RoleSelect';
 import ModalFormMixin from '../../mixins/ModalFormMixin';
 import BusSelect from '../dropdowns/BusSelect';
+import DriverCardSelect from '../dropdowns/DriverCardSelect';
 
 export default {
   name:       'DriverForm',
-  components: { BusSelect, RoleSelect, CompanySelect },
-  mixins:     [
+  components: {
+    DriverCardSelect, BusSelect, RoleSelect, CompanySelect,
+  },
+  mixins: [
     FormValidationMixin,
     ModalFormMixin,
   ],
