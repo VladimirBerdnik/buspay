@@ -68,6 +68,7 @@
                           v-model="user.role_id"
                           :error-messages="errors.collect('role_id')"
                           :data-vv-as="$t('user.fields.role.name')"
+                          :clearable="false"
                           name="role_id"
               />
               <CompanySelect v-validate="companyRequired ? 'required' : ''"
