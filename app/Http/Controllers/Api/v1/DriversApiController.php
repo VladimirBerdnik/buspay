@@ -47,7 +47,12 @@ class DriversApiController extends BaseApiController
     public function index(): Response
     {
         return $this->response->collection(
-            $this->driverService->getWith(['company', 'bus', 'card'], [], [], new SortOptions(Driver::FULL_NAME)),
+            $this->driverService->getWith(
+                ['company', 'bus', 'card', 'card.cardType'],
+                [],
+                [],
+                new SortOptions(Driver::FULL_NAME)
+            ),
             $this->transformer
         );
     }
