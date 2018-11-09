@@ -93,7 +93,8 @@
               >
                 {{ $t('common.buttons.close') }}
               </v-btn>
-              <v-btn color="primary"
+              <v-btn :loading="inProgress"
+                     color="primary"
                      @click="save"
               >
                 {{ $t('common.buttons.save') }}
