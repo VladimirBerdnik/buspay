@@ -11,6 +11,8 @@ services:
     image: buspay-web
     hostname: buspay-web
     container_name: buspay-web
+    ports:
+      - "80:80"
     depends_on:
       db:
         condition: service_healthy
