@@ -139,13 +139,23 @@ export default {
   },
   computed: {
     items() {
-      const routes = RoutesService.get();
+      let items = this.service.get();
 
-      if (!this.companyId) {
-        return routes;
-      }
+      const filters = {
+        company_id: this.companyId,
+      };
 
-      return routes.filter(route => route.company_id === this.companyId);
+
+      Object.entries(filters).forEach(entry => {
+        const [ filterField, value ] = entry;
+
+        if (!value) {
+          return;
+        }
+        items = items.filter(item => item[filterField] === value);
+      });
+
+      return items;
     },
   },
   methods: {

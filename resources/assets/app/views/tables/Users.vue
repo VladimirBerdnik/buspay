@@ -138,13 +138,23 @@ export default {
   },
   computed: {
     items() {
-      const users = UsersService.get();
+      let items = this.service.get();
 
-      if (!this.companyId) {
-        return users;
-      }
+      const filters = {
+        company_id: this.companyId,
+      };
 
-      return users.filter(user => user.company_id === this.companyId);
+
+      Object.entries(filters).forEach(entry => {
+        const [ filterField, value ] = entry;
+
+        if (!value) {
+          return;
+        }
+        items = items.filter(item => item[filterField] === value);
+      });
+
+      return items;
     },
   },
 };

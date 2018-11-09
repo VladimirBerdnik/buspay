@@ -147,13 +147,12 @@ export default {
   },
   computed: {
     items() {
-      let buses = BusesService.get();
+      let items = this.service.get();
 
       const filters = {
         company_id: this.companyId,
         route_id:   this.routeId,
       };
-
 
       Object.entries(filters).forEach(entry => {
         const [ filterField, value ] = entry;
@@ -161,10 +160,10 @@ export default {
         if (!value) {
           return;
         }
-        buses = buses.filter(bus => bus[filterField] === value);
+        items = items.filter(item => item[filterField] === value);
       });
 
-      return buses;
+      return items;
     },
   },
 };
