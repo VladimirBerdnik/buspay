@@ -20,8 +20,12 @@
         <CompanySelect v-model="companyId"
                        @input="switchCompany"
         />
+        <BusSelect v-model="busId"
+                   :company-id="companyId"
+                   @input="switchBus"
+        />
         <v-btn color="primary"
-               @click="openModalForm({company_id: companyId})"
+               @click="openModalForm({company_id: companyId, bus_id: busId})"
         >
           {{ $t('common.buttons.add') }}
         </v-btn>
@@ -97,8 +101,10 @@ import i18n from '../../lang/i18n';
 import DriversService from '../../services/DriversService';
 import DriverForm from '../../views/forms/DriverForm';
 import CompanySelect from '../dropdowns/CompanySelect';
+import BusSelect from '../dropdowns/BusSelect';
 import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
+import WithBusFilterMixin from '../../mixins/WithBusFilterMixin';
 
 // Table headers
 const headers = [
@@ -121,9 +127,10 @@ export default {
   name:       'Drivers',
   components: {
     CompanySelect,
+    BusSelect,
     DriverForm,
   },
-  mixins: [ WithCompanyFilterMixin, CRUDTableMixin ],
+  mixins: [ WithCompanyFilterMixin, WithBusFilterMixin, CRUDTableMixin ],
   data() {
     return {
       headers,
@@ -135,13 +142,23 @@ export default {
   },
   computed: {
     items() {
-      const drivers = DriversService.get();
+      let items = this.service.get();
 
-      if (!this.companyId) {
-        return drivers;
-      }
+      const filters = {
+        company_id: this.companyId,
+        bus_id:     this.busId,
+      };
 
-      return drivers.filter(driver => driver.company_id === this.companyId);
+      Object.entries(filters).forEach(entry => {
+        const [ filterField, value ] = entry;
+
+        if (!value) {
+          return;
+        }
+        items = items.filter(item => item[filterField] === value);
+      });
+
+      return items;
     },
   },
 };
