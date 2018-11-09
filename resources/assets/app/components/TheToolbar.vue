@@ -7,7 +7,14 @@
     <v-toolbar-items>
       <v-btn :to="{name: 'home'}"
              exact
-             flat>{{ $t('app.title') }}
+             flat
+      >
+        <v-avatar :size="32"
+                  class="mr-3"
+        >
+          <img src="/images/favicon.png">
+        </v-avatar>
+        {{ $t('app.title') }}
       </v-btn>
     </v-toolbar-items>
     <v-spacer/>
