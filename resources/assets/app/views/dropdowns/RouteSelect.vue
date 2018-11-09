@@ -77,15 +77,6 @@ export default {
   },
   methods: {
     /**
-     * Changes component value and notifies parent about value changing.
-     *
-     * @param {number} newValue New component selected value
-     */
-    changeValue(newValue) {
-      this.itemId = newValue;
-      this.$emit('input', newValue);
-    },
-    /**
      * Check whether passed value is valid value to select.
      *
      * @param {number} value Value to check
@@ -95,7 +86,7 @@ export default {
      * @return {boolean}
      */
     valueValid(value, allowedValues = null) {
-      return (allowedValues || this.items).some(item => item[this.itemKey] === value);
+      return (allowedValues || this.items).some(item => item[this.itemValue] === value);
     },
   },
 };

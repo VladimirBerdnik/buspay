@@ -20,10 +20,6 @@ export default {
   name:   'BusSelect',
   mixins: [SimpleDropdownMixin],
   props:  {
-    withCompaniesOnly: {
-      type:    Boolean,
-      default: true,
-    },
     companyId: {
       type:    Number,
       default: null,
@@ -42,11 +38,8 @@ export default {
      * @return {Bus[]} List of buses that matches given criteria
      */
     items() {
-      return BusesService.get().filter(bus => {
-        const companyMatch = (!this.companyId || this.companyId === bus.company_id);
-
-        return (!this.withCompaniesOnly || bus.company_id) &&  companyMatch;
-      });
+      return BusesService.get()
+        .filter(bus => (!this.companyId || this.companyId === bus.company_id));
     },
   },
   watch: {
@@ -79,15 +72,6 @@ export default {
   },
   methods: {
     /**
-     * Changes component value and notifies parent about value changing.
-     *
-     * @param {number} newValue New component selected value
-     */
-    changeValue(newValue) {
-      this.itemId = newValue;
-      this.$emit('input', newValue);
-    },
-    /**
      * Check whether passed value is valid value to select.
      *
      * @param {number} value Value to check
@@ -97,7 +81,7 @@ export default {
      * @return {boolean}
      */
     valueValid(value, allowedValues = null) {
-      return (allowedValues || this.items).some(item => item[this.itemKey] === value);
+      return (allowedValues || this.items).some(item => item[this.itemValue] === value);
     },
   },
 };

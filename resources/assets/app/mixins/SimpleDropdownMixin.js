@@ -38,7 +38,7 @@ export default {
      * @param {number} newValue New value from parent component
      */
     value(newValue) {
-      this.itemId = newValue;
+      this.changeValue(newValue);
     },
     /**
      * Fire event to parent when new value is selected in component.
@@ -46,6 +46,17 @@ export default {
      * @param {number} newValue Selected value
      */
     itemId(newValue) {
+      this.changeValue(newValue);
+    },
+  },
+  methods: {
+    /**
+     * Changes component value and notifies parent about value changing.
+     *
+     * @param {number} newValue New component selected value
+     */
+    changeValue(newValue) {
+      this.itemId = newValue;
       this.$emit('input', newValue);
     },
   },
