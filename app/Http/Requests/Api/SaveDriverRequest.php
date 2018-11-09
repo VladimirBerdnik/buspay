@@ -11,10 +11,9 @@ use Saritasa\Laravel\Validation\Rule;
  * SaveDriverRequest form request.
  *
  * @property-read integer $company_id Company identifier in which this driver works
+ * @property-read string $full_name Driver full name
  * @property-read integer|null $bus_id Bus identifier, on which this driver usually works
  * @property-read integer|null $card_id Current driver card identifier
- * @property-read string $full_name Driver full name
- * @property-read boolean $active Does this driver works or not, can be assigned to route or not
  */
 class SaveDriverRequest extends ApiRequest
 {
@@ -26,11 +25,10 @@ class SaveDriverRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            Driver::COMPANY_ID => Rule::required()->exists('companies', 'id')->int(),
-            Driver::BUS_ID => Rule::nullable()->exists('buses', 'id')->int(),
-            Driver::CARD_ID => Rule::nullable()->exists('cards', 'id')->int(),
-            Driver::FULL_NAME => Rule::required()->string()->max(191),
-            Driver::ACTIVE => Rule::required()->boolean(),
+            Driver::FULL_NAME => Rule::required()->string()->max(96),
+            Driver::COMPANY_ID => Rule::required()->int(),
+            Driver::BUS_ID => Rule::nullable()->int(),
+            Driver::CARD_ID => Rule::nullable()->int(),
         ];
     }
 

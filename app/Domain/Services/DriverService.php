@@ -71,8 +71,9 @@ class DriverService extends EntityService
                         $rule->whereNot(Driver::ID, $driver->id);
                     }
 
-                    return $rule->whereNull(Driver::DELETED_AT);
-                }),
+                    return $rule->where(Driver::COMPANY_ID, $driver->company_id)
+                        ->whereNull(Driver::DELETED_AT);
+                })->string()->max(96),
             Driver::CARD_ID => Rule::nullable()
                 // Card should exists and be of the driver card type
                 ->exists('cards', Card::ID, function (Exists $rule) use ($driver) {

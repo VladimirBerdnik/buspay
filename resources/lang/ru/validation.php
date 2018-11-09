@@ -193,5 +193,7 @@ return [
         'model_name' => 'Модель',
         'state_number' => 'Гос.номер',
         'route_id' => 'Маршрут',
+        'bus_id' => 'Автобус',
+        'full_name' => 'ФИО',
     ],
 ];
