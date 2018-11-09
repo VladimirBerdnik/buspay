@@ -59,7 +59,11 @@
           <td>{{ props.item.model_name }}</td>
           <td>{{ props.item.company.name }}</td>
           <td>{{ props.item.route.name }}</td>
-          <td class="text-xs-right">{{ props.item.drivers_count }}</td>
+          <td class="action-cell text-xs-right"
+              @click.stop="goToDrivers(props.item.id)"
+          >
+            {{ props.item.drivers_count }}
+          </td>
           <td class="text-xs-right">{{ props.item.validators_count }}</td>
           <td class="px-0">
             <div class="cell-buttons">
@@ -101,6 +105,7 @@
 
 <script>
 import i18n from '../../lang/i18n';
+import * as routes from '../../router';
 import BusesService from '../../services/BusesService';
 import CompanySelect from '../dropdowns/CompanySelect';
 import BusForm from '../forms/BusForm';
@@ -164,6 +169,16 @@ export default {
       });
 
       return items;
+    },
+  },
+  methods: {
+    /**
+     * Navigates user to drivers list page.
+     *
+     * @param {number} busId Bus identifier to display drivers list for
+     */
+    goToDrivers(busId) {
+      this.$router.push({ name: routes.ROUTE_DRIVERS, query: { busId } });
     },
   },
 };
