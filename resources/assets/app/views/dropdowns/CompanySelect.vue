@@ -1,15 +1,14 @@
 <template>
-  <v-autocomplete
-    v-model="companyId"
-    :items="companies"
-    :readonly="false"
-    :label="$t('company.name')"
-    :clearable="clearable"
-    :error-messages="errorMessages"
-    :no-data-text="$t('dropdowns.noResults')"
-    item-text="name"
-    item-value="id"
-    persistent-hint
+  <v-autocomplete v-model="companyId"
+                  :items="companies"
+                  :readonly="false"
+                  :label="$t('company.name')"
+                  :clearable="clearable"
+                  :error-messages="errorMessages"
+                  :no-data-text="$t('dropdowns.noResults')"
+                  item-text="name"
+                  item-value="id"
+                  persistent-hint
   />
 </template>
 

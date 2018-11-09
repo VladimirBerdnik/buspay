@@ -1,9 +1,9 @@
 <template>
-  <v-select :items="routes"
-            v-model="routeId"
+  <v-select v-model="routeId"
+            :items="routes"
             :label="$t('route.name')"
-            :error-messages="errorMessages"
             :clearable="clearable"
+            :error-messages="errorMessages"
             :no-data-text="$t('dropdowns.noResults')"
             item-text="name"
             item-value="id"

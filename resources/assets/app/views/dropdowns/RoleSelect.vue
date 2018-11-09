@@ -1,9 +1,9 @@
 <template>
-  <v-select :items="roles"
-            v-model="roleId"
+  <v-select v-model="roleId"
+            :items="roles"
             :label="$t('role.name')"
-            :error-messages="errorMessages"
             :clearable="clearable"
+            :error-messages="errorMessages"
             :no-data-text="$t('dropdowns.noResults')"
             item-text="name"
             item-value="id"
