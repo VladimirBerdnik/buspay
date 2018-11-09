@@ -1,5 +1,6 @@
 <template>
-  <v-toolbar dark
+  <v-toolbar :clipped-left="true"
+             dark
              fixed
              app
   >

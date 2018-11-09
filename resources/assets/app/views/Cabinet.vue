@@ -1,6 +1,7 @@
 <template>
   <div v-if="authenticated()">
     <v-navigation-drawer :mini-variant="mini"
+                         :clipped="true"
                          :value:="true"
                          permanent
                          dark
