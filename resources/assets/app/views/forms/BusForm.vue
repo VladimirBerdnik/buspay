@@ -20,7 +20,7 @@
             >
               <v-text-field
                 v-validate="'required'"
-                v-model="bus.model_name"
+                v-model="item.model_name"
                 :error-messages="errors.collect('model_name')"
                 :label="$t('bus.fields.model_name')"
                 :data-vv-as="$t('bus.fields.model_name')"
@@ -30,7 +30,7 @@
               />
               <v-text-field
                 v-validate="'required'"
-                v-model="bus.state_number"
+                v-model="item.state_number"
                 :error-messages="errors.collect('state_number')"
                 :label="$t('bus.fields.state_number')"
                 :data-vv-as="$t('bus.fields.state_number')"
@@ -39,16 +39,16 @@
                 required
               />
               <CompanySelect v-validate="'required'"
-                             v-model="bus.company_id"
+                             v-model="item.company_id"
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('bus.fields.company.name')"
                              :clearable="false"
                              name="company_id"
               />
               <RouteSelect v-validate="''"
-                           v-show="bus.company_id"
-                           v-model="bus.route_id"
-                           :company-id="bus.company_id"
+                           v-show="item.company_id"
+                           v-model="item.route_id"
+                           :company-id="item.company_id"
                            :error-messages="errors.collect('route_id')"
                            :data-vv-as="$t('bus.fields.route.name')"
                            name="route_id"
@@ -80,70 +80,33 @@
 </template>
 
 <script>
-import AlertsService from '../../services/AlertsService';
 import BusesService from '../../services/BusesService';
 import FormValidationMixin from '../../mixins/FormValidationMixin';
 import CompanySelect from '../dropdowns/CompanySelect';
 import RoleSelect from '../dropdowns/RoleSelect';
 import ModalFormMixin from '../../mixins/ModalFormMixin';
 import RouteSelect from '../dropdowns/RouteSelect';
+import EntityFormMixin from '../../mixins/EntityFormMixin';
 
 export default {
   name:       'BusForm',
   components: { RouteSelect, RoleSelect, CompanySelect },
   mixins:     [
-    FormValidationMixin,
     ModalFormMixin,
+    FormValidationMixin,
+    EntityFormMixin,
   ],
-  props: {
-    value: {
-      type:    Object,
-      default: () => {},
-    },
-  },
   data() {
     return {
-      bus: {
+      item: {
         id:           null,
         model_name:   null,
         state_number: null,
         company_id:   null,
         route_id:     null,
       },
+      service: BusesService,
     };
-  },
-  watch: {
-    value(newValue) {
-      this.bus = Object.assign({}, newValue);
-    },
-  },
-  methods: {
-    /**
-     * Performs save request.
-     */
-    async save() {
-      if (!await this.revalidateForm()) {
-        return;
-      }
-
-      BusesService.save(this.bus)
-        .then(() => {
-          AlertsService.info(this.$i18n.t('common.notifications.changesSaved'));
-          this.$emit('saved');
-          this.close();
-        })
-        .catch(error => {
-          if (this.isValidationError(error)) {
-            this.handleValidationError(error.response.data.errors);
-          }
-        });
-    },
-    /**
-     * Closes modal window.
-     */
-    close() {
-      this.$emit('close', false);
-    },
   },
 };
 </script>

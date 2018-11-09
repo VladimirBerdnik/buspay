@@ -19,7 +19,7 @@
 
               <v-text-field
                 v-validate="'required'"
-                v-model="company.name"
+                v-model="item.name"
                 :error-messages="errors.collect('name')"
                 :label="$t('company.fields.name')"
                 :data-vv-as="$t('company.fields.name')"
@@ -30,7 +30,7 @@
 
               <v-text-field
                 v-validate="'required'"
-                v-model="company.bin"
+                v-model="item.bin"
                 :error-messages="errors.collect('bin')"
                 :label="$t('company.fields.bin')"
                 :data-vv-as="$t('company.fields.bin')"
@@ -41,7 +41,7 @@
 
               <v-text-field
                 v-validate="'required'"
-                v-model="company.account_number"
+                v-model="item.account_number"
                 :error-messages="errors.collect('account_number')"
                 :label="$t('company.fields.account_number')"
                 :data-vv-as="$t('company.fields.account_number')"
@@ -52,7 +52,7 @@
 
               <v-text-field
                 v-validate="'required'"
-                v-model="company.contact_information"
+                v-model="item.contact_information"
                 :error-messages="errors.collect('contact_information')"
                 :label="$t('company.fields.contact_information')"
                 :data-vv-as="$t('company.fields.contact_information')"
@@ -88,66 +88,29 @@
 </template>
 
 <script>
-import AlertsService from '../../services/AlertsService';
 import CompaniesService from '../../services/CompaniesService';
 import FormValidationMixin from '../../mixins/FormValidationMixin';
 import ModalFormMixin from '../../mixins/ModalFormMixin';
+import EntityFormMixin from '../../mixins/EntityFormMixin';
 
 export default {
   name:   'CompanyForm',
   mixins: [
-    FormValidationMixin,
     ModalFormMixin,
+    FormValidationMixin,
+    EntityFormMixin,
   ],
-  props: {
-    value: {
-      type:    Object,
-      default: () => {},
-    },
-  },
   data() {
     return {
-      company: {
+      item: {
         id:                  null,
         name:                null,
         bin:                 null,
         account_number:      null,
         contact_information: null,
       },
+      service: CompaniesService,
     };
-  },
-  watch: {
-    value(newValue) {
-      this.company = Object.assign({}, newValue);
-    },
-  },
-  methods: {
-    /**
-     * Performs save request.
-     */
-    async save() {
-      if (!await this.revalidateForm()) {
-        return;
-      }
-
-      CompaniesService.save(this.company)
-        .then(() => {
-          AlertsService.info(this.$i18n.t('common.notifications.changesSaved'));
-          this.$emit('saved');
-          this.close();
-        })
-        .catch(error => {
-          if (this.isValidationError(error)) {
-            this.handleValidationError(error.response.data.errors);
-          }
-        });
-    },
-    /**
-     * Closes modal window.
-     */
-    close() {
-      this.$emit('close', false);
-    },
   },
 };
 </script>

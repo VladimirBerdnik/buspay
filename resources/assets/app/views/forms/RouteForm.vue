@@ -21,7 +21,7 @@
 
               <v-text-field
                 v-validate="'required'"
-                v-model="route.name"
+                v-model="item.name"
                 :error-messages="errors.collect('name')"
                 :label="$t('route.fields.name')"
                 :data-vv-as="$t('route.fields.name')"
@@ -30,7 +30,7 @@
                 required
               />
               <CompanySelect v-validate="''"
-                             v-model="route.company_id"
+                             v-model="item.company_id"
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('route.fields.company.name')"
                              name="company_id"
@@ -63,66 +63,29 @@
 </template>
 
 <script>
-import AlertsService from '../../services/AlertsService';
 import RoutesService from '../../services/RoutesService';
 import FormValidationMixin from '../../mixins/FormValidationMixin';
 import CompanySelect from '../dropdowns/CompanySelect';
 import ModalFormMixin from '../../mixins/ModalFormMixin';
+import EntityFormMixin from '../../mixins/EntityFormMixin';
 
 export default {
   name:       'RouteForm',
   components: { CompanySelect },
   mixins:     [
-    FormValidationMixin,
     ModalFormMixin,
+    FormValidationMixin,
+    EntityFormMixin,
   ],
-  props: {
-    value: {
-      type:    Object,
-      default: () => {},
-    },
-  },
   data() {
     return {
-      route: {
+      item: {
         id:         null,
         name:       null,
         company_id: null,
       },
+      service: RoutesService,
     };
-  },
-  watch: {
-    value(newValue) {
-      this.route = Object.assign({}, newValue);
-    },
-  },
-  methods: {
-    /**
-     * Performs save request.
-     */
-    async save() {
-      if (!await this.revalidateForm()) {
-        return;
-      }
-
-      RoutesService.save(this.route)
-        .then(() => {
-          AlertsService.info(this.$i18n.t('common.notifications.changesSaved'));
-          this.$emit('saved');
-          this.close();
-        })
-        .catch(error => {
-          if (this.isValidationError(error)) {
-            this.handleValidationError(error.response.data.errors);
-          }
-        });
-    },
-    /**
-     * Closes modal window.
-     */
-    close() {
-      this.$emit('close', false);
-    },
   },
 };
 </script>
