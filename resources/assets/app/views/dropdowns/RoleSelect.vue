@@ -1,59 +1,27 @@
 <template>
-  <v-select v-model="roleId"
-            :items="roles"
+  <v-select v-model="itemId"
+            :items="items"
             :label="$t('role.name')"
             :clearable="clearable"
+            :readonly="readonly"
             :error-messages="errorMessages"
             :no-data-text="$t('dropdowns.noResults')"
-            item-text="name"
-            item-value="id"
+            :item-text="itemText"
+            :item-value="itemValue"
   />
 </template>
 
 <script>
 import RolesService from '../../services/RolesService';
+import SimpleDropdownMixin from '../../mixins/SimpleDropdownMixin';
 
 export default {
-  name:  'RoleSelect',
-  props: {
-    value: {
-      type:    Number,
-      default: null,
-    },
-    errorMessages: {
-      type:    Array,
-      default: () => [],
-    },
-    clearable: {
-      type:    Boolean,
-      default: true,
-    },
-  },
+  name:   'RoleSelect',
+  mixins: [SimpleDropdownMixin],
   data() {
     return {
-      roleId: null,
+      service: RolesService,
     };
-  },
-  computed: {
-    roles: () => RolesService.get(),
-  },
-  watch: {
-    /**
-     * Update value in component when new model value is set from parent.
-     *
-     * @param {number} newValue New value from parent component
-     */
-    value(newValue) {
-      this.roleId = newValue;
-    },
-    /**
-     * Fire event to parent when new value is selected in component.
-     *
-     * @param {number} newValue Selected value
-     */
-    roleId(newValue) {
-      this.$emit('input', newValue);
-    },
   },
 };
 </script>

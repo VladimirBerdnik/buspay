@@ -1,65 +1,28 @@
 <template>
-  <v-autocomplete v-model="companyId"
-                  :items="companies"
-                  :readonly="readonly"
+  <v-autocomplete v-model="itemId"
+                  :items="items"
                   :label="$t('company.name')"
                   :clearable="clearable"
+                  :readonly="readonly"
                   :error-messages="errorMessages"
                   :no-data-text="$t('dropdowns.noResults')"
-                  item-text="name"
-                  item-value="id"
+                  :item-text="itemText"
+                  :item-value="itemValue"
                   persistent-hint
   />
 </template>
 
 <script>
 import CompaniesService from '../../services/CompaniesService';
+import SimpleDropdownMixin from '../../mixins/SimpleDropdownMixin';
 
 export default {
-  name:  'CompanySelect',
-  props: {
-    value: {
-      type:    Number,
-      default: null,
-    },
-    errorMessages: {
-      type:    Array,
-      default: () => [],
-    },
-    clearable: {
-      type:    Boolean,
-      default: true,
-    },
-    readonly: {
-      type:    Boolean,
-      default: false,
-    },
-  },
+  name:   'CompanySelect',
+  mixins: [SimpleDropdownMixin],
   data() {
     return {
-      companyId: null,
+      service: CompaniesService,
     };
-  },
-  computed: {
-    companies: () => CompaniesService.get(),
-  },
-  watch: {
-    /**
-     * Update value in component when new model value is set from parent.
-     *
-     * @param {number} newValue New value from parent component
-     */
-    value(newValue) {
-      this.companyId = newValue;
-    },
-    /**
-     * Fire event to parent when new value is selected in component.
-     *
-     * @param {number} newValue Selected value
-     */
-    companyId(newValue) {
-      this.$emit('input', newValue);
-    },
   },
 };
 </script>

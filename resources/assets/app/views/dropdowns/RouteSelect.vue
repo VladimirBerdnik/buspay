@@ -1,21 +1,24 @@
 <template>
-  <v-select v-model="routeId"
-            :items="routes"
+  <v-select v-model="itemId"
+            :items="items"
             :label="$t('route.name')"
             :clearable="clearable"
+            :readonly="readonly"
             :error-messages="errorMessages"
             :no-data-text="$t('dropdowns.noResults')"
-            item-text="name"
-            item-value="id"
+            :item-text="itemText"
+            :item-value="itemValue"
   />
 </template>
 
 <script>
 import RoutesService from '../../services/RoutesService';
+import SimpleDropdownMixin from '../../mixins/SimpleDropdownMixin';
 
 export default {
-  name:  'RouteSelect',
-  props: {
+  name:   'RouteSelect',
+  mixins: [SimpleDropdownMixin],
+  props:  {
     withCompaniesOnly: {
       type:    Boolean,
       default: true,
@@ -24,22 +27,10 @@ export default {
       type:    Number,
       default: null,
     },
-    value: {
-      type:    Number,
-      default: null,
-    },
-    errorMessages: {
-      type:    Array,
-      default: () => [],
-    },
-    clearable: {
-      type:    Boolean,
-      default: true,
-    },
   },
   data() {
     return {
-      routeId: null,
+      service: RoutesService,
     };
   },
   computed: {
@@ -48,7 +39,7 @@ export default {
      *
      * @return {Route[]} List of routes that matches given criteria
      */
-    routes() {
+    items() {
       return RoutesService.get().filter(route => {
         const companyMatch = (!this.companyId || this.companyId === route.company_id);
 
@@ -70,16 +61,16 @@ export default {
      *
      * @param {number} newValue Selected value
      */
-    routeId(newValue) {
+    itemId(newValue) {
       this.changeValue(this.valueValid(newValue) ? newValue : null);
     },
     /**
      * No any value should be selected when list of routes is empty.
      *
-     * @param {Route[]} newRoutes New filtered list of routes
+     * @param {Route[]} newItems New filtered list of routes
      */
-    routes(newRoutes) {
-      if (!this.valueValid(this.routeId, newRoutes)) {
+    items(newItems) {
+      if (!this.valueValid(this.itemId, newItems)) {
         this.changeValue(null);
       }
     },
@@ -91,7 +82,7 @@ export default {
      * @param {number} newValue New component selected value
      */
     changeValue(newValue) {
-      this.routeId = newValue;
+      this.itemId = newValue;
       this.$emit('input', newValue);
     },
     /**
@@ -104,7 +95,7 @@ export default {
      * @return {boolean}
      */
     valueValid(value, allowedValues = null) {
-      return (allowedValues || this.routes).some(route => route.id === value);
+      return (allowedValues || this.items).some(item => item[this.itemKey] === value);
     },
   },
 };

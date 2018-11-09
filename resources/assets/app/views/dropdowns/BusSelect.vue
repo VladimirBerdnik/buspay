@@ -1,23 +1,25 @@
 <template>
-  <v-autocomplete v-model="busId"
-                  :items="buses"
-                  :readonly="false"
+  <v-autocomplete v-model="itemId"
+                  :items="items"
                   :label="$t('bus.name')"
                   :clearable="clearable"
+                  :readonly="readonly"
                   :error-messages="errorMessages"
                   :no-data-text="$t('dropdowns.noResults')"
-                  item-text="state_number"
-                  item-value="id"
+                  :item-text="itemText"
+                  :item-value="itemValue"
                   persistent-hint
   />
 </template>
 
 <script>
 import BusesService from '../../services/BusesService';
+import SimpleDropdownMixin from '../../mixins/SimpleDropdownMixin';
 
 export default {
-  name:  'BusSelect',
-  props: {
+  name:   'BusSelect',
+  mixins: [SimpleDropdownMixin],
+  props:  {
     withCompaniesOnly: {
       type:    Boolean,
       default: true,
@@ -26,22 +28,11 @@ export default {
       type:    Number,
       default: null,
     },
-    value: {
-      type:    Number,
-      default: null,
-    },
-    errorMessages: {
-      type:    Array,
-      default: () => [],
-    },
-    clearable: {
-      type:    Boolean,
-      default: true,
-    },
   },
   data() {
     return {
-      busId: null,
+      itemText: 'state_number',
+      service:  BusesService,
     };
   },
   computed: {
@@ -50,7 +41,7 @@ export default {
      *
      * @return {Bus[]} List of buses that matches given criteria
      */
-    buses() {
+    items() {
       return BusesService.get().filter(bus => {
         const companyMatch = (!this.companyId || this.companyId === bus.company_id);
 
@@ -72,16 +63,16 @@ export default {
      *
      * @param {number} newValue Selected value
      */
-    busId(newValue) {
+    itemId(newValue) {
       this.changeValue(this.valueValid(newValue) ? newValue : null);
     },
     /**
      * No any value should be selected when list of buses is empty.
      *
-     * @param {Bus[]} newBuses New filtered list of buses
+     * @param {Bus[]} newItems New filtered list of buses
      */
-    buses(newBuses) {
-      if (!this.valueValid(this.busId, newBuses)) {
+    items(newItems) {
+      if (!this.valueValid(this.itemId, newItems)) {
         this.changeValue(null);
       }
     },
@@ -93,7 +84,7 @@ export default {
      * @param {number} newValue New component selected value
      */
     changeValue(newValue) {
-      this.busId = newValue;
+      this.itemId = newValue;
       this.$emit('input', newValue);
     },
     /**
@@ -106,7 +97,7 @@ export default {
      * @return {boolean}
      */
     valueValid(value, allowedValues = null) {
-      return (allowedValues || this.buses).some(bus => bus.id === value);
+      return (allowedValues || this.items).some(item => item[this.itemKey] === value);
     },
   },
 };
