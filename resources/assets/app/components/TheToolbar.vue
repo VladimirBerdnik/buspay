@@ -28,13 +28,16 @@
     />
     <v-spacer/>
     <v-toolbar-items>
-      <TheLoginMenu v-if="!authenticated"/>
+      <TheLoginMenu v-if="!authenticated"
+                    ref="loginMenu"
+      />
       <TheProfileMenu v-else/>
     </v-toolbar-items>
   </v-toolbar>
 </template>
 
 <script>
+import * as router from '../router';
 import TheLoginMenu from './TheLoginMenu';
 import TheProfileMenu from './TheProfileMenu';
 import AuthService from '../services/AuthService';
@@ -47,6 +50,21 @@ export default {
   },
   computed: {
     authenticated: () => AuthService.isAuthenticated(),
+  },
+  watch: {
+    authenticated(newValue, oldValue) {
+      if ((newValue !== oldValue) && newValue) {
+        this.goToCabinet();
+      }
+    },
+  },
+  methods: {
+    /**
+     * Navigates user to personal cabinet page.
+     */
+    goToCabinet() {
+      this.$router.push({ name: router.ROUTE_CABINET });
+    },
   },
 };
 </script>

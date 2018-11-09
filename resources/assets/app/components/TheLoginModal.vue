@@ -96,7 +96,7 @@ export default {
       }
       AuthService.login(this.email, this.password)
         .then(() => {
-          this.close();
+          this.close(true);
         }).catch(error => {
           if (this.isValidationError(error)) {
             this.handleValidationError(error.response.data.errors);
@@ -114,9 +114,9 @@ export default {
     /**
      * Closes modal window.
      */
-    close() {
+    close(authResult = false) {
       this.clearForm();
-      this.$emit('close', false);
+      this.$emit('close', authResult);
     },
   },
 };
