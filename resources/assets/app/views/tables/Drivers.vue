@@ -18,6 +18,7 @@
           class="mr-3"
         />
         <CompanySelect v-model="companyId"
+                       class="mr-3"
                        @input="switchCompany"
         />
         <BusSelect v-model="busId"

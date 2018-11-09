@@ -1,14 +1,32 @@
 <template>
   <div v-if="authenticated()">
-    <v-navigation-drawer
-      :clipped="$vuetify.breakpoint.mdAndUp"
-      :value:="true"
-      app
+    <v-navigation-drawer :mini-variant="mini"
+                         :value:="true"
+                         permanent
+                         dark
+                         app
     >
+      <v-list class="pa-0"
+              dense
+      >
+        <v-list-tile>
+          <v-spacer v-if="!mini"/>
+          <v-list-tile-action>
+            <v-btn
+              icon
+              @click.stop="mini = !mini"
+            >
+              <v-icon x-large >{{ mini ? 'chevron_right' : 'chevron_left' }}</v-icon>
+            </v-btn>
+          </v-list-tile-action>
+        </v-list-tile>
+      </v-list>
+
       <v-list dense>
         <v-list-tile v-for="menuItem in menuItems"
                      :key="menuItem.text"
                      :to="menuItem.to"
+                     :title="menuItem.text"
                      class="py-2"
         >
           <v-list-tile-action class="my-2">
@@ -43,6 +61,7 @@ import DriversService from '../services/DriversService';
 export default {
   name: 'Cabinet',
   data: () => ({
+    mini:      true,
     menuItems: [
       { icon: 'business', text: i18n.t('layout.drawer.companies'), to: { name: routes.ROUTE_COMPANIES } },
       { icon: 'supervisor_account', text: i18n.t('layout.drawer.users'), to: { name: routes.ROUTE_USERS } },

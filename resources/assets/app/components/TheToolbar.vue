@@ -1,6 +1,5 @@
 <template>
-  <v-toolbar :clipped-left="$vuetify.breakpoint.mdAndUp"
-             dark
+  <v-toolbar dark
              fixed
              app
   >
