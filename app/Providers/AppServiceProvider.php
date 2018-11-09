@@ -20,6 +20,7 @@ use App\Domain\Services\UserService;
 use App\Domain\Services\ValidatorService;
 use App\Exceptions\ApiExceptionHandler;
 use App\Http\Controllers\Api\v1\BusesApiController;
+use App\Http\Controllers\Api\v1\CardsApiController;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\DriversApiController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
 use App\Http\Transformers\Api\BusTransformer;
+use App\Http\Transformers\Api\CardTransformer;
 use App\Http\Transformers\Api\CardTypeTransformer;
 use App\Http\Transformers\Api\CompanyTransformer;
 use App\Http\Transformers\Api\DriverTransformer;
@@ -134,5 +136,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(RoutesApiController::class)->needs(IDataTransformer::class)->give(RouteTransformer::class);
         $this->app->when(BusesApiController::class)->needs(IDataTransformer::class)->give(BusTransformer::class);
         $this->app->when(DriversApiController::class)->needs(IDataTransformer::class)->give(DriverTransformer::class);
+        $this->app->when(CardsApiController::class)->needs(IDataTransformer::class)->give(CardTransformer::class);
     }
 }

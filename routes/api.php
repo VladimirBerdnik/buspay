@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\Api\v1\BusesApiController;
+use App\Http\Controllers\Api\v1\CardsApiController;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\DriversApiController;
@@ -58,7 +59,7 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         // Card types related routes
         $registrar->get('cardTypes', CardTypesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
-        // Card types related routes
+        // Roles related routes
         $registrar->get('roles', RolesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
         // Tariffs related routes
@@ -118,5 +119,8 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
                 ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], Driver::class);
+
+        // Card related routes
+        $registrar->get('cards/drivers', CardsApiController::class, 'driverCards');
     });
 });
