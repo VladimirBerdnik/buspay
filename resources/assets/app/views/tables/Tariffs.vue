@@ -27,7 +27,7 @@
     <v-layout child-flex>
       <v-data-table :headers="headers"
                     :rows-per-page-items="datatablesConfig.paginatorValues"
-                    :items="tariffs"
+                    :items="items"
                     item-key="id"
                     class="elevation-1"
                     hide-actions
@@ -67,18 +67,20 @@ import i18n from '../../lang/i18n';
 import TariffPeriodsService from '../../services/TariffPeriodsService';
 import TariffsService from '../../services/TariffsService';
 import CardTypesService from '../../services/CardTypesService';
+import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 
 export default {
-  name: 'Tariffs',
+  name:   'Tariffs',
+  mixins: [SimpleTableMixin],
   data() {
     return {
       tariffPeriod: null,
+      service:      TariffsService,
     };
   },
   computed: {
     cardTypes:     () => CardTypesService.get(),
     tariffPeriods: () => TariffPeriodsService.get(),
-    tariffs:       () => TariffsService.get(),
     headers() {
       const headers = [
         { value: 'id', text: i18n.t('tariff.fields.id') },
