@@ -1,7 +1,7 @@
 <template>
   <v-autocomplete v-model="companyId"
                   :items="companies"
-                  :readonly="false"
+                  :readonly="readonly"
                   :label="$t('company.name')"
                   :clearable="clearable"
                   :error-messages="errorMessages"
@@ -29,6 +29,10 @@ export default {
     clearable: {
       type:    Boolean,
       default: true,
+    },
+    readonly: {
+      type:    Boolean,
+      default: false,
     },
   },
   data() {

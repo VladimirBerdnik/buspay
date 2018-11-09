@@ -82,12 +82,12 @@
 
       </v-data-table>
 
-      <!--<DriverForm-->
-      <!--:visible="editModalVisible"-->
-      <!--:value="itemToEdit"-->
-      <!--@close="closeModalForm"-->
-      <!--@saved="reloadTable"-->
-      <!--/>-->
+      <DriverForm
+        :visible="editModalVisible"
+        :value="itemToEdit"
+        @close="closeModalForm"
+        @saved="reloadTable"
+      />
     </v-flex>
   </v-layout>
 </template>
@@ -95,7 +95,7 @@
 <script>
 import i18n from '../../lang/i18n';
 import DriversService from '../../services/DriversService';
-// import DriverForm from '../../views/forms/DriverForm';
+import DriverForm from '../../views/forms/DriverForm';
 import CompanySelect from '../dropdowns/CompanySelect';
 import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
@@ -121,7 +121,7 @@ export default {
   name:       'Drivers',
   components: {
     CompanySelect,
-    // DriverForm,
+    DriverForm,
   },
   mixins: [ WithCompanyFilterMixin, CRUDTableMixin ],
   data() {
