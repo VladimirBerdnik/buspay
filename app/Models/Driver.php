@@ -84,6 +84,7 @@ class Driver extends Model implements IHasActivityPeriodsHistory
     protected $fillable = [
         self::COMPANY_ID,
         self::FULL_NAME,
+        self::CARD_ID,
         self::BUS_ID,
         self::ACTIVE,
     ];
