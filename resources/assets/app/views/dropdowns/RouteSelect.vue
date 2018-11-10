@@ -5,7 +5,6 @@
             :clearable="clearable"
             :readonly="readonly"
             :error-messages="errorMessages"
-            :no-data-text="$t('dropdowns.noResults')"
             :item-text="itemText"
             :item-value="itemValue"
   />

@@ -18,12 +18,6 @@
       <td>{{ props.item.name }}</td>
     </template>
 
-    <template slot="no-data">
-      <div class="no-data subheading">
-        <b>{{ $t('tables.noResults') }}</b>
-      </div>
-    </template>
-
   </v-data-table>
 </template>
 

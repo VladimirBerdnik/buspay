@@ -32,7 +32,6 @@
                     :rows-per-page-items="datatablesConfig.paginatorValues"
                     :items="items"
                     :search="filter"
-                    :no-results-text="$t('tables.noResults')"
                     item-key="id"
                     class="elevation-1"
                     hide-actions
@@ -74,12 +73,6 @@
               </v-btn>
             </div>
           </td>
-        </template>
-
-        <template slot="no-data">
-          <div class="no-data subheading">
-            <b>{{ $t('tables.noResults') }}</b>
-          </div>
         </template>
 
       </v-data-table>

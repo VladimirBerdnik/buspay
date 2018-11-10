@@ -91,12 +91,6 @@ export default {
       cards:       'Карты',
     },
   },
-  tables: {
-    noResults: 'Нет результатов для выбранных параметров',
-  },
-  dropdowns: {
-    noResults: '(пусто)',
-  },
   periods: {
     toNow: 'По текущее время',
   },
