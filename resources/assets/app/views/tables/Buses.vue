@@ -106,6 +106,7 @@ import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
 import RouteSelect from '../dropdowns/RouteSelect';
 import WithRouteFilterMixin from '../../mixins/WithRouteFilterMixin';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
+import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 
 // Table headers
 const headers = [
@@ -133,7 +134,7 @@ export default {
     CompanySelect,
     BusForm,
   },
-  mixins: [ WithCompanyFilterMixin, WithRouteFilterMixin, CRUDTableMixin ],
+  mixins: [ WithCompanyFilterMixin, WithRouteFilterMixin, CRUDTableMixin, SimpleTableMixin ],
   data() {
     return {
       headers,

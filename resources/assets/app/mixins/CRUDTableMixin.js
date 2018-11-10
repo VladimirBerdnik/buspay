@@ -1,12 +1,9 @@
-import SimpleTableMixin from './SimpleTableMixin';
 import AlertsService from '../services/AlertsService';
 import UserInteractionService from '../services/UserInteractionService';
 /**
  * Mixin for page with list of items. Has methods to display and reload list of items.
  */
 export default {
-  // TODO remove table mixin, move to table component
-  mixins: [SimpleTableMixin],
   data() {
     return {
       editModalVisible:     false,

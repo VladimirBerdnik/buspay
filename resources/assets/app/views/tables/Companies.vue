@@ -108,6 +108,7 @@ import * as routes from '../../router';
 import CompaniesService from '../../services/CompaniesService';
 import CompanyForm from '../../views/forms/CompanyForm';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
+import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 
 // Table headers
 const headers = [
@@ -135,7 +136,7 @@ export default {
   components: {
     CompanyForm,
   },
-  mixins: [CRUDTableMixin],
+  mixins: [ CRUDTableMixin, SimpleTableMixin ],
   data() {
     return {
       headers,
