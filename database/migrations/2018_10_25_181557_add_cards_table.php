@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddCardsTable extends Migration
 {
@@ -18,6 +18,10 @@ class AddCardsTable extends Migration
             $table->unsignedTinyInteger('card_type_id')->comment('Card type');
             $table->string('card_number', 10)->comment('Short card number, written on card case');
             $table->string('uin', 32)->comment('Unique card number, patched to ROM');
+            $table->tinyInteger('active')->default(1)->comment('Does this card active or not');
+            $table->timestamp('synchronized_at')
+                ->nullable()
+                ->comment('When this card was synchronized with external storage last time');
 
             $table->timestamps();
             $table->softDeletes();

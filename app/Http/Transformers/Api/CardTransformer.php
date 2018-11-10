@@ -75,6 +75,7 @@ class CardTransformer extends BaseTransformer
             Card::CARD_TYPE_ID => $card->card_type_id,
             Card::UIN => $card->uin,
             Card::CARD_NUMBER => $card->card_number,
+            Card::ACTIVE => $card->active,
         ];
     }
 

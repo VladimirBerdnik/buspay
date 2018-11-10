@@ -19,9 +19,11 @@ use Illuminate\Support\Collection;
  * @property int $card_type_id Card type
  * @property string $card_number Short card number, written on card case
  * @property string $uin Unique card number, patched to ROM
+ * @property boolean $active Is this card active or not
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property string $deleted_at
+ * @property Carbon $deleted_at
+ * @property Carbon $synchronized_at When this card was synchronized with external storage last time
  *
  * @property CardType $cardType Type of card
  * @property Driver $driver Assigned to card driver
@@ -35,9 +37,11 @@ class Card extends Model implements IHasActivityPeriodsHistory
     public const CARD_TYPE_ID = 'card_type_id';
     public const CARD_NUMBER = 'card_number';
     public const UIN = 'uin';
+    public const ACTIVE = 'active';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
     public const DELETED_AT = 'deleted_at';
+    public const SYNCHRONIZED_AT = 'synchronized_at';
 
     /**
      * The table associated with the model.
@@ -54,6 +58,7 @@ class Card extends Model implements IHasActivityPeriodsHistory
     protected $casts = [
         self::ID => 'int',
         self::CARD_TYPE_ID => 'int',
+        self::ACTIVE => 'boolean',
     ];
 
     /**
@@ -64,6 +69,8 @@ class Card extends Model implements IHasActivityPeriodsHistory
     protected $dates = [
         self::CREATED_AT,
         self::UPDATED_AT,
+        self::SYNCHRONIZED_AT,
+        self::DELETED_AT,
     ];
 
     /**
@@ -74,6 +81,8 @@ class Card extends Model implements IHasActivityPeriodsHistory
     protected $fillable = [
         self::CARD_TYPE_ID,
         self::CARD_NUMBER,
+        self::ACTIVE,
+        self::SYNCHRONIZED_AT,
         self::UIN,
     ];
 
