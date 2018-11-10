@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Domain\Import\ExternalStorageImportService;
 use App\Domain\Services\BusesValidatorService;
 use App\Domain\Services\BusService;
 use App\Domain\Services\CardService;
@@ -57,6 +58,8 @@ use App\Repositories\TariffRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\ValidatorRepository;
 use Dingo\Api\Transformer\Adapter\Fractal;
+use Illuminate\Database\ConnectionInterface;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Saritasa\LaravelRepositories\Contracts\IRepository;
@@ -97,6 +100,10 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerBindings(): void
     {
+        $this->app->when(ExternalStorageImportService::class)->needs(ConnectionInterface::class)->give(function () {
+            return DB::connection('external');
+        });
+
         // Register repositories bindings
         $this->app->when(BusesValidatorService::class)
             ->needs(IRepository::class)
