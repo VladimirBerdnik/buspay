@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -29,6 +30,7 @@ class Handler extends ExceptionHandler
         ModelNotFoundException::class,
         TokenMismatchException::class,
         ValidationException::class,
+        BusinessLogicConstraintException::class,
     ];
 
     /**

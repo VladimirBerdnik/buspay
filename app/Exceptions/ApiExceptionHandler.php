@@ -3,16 +3,13 @@
 namespace App\Exceptions;
 
 use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
-use App\Domain\Exceptions\Constraint\CompanyDeletionException;
-use App\Domain\Exceptions\Constraint\CompanyRouteExistsException;
-use App\Domain\Exceptions\Constraint\RouteDeletionException;
-use App\Domain\Exceptions\Constraint\RouteReassignException;
 use App\Domain\Exceptions\Integrity\BusinessLogicIntegrityException;
 use Dingo\Api\Facade\API;
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Log;
 use Saritasa\DingoApi\Exceptions\ApiExceptionHandler as DingoApiExceptionHandler;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelControllers\Responses\ErrorMessage;
@@ -59,6 +56,32 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
     }
 
     /**
+     * Retrieves user-friendly error message from exception.
+     *
+     * @param Exception $exception Exception to retrieve message from
+     *
+     * @return string
+     */
+    private function getExceptionMessage(Exception $exception): string
+    {
+        $message = '';
+        $exceptionClass = get_class($exception);
+
+        if ($exception instanceof BusinessLogicConstraintException) {
+            $message = trans("exceptions.constraint.{$exceptionClass}");
+        } elseif ($exception instanceof BusinessLogicIntegrityException) {
+            $message = trans("exceptions.integrity.{$exceptionClass}");
+        }
+
+        if (!$message) {
+            Log::notice("No translate for exception class [{$exceptionClass}] found");
+            $message = $exception->getMessage() ?? $exceptionClass;
+        }
+
+        return $message;
+    }
+
+    /**
      * Render an exception into an HTTP response.
      *
      * @param Exception $exception Exception to render
@@ -69,21 +92,16 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
      */
     protected function genericResponse(Exception $exception): Response
     {
-        if ($exception instanceof RouteDeletionException) {
-            return response()
-                ->json(new ErrorMessage(trans('exceptions.routeDeletionException')), Response::HTTP_BAD_REQUEST);
-        } elseif ($exception instanceof RouteReassignException) {
-            return response()
-                ->json(new ErrorMessage(trans('exceptions.routeReassignmentException')), Response::HTTP_BAD_REQUEST);
-        } elseif ($exception instanceof CompanyDeletionException) {
-            return response()
-                ->json(new ErrorMessage(trans('exceptions.companyDeletionException')), Response::HTTP_BAD_REQUEST);
-        } elseif ($exception instanceof CompanyRouteExistsException) {
-            return response()
-                ->json(new ErrorMessage(trans('exceptions.companyRouteExistsException')), Response::HTTP_BAD_REQUEST);
+        if ($exception instanceof BusinessLogicConstraintException) {
+            // All user attempts to break business logic constraints that was successfully caught by application
+            $message = $this->getExceptionMessage($exception);
+
+            return response()->make(new ErrorMessage($message), Response::HTTP_BAD_REQUEST);
         } elseif ($exception instanceof BusinessLogicIntegrityException) {
-            return response()
-                ->make(new ErrorMessage($exception->__toString()), Response::HTTP_INTERNAL_SERVER_ERROR);
+            // All breaks of application business logic exceptions that was detected
+            $message = $this->getExceptionMessage($exception);
+
+            return response()->make(new ErrorMessage($message), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return parent::genericResponse($exception);
