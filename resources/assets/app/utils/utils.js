@@ -17,3 +17,13 @@ export function hasServerError(response) {
 export function hasClientError(response) {
   return response && response.status >= 400 && response.status < 500;
 }
+
+/**
+ * Checks that response has unauthenticated error.
+ *
+ * @param {Object} response Response to check
+ * @return {Boolean} Checking result
+ */
+export function hasUnauthenticatedError(response) {
+  return response && response.status === 401;
+}

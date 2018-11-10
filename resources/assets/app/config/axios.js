@@ -48,25 +48,17 @@ function getMessageFromResponse(error, defaultMessage) {
 http.interceptors.response.use(
   response => response,
   error => {
-    // React on server errors
     if (utils.hasServerError(error.response)) {
-      const errorMessage = getMessageFromResponse(error, i18n.t('common.notifications.serverError'));
-
-      AlertsService.error(errorMessage);
-    }
-
-    // React on client errors
-    if (utils.hasClientError(error.response)) {
-      const errorMessage = getMessageFromResponse(error, i18n.t('common.notifications.clientError'));
-
-      AlertsService.error(errorMessage);
-    }
-
-    // React on network error
-    if (!error.response) {
-      const errorMessage = getMessageFromResponse(error, i18n.t('common.notifications.networkError'));
-
-      AlertsService.error(errorMessage);
+      // React on server errors
+      AlertsService.error(getMessageFromResponse(error, i18n.t('common.notifications.serverError')));
+    } else if (utils.hasUnauthenticatedError(error.response)) {
+      // Do not react to unauthenticated error like "token mismatch" or "token not provided"
+    } else if (utils.hasClientError(error.response)) {
+      // React on client error
+      AlertsService.error(getMessageFromResponse(error, i18n.t('common.notifications.clientError')));
+    } else if (!error.response) {
+      // React on network error
+      AlertsService.error(getMessageFromResponse(error, i18n.t('common.notifications.networkError')));
     }
 
     return Promise.reject(error);
