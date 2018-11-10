@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Saritasa\DingoApi\Paging\CursorRequest;
 use Saritasa\DingoApi\Paging\CursorResult;
 use Saritasa\DingoApi\Paging\PagingInfo;
+use Saritasa\Exceptions\NotImplementedException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\LaravelRepositories\Exceptions\ModelNotFoundException;
 
@@ -108,6 +109,37 @@ trait RepositoryRetrievingMethodsProxyTrait
     public function getPage(PagingInfo $paging, ?array $fieldValues = null): LengthAwarePaginator
     {
         return $this->getRepository()->getPage($paging, $fieldValues);
+    }
+
+    /**
+     * Returns paginated sorted list of optionally filtered items.
+     *
+     * @param PagingInfo $paging Page size and limits information
+     * @param string[] $with Which relations should be preloaded
+     * @param string[]|null $withCounts Which related entities should be counted
+     * @param string[]|null $where Conditions that retrieved entities should satisfy
+     * @param SortOptions $sortOptions How list of item should be sorted
+     *
+     * @return LengthAwarePaginator
+     *
+     * @throws NotImplementedException
+     */
+    public function getPageWith(
+        PagingInfo $paging,
+        array $with,
+        ?array $withCounts = null,
+        ?array $where = null,
+        ?SortOptions $sortOptions = null
+    ): LengthAwarePaginator {
+        if ($this->getRepository() instanceof IPageRetrievingRepository) {
+            return $this->getRepository()->getPageWith($paging, $with, $withCounts, $where, $sortOptions);
+        }
+
+        $repositoryClass = get_class($this->getRepository());
+
+        throw new NotImplementedException(
+            "Repository [{$repositoryClass }] not implements interface " . IPageRetrievingRepository::class
+        );
     }
 
     /**

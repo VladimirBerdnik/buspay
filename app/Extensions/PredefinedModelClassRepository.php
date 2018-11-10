@@ -2,8 +2,10 @@
 
 namespace App\Extensions;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Saritasa\DingoApi\Paging\PagingInfo;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\LaravelRepositories\Repositories\Repository;
 
@@ -11,7 +13,7 @@ use Saritasa\LaravelRepositories\Repositories\Repository;
  * {@inheritdoc}
  * Allows to declare handled model class in private property.
  */
-class PredefinedModelClassRepository extends Repository
+class PredefinedModelClassRepository extends Repository implements IPageRetrievingRepository
 {
     /** {@inheritdoc} */
     public function __construct(?string $modelClass = null)
@@ -55,5 +57,28 @@ class PredefinedModelClassRepository extends Repository
             ->when($sortOptions, function (Builder $query) use ($sortOptions) {
                 return $query->orderBy($sortOptions->orderBy, $sortOptions->sortOrder);
             });
+    }
+
+    /**
+     * Returns paginated sorted list of optionally filtered items.
+     *
+     * @param PagingInfo $paging Page size and limits information
+     * @param string[] $with Which relations should be preloaded
+     * @param string[]|null $withCounts Which related entities should be counted
+     * @param string[]|null $where Conditions that retrieved entities should satisfy
+     * @param SortOptions $sortOptions How list of item should be sorted
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getPageWith(
+        PagingInfo $paging,
+        array $with,
+        ?array $withCounts = null,
+        ?array $where = null,
+        ?SortOptions $sortOptions = null
+    ): LengthAwarePaginator {
+        $query = $this->getWithBuilder($with, $withCounts, $where, $sortOptions);
+
+        return $query->paginate($paging->pageSize, ['*'], 'page', $paging->page);
     }
 }
