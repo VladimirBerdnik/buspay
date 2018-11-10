@@ -122,5 +122,6 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
 
         // Card related routes
         $registrar->get('cards/drivers', CardsApiController::class, 'driverCards');
+        $registrar->get('cards', CardsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
     });
 });

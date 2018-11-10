@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\Enums\CardTypesIdentifiers;
 use App\Domain\Services\CardService;
+use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
 use App\Models\Card;
 use Dingo\Api\Http\Response;
 use Saritasa\Exceptions\InvalidEnumValueException;
+use Saritasa\Exceptions\NotImplementedException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\Transformers\IDataTransformer;
 
@@ -35,6 +37,31 @@ class CardsApiController extends BaseApiController
     }
 
     /**
+     * Returns cards list.
+     *
+     * @param PaginatedSortedFilteredListRequest $request Request with parameters to retrieve paginated sorted filtered
+     *     list of items
+     *
+     * @return Response
+     *
+     * @throws NotImplementedException
+     * @throws InvalidEnumValueException
+     */
+    public function index(PaginatedSortedFilteredListRequest $request): Response
+    {
+        return $this->response->paginator(
+            $this->cardService->getPageWith(
+                $request->getPagingInfo(),
+                [],
+                [],
+                $request->getFilters(),
+                $request->getSortOptions()
+            ),
+            $this->transformer
+        );
+    }
+
+    /**
      * Returns cards list with driver card type.
      *
      * @return Response
@@ -49,7 +76,10 @@ class CardsApiController extends BaseApiController
             $this->cardService->getWith(
                 [],
                 [],
-                [Card::CARD_TYPE_ID => CardTypesIdentifiers::DRIVER],
+                [
+                    Card::CARD_TYPE_ID => CardTypesIdentifiers::DRIVER,
+                    Card::ACTIVE => true,
+                ],
                 new SortOptions(Card::CARD_NUMBER)
             ),
             $this->transformer
