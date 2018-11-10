@@ -2,7 +2,7 @@ import roles from '../enums/roles';
 
 export default {
   app: {
-    title: 'BusPay',
+    title: 'AutoToleu',
   },
   common: {
     buttons: {
