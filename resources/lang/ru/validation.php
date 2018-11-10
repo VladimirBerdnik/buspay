@@ -194,6 +194,7 @@ return [
         'state_number' => 'Гос.номер',
         'route_id' => 'Маршрут',
         'bus_id' => 'Автобус',
+        'card_id' => 'Карта',
         'full_name' => 'ФИО',
     ],
 ];
