@@ -22,7 +22,7 @@ export default {
   /**
    * Reads drivers cards list.
    *
-   * @return {Driver[]}
+   * @return {Card[]}
    *
    * @throws Error
    */
@@ -37,7 +37,7 @@ export default {
   /**
    * Returns list of drivers cards.
    *
-   * @return {Driver[]}
+   * @return {Card[]}
    */
   get() {
     return this.driversCards();

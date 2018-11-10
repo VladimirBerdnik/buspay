@@ -21,6 +21,7 @@ export const ROUTES_MUTATION = 'routes';
 export const BUSES_MUTATION = 'buses';
 export const DRIVERS_MUTATION = 'drivers';
 export const CARDS_MUTATION = 'cards';
+export const CARDS_PAGINATION_MUTATION = 'cardsPagination';
 export const DRIVERS_CARDS_MUTATION = 'driversCards';
 
 const mutations = {
@@ -208,6 +209,7 @@ const simpleMutations = [
   DRIVERS_MUTATION,
   CARDS_MUTATION,
   DRIVERS_CARDS_MUTATION,
+  CARDS_PAGINATION_MUTATION,
 ];
 
 simpleMutations.forEach(mutationType => {

@@ -211,10 +211,12 @@ export default {
   card: {
     name:   'Карта',
     fields: {
-      id:          'ID',
-      card_number: 'Номер карты',
-      uin:         'UIN',
-      cardType:    {
+      id:           'ID',
+      card_number:  'Номер карты',
+      card_type_id: 'Тип карты',
+      uin:          'UIN',
+      active:       'Активна',
+      cardType:     {
         name: 'Тип карты',
       },
     },

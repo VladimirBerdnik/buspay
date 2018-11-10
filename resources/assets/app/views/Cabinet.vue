@@ -74,7 +74,7 @@ export default {
       { icon: 'today', text: i18n.t('layout.drawer.routeSheets') },
       { icon: 'attach_money', text: i18n.t('layout.drawer.tariffs'), to: { name: routes.ROUTE_TARIFFS } },
       { icon: 'style', text: i18n.t('layout.drawer.cardTypes'), to: { name: routes.ROUTE_CARD_TYPES } },
-      { icon: 'credit_card', text: i18n.t('layout.drawer.cards') },
+      { icon: 'credit_card', text: i18n.t('layout.drawer.cards'), to: { name: routes.ROUTE_CARDS } },
     ],
   }),
   async mounted() {

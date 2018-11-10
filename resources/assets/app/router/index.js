@@ -9,6 +9,7 @@ import Users from '../views/tables/Users';
 import Routes from '../views/tables/Routes';
 import Buses from '../views/tables/Buses';
 import Drivers from '../views/tables/Drivers';
+import Cards from '../views/tables/Cards';
 
 export const ROUTE_HOME = 'home';
 export const ROUTE_CABINET = 'cabinet';
@@ -19,6 +20,7 @@ export const ROUTE_USERS = 'users';
 export const ROUTE_ROUTES = 'routes';
 export const ROUTE_BUSES = 'buses';
 export const ROUTE_DRIVERS = 'drivers';
+export const ROUTE_CARDS = 'cards';
 
 Vue.use(Router);
 
@@ -41,6 +43,7 @@ export default new Router({
       { path: 'routes', component: Routes, name: ROUTE_ROUTES },
       { path: 'buses', component: Buses, name: ROUTE_BUSES },
       { path: 'drivers', component: Drivers, name: ROUTE_DRIVERS },
+      { path: 'cards', component: Cards, name: ROUTE_CARDS },
     ],
   } ],
 });

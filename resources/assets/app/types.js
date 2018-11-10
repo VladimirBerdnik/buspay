@@ -122,3 +122,14 @@
  * @property {string} card_number - Short card number, written on card case.
  * @property {CardType} cardType - Card type.
  */
+
+/**
+ * Paginated list details.
+ *
+ * @typedef {Object} PaginationInfo
+ * @property {number} total - How many items exists.
+ * @property {number} count - How many items in currently loaded page.
+ * @property {number} per_page - How many items per page was requested.
+ * @property {number} current_page - Currently loaded page number.
+ * @property {number} total_pages - How many pages exists.
+ */

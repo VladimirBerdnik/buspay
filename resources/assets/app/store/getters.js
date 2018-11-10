@@ -15,6 +15,7 @@ export const ROUTES_GETTER = 'routes';
 export const BUSES_GETTER = 'buses';
 export const DRIVERS_GETTER = 'drivers';
 export const CARDS_GETTER = 'cards';
+export const CARDS_PAGINATION_GETTER = 'cardsPagination';
 export const DRIVERS_CARDS_GETTER = 'driversCards';
 
 const getters = {
@@ -67,6 +68,7 @@ const simpleGetters = [
   DRIVERS_GETTER,
   CARDS_GETTER,
   DRIVERS_CARDS_GETTER,
+  CARDS_PAGINATION_GETTER,
 ];
 
 simpleGetters.forEach(getterType => {
