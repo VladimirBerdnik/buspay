@@ -5,6 +5,7 @@ namespace App\Domain\Services;
 use App\Domain\Dto\RouteData;
 use App\Domain\Exceptions\Constraint\RouteDeletionException;
 use App\Domain\Exceptions\Constraint\RouteReassignException;
+use App\Domain\Exceptions\Integrity\NoCompanyForRouteException;
 use App\Domain\Exceptions\Integrity\TooManyCompanyRoutesException;
 use App\Domain\Exceptions\Integrity\UnexpectedCompanyForRouteException;
 use App\Extensions\EntityService;
@@ -116,6 +117,8 @@ class RouteService extends EntityService
      * @throws RepositoryException
      * @throws ValidationException
      * @throws TooManyCompanyRoutesException
+     * @throws NoCompanyForRouteException
+     * @throws UnexpectedCompanyForRouteException
      * @throws Throwable
      */
     public function update(Route $route, RouteData $routeData): Route
@@ -129,8 +132,6 @@ class RouteService extends EntityService
         $companyAssigned = $routeData->company_id;
 
         if ($route->buses->isNotEmpty() && $companyChanged) {
-            Log::debug("Route [{$route->id}] has related records. Can't reassign");
-
             throw new RouteReassignException($route);
         }
 
@@ -144,12 +145,7 @@ class RouteService extends EntityService
             $date = Carbon::now();
 
             if ($companyWasAssigned && $companyChanged) {
-                // Close period for old company
-                $companyRoute = $this->companiesRouteService->getForRoute($route, $date);
-                if ($companyRoute->company_id !== $route->company_id) {
-                    throw new UnexpectedCompanyForRouteException($companyRoute, $route->company);
-                }
-                $this->companiesRouteService->closePeriod($companyRoute, $date);
+                $this->closeCurrentRoutePeriod($route, $date);
             }
 
             $newAttributes = $routeData->toArray();
@@ -157,7 +153,6 @@ class RouteService extends EntityService
             $this->getRepository()->save($route);
 
             if ($companyChanged && $companyAssigned) {
-                // Open period for new company
                 $this->companiesRouteService->openPeriod($route->company, $route, $date->copy()->addSecond());
             }
         });
@@ -175,6 +170,8 @@ class RouteService extends EntityService
      * @throws RepositoryException
      * @throws TooManyCompanyRoutesException
      * @throws ValidationException
+     * @throws NoCompanyForRouteException
+     * @throws UnexpectedCompanyForRouteException
      * @throws Throwable
      */
     public function destroy(Route $route): void
@@ -182,23 +179,44 @@ class RouteService extends EntityService
         Log::debug("Delete route [{$route->id}] attempt");
 
         if ($route->buses->isNotEmpty()) {
-            Log::debug("Route [{$route->id}] has related records. Can't delete");
-
             throw new RouteDeletionException($route);
         }
 
         $this->handleTransaction(function () use ($route): void {
             if ($route->company_id) {
-                $companyRoute = $this->companiesRouteService->getForRoute($route);
-                if ($companyRoute->company_id !== $route->company_id) {
-                    throw new UnexpectedCompanyForRouteException($companyRoute, $route->company);
-                }
-                $this->companiesRouteService->closePeriod($companyRoute);
+                $this->closeCurrentRoutePeriod($route);
             }
 
             $this->getRepository()->delete($route);
         });
 
         Log::debug("Route [{$route->id}] deleted");
+    }
+
+    /**
+     * Closes current company to route assignment period.
+     *
+     * @param Route $route Route for which need to close current company assignment record
+     * @param Carbon|null $date Date of end of company twith route activity period record
+     *
+     * @throws NoCompanyForRouteException
+     * @throws RepositoryException
+     * @throws TooManyCompanyRoutesException
+     * @throws UnexpectedCompanyForRouteException
+     * @throws ValidationException
+     */
+    private function closeCurrentRoutePeriod(Route $route, ?Carbon $date = null): void
+    {
+        $companyRoute = $this->companiesRouteService->getForRoute($route, $date);
+
+        if (!$companyRoute) {
+            throw new NoCompanyForRouteException($route);
+        }
+
+        if ($companyRoute->company_id !== $route->company_id) {
+            throw new UnexpectedCompanyForRouteException($companyRoute, $route->company);
+        }
+
+        $this->companiesRouteService->closePeriod($companyRoute, $date);
     }
 }

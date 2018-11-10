@@ -6,6 +6,7 @@ use App\Domain\Dto\DriverData;
 use App\Domain\Enums\CardTypesIdentifiers;
 use App\Domain\Exceptions\Constraint\DriverDeletionException;
 use App\Domain\Exceptions\Constraint\DriverReassignException;
+use App\Domain\Exceptions\Integrity\NoDriverForCardException;
 use App\Domain\Exceptions\Integrity\UnexpectedCardForDriverException;
 use App\Extensions\EntityService;
 use App\Models\Bus;
@@ -154,8 +155,6 @@ class DriverService extends EntityService
         $cardAssigned = $driverData->card_id;
 
         if ($driver->company_id !== $driverData->company_id) {
-            Log::debug("Driver [{$driver->id}] cannot be reassigned to another company");
-
             throw new DriverReassignException($driver);
         }
 
@@ -171,9 +170,15 @@ class DriverService extends EntityService
             if ($cardWasAssigned && $cardChanged) {
                 // Close period for old company
                 $driversCard = $this->driversCardService->getForDriver($driver, $date);
+
+                if (!$driversCard) {
+                    throw new NoDriverForCardException($driver);
+                }
+
                 if ($driversCard->card_id !== $driver->card_id) {
                     throw new UnexpectedCardForDriverException($driversCard, $driver->card);
                 }
+
                 $this->driversCardService->closePeriod($driversCard, $date);
             }
 
@@ -206,8 +211,6 @@ class DriverService extends EntityService
         Log::debug("Delete driver [{$driver->id}] attempt");
 
         if ($driver->card_id) {
-            Log::debug("Driver [{$driver->id}] has related records. Can't delete");
-
             throw new DriverDeletionException($driver);
         }
 
