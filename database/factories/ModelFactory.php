@@ -54,13 +54,11 @@ $factory->define(BusesValidator::class, function (Generator $faker, array $param
 });
 
 $factory->define(Card::class, function (Generator $faker, array $parameters) {
-    $synchronized = $faker->boolean(75);
-
     return [
         Card::CARD_TYPE_ID => $parameters[Card::CARD_TYPE_ID] ?? CardType::query()->inRandomOrder()->first()->getKey(),
         Card::CARD_NUMBER => $faker->unique()->randomNumber(8, true),
-        Card::ACTIVE => !$synchronized ? false : $faker->boolean(80),
-        Card::SYNCHRONIZED_AT => $synchronized ? Carbon::now() : null,
+        Card::ACTIVE => $faker->boolean(75),
+        Card::SYNCHRONIZED_AT => Carbon::now(),
         // Just make random number little longer
         Card::UIN => $faker->unique()->randomNumber(8, true) * 12345,
     ];
