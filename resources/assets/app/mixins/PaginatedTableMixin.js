@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import datatablesConfig from '../config/datatables';
+
 /**
  * Mixin for page with list of items. Has methods to display and reload list of items.
  */
@@ -21,6 +23,8 @@ export default {
       },
       // List of strong equal filters values
       filters: {},
+      // Search string that should be applied to items
+      search:  null,
     };
   },
   computed: {
@@ -37,15 +41,21 @@ export default {
     pagination: {
       deep: true,
       handler() {
-        this.reloadTable();
+        this.debouncedReloadTable();
       },
     },
     filters: {
       deep: true,
       handler() {
-        this.reloadTable();
+        this.debouncedReloadTable();
       },
     },
+    search() {
+      this.debouncedReloadTable();
+    },
+  },
+  created() {
+    this.debouncedReloadTable = _.debounce(this.reloadTable, 500);
   },
   methods: {
     /**
@@ -59,7 +69,12 @@ export default {
       this.loadingInProgress = true;
 
       try {
-        const params = Object.assign({}, this.pagination, { filters: this.filters });
+        const params = Object.assign(
+          {},
+          this.pagination,
+          { filters: this.filters },
+          { search: this.search }
+        );
 
         await this.service.read(params);
 

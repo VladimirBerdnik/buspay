@@ -46,7 +46,7 @@ class PaginatedSortedFilteredListRequest extends ApiRequest
     }
 
     /**
-     * Returns filters that result items should match.
+     * Returns exact filters that result items should match.
      *
      * @return mixed[]
      */
@@ -64,5 +64,16 @@ class PaginatedSortedFilteredListRequest extends ApiRequest
         }
 
         return $validFilters;
+    }
+
+    /**
+     * Returns common search string that should be applied to items.
+     * Developer should decide how to deal with this string - apply to all items properties or not.
+     *
+     * @return string|null
+     */
+    public function getSearchString(): ?string
+    {
+        return trim($this->get('search'));
     }
 }

@@ -7,7 +7,7 @@
                 wrap
       >
         <v-text-field
-          v-model="filter"
+          v-model="search"
           :label="$t('common.placeholders.search')"
           append-icon="search"
           hide-details
@@ -89,7 +89,7 @@ export default {
     return {
       headers,
       service: CardsService,
-      filter:  null,
+      search:  null,
     };
   },
 };

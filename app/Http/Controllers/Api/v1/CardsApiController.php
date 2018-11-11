@@ -49,12 +49,23 @@ class CardsApiController extends BaseApiController
      */
     public function index(PaginatedSortedFilteredListRequest $request): Response
     {
+        $filters = $request->getFilters();
+        $searchString = $request->getSearchString();
+        if ($searchString) {
+            $filters[] = [
+                [
+                    [Card::UIN, 'like', "%{$searchString}%", 'or'],
+                    [Card::CARD_NUMBER, 'like', "%{$searchString}%", 'or'],
+                ],
+            ];
+        }
+
         return $this->response->paginator(
             $this->cardService->getPageWith(
                 $request->getPagingInfo(),
                 ['cardType'],
                 [],
-                $request->getFilters(),
+                $filters,
                 $request->getSortOptions()
             ),
             $this->transformer
