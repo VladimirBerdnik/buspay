@@ -23,7 +23,8 @@
         <td>{{ props.item.cardType.name }}</td>
         <td>{{ props.item.card_number }}</td>
         <td>{{ props.item.uin }}</td>
-        <td><v-icon>{{ props.item.active ? 'check_box_outline_blank' : 'check_box' }}</v-icon></td>
+        <td><v-icon>{{ props.item.active ? 'check_box' : 'check_box_outline_blank' }}</v-icon></td>
+        <td>{{ props.item.synchronized_at | timeStamp }}</td>
       </template>
 
     </v-data-table>
@@ -50,6 +51,7 @@ const headers = [
   { value: 'card_number' },
   { value: 'uin' },
   { value: 'active' },
+  { value: 'synchronized_at' },
 ];
 
 // Table headers translates

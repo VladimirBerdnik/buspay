@@ -111,8 +111,8 @@ import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 // Table headers
 const headers = [
   { value: 'id' },
-  { value: 'model_name' },
   { value: 'state_number' },
+  { value: 'model_name' },
   { value: 'company.name' },
   { value: 'route.name' },
   { value: 'drivers_count' },
