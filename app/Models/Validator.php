@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
  *
  * @property int $id Validator unique identifier
  * @property string $serial_number Validator serial number
+ * @property string $model Validator manufacturer or model
  * @property int $bus_id Identifier of bus where this validator installed
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -33,6 +34,7 @@ class Validator extends Model implements IHasActivityPeriodsHistory
     public const ID = 'id';
     public const BUS_ID = 'bus_id';
     public const SERIAL_NUMBER = 'serial_number';
+    public const MODEL = 'model';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
     public const DELETED_AT = 'deleted_at';
@@ -70,6 +72,7 @@ class Validator extends Model implements IHasActivityPeriodsHistory
      */
     protected $fillable = [
         self::SERIAL_NUMBER,
+        self::MODEL,
         self::BUS_ID,
     ];
 

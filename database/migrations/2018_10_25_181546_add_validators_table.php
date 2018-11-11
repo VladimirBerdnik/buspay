@@ -15,7 +15,8 @@ class AddValidatorsTable extends Migration
     {
         Schema::create('validators', function (Blueprint $table) {
             $table->increments('id')->comment('Validator unique identifier');
-            $table->string('serial_number')->comment('Validator serial number');
+            $table->string('serial_number', 32)->comment('Validator serial number');
+            $table->string('model', 32)->comment('Validator model or manufacturer');
             $table->unsignedInteger('bus_id')->nullable()->comment('Current bus identifier where validator located');
 
             $table->timestamps();
