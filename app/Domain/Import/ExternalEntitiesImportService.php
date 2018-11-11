@@ -7,7 +7,7 @@ use Illuminate\Database\ConnectionInterface;
 /**
  * Parent class for different records from external storage importers.
  */
-abstract class ExternalStorageImportService
+abstract class ExternalEntitiesImportService
 {
     /**
      * External storage connection.
@@ -31,7 +31,7 @@ abstract class ExternalStorageImportService
      *
      * @return ConnectionInterface
      */
-    public function getConnection(): ConnectionInterface
+    protected function getConnection(): ConnectionInterface
     {
         return $this->connection;
     }

@@ -1,0 +1,319 @@
+<?php
+
+namespace App\Domain\Import;
+
+use App\Domain\Dto\CardData;
+use App\Domain\Exceptions\Integrity\TooManyCardsWithNumberException;
+use App\Domain\Import\Dto\ExternalCardData;
+use App\Domain\Services\CardService;
+use App\Models\Card;
+use Carbon\Carbon;
+use DateTime;
+use Exception;
+use Illuminate\Database\ConnectionInterface;
+use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
+use Log;
+use Saritasa\Exceptions\InvalidEnumValueException;
+use Saritasa\Exceptions\NotImplementedException;
+use Saritasa\LaravelRepositories\DTO\SortOptions;
+use Saritasa\LaravelRepositories\Enums\OrderDirections;
+use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
+use Throwable;
+
+/**
+ * Cards importer. Allows to import cards records from external storage.
+ */
+class CardsImporter extends ExternalEntitiesImportService
+{
+    /**
+     * Card business-logic service.
+     *
+     * @var CardService
+     */
+    private $cardService;
+
+    /**
+     * Cards importer. Allows to import cards records from external storage.
+     *
+     * @param ConnectionInterface $connection External storage connection
+     * @param CardService $cardService Card business-logic service
+     */
+    public function __construct(ConnectionInterface $connection, CardService $cardService)
+    {
+        parent::__construct($connection);
+        $this->cardService = $cardService;
+    }
+
+    /**
+     * Returns chunk size for collections of items to import.
+     *
+     * @return integer
+     */
+    private function getChunkSize(): int
+    {
+        return config('import.card.importChunkSize') ?? 50;
+    }
+
+    /**
+     * Performs cards import from external cards storage.
+     *
+     * @throws Throwable
+     */
+    public function import(): void
+    {
+        $startTime = time();
+
+        /**
+         * Remember date for synchronization before unsyncronized cards import as in this case we can loose some
+         * records resynchronized records will change max synchronization date.
+         */
+        $dateForSynchronization = $this->getDateForSynchronization();
+
+        $this->reimportUnsynchronized();
+
+        $reimportDuration = time() - $startTime;
+
+        $this->importUpdatedData($dateForSynchronization);
+
+        $importDuration = time() - $reimportDuration - $startTime;
+
+        Log::notice(
+            "Cards re-import took ~{$reimportDuration} second(s). Cards import took ~{$importDuration} second(s)"
+        );
+    }
+
+    /**
+     * Returns date of changes that should be requested from extermal storage.
+     *
+     * @return Carbon
+     *
+     * @throws InvalidEnumValueException
+     * @throws NotImplementedException
+     */
+    private function getDateForSynchronization(): Carbon
+    {
+        $from = Carbon::now()->setDate(2017, 1, 1)->startOfDay();
+
+        /**
+         * Get sorted by synchronization date card records by chunks with size of one element, take date from first item
+         * and stop chunking.
+         */
+        $this->cardService->chunkWith(
+            [],
+            [],
+            [[Card::SYNCHRONIZED_AT, '!=', null]],
+            new SortOptions(Card::SYNCHRONIZED_AT, OrderDirections::DESC),
+            1,
+            function (Collection $items) use (&$from) {
+                /**
+                 * Last synchronized card.
+                 *
+                 * @var Card $lastSynchronizedItem
+                 */
+                $lastSynchronizedItem = $items->first();
+
+                $from = $lastSynchronizedItem->synchronized_at;
+
+                Log::debug("Last synchronization date is {$from->toIso8601String()}");
+
+                return false;
+            }
+        );
+
+        Log::debug("Date for synchronization is {$from->toIso8601String()}");
+
+        return $from;
+    }
+
+    /**
+     * Import new data from external storage starting from passed date.
+     *
+     * @param Carbon $from Date from with need to retrieve fresh data
+     */
+    private function importUpdatedData(Carbon $from): void
+    {
+        Log::debug("Updated card details import process started. Retrieve data after {$from->toIso8601String()}");
+
+        $this->getConnection()
+            ->table('cards')
+            ->where(ExternalCardData::UPDATED_AT, '>=', $from)
+            ->orderBy(ExternalCardData::UPDATED_AT)
+            ->chunk($this->getChunkSize(), function (Collection $items, int $pageNumber): void {
+                Log::debug("Cards chunk #{$pageNumber} retrieved. Chunk size: " . $items->count());
+
+                $this->importChunk($items);
+            });
+
+        Log::debug('Updated card details import process finished.');
+    }
+
+    /**
+     * Performs attempt to reimport card details with errors during previous import.
+     *
+     * @throws NotImplementedException
+     * @throws InvalidEnumValueException
+     */
+    private function reimportUnsynchronized(): void
+    {
+        Log::debug('Not synchronized cards import process started.');
+
+        $this->cardService->chunkWith(
+            [],
+            [],
+            [Card::SYNCHRONIZED_AT => null],
+            new SortOptions(Card::ID),
+            $this->getChunkSize(),
+            function (Collection $notSynchronizedCards): void {
+                $cardNumbers = $notSynchronizedCards->pluck(Card::CARD_NUMBER)->toArray();
+
+                Log::debug('Request external cards details by card number to synchronize', $cardNumbers);
+
+                $this->getConnection()
+                    ->table('cards')
+                    ->whereIn(ExternalCardData::CARD_NUMBER, $cardNumbers)
+                    ->orderBy(ExternalCardData::UPDATED_AT)
+                    ->chunk($this->getChunkSize(), function (Collection $items, int $pageNumber): void {
+                        Log::debug("Cards chunk #{$pageNumber} retrieved. Chunk size: " . $items->count());
+
+                        $this->importChunk($items);
+                    });
+            }
+        );
+
+        Log::debug('Not synchronized cards import process finished.');
+    }
+
+    /**
+     * Performs import of chunk of external card details.
+     *
+     * @param Collection|object[] $items Collection of items to import
+     *
+     * @throws Throwable
+     */
+    private function importChunk(Collection $items): void
+    {
+        foreach ($items as $index => $item) {
+            try {
+                Log::debug("Prepare import card #{$index} with details " . json_encode($item));
+
+                $externalCardData = new ExternalCardData((array)$item);
+
+                $card = $this->importExternalCard($externalCardData);
+
+                Log::debug(
+                    "Card with number [{$externalCardData->card_number}] synchronized as [ID={$card->id}]"
+                );
+            } catch (Exception $e) {
+                Log::error("Import card error occurred: {$e->getMessage()}", $e->getTrace());
+            }
+        }
+    }
+
+    /**
+     * Performs external card data import.
+     *
+     * @param ExternalCardData $externalCardData Details of external card to import
+     *
+     * @return Card
+     *
+     * @throws RepositoryException
+     * @throws Throwable
+     */
+    private function importExternalCard(ExternalCardData $externalCardData): Card
+    {
+        $cardData = new CardData([
+            CardData::CARD_NUMBER => $externalCardData->card_number,
+            CardData::UIN => $externalCardData->uin,
+            CardData::ACTIVE => $externalCardData->enable,
+            CardData::CARD_TYPE_ID => $externalCardData->card_type,
+            CardData::SYNCHRONIZED_AT => Carbon::instance(new DateTime($externalCardData->updated_at)),
+        ]);
+
+        Log::debug("Search card with number {$cardData->card_number} for update");
+
+        $matchedItems = $this->cardService
+            ->getWhere([Card::CARD_NUMBER => $cardData->card_number]);
+
+        if ($matchedItems->count() > 1) {
+            throw new TooManyCardsWithNumberException($cardData->card_number);
+        } elseif ($matchedItems->count() === 1) {
+            /**
+             * Found card to update.
+             *
+             * @var Card $card
+             */
+            $card = $matchedItems->first();
+            Log::debug("Card [{$card->id}] found to update");
+
+            $card = $this->updateCard($card, $cardData);
+        } else {
+            Log::debug('No existing card found to update. Trying to create');
+
+            $card = $this->createCard($cardData);
+        }
+
+        return $card;
+    }
+
+    /**
+     * Creates new card with imported parameters.
+     *
+     * @param CardData $cardData Card details to create new card
+     *
+     * @return Card
+     *
+     * @throws RepositoryException
+     * @throws Throwable
+     */
+    private function createCard(CardData $cardData): Card
+    {
+        try {
+            $card = $this->cardService->store($cardData);
+        } catch (Exception $e) {
+            $payload = [$e->getTrace()];
+            if ($e instanceof ValidationException) {
+                array_unshift($payload, $e->errors());
+            }
+
+            Log::error("Create imported card error: {$e->getMessage()}", $payload);
+
+            Log::notice("Trying to create fallback card {$cardData->card_number} record");
+
+            $card = $this->cardService->fallbackCreate($cardData->card_number);
+        }
+
+        return $card;
+    }
+
+    /**
+     * Updates card with newly imported details.
+     *
+     * @param Card $card Card to update
+     * @param CardData $cardData New card details to update
+     *
+     * @return Card
+     *
+     * @throws RepositoryException
+     * @throws Throwable
+     */
+    private function updateCard(Card $card, CardData $cardData): Card
+    {
+        try {
+            $this->cardService->update($card, $cardData);
+        } catch (Exception $e) {
+            $payload = [$e->getTrace()];
+            if ($e instanceof ValidationException) {
+                array_unshift($payload, $e->errors());
+            }
+
+            Log::error("Update imported card error: {$e->getMessage()}", $payload);
+
+            Log::notice("Trying to update fallback card {$cardData->card_number} record");
+
+            $card = $this->cardService->fallbackUpdate($card);
+        }
+
+        return $card;
+    }
+}

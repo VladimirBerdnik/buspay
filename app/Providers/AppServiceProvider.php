@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Domain\Import\ExternalStorageImportService;
+use App\Domain\Import\CardsImporter;
 use App\Domain\Services\BusesValidatorService;
 use App\Domain\Services\BusService;
 use App\Domain\Services\CardService;
@@ -100,7 +100,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerBindings(): void
     {
-        $this->app->when(ExternalStorageImportService::class)->needs(ConnectionInterface::class)->give(function () {
+        $this->app->when(CardsImporter::class)->needs(ConnectionInterface::class)->give(function () {
             return DB::connection('external');
         });
 
