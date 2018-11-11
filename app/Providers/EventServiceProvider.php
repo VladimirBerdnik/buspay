@@ -30,6 +30,10 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::register();
 
+        if (empty($_SERVER['REQUEST_URI'])) {
+            return;
+        }
+
         DB::listen(function ($query): void {
             $this->requestsExecutions[$query->sql] = ($this->requestsExecutions[$query->sql] ?? 0) + 1;
         });
