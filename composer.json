@@ -19,11 +19,11 @@
     "saritasa/laravel-middleware": "^1.0",
     "saritasa/laravel-repositories": "^3.1",
     "saritasa/roles-simple": "^1.0",
-    "tymon/jwt-auth": "1.0.0-rc.2"
+    "tymon/jwt-auth": "1.0.0-rc.2",
+    "ext-json": "*"
   },
   "require-dev": {
     "arcanedev/log-viewer": "^4.5",
-    "barryvdh/laravel-debugbar": "^3.2",
     "barryvdh/laravel-ide-helper": "^2.5",
     "beyondcode/laravel-dump-server": "^1.2",
     "doctrine/dbal": "^2.8",

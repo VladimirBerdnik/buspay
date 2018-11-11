@@ -1,7 +1,6 @@
 const mix = require('laravel-mix');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
-const LiveReloadPlugin = require('webpack-livereload-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const appDir = path.resolve(__dirname, 'resources/assets/app');
@@ -33,7 +32,6 @@ const extendedConfig = {
     ],
   },
   plugins: [
-    new LiveReloadPlugin(),
     new StylelintPlugin({
       files: [
         `${appDir}/**/*.scss`,
@@ -44,7 +42,6 @@ const extendedConfig = {
   ],
 };
 
-//
 mix
   .js(`${appDir}/main.js`, 'public/assets/js')
   .sass('resources/assets/sass/app.scss', 'public/assets/styles')
