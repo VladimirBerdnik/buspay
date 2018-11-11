@@ -1,7 +1,7 @@
 import AlertsService from '../services/AlertsService';
 import UserInteractionService from '../services/UserInteractionService';
 /**
- * Mixin for page with list of items. Has methods to display and reload list of items.
+ * Mixin for page with list of items. Has methods to open modal form of item and delete item feature.
  */
 export default {
   data() {
