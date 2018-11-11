@@ -147,7 +147,6 @@ export default {
         name: 'Компания',
       },
       bus: {
-        name:         'Автобус',
         state_number: 'Автобус',
       },
       card: {
