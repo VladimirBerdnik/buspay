@@ -17,8 +17,8 @@ use Illuminate\Support\Collection;
  *
  * @property int $id Card unique identifier
  * @property int $card_type_id Card type
- * @property string $card_number Short card number, written on card case
- * @property string $uin Unique card number, patched to ROM
+ * @property integer $card_number Short card number, written on card case
+ * @property integer $uin Unique card number, patched to ROM
  * @property boolean $active Is this card active or not
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -58,6 +58,8 @@ class Card extends Model implements IHasActivityPeriodsHistory
     protected $casts = [
         self::ID => 'int',
         self::CARD_TYPE_ID => 'int',
+        self::UIN => 'int',
+        self::CARD_NUMBER => 'int',
         self::ACTIVE => 'boolean',
     ];
 

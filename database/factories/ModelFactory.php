@@ -9,8 +9,6 @@ use App\Models\Company;
 use App\Models\Driver;
 use App\Models\DriversCard;
 use App\Models\Route;
-use App\Models\Tariff;
-use App\Models\TariffFare;
 use App\Models\User;
 use App\Models\Validator;
 use Carbon\Carbon;
@@ -56,10 +54,15 @@ $factory->define(BusesValidator::class, function (Generator $faker, array $param
 });
 
 $factory->define(Card::class, function (Generator $faker, array $parameters) {
+    $synchronized = $faker->boolean(75);
+
     return [
         Card::CARD_TYPE_ID => $parameters[Card::CARD_TYPE_ID] ?? CardType::query()->inRandomOrder()->first()->getKey(),
         Card::CARD_NUMBER => $faker->unique()->randomNumber(8, true),
-        Card::UIN => $faker->unique()->randomNumber(8, true),
+        Card::ACTIVE => !$synchronized ? false : $faker->boolean(80),
+        Card::SYNCHRONIZED_AT => $synchronized ? Carbon::now() : null,
+        // Just make random number little longer
+        Card::UIN => $faker->unique()->randomNumber(8, true) * 12345,
     ];
 });
 

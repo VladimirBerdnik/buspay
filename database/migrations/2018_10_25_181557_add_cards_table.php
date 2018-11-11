@@ -15,10 +15,10 @@ class AddCardsTable extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->increments('id')->comment('Card unique identifier');
-            $table->unsignedTinyInteger('card_type_id')->comment('Card type');
-            $table->string('card_number', 10)->comment('Short card number, written on card case');
-            $table->string('uin', 32)->comment('Unique card number, patched to ROM');
-            $table->tinyInteger('active')->default(1)->comment('Does this card active or not');
+            $table->unsignedInteger('card_number')->comment('Short card number, written on card case');
+            $table->unsignedTinyInteger('card_type_id')->nullable()->comment('Card type');
+            $table->unsignedBigInteger('uin')->nullable()->comment('Unique card number, patched to ROM');
+            $table->tinyInteger('active')->comment('Does this card active or not');
             $table->timestamp('synchronized_at')
                 ->nullable()
                 ->comment('When this card was synchronized with external storage last time');

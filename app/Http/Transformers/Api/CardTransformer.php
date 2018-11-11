@@ -76,6 +76,7 @@ class CardTransformer extends BaseTransformer
             Card::UIN => $card->uin,
             Card::CARD_NUMBER => $card->card_number,
             Card::ACTIVE => $card->active,
+            Card::SYNCHRONIZED_AT => $card->synchronized_at ? $card->synchronized_at->toIso8601String() : null,
         ];
     }
 

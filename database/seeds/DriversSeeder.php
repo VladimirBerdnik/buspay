@@ -17,7 +17,10 @@ class DriversSeeder extends Seeder
      */
     public function run()
     {
-        $cards = Card::query()->where(Card::CARD_TYPE_ID, CardTypesIdentifiers::DRIVER)->inRandomOrder()->get();
+        $cards = Card::query()
+            ->where(Card::CARD_TYPE_ID, CardTypesIdentifiers::DRIVER)
+            ->where(Card::ACTIVE, true)
+            ->inRandomOrder()->get();
         Company::query()->get()->each(function (Company $company) use ($cards) {
             factory(Driver::class, random_int(20, 50))->make([])
                 ->each(function (Driver $driver) use ($cards, $company) {
