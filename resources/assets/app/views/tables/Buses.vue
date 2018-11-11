@@ -147,27 +147,6 @@ export default {
       itemStringIdentifier: 'state_number',
     };
   },
-  computed: {
-    items() {
-      let items = this.service.get();
-
-      const filters = {
-        company_id: this.filters.companyId,
-        route_id:   this.filters.routeId,
-      };
-
-      Object.entries(filters).forEach(entry => {
-        const [ filterField, value ] = entry;
-
-        if (!value) {
-          return;
-        }
-        items = items.filter(item => item[filterField] === value);
-      });
-
-      return items;
-    },
-  },
   methods: {
     /**
      * Navigates user to drivers list page.

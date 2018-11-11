@@ -133,26 +133,5 @@ export default {
       },
     };
   },
-  computed: {
-    items() {
-      let items = this.service.get();
-
-      const filters = {
-        company_id: this.filters.companyId,
-      };
-
-
-      Object.entries(filters).forEach(entry => {
-        const [ filterField, value ] = entry;
-
-        if (!value) {
-          return;
-        }
-        items = items.filter(item => item[filterField] === value);
-      });
-
-      return items;
-    },
-  },
 };
 </script>
