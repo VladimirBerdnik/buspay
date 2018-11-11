@@ -11,7 +11,6 @@ use Saritasa\Laravel\Validation\Rule;
  * SaveValidatorRequest form request.
  *
  * @property-read integer|null $bus_id Current bus identifier where validator located
- * @property-read string $serial_number Validator serial number
  */
 class SaveValidatorRequest extends ApiRequest
 {
@@ -23,8 +22,7 @@ class SaveValidatorRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            Validator::BUS_ID => Rule::nullable()->exists('buses', 'id')->int(),
-            Validator::SERIAL_NUMBER => Rule::required()->string()->max(191),
+            Validator::BUS_ID => Rule::nullable()->int(),
         ];
     }
 
