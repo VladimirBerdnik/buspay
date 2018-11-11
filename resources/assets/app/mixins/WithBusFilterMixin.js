@@ -4,12 +4,19 @@
 export default {
   data() {
     return {
-      busId: null,
+      filters: {
+        busId: null,
+      },
     };
   },
   watch: {
-    busId() {
-      this.$forceUpdate();
+    filters: {
+      deep: true,
+      handler(newValue, oldValue) {
+        if (newValue.busId !== oldValue.busId) {
+          this.$forceUpdate();
+        }
+      },
     },
     $route(to) {
       /**
@@ -31,7 +38,7 @@ export default {
      * @param {*} route Route to retrieve bus identifier from
      */
     parseBusFromRoute(route) {
-      this.busId = Number.parseInt(route.query.busId, 10) || null;
+      this.filters.busId = Number.parseInt(route.query.busId, 10) || null;
     },
     /**
      * Switches selected on component bus identifier.
@@ -40,7 +47,7 @@ export default {
       const query = Object.assign({}, this.$route.query);
 
       // Replace bus identifier parameter in current route query
-      query.busId = this.busId;
+      query.busId = this.filters.busId;
       if (!query.busId) {
         delete query.busId;
       }

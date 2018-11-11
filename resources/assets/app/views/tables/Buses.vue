@@ -17,16 +17,16 @@
           clearable
           class="mr-3"
         />
-        <CompanySelect v-model="companyId"
+        <CompanySelect v-model="filters.companyId"
                        class="mr-3"
                        @input="switchCompany"
         />
-        <RouteSelect v-model="routeId"
-                     :company-id="companyId"
+        <RouteSelect v-model="filters.routeId"
+                     :company-id="filters.companyId"
                      @input="switchRoute"
         />
         <v-btn color="primary"
-               @click="openModalForm({company_id: companyId, route_id: routeId})"
+               @click="openModalForm({company_id: filters.companyId, route_id: filters.routeId})"
         >
           {{ $t('common.buttons.add') }}
         </v-btn>
@@ -149,8 +149,8 @@ export default {
       let items = this.service.get();
 
       const filters = {
-        company_id: this.companyId,
-        route_id:   this.routeId,
+        company_id: this.filters.companyId,
+        route_id:   this.filters.routeId,
       };
 
       Object.entries(filters).forEach(entry => {

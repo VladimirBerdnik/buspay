@@ -4,12 +4,19 @@
 export default {
   data() {
     return {
-      companyId: null,
+      filters: {
+        companyId: null,
+      },
     };
   },
   watch: {
-    companyId() {
-      this.$forceUpdate();
+    filters: {
+      deep: true,
+      handler(newValue, oldValue) {
+        if (newValue.companyId !== oldValue.companyId) {
+          this.$forceUpdate();
+        }
+      },
     },
     $route(to) {
       /**
@@ -31,7 +38,7 @@ export default {
      * @param {*} route Route to retrieve company identifier from
      */
     parseCompanyFromRoute(route) {
-      this.companyId = Number.parseInt(route.query.companyId, 10) || null;
+      this.filters.companyId = Number.parseInt(route.query.companyId, 10) || null;
     },
     /**
      * Switches selected on component company identifier.
@@ -40,7 +47,7 @@ export default {
       const query = Object.assign({}, this.$route.query);
 
       // Replace company identifier parameter in current route query
-      query.companyId = this.companyId;
+      query.companyId = this.filters.companyId;
       if (!query.companyId) {
         delete query.companyId;
       }
