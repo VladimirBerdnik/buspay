@@ -58,12 +58,12 @@
 
       </v-data-table>
 
-      <!--<ValidatorForm-->
-      <!--:visible="editModalVisible"-->
-      <!--:value="itemToEdit"-->
-      <!--@close="closeModalForm"-->
-      <!--@saved="reloadTable"-->
-      <!--/>-->
+      <ValidatorForm
+        :visible="editModalVisible"
+        :value="itemToEdit"
+        @close="closeModalForm"
+        @saved="reloadTable"
+      />
     </v-flex>
   </v-layout>
 </template>
@@ -71,7 +71,7 @@
 <script>
 import i18n from '../../lang/i18n';
 import ValidatorsService from '../../services/ValidatorsService';
-// import ValidatorForm from '../../views/forms/ValidatorForm';
+import ValidatorForm from '../../views/forms/ValidatorForm';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 
@@ -94,7 +94,7 @@ headers.push({ text: '', sortable: false });
 export default {
   name:       'Validators',
   components: {
-    // ValidatorForm,
+    ValidatorForm,
   },
   mixins: [ CRUDTableMixin, SimpleTableMixin ],
   data() {
