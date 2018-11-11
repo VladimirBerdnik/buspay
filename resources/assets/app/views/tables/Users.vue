@@ -18,7 +18,7 @@
           class="mr-3"
         />
         <CompanySelect v-model="filters.companyId"
-                       @input="switchCompany"
+                       @input="updateQueryParameters"
         />
         <v-btn color="primary"
                @click="openModalForm({})"
@@ -92,9 +92,9 @@ import i18n from '../../lang/i18n';
 import UsersService from '../../services/UsersService';
 import UserForm from '../../views/forms/UserForm';
 import CompanySelect from '../dropdowns/CompanySelect';
-import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
+import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
 
 // Table headers
 const headers = [
@@ -120,7 +120,7 @@ export default {
     CompanySelect,
     UserForm,
   },
-  mixins: [ WithCompanyFilterMixin, CRUDTableMixin, SimpleTableMixin ],
+  mixins: [ WithUrlQueryFilterMixin, CRUDTableMixin, SimpleTableMixin ],
   data() {
     return {
       headers,
@@ -128,6 +128,9 @@ export default {
       service:              UsersService,
       itemType:             'user',
       itemStringIdentifier: 'email',
+      filters:              {
+        companyId: null,
+      },
     };
   },
   computed: {

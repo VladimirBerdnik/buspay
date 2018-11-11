@@ -16,7 +16,7 @@
           class="mr-3"
         />
         <CardTypesSelect v-model="filters.cardTypeId"
-                         @input="switchCardType"
+                         @input="updateQueryParameters"
         />
       </v-layout>
     </v-flex>
@@ -64,7 +64,7 @@ import i18n from '../../lang/i18n';
 import CardsService from '../../services/CardsService';
 import PaginatedTableMixin from '../../mixins/PaginatedTableMixin';
 import CardTypesSelect from '../dropdowns/CardTypeSelect';
-import WithCardTypeFilterMixin from '../../mixins/WithCardTypeFilterMixin';
+import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
 
 // Table headers
 const headers = [
@@ -84,12 +84,15 @@ Object.values(headers).forEach((header, key) => {
 export default {
   name:       'Cards',
   components: { CardTypesSelect },
-  mixins:     [ PaginatedTableMixin, WithCardTypeFilterMixin ],
+  mixins:     [ PaginatedTableMixin, WithUrlQueryFilterMixin ],
   data() {
     return {
       headers,
       service: CardsService,
       search:  null,
+      filters: {
+        cardTypeId: null,
+      },
     };
   },
 };

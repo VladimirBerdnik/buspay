@@ -19,11 +19,11 @@
         />
         <CompanySelect v-model="filters.companyId"
                        class="mr-3"
-                       @input="switchCompany"
+                       @input="updateQueryParameters"
         />
         <BusSelect v-model="filters.busId"
                    :company-id="filters.companyId"
-                   @input="switchBus"
+                   @input="updateQueryParameters"
         />
         <v-btn color="primary"
                @click="openModalForm({company_id: filters.companyId, bus_id: filters.busId})"
@@ -96,10 +96,9 @@ import DriversService from '../../services/DriversService';
 import DriverForm from '../../views/forms/DriverForm';
 import CompanySelect from '../dropdowns/CompanySelect';
 import BusSelect from '../dropdowns/BusSelect';
-import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
-import WithBusFilterMixin from '../../mixins/WithBusFilterMixin';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
+import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
 
 // Table headers
 const headers = [
@@ -125,7 +124,7 @@ export default {
     BusSelect,
     DriverForm,
   },
-  mixins: [ WithCompanyFilterMixin, WithBusFilterMixin, CRUDTableMixin, SimpleTableMixin ],
+  mixins: [ WithUrlQueryFilterMixin, CRUDTableMixin, SimpleTableMixin ],
   data() {
     return {
       headers,
@@ -133,6 +132,10 @@ export default {
       service:              DriversService,
       itemType:             'driver',
       itemStringIdentifier: 'full_name',
+      filters:              {
+        companyId: null,
+        busId:     null,
+      },
     };
   },
   computed: {

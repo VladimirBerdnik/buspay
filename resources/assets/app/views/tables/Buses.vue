@@ -19,11 +19,11 @@
         />
         <CompanySelect v-model="filters.companyId"
                        class="mr-3"
-                       @input="switchCompany"
+                       @input="updateQueryParameters"
         />
         <RouteSelect v-model="filters.routeId"
                      :company-id="filters.companyId"
-                     @input="switchRoute"
+                     @input="updateQueryParameters"
         />
         <v-btn color="primary"
                @click="openModalForm({company_id: filters.companyId, route_id: filters.routeId})"
@@ -102,11 +102,10 @@ import * as routes from '../../router';
 import BusesService from '../../services/BusesService';
 import CompanySelect from '../dropdowns/CompanySelect';
 import BusForm from '../forms/BusForm';
-import WithCompanyFilterMixin from '../../mixins/WithCompanyFilterMixin';
 import RouteSelect from '../dropdowns/RouteSelect';
-import WithRouteFilterMixin from '../../mixins/WithRouteFilterMixin';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
+import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
 
 // Table headers
 const headers = [
@@ -134,11 +133,15 @@ export default {
     CompanySelect,
     BusForm,
   },
-  mixins: [ WithCompanyFilterMixin, WithRouteFilterMixin, CRUDTableMixin, SimpleTableMixin ],
+  mixins: [ WithUrlQueryFilterMixin, CRUDTableMixin, SimpleTableMixin ],
   data() {
     return {
       headers,
-      filter:               null,
+      filter:  null,
+      filters: {
+        companyId: null,
+        routeId:   null,
+      },
       service:              BusesService,
       itemType:             'bus',
       itemStringIdentifier: 'state_number',
