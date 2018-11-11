@@ -22,11 +22,13 @@ use App\Http\Controllers\Api\v1\RoutesApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
+use App\Http\Controllers\Api\v1\ValidatorsApiController;
 use App\Models\Bus;
 use App\Models\Company;
 use App\Models\Driver;
 use App\Models\Route;
 use App\Models\User;
+use App\Models\Validator;
 use Dingo\Api\Routing\Router;
 use Saritasa\LaravelControllers\Api\ApiResourceRegistrar;
 use Saritasa\LaravelControllers\Api\ForgotPasswordApiController;
@@ -119,6 +121,14 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
                 ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], Driver::class);
+
+        // Validator related routes
+        $registrar->resource('validators', ValidatorsApiController::class, [
+            ApiResourceRegistrar::OPTION_ONLY => [
+                ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_UPDATE,
+            ],
+        ], Validator::class);
 
         // Card related routes
         $registrar->get('cards/drivers', CardsApiController::class, 'driverCards');

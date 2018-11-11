@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\v1\RoutesApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
+use App\Http\Controllers\Api\v1\ValidatorsApiController;
 use App\Http\Transformers\Api\BusTransformer;
 use App\Http\Transformers\Api\CardTransformer;
 use App\Http\Transformers\Api\CardTypeTransformer;
@@ -41,6 +42,7 @@ use App\Http\Transformers\Api\RoleTransformer;
 use App\Http\Transformers\Api\RouteTransformer;
 use App\Http\Transformers\Api\TariffPeriodTransformer;
 use App\Http\Transformers\Api\TariffTransformer;
+use App\Http\Transformers\Api\ValidatorTransformer;
 use App\Repositories\BusesValidatorRepository;
 use App\Repositories\BusRepository;
 use App\Repositories\CardRepository;
@@ -144,5 +146,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(BusesApiController::class)->needs(IDataTransformer::class)->give(BusTransformer::class);
         $this->app->when(DriversApiController::class)->needs(IDataTransformer::class)->give(DriverTransformer::class);
         $this->app->when(CardsApiController::class)->needs(IDataTransformer::class)->give(CardTransformer::class);
+        $this->app->when(ValidatorsApiController::class)
+            ->needs(IDataTransformer::class)
+            ->give(ValidatorTransformer::class);
     }
 }
