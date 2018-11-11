@@ -57,6 +57,9 @@ export default {
     driver: {
       title: 'Параметры водителя',
     },
+    validator: {
+      title: 'Параметры валидатора',
+    },
     user: {
       title:  'Параметры пользователя',
       inputs: {
@@ -220,6 +223,17 @@ export default {
       synchronized_at: 'Дата синхронизации',
       cardType:        {
         name: 'Тип карты',
+      },
+    },
+  },
+  validator: {
+    name:   'Валидатор',
+    fields: {
+      id:            'ID',
+      serial_number: 'Серийный номер',
+      model:         'Модель',
+      bus:           {
+        state_number: 'Автобус',
       },
     },
   },

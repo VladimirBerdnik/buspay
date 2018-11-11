@@ -125,6 +125,17 @@
  */
 
 /**
+ * Smart device that can authorize payment cards in bus.
+ *
+ * @typedef {Object} Validator
+ * @property {number} id - Validator identifier.
+ * @property {string} serial_number - Validator serial number.
+ * @property {string} model - Validator manufacturer or model.
+ * @property {number|null} bus_id - Bus identifier where this validator now installed.
+ * @property {Bus|null} bus - Bus where this validator now installed.
+ */
+
+/**
  * Paginated list details.
  *
  * @typedef {Object} PaginationInfo

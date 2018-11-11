@@ -23,6 +23,7 @@ export const DRIVERS_MUTATION = 'drivers';
 export const CARDS_MUTATION = 'cards';
 export const CARDS_PAGINATION_MUTATION = 'cardsPagination';
 export const DRIVERS_CARDS_MUTATION = 'driversCards';
+export const VALIDATORS_MUTATION = 'validators';
 
 const mutations = {
   /************************************
@@ -210,6 +211,7 @@ const simpleMutations = [
   CARDS_MUTATION,
   DRIVERS_CARDS_MUTATION,
   CARDS_PAGINATION_MUTATION,
+  VALIDATORS_MUTATION,
 ];
 
 simpleMutations.forEach(mutationType => {

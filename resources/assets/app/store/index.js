@@ -52,6 +52,7 @@ export default new Vuex.Store({
       total_pages:  null,
     },
     driversCards: [],
+    validators:   [],
   },
   mutations,
   getters,

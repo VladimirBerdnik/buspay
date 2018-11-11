@@ -17,6 +17,7 @@ export const DRIVERS_GETTER = 'drivers';
 export const CARDS_GETTER = 'cards';
 export const CARDS_PAGINATION_GETTER = 'cardsPagination';
 export const DRIVERS_CARDS_GETTER = 'driversCards';
+export const VALIDATORS_GETTER = 'validators';
 
 const getters = {
   /**
@@ -69,6 +70,7 @@ const simpleGetters = [
   CARDS_GETTER,
   DRIVERS_CARDS_GETTER,
   CARDS_PAGINATION_GETTER,
+  VALIDATORS_GETTER,
 ];
 
 simpleGetters.forEach(getterType => {
