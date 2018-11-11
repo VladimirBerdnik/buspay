@@ -19,6 +19,8 @@ export default {
         rowsPerPage: 15,
         sortBy:      'id',
       },
+      // List of strong equal filters values
+      filters: {},
     };
   },
   computed: {
@@ -34,8 +36,14 @@ export default {
   watch: {
     pagination: {
       deep: true,
-      handler(newPagination) {
-        this.reloadTable(newPagination);
+      handler() {
+        this.reloadTable();
+      },
+    },
+    filters: {
+      deep: true,
+      handler() {
+        this.reloadTable();
       },
     },
   },
@@ -43,7 +51,7 @@ export default {
     /**
      * Reloads table data.
      */
-    async reloadTable(paginationDetails) {
+    async reloadTable() {
       if (this.loadingInProgress) {
         return;
       }
@@ -51,7 +59,9 @@ export default {
       this.loadingInProgress = true;
 
       try {
-        await this.service.read(paginationDetails);
+        const params = Object.assign({}, this.pagination, { filters: this.filters });
+
+        await this.service.read(params);
 
         const paginationInfo = this.service.getPaginationInfo();
 

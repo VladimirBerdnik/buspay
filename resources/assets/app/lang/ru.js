@@ -97,8 +97,9 @@ export default {
   cardType: {
     name:   'Тип карты',
     fields: {
-      id:   'ID',
-      name: 'Название',
+      id:          'ID',
+      name:        'Название',
+      cards_count: 'Карт',
     },
   },
   company: {

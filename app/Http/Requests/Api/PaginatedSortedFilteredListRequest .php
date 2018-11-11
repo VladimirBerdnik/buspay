@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use Illuminate\Support\Str;
 use Saritasa\DingoApi\Paging\PagingInfo;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
@@ -51,6 +52,17 @@ class PaginatedSortedFilteredListRequest extends ApiRequest
      */
     public function getFilters(): array
     {
-        return $this->get('filters') ?? [];
+        $filterString = $this->get('filters') ?? '{}';
+        $filters = json_decode($filterString, true);
+        $validFilters = [];
+        foreach ($filters as $key => $value) {
+            if (!$value || is_array($value)) {
+                continue;
+            }
+
+            $validFilters[Str::snake($key)] = $value;
+        }
+
+        return $validFilters;
     }
 }

@@ -52,7 +52,7 @@ class CardsApiController extends BaseApiController
         return $this->response->paginator(
             $this->cardService->getPageWith(
                 $request->getPagingInfo(),
-                [],
+                ['cardType'],
                 [],
                 $request->getFilters(),
                 $request->getSortOptions()

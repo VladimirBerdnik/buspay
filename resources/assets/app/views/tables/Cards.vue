@@ -1,5 +1,25 @@
 <template>
-  <div row>
+  <div>
+    <v-flex class="mb-3"
+            xs12
+    >
+      <v-layout row
+                wrap
+      >
+        <v-text-field
+          v-model="filter"
+          :label="$t('common.placeholders.search')"
+          append-icon="search"
+          hide-details
+          single-line
+          clearable
+          class="mr-3"
+        />
+        <CardTypesSelect v-model="filters.cardTypeId"
+                         @input="switchCardType"
+        />
+      </v-layout>
+    </v-flex>
     <v-data-table :headers="headers"
                   :rows-per-page-items="datatablesConfig.serverSidePaginatorValues"
                   :pagination.sync="pagination"
@@ -43,6 +63,8 @@
 import i18n from '../../lang/i18n';
 import CardsService from '../../services/CardsService';
 import PaginatedTableMixin from '../../mixins/PaginatedTableMixin';
+import CardTypesSelect from '../dropdowns/CardTypeSelect';
+import WithCardTypeFilterMixin from '../../mixins/WithCardTypeFilterMixin';
 
 // Table headers
 const headers = [
@@ -60,12 +82,14 @@ Object.values(headers).forEach((header, key) => {
 });
 
 export default {
-  name:   'Cards',
-  mixins: [PaginatedTableMixin],
+  name:       'Cards',
+  components: { CardTypesSelect },
+  mixins:     [ PaginatedTableMixin, WithCardTypeFilterMixin ],
   data() {
     return {
       headers,
       service: CardsService,
+      filter:  null,
     };
   },
 };

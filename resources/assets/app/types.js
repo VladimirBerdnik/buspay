@@ -17,6 +17,7 @@
  * @typedef {Object} CardType
  * @property {number} id - Card type identifier.
  * @property {string} name - Name of card type.
+ * @property {number|null} cards_count - Count of cards with this type.
  */
 
 /**

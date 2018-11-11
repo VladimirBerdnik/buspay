@@ -26,14 +26,14 @@ export default {
   /**
    * Reads cards list.
    *
-   * @param {Object} paginationDetails Page number and limit details
+   * @param {Object} params Request parameters such as filters, pagination and sorting details
    *
    * @return {Card[]}
    *
    * @throws Error
    */
-  async read(paginationDetails) {
-    const response = await axios.get('/cards/', { params: paginationDetails });
+  async read(params) {
+    const response = await axios.get('/cards/', { params });
 
     this.cardsMutation(response.data.results || []);
     this.cardsPaginationMutation(response.data.pagination || {});

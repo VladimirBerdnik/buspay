@@ -16,12 +16,18 @@
     >
       <td>{{ props.item.id }}</td>
       <td>{{ props.item.name }}</td>
+      <td class="action-cell text-xs-right"
+          @click.stop="goToCards(props.item.id)"
+      >
+        {{ props.item.cards_count }}
+      </td>
     </template>
 
   </v-data-table>
 </template>
 
 <script>
+import * as routes from '../../router';
 import i18n from '../../lang/i18n';
 import CardTypesService from '../../services/CardTypesService';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
@@ -30,6 +36,7 @@ import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 const headers = [
   { value: 'id' },
   { value: 'name' },
+  { value: 'cards_count' },
 ];
 
 // Table headers translates
@@ -45,6 +52,16 @@ export default {
       headers,
       service: CardTypesService,
     };
+  },
+  methods: {
+    /**
+     * Navigates user to cards list page.
+     *
+     * @param {number} cardTypeId Card type identifier to display cards list for
+     */
+    goToCards(cardTypeId) {
+      this.$router.push({ name: routes.ROUTE_CARDS, query: { cardTypeId } });
+    },
   },
 };
 </script>

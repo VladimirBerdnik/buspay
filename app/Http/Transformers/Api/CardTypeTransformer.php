@@ -42,6 +42,8 @@ class CardTypeTransformer extends BaseTransformer
         return [
             CardType::ID => $cardType->id,
             CardType::NAME => $cardType->name,
+            // possible related records count
+            'cards_count' => $cardType->getAttribute('cards_count'),
         ];
     }
 }

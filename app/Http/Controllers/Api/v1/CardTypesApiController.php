@@ -43,7 +43,7 @@ class CardTypesApiController extends BaseApiController
     public function index(): Response
     {
         return $this->response->collection(
-            $this->cardTypeService->getWith([], [], [], new SortOptions(CardType::ID)),
+            $this->cardTypeService->getWith([], ['cards'], [], new SortOptions(CardType::ID)),
             $this->transformer
         );
     }
