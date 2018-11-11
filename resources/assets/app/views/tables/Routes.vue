@@ -9,7 +9,7 @@
                 wrap
       >
         <v-text-field
-          v-model="filter"
+          v-model="search"
           :label="$t('common.placeholders.search')"
           append-icon="search"
           hide-details
@@ -31,7 +31,7 @@
       <v-data-table :headers="headers"
                     :rows-per-page-items="datatablesConfig.paginatorValues"
                     :items="items"
-                    :search="filter"
+                    :search="search"
                     item-key="id"
                     class="elevation-1"
                     hide-actions
@@ -125,10 +125,10 @@ export default {
   data() {
     return {
       headers,
-      filter:               null,
       service:              RoutesService,
       itemType:             'route',
       itemStringIdentifier: 'name',
+      search:               null,
       filters:              {
         companyId: null,
       },
