@@ -50,8 +50,6 @@ class ValidatorService extends ModelRelationActivityPeriodService
     /**
      * Returns validation rule to store or update validator.
      *
-     * @param Validator $validator Validator to build rules for
-     *
      * @return string[]|GenericRuleSet[]
      */
     protected function getValidatorValidationRules(): array
