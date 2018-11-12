@@ -82,7 +82,7 @@ class CardsImporter extends ExternalEntitiesImportService
     }
 
     /**
-     * Returns date of changes that should be requested from extermal storage.
+     * Returns date of changes that should be requested from external storage.
      *
      * @return Carbon
      *

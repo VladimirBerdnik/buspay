@@ -15,7 +15,7 @@ class TranslatableValidationException extends ValidationException
      * Create a new exception instance.
      *
      * @param Validator $validator Validator that was failed
-     * @param Response|null $response Response that should be send to cliend
+     * @param Response|null $response Response that should be send to client
      * @param string $errorBag Error bag type
      */
     public function __construct(Validator $validator, ?Response $response = null, string $errorBag = 'default')
