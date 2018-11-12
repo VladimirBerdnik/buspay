@@ -1,5 +1,5 @@
 <template>
-  <div v-if="authenticated()">
+  <div v-if="authenticated">
     <v-navigation-drawer :mini-variant="mini"
                          :clipped="true"
                          :value:="true"
@@ -17,7 +17,7 @@
               icon
               @click.stop="mini = !mini"
             >
-              <v-icon x-large >{{ mini ? 'chevron_right' : 'chevron_left' }}</v-icon>
+              <v-icon x-large>{{ mini ? 'chevron_right' : 'chevron_left' }}</v-icon>
             </v-btn>
           </v-list-tile-action>
         </v-list-tile>
@@ -60,6 +60,7 @@ import BusesService from '../services/BusesService';
 import DriversService from '../services/DriversService';
 import DriversCardsService from '../services/DriversCardsService';
 import ValidatorsService from '../services/ValidatorsService';
+import AlertsService from '../services/AlertsService';
 
 export default {
   name: 'Cabinet',
@@ -72,25 +73,57 @@ export default {
       { icon: 'directions_bus', text: i18n.t('layout.drawer.buses'), to: { name: routes.ROUTE_BUSES } },
       { icon: 'recent_actors', text: i18n.t('layout.drawer.drivers'), to: { name: routes.ROUTE_DRIVERS } },
       { icon: 'nfc', text: i18n.t('layout.drawer.validators'), to: { name: routes.ROUTE_VALIDATORS } },
-      { icon: 'today', text: i18n.t('layout.drawer.routeSheets') },
       { icon: 'attach_money', text: i18n.t('layout.drawer.tariffs'), to: { name: routes.ROUTE_TARIFFS } },
       { icon: 'style', text: i18n.t('layout.drawer.cardTypes'), to: { name: routes.ROUTE_CARD_TYPES } },
       { icon: 'credit_card', text: i18n.t('layout.drawer.cards'), to: { name: routes.ROUTE_CARDS } },
+      { icon: 'today', text: i18n.t('layout.drawer.routeSheets') },
     ],
   }),
+  computed: {
+    /**
+     * Whether user authenticated or not.
+     *
+     * @return {boolean}
+     */
+    authenticated: () => AuthService.isAuthenticated(),
+  },
+  watch: {
+    /**
+     * Watch for user authentication status.
+     */
+    authenticated() {
+      this.validateAuth();
+    },
+  },
   async mounted() {
-    await RolesService.read();
-    await CardTypesService.read();
-    await CompaniesService.read();
-    await UsersService.read();
-    await RoutesService.read();
-    await BusesService.read();
-    await DriversService.read();
-    await DriversCardsService.read();
-    await ValidatorsService.read();
+    if (!this.validateAuth()) {
+      return;
+    }
+
+    RolesService.read();
+    CardTypesService.read();
+    CompaniesService.read();
+    RoutesService.read();
+    BusesService.read();
+    DriversCardsService.read();
+    UsersService.read();
+    DriversService.read();
+    ValidatorsService.read();
   },
   methods: {
-    authenticated: () => AuthService.isAuthenticated(),
+    /**
+     * Check user authentication and redirect to homepage when user is not authenticated.
+     *
+     * @return {boolean}
+     */
+    validateAuth() {
+      if (!this.authenticated) {
+        AlertsService.warning('Выполните вход, пожалуйста');
+        this.$router.push({ name: routes.ROUTE_HOME });
+      }
+
+      return this.authenticated;
+    },
   },
 };
 </script>

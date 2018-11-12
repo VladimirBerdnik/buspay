@@ -53,6 +53,7 @@ http.interceptors.response.use(
       AlertsService.error(getMessageFromResponse(error, i18n.t('common.notifications.serverError')));
     } else if (utils.hasUnauthenticatedError(error.response)) {
       // Do not react to unauthenticated error like "token mismatch" or "token not provided"
+      AuthService.logoutMutation();
     } else if (utils.hasClientError(error.response)) {
       // React on client error
       AlertsService.error(getMessageFromResponse(error, i18n.t('common.notifications.clientError')));
