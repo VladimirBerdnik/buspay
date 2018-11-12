@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Saritasa\Database\Eloquent\Models\User as BaseUserModel;
+use Saritasa\Roles\HasRole;
+use Saritasa\Roles\IHasRole;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -26,10 +28,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property Company $company Company in which user works
  * @property Role $role User role
  */
-class User extends BaseUserModel implements JWTSubject
+class User extends BaseUserModel implements JWTSubject, IHasRole
 {
     use Notifiable;
     use SoftDeletes;
+    use HasRole;
 
     public const ID = 'id';
     public const ROLE_ID = 'role_id';
