@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Extensions\ActivityPeriod\HasActivityPeriod;
-use App\Extensions\ActivityPeriod\IHasActivityPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,7 +21,7 @@ use Illuminate\Support\Collection;
  *
  * @property Collection|TariffFare[] $tariffFares Tariff fares that are applicable during this period
  */
-class TariffPeriod extends Model implements IHasActivityPeriod
+class TariffPeriod extends Model
 {
     use SoftDeletes;
     use HasActivityPeriod;
@@ -80,14 +79,5 @@ class TariffPeriod extends Model implements IHasActivityPeriod
     public function tariffFares(): HasMany
     {
         return $this->hasMany(TariffFare::class);
-    }
-    /**
-     * Returns list of attributes involved into activity period. Each of them should be used only once at any moment.
-     *
-     * @return string[]
-     */
-    public function getUniquenessAttributes(): array
-    {
-        return [];
     }
 }

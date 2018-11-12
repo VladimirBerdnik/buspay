@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Extensions\ActivityPeriod\HasActivityPeriod;
-use App\Extensions\ActivityPeriod\IHasActivityPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,7 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Driver $driver Driver that is on bus on route
  * @property Route $route Bus route, which served the driver on the bus
  */
-class RouteSheet extends Model implements IHasActivityPeriod
+class RouteSheet extends Model
 {
     use HasActivityPeriod;
     use SoftDeletes;
@@ -117,19 +116,5 @@ class RouteSheet extends Model implements IHasActivityPeriod
     public function route(): BelongsTo
     {
         return $this->belongsTo(Route::class);
-    }
-
-    /**
-     * Returns list of attributes involved into activity period. Each of them should be used only once at any moment.
-     *
-     * @return string[]
-     */
-    public function getUniquenessAttributes(): array
-    {
-        return [
-            static::ROUTE_ID,
-            static::DRIVER_ID,
-            static::BUS_ID,
-        ];
     }
 }
