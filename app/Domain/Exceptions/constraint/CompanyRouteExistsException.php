@@ -2,6 +2,7 @@
 
 namespace App\Domain\Exceptions\Constraint;
 
+use App\Extensions\ActivityPeriod\IActivityPeriod;
 use App\Models\CompaniesRoute;
 
 /**
@@ -19,7 +20,8 @@ class CompanyRouteExistsException extends BusinessLogicConstraintException
     /**
      * Thrown when company to route assignment already exists.
      *
-     * @param CompaniesRoute $companiesRoute Company to route assignment for which activity period exists
+     * @param CompaniesRoute|IActivityPeriod $companiesRoute Company to route assignment for which activity period
+     *     exists
      */
     public function __construct(CompaniesRoute $companiesRoute)
     {

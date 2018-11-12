@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Exceptions\Integrity\NoCompanyForRouteException;
-use App\Domain\Exceptions\Integrity\TooManyCompanyRoutesException;
-use App\Domain\Exceptions\Integrity\UnexpectedCompanyForRouteException;
 use App\Domain\Services\RouteService;
 use App\Http\Requests\Api\SaveRouteRequest;
 use App\Models\Route;
@@ -82,11 +79,8 @@ class RoutesApiController extends BaseApiController
      * @return Response
      *
      * @throws RepositoryException
-     * @throws Throwable
-     * @throws TooManyCompanyRoutesException
      * @throws ValidationException
-     * @throws NoCompanyForRouteException
-     * @throws UnexpectedCompanyForRouteException
+     * @throws Throwable
      */
     public function update(SaveRouteRequest $request, Route $route): Response
     {
@@ -102,12 +96,9 @@ class RoutesApiController extends BaseApiController
      *
      * @return Response
      *
-     * @throws NoCompanyForRouteException
      * @throws RepositoryException
-     * @throws Throwable
-     * @throws TooManyCompanyRoutesException
-     * @throws UnexpectedCompanyForRouteException
      * @throws ValidationException
+     * @throws Throwable
      */
     public function destroy(Route $route): Response
     {

@@ -2,6 +2,7 @@
 
 namespace App\Domain\Exceptions\Constraint;
 
+use App\Extensions\ActivityPeriod\IActivityPeriod;
 use App\Models\DriversCard;
 
 /**
@@ -19,7 +20,7 @@ class DriverCardExistsException extends BusinessLogicConstraintException
     /**
      * Thrown when card to driver assignment already exists.
      *
-     * @param DriversCard $driversCard Card to driver assignment for which activity period exists
+     * @param DriversCard|IActivityPeriod $driversCard Card to driver assignment for which activity period exists
      */
     public function __construct(DriversCard $driversCard)
     {

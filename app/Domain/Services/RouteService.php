@@ -97,7 +97,7 @@ class RouteService extends EntityService
             $this->getRepository()->create($route);
 
             if ($route->company_id) {
-                $this->companiesRouteService->openPeriod($route->company, $route);
+                $this->companiesRouteService->openCompanyRoutePeriod($route, $route->company);
             }
         });
 
@@ -116,9 +116,6 @@ class RouteService extends EntityService
      *
      * @throws RepositoryException
      * @throws ValidationException
-     * @throws TooManyCompanyRoutesException
-     * @throws NoCompanyForRouteException
-     * @throws UnexpectedCompanyForRouteException
      * @throws Throwable
      */
     public function update(Route $route, RouteData $routeData): Route
@@ -153,7 +150,11 @@ class RouteService extends EntityService
             $this->getRepository()->save($route);
 
             if ($companyChanged && $companyAssigned) {
-                $this->companiesRouteService->openPeriod($route->company, $route, $date->copy()->addSecond());
+                $this->companiesRouteService->openCompanyRoutePeriod(
+                    $route,
+                    $route->company,
+                    $date->copy()->addSecond()
+                );
             }
         });
 
@@ -168,10 +169,7 @@ class RouteService extends EntityService
      * @param Route $route Route to delete
      *
      * @throws RepositoryException
-     * @throws TooManyCompanyRoutesException
      * @throws ValidationException
-     * @throws NoCompanyForRouteException
-     * @throws UnexpectedCompanyForRouteException
      * @throws Throwable
      */
     public function destroy(Route $route): void
@@ -197,7 +195,7 @@ class RouteService extends EntityService
      * Closes current company to route assignment period.
      *
      * @param Route $route Route for which need to close current company assignment record
-     * @param Carbon|null $date Date of end of company twith route activity period record
+     * @param Carbon|null $date Date of end of company with route activity period record
      *
      * @throws NoCompanyForRouteException
      * @throws RepositoryException
@@ -217,6 +215,6 @@ class RouteService extends EntityService
             throw new UnexpectedCompanyForRouteException($companyRoute, $route->company);
         }
 
-        $this->companiesRouteService->closePeriod($companyRoute, $date);
+        $this->companiesRouteService->closeCompanyRoutePeriod($companyRoute, $date);
     }
 }

@@ -123,7 +123,7 @@ class DriverService extends EntityService
             $this->getRepository()->create($driver);
 
             if ($driver->card_id) {
-                $this->driversCardService->openPeriod($driver->card, $driver);
+                $this->driversCardService->openDriverCardPeriod($driver, $driver->card);
             }
         });
 
@@ -179,7 +179,7 @@ class DriverService extends EntityService
                     throw new UnexpectedCardForDriverException($driversCard, $driver->card);
                 }
 
-                $this->driversCardService->closePeriod($driversCard, $date);
+                $this->driversCardService->closeDriverCardPeriod($driversCard, $date);
             }
 
             $newAttributes = $driverData->toArray();
@@ -188,7 +188,7 @@ class DriverService extends EntityService
 
             if ($cardChanged && $cardAssigned) {
                 // Open period for new company
-                $this->driversCardService->openPeriod($driver->card, $driver, $date->copy()->addSecond());
+                $this->driversCardService->openDriverCardPeriod($driver, $driver->card, $date->copy()->addSecond());
             }
         });
 
@@ -203,7 +203,6 @@ class DriverService extends EntityService
      * @param Driver $driver Driver to delete
      *
      * @throws RepositoryException
-     * @throws ValidationException
      * @throws Throwable
      */
     public function destroy(Driver $driver): void
