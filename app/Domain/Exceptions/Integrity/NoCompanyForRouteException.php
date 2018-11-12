@@ -46,6 +46,6 @@ class NoCompanyForRouteException extends BusinessLogicIntegrityException
     {
         $route = $this->getRoute();
 
-        return "No route [{$route->id}] to company [{$route->company_id}] historical assignment found, but expected";
+        return "No route [{$route->id}] to company [{$route->company_id}] historical assignment found but expected";
     }
 }

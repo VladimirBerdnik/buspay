@@ -18,7 +18,7 @@ class UnexpectedCompanyForRouteException extends BusinessLogicIntegrityException
     private $companiesRoute;
 
     /**
-     * Expected company
+     * Expected company.
      *
      * @var Company
      */

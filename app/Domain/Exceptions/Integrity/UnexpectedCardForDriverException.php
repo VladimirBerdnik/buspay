@@ -18,7 +18,7 @@ class UnexpectedCardForDriverException extends BusinessLogicIntegrityException
     private $driversCard;
 
     /**
-     * Expected card
+     * Expected card.
      *
      * @var Card
      */

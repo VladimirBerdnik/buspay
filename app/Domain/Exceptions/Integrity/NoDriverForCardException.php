@@ -46,6 +46,6 @@ class NoDriverForCardException extends BusinessLogicIntegrityException
     {
         $driver = $this->getDriver();
 
-        return "No driver [{$driver->id}] to card [{$driver->card_id}] historical assignment found, but expected";
+        return "No driver [{$driver->id}] to card [{$driver->card_id}] historical assignment found but expected";
     }
 }
