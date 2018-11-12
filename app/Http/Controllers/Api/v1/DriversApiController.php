@@ -48,7 +48,7 @@ class DriversApiController extends BaseApiController
     {
         return $this->response->collection(
             $this->driverService->getWith(
-                ['company', 'bus', 'card', 'card.cardType'],
+                ['company', 'bus', 'card'],
                 [],
                 [],
                 new SortOptions(Driver::FULL_NAME)

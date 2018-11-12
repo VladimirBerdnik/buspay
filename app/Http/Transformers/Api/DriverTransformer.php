@@ -65,7 +65,7 @@ class DriverTransformer extends BaseTransformer
         $this->companyTransformer->setDefaultIncludes([]);
 
         $this->cardTransformer = $cardTransformer;
-        $this->cardTransformer->setDefaultIncludes([CardTransformer::INCLUDE_CARD_TYPE]);
+        $this->cardTransformer->setDefaultIncludes([]);
 
         $this->busTransformer = $busTransformer;
         $this->busTransformer->setDefaultIncludes([]);
