@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Extensions\ActivityPeriod\IHasActivityPeriod;
+use App\Extensions\ActivityPeriod\IActivityPeriod;
+use App\Extensions\ActivityPeriod\IActivityPeriodRelated;
 use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -31,7 +32,7 @@ use Illuminate\Support\Collection;
  * @property Collection|Driver[] $drivers Drivers that usually work on this bus
  * @property Collection|RouteSheet[] $routeSheets Route sheets with information when, on which route which driver serves
  */
-class Bus extends Model implements IHasActivityPeriodsHistory
+class Bus extends Model implements IHasActivityPeriodsHistory, IActivityPeriodRelated
 {
     use SoftDeletes;
 
@@ -150,7 +151,7 @@ class Bus extends Model implements IHasActivityPeriodsHistory
     /**
      * Returns list of activity periods.
      *
-     * @return Collection|IHasActivityPeriod[]
+     * @return Collection|IActivityPeriod[]
      */
     public function getActivityPeriodsRecords(): Collection
     {

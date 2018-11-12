@@ -13,7 +13,7 @@ interface IHasActivityPeriodsHistory
     /**
      * Returns list of activity periods.
      *
-     * @return Collection|IHasActivityPeriod[]
+     * @return Collection|IActivityPeriod[]
      */
     public function getActivityPeriodsRecords(): Collection;
 }

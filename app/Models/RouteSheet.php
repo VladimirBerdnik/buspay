@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Extensions\ActivityPeriod\HasActivityPeriod;
+use App\Extensions\ActivityPeriod\ActivityPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class RouteSheet extends Model
 {
-    use HasActivityPeriod;
+    use ActivityPeriod;
     use SoftDeletes;
 
     public const ID = 'id';

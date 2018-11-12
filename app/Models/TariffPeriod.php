@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Extensions\ActivityPeriod\HasActivityPeriod;
+use App\Extensions\ActivityPeriod\ActivityPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,7 +24,7 @@ use Illuminate\Support\Collection;
 class TariffPeriod extends Model
 {
     use SoftDeletes;
-    use HasActivityPeriod;
+    use ActivityPeriod;
 
     public const ID = 'id';
     public const ACTIVE_FROM = 'active_from';

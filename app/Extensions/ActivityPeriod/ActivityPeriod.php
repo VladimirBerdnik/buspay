@@ -10,7 +10,7 @@ use Carbon\Carbon;
  * @property Carbon $active_from Start date of activity period of this record
  * @property Carbon $active_to End date of activity period of this record
  */
-trait HasActivityPeriod
+trait ActivityPeriod
 {
     /**
      * Checks whether activity period covers passed date or not.
@@ -32,5 +32,25 @@ trait HasActivityPeriod
     public function activityPeriodActive(): bool
     {
         return $this->activityPeriodCovers(Carbon::now());
+    }
+
+    /**
+     * Returns start date of period activity.
+     *
+     * @return Carbon
+     */
+    public function getActiveFrom(): Carbon
+    {
+        return $this->active_from;
+    }
+
+    /**
+     * Returns end date of period activity. Returns null when period is not over.
+     *
+     * @return Carbon|null
+     */
+    public function getActiveTo(): ?Carbon
+    {
+        return $this->active_to;
     }
 }

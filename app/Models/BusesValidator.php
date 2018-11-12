@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use App\Extensions\ActivityPeriod\HasActivityPeriod;
-use App\Extensions\ActivityPeriod\IHasActivityPeriod;
+use App\Extensions\ActivityPeriod\ActivityPeriod;
+use App\Extensions\ActivityPeriod\IActivityPeriod;
+use App\Extensions\ActivityPeriod\IActivityPeriodMaster;
+use App\Extensions\ActivityPeriod\IActivityPeriodRelated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,9 +26,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Bus $bus Linked to validator bus
  * @property Validator $validator Linked to bus validator
  */
-class BusesValidator extends Model implements IHasActivityPeriod
+class BusesValidator extends Model implements IActivityPeriod
 {
-    use HasActivityPeriod;
+    use ActivityPeriod;
     use SoftDeletes;
 
     public const ID = 'id';
@@ -101,15 +103,42 @@ class BusesValidator extends Model implements IHasActivityPeriod
     }
 
     /**
-     * Returns list of attributes involved into activity period. Each of them should be used only once at any moment.
+     * Returns attribute involved into activity period that should be presented only once at one moment of time.
      *
-     * @return string[]
+     * @return string
      */
-    public function getUniquenessAttributes(): array
+    public function masterModelRelationAttribute(): string
     {
-        return [
-            static::BUS_ID,
-            static::VALIDATOR_ID,
-        ];
+        return static::VALIDATOR_ID;
+    }
+
+    /**
+     * Returns attribute name that is points to related activity period record model.
+     *
+     * @return string
+     */
+    public function relatedModelRelationAttribute(): string
+    {
+        return static::BUS_ID;
+    }
+
+    /**
+     * Returns activity period master record.
+     *
+     * @return IActivityPeriodMaster
+     */
+    public function getMasterRecord(): IActivityPeriodMaster
+    {
+        return $this->validator;
+    }
+
+    /**
+     * Returns activity period related record.
+     *
+     * @return IActivityPeriodRelated
+     */
+    public function getRelatedRecord(): IActivityPeriodRelated
+    {
+        return $this->bus;
     }
 }

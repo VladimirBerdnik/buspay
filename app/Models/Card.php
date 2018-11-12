@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Extensions\ActivityPeriod\IHasActivityPeriod;
+use App\Extensions\ActivityPeriod\IActivityPeriod;
+use App\Extensions\ActivityPeriod\IActivityPeriodRelated;
 use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -29,7 +30,7 @@ use Illuminate\Support\Collection;
  * @property Driver $driver Assigned to card driver
  * @property Collection|DriversCard[] $driversCards Information about this card with driver activity periods
  */
-class Card extends Model implements IHasActivityPeriodsHistory
+class Card extends Model implements IHasActivityPeriodsHistory, IActivityPeriodRelated
 {
     use SoftDeletes;
 
@@ -121,7 +122,7 @@ class Card extends Model implements IHasActivityPeriodsHistory
     /**
      * Returns list of activity periods.
      *
-     * @return Collection|IHasActivityPeriod[]
+     * @return Collection|IActivityPeriod[]
      */
     public function getActivityPeriodsRecords(): Collection
     {

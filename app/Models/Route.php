@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Extensions\ActivityPeriod\IHasActivityPeriod;
+use App\Extensions\ActivityPeriod\IActivityPeriod;
+use App\Extensions\ActivityPeriod\IActivityPeriodMaster;
 use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +27,7 @@ use Illuminate\Support\Collection;
  * @property Collection|CompaniesRoute[] $companiesRoutes Assignments of route to company information
  * @property Collection|RouteSheet[] $routeSheets All route sheets information that served this route
  */
-class Route extends Model implements IHasActivityPeriodsHistory
+class Route extends Model implements IHasActivityPeriodsHistory, IActivityPeriodMaster
 {
     use SoftDeletes;
 
@@ -116,7 +117,7 @@ class Route extends Model implements IHasActivityPeriodsHistory
     /**
      * Returns list of activity periods.
      *
-     * @return Collection|IHasActivityPeriod[]
+     * @return Collection|IActivityPeriod[]
      */
     public function getActivityPeriodsRecords(): Collection
     {
