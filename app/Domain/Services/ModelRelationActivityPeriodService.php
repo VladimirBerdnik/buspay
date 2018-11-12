@@ -20,6 +20,9 @@ use Saritasa\Laravel\Validation\RuleSet;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Validator;
 
+/**
+ * Service that can deal with parent to related records assignments activity periods.
+ */
 abstract class ModelRelationActivityPeriodService extends EntityService
 {
     public const ACTIVITY_PERIOD_FROM_ATTRIBUTE = 'active_from';
@@ -99,7 +102,7 @@ abstract class ModelRelationActivityPeriodService extends EntityService
      * @throws ActivityPeriodExistsException
      * @throws TooManyActivityPeriodsException
      */
-    public function openPeriod(
+    protected function openPeriod(
         IActivityPeriodMaster $master,
         IActivityPeriodRelated $related,
         ?Carbon $activeFrom = null
@@ -162,7 +165,7 @@ abstract class ModelRelationActivityPeriodService extends EntityService
      * @throws RepositoryException
      * @throws ValidationException
      */
-    public function closePeriod(IActivityPeriod $activityPeriod, ?Carbon $activeTo = null): IActivityPeriod
+    protected function closePeriod(IActivityPeriod $activityPeriod, ?Carbon $activeTo = null): IActivityPeriod
     {
         Log::debug("Close assignment {$this->getModelClass()} period [{$activityPeriod->getKey()}] attempt");
 
@@ -199,7 +202,7 @@ abstract class ModelRelationActivityPeriodService extends EntityService
      *
      * @throws TooManyActivityPeriodsException
      */
-    public function getPeriodFor(IActivityPeriodMaster $model, ?Carbon $date = null): ?IActivityPeriod
+    protected function getPeriodFor(IActivityPeriodMaster $model, ?Carbon $date = null): ?IActivityPeriod
     {
         $date = $date ?? Carbon::now();
 
