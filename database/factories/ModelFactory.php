@@ -35,7 +35,6 @@ $factory->define(Bus::class, function (Generator $faker, array $parameters) {
     return [
         Bus::MODEL_NAME => $faker->linuxProcessor,
         Bus::STATE_NUMBER => random_int(100, 999) . str_random(2),
-        Bus::DESCRIPTION => $faker->text(128),
         // Have to be filled outside with valid business-logic value
         Bus::ACTIVE => $parameters[Bus::ACTIVE] ?? true,
         Bus::ROUTE_ID => $parameters[Bus::ROUTE_ID] ?? null,

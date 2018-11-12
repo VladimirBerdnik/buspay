@@ -18,7 +18,6 @@ class AddBusesTable extends Migration
             $table->unsignedInteger('company_id')->comment('Company identifier, to which this bus belongs');
             $table->string('model_name', 24)->comment('Name of bus model');
             $table->string('state_number', 10)->comment('Bus state number');
-            $table->string('description')->nullable()->comment('Bus description or notes');
             $table->unsignedInteger('route_id')->nullable()->comment('Usual route identifier, on which this bus is');
             $table->tinyInteger('active')
                 ->nullable()

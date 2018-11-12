@@ -11,7 +11,6 @@ use Saritasa\Dto;
  * @property-read integer|null $route_id Usual route identifier, on which this bus is
  * @property-read string $model_name Name of bus model
  * @property-read string $state_number Bus state number
- * @property-read string|null $description Bus description or notes
  * @property-read boolean $active Does this bus works or not, can be assigned to route or not
  */
 class BusData extends Dto
@@ -20,7 +19,6 @@ class BusData extends Dto
     public const ROUTE_ID = 'route_id';
     public const MODEL_NAME = 'model_name';
     public const STATE_NUMBER = 'state_number';
-    public const DESCRIPTION = 'description';
     public const ACTIVE = 'active';
 
     /**
@@ -50,13 +48,6 @@ class BusData extends Dto
      * @var string
      */
     protected $state_number;
-
-    /**
-     * Bus description or notes.
-     *
-     * @var string|null
-     */
-    protected $description;
 
     /**
      * Does this bus works or not, can be assigned to route or not.
