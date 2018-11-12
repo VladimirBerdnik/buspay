@@ -28,7 +28,7 @@ class AddInitialTariff extends Migration
                 7 => 'Затобольск - Лиманное',
                 8 => 'Затобольск - Рыбное',
                 9 => 'Октябрьское - Рыбное',
-                10 => 'Лиманное - Рыбно',
+                10 => 'Лиманное - Рыбное',
             ];
 
             foreach ($tariffs as $id => $tariff) {
