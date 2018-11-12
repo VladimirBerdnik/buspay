@@ -12,8 +12,13 @@
 */
 
 use App\Http\Controllers\HomeController;
+use Aschmelyun\Larametrics\Larametrics;
 
 $router = app('router');
+
+Route::group(['middleware' => ['auth.basic', 'role:admin'], 'prefix' => 'log-viewer'], function () {
+    Larametrics::routes();
+});
 
 $router->any('/{all?}', HomeController::class . '@index')
     ->where('all', '^(?!api).*$')

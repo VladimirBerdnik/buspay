@@ -6,6 +6,8 @@
   "type": "project",
   "require": {
     "php": ">=7.1",
+    "ext-json": "*",
+    "aschmelyun/larametrics": "^1.1",
     "barryvdh/laravel-cors": "^0.11",
     "dingo/api": "2.0.0-alpha1",
     "laravel/framework": "5.6.*",
@@ -19,8 +21,7 @@
     "saritasa/laravel-middleware": "^1.0",
     "saritasa/laravel-repositories": "^3.1",
     "saritasa/roles-simple": "^1.0",
-    "tymon/jwt-auth": "1.0.0-rc.2",
-    "ext-json": "*"
+    "tymon/jwt-auth": "1.0.0-rc.2"
   },
   "require-dev": {
     "arcanedev/log-viewer": "^4.5",
