@@ -36,16 +36,16 @@ test:
 	php vendor/bin/phpunit
 
 static:
-	npm run development
+	yarn run development
 
 watch:
-	npm run watch
+	yarn run watch
 
 lint:
-	npm run lint
+	yarn run lint
 
 lintfix:
-	npm run lint:fix
+	yarn run lint:fix
 
 ip:
 	docker inspect buspay-web | grep \"IPAddress\"

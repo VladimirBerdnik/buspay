@@ -43,7 +43,10 @@ ensureInstalled nodejs
 ensureInstalled make
 
 #locate NodeJS package manager (NPM) or it's improved alternative Yarn (preferred)
-if [ `which npm` ]; then
+if [ `which yarn` ]; then
+  NPM_INSTALL="yarn install"
+  NPM_GLOBAL_INSTALL="${sudo} yarn global add "
+elif [ `which npm` ]; then
   NPM_INSTALL="npm install"
   NPM_GLOBAL_INSTALL="${sudo} npm install -g "
 fi
@@ -65,6 +68,7 @@ function ensureNpmGlobal {
 }
 
 # Install global NPM command-line tools
+ensureNpmGlobal swagger swagger-cli
 ensureNpmGlobal json2yaml yamljs
 
 # Install local node packages
@@ -80,20 +84,4 @@ if [ `which php` ]; then
   else
     echo -e "${YELLOW} You have PHP version lower, than 7.1. PHP Dependencies should be installed inside container ${NC}"
   fi
-fi
-
-VAGRANT_PLUGINS=''
-function requireVagrantPlugin {
-  plugin=$1
-  if [[ -z ${VAGRANT_PLUGINS} ]]; then
-    VAGRANT_PLUGINS=`vagrant plugin list`
-  fi
-  echo ${VAGRANT_PLUGINS} | grep -q ${plugin}
-  if [ $? -ne 0 ]; then
-    vagrant plugin install ${plugin}
-  fi
-}
-# Install vagrant plugin, that registers a VM's hostname in /etc/hosts file
-if [ `which vagrant` ]; then
-  requireVagrantPlugin vagrant-hostsupdater
 fi

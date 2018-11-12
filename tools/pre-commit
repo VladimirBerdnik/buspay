@@ -29,12 +29,12 @@ fi
 
 # run eslint checks
 # against JS code we created
-eslint=$(npm run lint 2>/dev/null | grep ' error ')
+eslint=$(yarn run lint 2>/dev/null | grep ' error ')
 
 if [[ -n "$eslint" ]]; then
     fonterrors=true
     echo -e "You got JS/CSS lint problems: "$eslint
-    echo -e "Pls run [npm run lint] to see errors"
+    echo -e "Pls run [yarn run lint] to see errors"
     printf "\n"
 fi
 

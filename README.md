@@ -259,7 +259,7 @@ Requirements:
 * [PHP](https://php.net) 7.1+
 * [MySQL](https://www.mysql.com) 5.7+
 * [Node.JS](https://nodejs.org) 6.11+ - JavaScript runtime
-* [NPM](https://npmjs.com) 3.0+ -  Node.JS package manager
+* [YARN](https://yarnpkg.com) 1.9+ -  Node.JS package manager
 * [GNU Make](https://www.gnu.org/software/make/) - build tool
 
 Install all required software from above list, then run:
