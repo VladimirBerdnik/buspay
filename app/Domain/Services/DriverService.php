@@ -7,6 +7,7 @@ use App\Domain\Enums\CardTypesIdentifiers;
 use App\Domain\Exceptions\Constraint\DriverDeletionException;
 use App\Domain\Exceptions\Constraint\DriverReassignException;
 use App\Domain\Exceptions\Integrity\NoDriverForCardException;
+use App\Domain\Exceptions\Integrity\TooManyDriverCardsException;
 use App\Domain\Exceptions\Integrity\UnexpectedCardForDriverException;
 use App\Extensions\EntityService;
 use App\Models\Bus;
@@ -78,7 +79,9 @@ class DriverService extends EntityService
             Driver::CARD_ID => Rule::nullable()
                 // Card should exists and be of the driver card type
                 ->exists('cards', Card::ID, function (Exists $rule) use ($driver) {
-                    $rule->where(Card::CARD_TYPE_ID, CardTypesIdentifiers::DRIVER);
+                    $rule->where(Card::CARD_TYPE_ID, CardTypesIdentifiers::DRIVER)
+                        ->where(Card::ACTIVE, true)
+                        ->whereNotNull(Card::SYNCHRONIZED_AT);
 
                     return $rule->whereNull(Card::DELETED_AT);
                 })
@@ -168,18 +171,7 @@ class DriverService extends EntityService
             $date = Carbon::now();
 
             if ($cardWasAssigned && $cardChanged) {
-                // Close period for old company
-                $driversCard = $this->driversCardService->getForDriver($driver, $date);
-
-                if (!$driversCard) {
-                    throw new NoDriverForCardException($driver);
-                }
-
-                if ($driversCard->card_id !== $driver->card_id) {
-                    throw new UnexpectedCardForDriverException($driversCard, $driver->card);
-                }
-
-                $this->driversCardService->closeDriverCardPeriod($driversCard, $date);
+                $this->closeDriverCardPeriod($driver, $date);
             }
 
             $newAttributes = $driverData->toArray();
@@ -216,5 +208,56 @@ class DriverService extends EntityService
         $this->getRepository()->delete($driver);
 
         Log::debug("Driver [{$driver->id}] deleted");
+    }
+
+    /**
+     * Closes period for existing driver card.
+     *
+     * @param Driver $driver Driver to close current card activity period for
+     * @param Carbon|null $date Date to close period at
+     *
+     * @throws NoDriverForCardException
+     * @throws RepositoryException
+     * @throws UnexpectedCardForDriverException
+     * @throws ValidationException
+     * @throws TooManyDriverCardsException
+     */
+    private function closeDriverCardPeriod(Driver $driver, ?Carbon $date = null): void
+    {
+        $date = $date ?? Carbon::now();
+
+        $driversCard = $this->driversCardService->getForDriver($driver, $date);
+
+        if (!$driversCard) {
+            throw new NoDriverForCardException($driver);
+        }
+
+        if ($driversCard->card_id !== $driver->card_id) {
+            throw new UnexpectedCardForDriverException($driversCard, $driver->card);
+        }
+
+        $this->driversCardService->closeDriverCardPeriod($driversCard, $date);
+    }
+
+    /**
+     * Detaches card from driver.
+     *
+     * @param Driver $driver Driver to detach card from
+     *
+     * @throws Throwable
+     */
+    public function detachCard(Driver $driver): void
+    {
+        Log::warning("Going to detach card [{$driver->card_id}] from driver [{$driver->id}]");
+
+        $this->handleTransaction(function () use ($driver): void {
+            $this->closeDriverCardPeriod($driver);
+
+            $driver->card_id = null;
+
+            $this->getRepository()->save($driver);
+        });
+
+        Log::warning("Card was detached from driver [{$driver->id}]");
     }
 }

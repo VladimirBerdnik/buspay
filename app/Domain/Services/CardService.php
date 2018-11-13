@@ -3,16 +3,19 @@
 namespace App\Domain\Services;
 
 use App\Domain\Dto\CardData;
+use App\Domain\Enums\CardTypesIdentifiers;
 use App\Domain\Exceptions\Constraint\CardReassignException;
 use App\Extensions\EntityService;
 use App\Models\Card;
 use App\Models\CardType;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Unique;
 use Illuminate\Validation\ValidationException;
 use Log;
 use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
+use Saritasa\LaravelRepositories\Contracts\IRepository;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Throwable;
 
@@ -21,6 +24,26 @@ use Throwable;
  */
 class CardService extends EntityService
 {
+    /**
+     * Drivers business logic service.
+     *
+     * @var DriverService
+     */
+    private $driverService;
+
+    /**
+     * Card business-logic service.
+     *
+     * @param ConnectionInterface $connection Storage connection interface
+     * @param IRepository $repository Handled entities records storage
+     * @param DriverService $driverService Drivers business logic service
+     */
+    public function __construct(ConnectionInterface $connection, IRepository $repository, DriverService $driverService)
+    {
+        parent::__construct($connection, $repository);
+        $this->driverService = $driverService;
+    }
+
     /**
      * Returns validation rule to store or update card.
      *
@@ -105,19 +128,31 @@ class CardService extends EntityService
             $card->card_type_id = $cardData->card_type_id;
         }
 
-        $card->active = $cardData->active;
-        $card->synchronized_at = $cardData->synchronized_at;
+        $this->handleTransaction(function () use ($cardData, $card): void {
+            if ($card->active &&
+                !$cardData->active &&
+                $card->card_type_id === CardTypesIdentifiers::DRIVER &&
+                $card->driver
+            ) {
+                Log::warning("Card [{$card->id}] not active anymore and should be detached from driver");
 
-        if ($card->card_number !== $cardData->card_number ||
-            $card->card_type_id !== $cardData->card_type_id ||
-            $card->uin !== $cardData->uin
-        ) {
-            throw new CardReassignException($card);
-        }
+                $this->driverService->detachCard($card->driver);
+            }
 
-        Validator::validate($cardData->toArray(), $this->getCardValidationRules($card));
+            $card->active = $cardData->active;
+            $card->synchronized_at = $cardData->synchronized_at;
 
-        $this->save($card);
+            if ($card->card_number !== $cardData->card_number ||
+                $card->card_type_id !== $cardData->card_type_id ||
+                $card->uin !== $cardData->uin
+            ) {
+                throw new CardReassignException($card);
+            }
+
+            Validator::validate($cardData->toArray(), $this->getCardValidationRules($card));
+
+            $this->save($card);
+        });
 
         Log::debug("Card [{$card->id}] updated");
 
