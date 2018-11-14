@@ -17,12 +17,12 @@ class TooManyCardsWithNumberException extends BusinessLogicIntegrityException
     /**
      * Thrown when multiple cards with same number detected.
      *
-     * @param int $cardNumber Card number with which multiple cards found
+     * @param int $externalId Card number with which multiple cards found
      */
-    public function __construct(int $cardNumber)
+    public function __construct(int $externalId)
     {
         parent::__construct('Too many cards with same number');
-        $this->cardNumber = $cardNumber;
+        $this->cardNumber = $externalId;
     }
 
     /**

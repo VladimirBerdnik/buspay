@@ -71,7 +71,7 @@ class ValidatorsApiController extends BaseApiController
      */
     public function update(SaveValidatorRequest $request, Validator $validator): Response
     {
-        $this->validatorService->update($validator, $request->getValidatorData());
+        $this->validatorService->assignBus($validator, $request->getValidatorBusData()->bus_id);
 
         return $this->response->item($validator, $this->transformer);
     }

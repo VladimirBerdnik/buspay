@@ -10,6 +10,7 @@ use App\Models\Bus;
 use App\Models\Validator;
 use Carbon\Carbon;
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Validation\Rules\Unique;
 use Illuminate\Validation\ValidationException;
 use Log;
 use Saritasa\Laravel\Validation\GenericRuleSet;
@@ -50,13 +51,114 @@ class ValidatorService extends ModelRelationActivityPeriodService
     /**
      * Returns validation rule to store or update validator.
      *
+     * @param Validator $validator Validator to build validation rules for
+     *
      * @return string[]|GenericRuleSet[]
      */
-    protected function getValidatorValidationRules(): array
+    protected function getValidatorValidationRules(Validator $validator): array
     {
         return [
+            Validator::SERIAL_NUMBER => Rule::required()
+                // Validator should have unique serial number
+                ->unique('validators', Validator::SERIAL_NUMBER, function (Unique $rule) use ($validator) {
+                    if ($validator->exists) {
+                        $rule->whereNot(Validator::ID, $validator->id);
+                    }
+
+                    return $rule->whereNull(Bus::DELETED_AT);
+                })
+                ->string()
+                ->max(32),
+            Validator::EXTERNAL_ID => Rule::required()
+                // Validator should have unique external identifier
+                ->unique('validators', Validator::EXTERNAL_ID, function (Unique $rule) use ($validator) {
+                    if ($validator->exists) {
+                        $rule->whereNot(Validator::ID, $validator->id);
+                    }
+
+                    return $rule->whereNull(Bus::DELETED_AT);
+                }),
+            Validator::MODEL => Rule::required()->string()->max(32),
             Validator::BUS_ID => Rule::nullable()->exists('buses', Bus::ID),
         ];
+    }
+
+    /**
+     * Assigns or detaches bus from validator.
+     *
+     * @param Validator $validator Validator to assign bus to
+     * @param integer|null $busId Bus identifier to assign. Detaches bus from validator when empty value passed
+     *
+     * @return Validator
+     *
+     * @throws Throwable
+     * @throws ValidationException
+     */
+    public function assignBus(Validator $validator, ?int $busId): Validator
+    {
+        Log::debug("Assign bus [{$busId}] to validator [{$validator->id}] attempt");
+
+        $busChanged = $validator->bus_id !== $busId;
+        $previouslyAssignedBus = $validator->bus;
+        $assignedBusId = $busId;
+
+        $validator->bus_id = $busId;
+
+        DataValidator::validate($validator->toArray(), $this->getValidatorValidationRules($validator));
+
+        $this->handleTransaction(function () use (
+            $previouslyAssignedBus,
+            $assignedBusId,
+            $busChanged,
+            $validator
+        ): void {
+            $date = Carbon::now();
+
+            if ($previouslyAssignedBus && $busChanged) {
+                $this->closeCurrentValidatorPeriod($validator, $previouslyAssignedBus, $date);
+            }
+
+            $this->getRepository()->save($validator);
+            $validator->load('bus');
+
+            if ($busChanged && $assignedBusId) {
+                $this->busesValidatorService->openBusValidatorPeriod(
+                    $validator,
+                    $validator->bus,
+                    $date->copy()->addSecond()
+                );
+            }
+        });
+
+        Log::debug("Bus [{$busId}] was assigned to validator [{$validator->id}]");
+
+        return $validator;
+    }
+
+    /**
+     * Creates validator details.
+     *
+     * @param ValidatorData $validatorData New validator details
+     *
+     * @return Validator
+     *
+     * @throws RepositoryException
+     * @throws ValidationException
+     * @throws Throwable
+     */
+    public function store(ValidatorData $validatorData): Validator
+    {
+        Log::debug("Create validator with serial number [{$validatorData->serial_number}] attempt");
+
+        $validator = new Validator($validatorData->toArray());
+
+        DataValidator::validate($validatorData->toArray(), $this->getValidatorValidationRules($validator));
+
+        $this->getRepository()->save($validator);
+
+        Log::debug("Validator [{$validator->id}] created");
+
+        return $validator;
     }
 
     /**
@@ -75,37 +177,11 @@ class ValidatorService extends ModelRelationActivityPeriodService
     {
         Log::debug("Update validator [{$validator->id}] attempt");
 
-        DataValidator::validate($validatorData->toArray(), $this->getValidatorValidationRules());
+        $validator->fill($validatorData->toArray());
 
-        $busChanged = $validator->bus_id !== $validatorData->bus_id;
-        $busWasAssigned = $validator->bus_id;
-        $busAssigned = $validatorData->bus_id;
+        DataValidator::validate($validatorData->toArray(), $this->getValidatorValidationRules($validator));
 
-        $this->handleTransaction(function () use (
-            $busWasAssigned,
-            $busAssigned,
-            $validatorData,
-            $busChanged,
-            $validator
-        ): void {
-            $date = Carbon::now();
-
-            if ($busWasAssigned && $busChanged) {
-                $this->closeCurrentValidatorPeriod($validator, $date);
-            }
-
-            $newAttributes = $validatorData->toArray();
-            $validator->fill($newAttributes);
-            $this->getRepository()->save($validator);
-
-            if ($busChanged && $busAssigned) {
-                $this->busesValidatorService->openBusValidatorPeriod(
-                    $validator,
-                    $validator->bus,
-                    $date->copy()->addSecond()
-                );
-            }
-        });
+        $this->getRepository()->save($validator);
 
         Log::debug("Validator [{$validator->id}] updated");
 
@@ -116,6 +192,7 @@ class ValidatorService extends ModelRelationActivityPeriodService
      * Closes current bus to validator assignment period.
      *
      * @param Validator $validator Validator for which need to close current bus assignment record
+     * @param Bus $expectedBus Expected bus for validator activity period
      * @param Carbon|null $date Date of end of bus with validator activity period record
      *
      * @throws NoBusForValidatorException
@@ -124,7 +201,7 @@ class ValidatorService extends ModelRelationActivityPeriodService
      * @throws UnexpectedBusForValidatorException
      * @throws ValidationException
      */
-    private function closeCurrentValidatorPeriod(Validator $validator, ?Carbon $date = null): void
+    private function closeCurrentValidatorPeriod(Validator $validator, Bus $expectedBus, ?Carbon $date = null): void
     {
         $busValidator = $this->busesValidatorService->getForValidator($validator, $date);
 
@@ -132,8 +209,8 @@ class ValidatorService extends ModelRelationActivityPeriodService
             throw new NoBusForValidatorException($validator);
         }
 
-        if ($busValidator->bus_id !== $validator->bus_id) {
-            throw new UnexpectedBusForValidatorException($busValidator, $validator->bus);
+        if ($busValidator->bus_id !== $expectedBus->id) {
+            throw new UnexpectedBusForValidatorException($busValidator, $expectedBus);
         }
 
         $this->busesValidatorService->closeBusValidatorPeriod($busValidator, $date);
