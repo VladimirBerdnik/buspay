@@ -20,6 +20,7 @@ use Illuminate\Support\Collection;
  * @property string $serial_number Validator serial number
  * @property string $model Validator manufacturer or model
  * @property int $bus_id Identifier of bus where this validator installed
+ * @property int $external_id External storage record identifier
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $deleted_at
@@ -36,6 +37,7 @@ class Validator extends Model implements IHasActivityPeriodsHistory, IActivityPe
     public const BUS_ID = 'bus_id';
     public const SERIAL_NUMBER = 'serial_number';
     public const MODEL = 'model';
+    public const EXTERNAL_ID = 'external_id';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
     public const DELETED_AT = 'deleted_at';
@@ -75,6 +77,7 @@ class Validator extends Model implements IHasActivityPeriodsHistory, IActivityPe
         self::SERIAL_NUMBER,
         self::MODEL,
         self::BUS_ID,
+        self::EXTERNAL_ID,
     ];
 
     /**

@@ -5,24 +5,17 @@ namespace App\Domain\Dto;
 use Saritasa\Dto;
 
 /**
- * Validator details.
+ * Validator details. Used to create or update validator parameters.
  *
- * @property-read integer|null $bus_id Current bus identifier where validator located
  * @property-read string $serial_number Validator serial number
  * @property-read string $model Validator manufacturer or model
+ * @property-read integer $external_id External storage record identifier
  */
 class ValidatorData extends Dto
 {
-    public const BUS_ID = 'bus_id';
     public const SERIAL_NUMBER = 'serial_number';
     public const MODEL = 'model';
-
-    /**
-     * Current bus identifier where validator located.
-     *
-     * @var integer|null
-     */
-    protected $bus_id;
+    public const EXTERNAL_ID = 'external_id';
 
     /**
      * Validator serial number.
@@ -37,4 +30,11 @@ class ValidatorData extends Dto
      * @var string
      */
     protected $model;
+
+    /**
+     * External storage record identifier.
+     *
+     * @var integer
+     */
+    protected $external_id;
 }

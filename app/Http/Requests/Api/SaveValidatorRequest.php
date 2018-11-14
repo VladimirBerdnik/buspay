@@ -2,15 +2,15 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Domain\Dto\ValidatorData;
+use App\Domain\Dto\ValidatorBusData;
 use App\Models\Validator;
 use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
 
 /**
- * SaveValidatorRequest form request.
+ * Request to assign validator to bus.
  *
- * @property-read integer|null $bus_id Current bus identifier where validator located
+ * @property-read integer|null $bus_id Bus identifier where validator located
  */
 class SaveValidatorRequest extends ApiRequest
 {
@@ -29,10 +29,10 @@ class SaveValidatorRequest extends ApiRequest
     /**
      * Returns validator details.
      *
-     * @return ValidatorData
+     * @return ValidatorBusData
      */
-    public function getValidatorData(): ValidatorData
+    public function getValidatorBusData(): ValidatorBusData
     {
-        return new ValidatorData($this->all());
+        return new ValidatorBusData($this->all());
     }
 }

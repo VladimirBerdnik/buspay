@@ -128,6 +128,7 @@ $factory->define(Validator::class, function (Generator $faker, array $parameters
     return [
         Validator::MODEL => $faker->companySuffix,
         Validator::SERIAL_NUMBER => $faker->unique()->randomNumber(8, true),
+        Validator::EXTERNAL_ID => $faker->unique()->randomNumber(8, true),
         // Have to be filled outside with valid business-logic value
         Validator::BUS_ID => $parameters[Validator::BUS_ID] ?? null,
     ];
