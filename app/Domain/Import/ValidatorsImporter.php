@@ -100,9 +100,13 @@ class ValidatorsImporter extends ExternalEntitiesImportService
 
                 $validator = $this->importExternalValidator($externalValidatorData);
 
-                Log::debug(
-                    "Validator with serial [{$externalValidatorData->serial}] synchronized as [ID={$validator->id}]"
-                );
+                if ($validator) {
+                    Log::debug(
+                        "Validator with external id [{$validator->external_id}] synchronized as [ID={$validator->id}]"
+                    );
+                } else {
+                    Log::debug("Validator with external id [{$externalValidatorData->id}] wasn't synchronized");
+                }
             } catch (Exception $e) {
                 Log::error("Import validator error occurred: {$e->getMessage()}", $e->getTrace());
             }
@@ -114,12 +118,12 @@ class ValidatorsImporter extends ExternalEntitiesImportService
      *
      * @param ExternalValidatorData $externalValidatorData Details of external validator to import
      *
-     * @return Validator
+     * @return Validator|null
      *
      * @throws RepositoryException
      * @throws Throwable
      */
-    private function importExternalValidator(ExternalValidatorData $externalValidatorData): Validator
+    private function importExternalValidator(ExternalValidatorData $externalValidatorData): ?Validator
     {
         $validatorData = new ValidatorData([
             ValidatorData::EXTERNAL_ID => $externalValidatorData->id,
@@ -158,15 +162,15 @@ class ValidatorsImporter extends ExternalEntitiesImportService
      *
      * @param ValidatorData $validatorData Validator details to create new validator
      *
-     * @return Validator
+     * @return Validator|null
      *
      * @throws RepositoryException
      * @throws Throwable
      */
-    private function createValidator(ValidatorData $validatorData): Validator
+    private function createValidator(ValidatorData $validatorData): ?Validator
     {
         try {
-            $validator = $this->validatorService->store($validatorData);
+            return $this->validatorService->store($validatorData);
         } catch (Exception $e) {
             $payload = [$e->getTrace()];
             if ($e instanceof ValidationException) {
@@ -176,7 +180,7 @@ class ValidatorsImporter extends ExternalEntitiesImportService
             Log::error("Create imported validator error: {$e->getMessage()}", $payload);
         }
 
-        return $validator;
+        return null;
     }
 
     /**
