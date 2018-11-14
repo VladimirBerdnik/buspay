@@ -151,34 +151,35 @@ class DriverService extends EntityService
     {
         Log::debug("Update driver [{$driver->id}] attempt");
 
-        Validator::validate($driverData->toArray(), $this->getDriverValidationRules($driver));
-
-        $cardChanged = $driver->card_id !== $driverData->card_id;
-        $cardWasAssigned = $driver->card_id;
-        $cardAssigned = $driverData->card_id;
-
         if ($driver->company_id !== $driverData->company_id) {
             throw new DriverReassignException($driver);
         }
 
+        $cardChanged = $driver->card_id !== $driverData->card_id;
+        $previouslyAssignedCard = $driver->card;
+        $assignedCardId = $driverData->card_id;
+
+        $driver->fill($driverData->toArray());
+
+        Validator::validate($driverData->toArray(), $this->getDriverValidationRules($driver));
+
         $this->handleTransaction(function () use (
-            $cardWasAssigned,
-            $cardAssigned,
+            $previouslyAssignedCard,
+            $assignedCardId,
             $driverData,
             $cardChanged,
             $driver
         ): void {
             $date = Carbon::now();
 
-            if ($cardWasAssigned && $cardChanged) {
-                $this->closeDriverCardPeriod($driver, $date);
+            if ($previouslyAssignedCard && $cardChanged) {
+                $this->closeDriverCardPeriod($driver, $previouslyAssignedCard, $date);
             }
 
-            $newAttributes = $driverData->toArray();
-            $driver->fill($newAttributes);
             $this->getRepository()->save($driver);
+            $driver->load('card');
 
-            if ($cardChanged && $cardAssigned) {
+            if ($cardChanged && $assignedCardId) {
                 // Open period for new company
                 $this->driversCardService->openDriverCardPeriod($driver, $driver->card, $date->copy()->addSecond());
             }
@@ -187,6 +188,28 @@ class DriverService extends EntityService
         Log::debug("Driver [{$driver->id}] updated");
 
         return $driver;
+    }
+
+    /**
+     * Detaches card from driver.
+     *
+     * @param Driver $driver Driver to detach card from
+     *
+     * @throws Throwable
+     */
+    public function detachCard(Driver $driver): void
+    {
+        Log::warning("Going to detach card [{$driver->card_id}] from driver [{$driver->id}]");
+
+        $this->handleTransaction(function () use ($driver): void {
+            $this->closeDriverCardPeriod($driver, $driver->card);
+
+            $driver->card_id = null;
+
+            $this->getRepository()->save($driver);
+        });
+
+        Log::warning("Card was detached from driver [{$driver->id}]");
     }
 
     /**
@@ -214,15 +237,16 @@ class DriverService extends EntityService
      * Closes period for existing driver card.
      *
      * @param Driver $driver Driver to close current card activity period for
+     * @param Card $expectedCard Expected card for driver activity period
      * @param Carbon|null $date Date to close period at
      *
      * @throws NoDriverForCardException
      * @throws RepositoryException
+     * @throws TooManyDriverCardsException
      * @throws UnexpectedCardForDriverException
      * @throws ValidationException
-     * @throws TooManyDriverCardsException
      */
-    private function closeDriverCardPeriod(Driver $driver, ?Carbon $date = null): void
+    private function closeDriverCardPeriod(Driver $driver, Card $expectedCard, ?Carbon $date = null): void
     {
         $date = $date ?? Carbon::now();
 
@@ -232,32 +256,10 @@ class DriverService extends EntityService
             throw new NoDriverForCardException($driver);
         }
 
-        if ($driversCard->card_id !== $driver->card_id) {
-            throw new UnexpectedCardForDriverException($driversCard, $driver->card);
+        if ($driversCard->card_id !== $expectedCard->id) {
+            throw new UnexpectedCardForDriverException($driversCard, $expectedCard);
         }
 
         $this->driversCardService->closeDriverCardPeriod($driversCard, $date);
-    }
-
-    /**
-     * Detaches card from driver.
-     *
-     * @param Driver $driver Driver to detach card from
-     *
-     * @throws Throwable
-     */
-    public function detachCard(Driver $driver): void
-    {
-        Log::warning("Going to detach card [{$driver->card_id}] from driver [{$driver->id}]");
-
-        $this->handleTransaction(function () use ($driver): void {
-            $this->closeDriverCardPeriod($driver);
-
-            $driver->card_id = null;
-
-            $this->getRepository()->save($driver);
-        });
-
-        Log::warning("Card was detached from driver [{$driver->id}]");
     }
 }

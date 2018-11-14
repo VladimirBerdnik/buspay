@@ -36,7 +36,7 @@ class BusService extends EntityService
             Bus::COMPANY_ID => Rule::required()->exists('companies', Company::ID)->int(),
             Bus::MODEL_NAME => Rule::required()->string()->max(24),
             Bus::STATE_NUMBER => Rule::required()
-                // Bus should have unique state number between all the companies
+                // Bus should have unique state number among all the companies
                 ->unique('buses', Bus::STATE_NUMBER, function (Unique $rule) use ($bus) {
                     if ($bus->exists) {
                         $rule->whereNot(Bus::ID, $bus->id);
