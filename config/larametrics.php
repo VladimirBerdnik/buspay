@@ -59,7 +59,7 @@ return [
     | be removed.
     |
     */
-    'modelsWatchedExpireDays' => 30,
+    'modelsWatchedExpireDays' => 15,
 
     /*
     |--------------------------------------------------------------------------
@@ -70,7 +70,7 @@ return [
     | any given time. Set this number to 0 if you would like to have no limit.
     |
     */
-    'modelsWatchedExpireAmount' => 1200,
+    'modelsWatchedExpireAmount' => 600,
 
     /*
     |--------------------------------------------------------------------------
@@ -116,7 +116,7 @@ return [
     | given time. Set this number to 0 if you would like to have no limit.
     |
     */
-    'requestsWatchedExpireAmount' => 10000,
+    'requestsWatchedExpireAmount' => 5000,
 
     /*
     |--------------------------------------------------------------------------
@@ -152,7 +152,7 @@ return [
     | expiration time will be removed.
     |
     */
-    'logsWatchedExpireDays' => 0,
+    'logsWatchedExpireDays' => 1,
 
     /*
     |--------------------------------------------------------------------------
@@ -163,7 +163,7 @@ return [
     | given time. Change this number if you would prefer there to be a limit.
     |
     */
-    'logsWatchedExpireAmount' => 0,
+    'logsWatchedExpireAmount' => 10,
 
     /*
     |--------------------------------------------------------------------------
