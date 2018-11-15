@@ -11,7 +11,7 @@ export default {
    * Mutations from Vuex Store.
    */
   ...mapMutations({
-    cardTypesMutation: CARD_TYPES_MUTATION,
+    itemsMutation: CARD_TYPES_MUTATION,
   }),
 
   /**
@@ -27,9 +27,11 @@ export default {
    * @throws Error
    */
   async read() {
+    this.itemsMutation([]);
+
     const response = await axios.get('/cardTypes/');
 
-    this.cardTypesMutation(response.data.results || []);
+    this.itemsMutation(response.data.results || []);
 
     return response.data;
   },

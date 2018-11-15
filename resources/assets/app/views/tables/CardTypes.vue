@@ -2,6 +2,7 @@
   <v-data-table :headers="headers"
                 :rows-per-page-items="datatablesConfig.paginatorValues"
                 :items="items"
+                :loading="loadingInProgress"
                 item-key="id"
                 class="elevation-1"
                 hide-actions

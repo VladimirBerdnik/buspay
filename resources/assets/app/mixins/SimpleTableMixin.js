@@ -6,10 +6,11 @@ import stringUtils from '../utils/string';
 export default {
   data() {
     return {
+      loadingInProgress: false,
       /**
        * Service that handles table items.
        */
-      service: null,
+      service:           null,
       datatablesConfig,
     };
   },
@@ -42,8 +43,15 @@ export default {
     /**
      * Reloads table data.
      */
-    reloadTable() {
-      this.service.read();
+    async reloadTable() {
+      this.loadingInProgress = true;
+      try {
+        await this.service.read();
+      } catch (exception) {
+        // no action required
+      } finally {
+        this.loadingInProgress = false;
+      }
     },
   },
 };

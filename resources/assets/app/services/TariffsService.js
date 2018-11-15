@@ -11,7 +11,7 @@ export default {
    * Mutations from Vuex Store.
    */
   ...mapMutations({
-    tariffsMutation: TARIFFS_MUTATION,
+    itemsMutation: TARIFFS_MUTATION,
   }),
 
   /**
@@ -29,9 +29,11 @@ export default {
    * @throws Error
    */
   async read(tariffPeriod) {
+    this.itemsMutation([]);
+
     const response = await axios.get(`/tariffPeriods/${tariffPeriod.id}/tariffs/`);
 
-    this.tariffsMutation(response.data.results || []);
+    this.itemsMutation(response.data.results || []);
 
     return response.data;
   },

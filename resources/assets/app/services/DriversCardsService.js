@@ -11,7 +11,7 @@ export default {
    * Mutations from Vuex Store.
    */
   ...mapMutations({
-    driversCardsMutation: DRIVERS_CARDS_MUTATION,
+    itemsMutation: DRIVERS_CARDS_MUTATION,
   }),
 
   /**
@@ -27,9 +27,11 @@ export default {
    * @throws Error
    */
   async read() {
+    this.itemsMutation([]);
+
     const response = await axios.get('/cards/drivers/');
 
-    this.driversCardsMutation(response.data.results || []);
+    this.itemsMutation(response.data.results || []);
 
     return response.data;
   },

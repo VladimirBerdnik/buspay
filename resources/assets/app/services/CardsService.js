@@ -11,7 +11,7 @@ export default {
    * Mutations from Vuex Store.
    */
   ...mapMutations({
-    cardsMutation:           CARDS_MUTATION,
+    itemsMutation:           CARDS_MUTATION,
     cardsPaginationMutation: CARDS_PAGINATION_MUTATION,
   }),
 
@@ -33,9 +33,11 @@ export default {
    * @throws Error
    */
   async read(params) {
+    this.itemsMutation([]);
+
     const response = await axios.get('/cards/', { params });
 
-    this.cardsMutation(response.data.results || []);
+    this.itemsMutation(response.data.results || []);
     this.cardsPaginationMutation(response.data.pagination || {});
 
     return response.data;

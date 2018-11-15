@@ -11,7 +11,7 @@ export default {
    * Mutations from Vuex Store.
    */
   ...mapMutations({
-    driversMutation: DRIVERS_MUTATION,
+    itemsMutation: DRIVERS_MUTATION,
   }),
 
   /**
@@ -27,9 +27,11 @@ export default {
    * @throws Error
    */
   async read() {
+    this.itemsMutation([]);
+
     const response = await axios.get('/drivers/');
 
-    this.driversMutation(response.data.results || []);
+    this.itemsMutation(response.data.results || []);
 
     return response.data;
   },

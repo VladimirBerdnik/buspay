@@ -11,7 +11,7 @@ export default {
    * Mutations from Vuex Store.
    */
   ...mapMutations({
-    validatorsMutation: VALIDATORS_MUTATION,
+    itemsMutation: VALIDATORS_MUTATION,
   }),
 
   /**
@@ -27,9 +27,11 @@ export default {
    * @throws Error
    */
   async read() {
+    this.itemsMutation([]);
+
     const response = await axios.get('/validators/');
 
-    this.validatorsMutation(response.data.results || []);
+    this.itemsMutation(response.data.results || []);
 
     return response.data;
   },

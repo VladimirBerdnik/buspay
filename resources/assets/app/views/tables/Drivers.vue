@@ -37,9 +37,26 @@
                     :rows-per-page-items="datatablesConfig.paginatorValues"
                     :items="items"
                     :search="search"
+                    :loading="loadingInProgress"
                     item-key="id"
                     class="elevation-1"
       >
+        <template slot="headerCell"
+                  slot-scope="props"
+        >
+          <v-btn v-if="props.header.actionsColumn"
+                 :title="$t('common.buttons.refresh')"
+                 flat
+                 icon
+                 @click="reloadTable"
+          >
+            <v-icon>cached</v-icon>
+          </v-btn>
+          <template v-else>
+            {{ props.header.text }}
+          </template>
+        </template>
+
         <v-progress-linear slot="progress"
                            color="blue"
                            indeterminate
@@ -115,7 +132,12 @@ Object.values(headers).forEach((header, key) => {
 });
 
 // Actions column
-headers.push({ text: '', sortable: false });
+headers.push({
+  text:          '',
+  sortable:      false,
+  actionsColumn: true,
+  width:         '1%',
+});
 
 export default {
   name:       'Drivers',

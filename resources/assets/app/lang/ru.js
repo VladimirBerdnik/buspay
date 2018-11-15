@@ -6,11 +6,12 @@ export default {
   },
   common: {
     buttons: {
-      save:   'Сохранить',
-      ok:     'ОК',
-      close:  'Отмена',
-      add:    'Добавить',
-      delete: 'Удалить',
+      save:    'Сохранить',
+      ok:      'ОК',
+      close:   'Отмена',
+      add:     'Добавить',
+      delete:  'Удалить',
+      refresh: 'Обновить',
     },
     notifications: {
       savingError:   'Ошибка сохранения',

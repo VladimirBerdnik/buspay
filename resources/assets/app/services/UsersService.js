@@ -12,7 +12,7 @@ export default {
    * Mutations from Vuex Store.
    */
   ...mapMutations({
-    usersMutation: USERS_MUTATION,
+    itemsMutation: USERS_MUTATION,
   }),
 
   /**
@@ -28,9 +28,11 @@ export default {
    * @throws Error
    */
   async read() {
+    this.itemsMutation([]);
+
     const response = await axios.get('/users/');
 
-    this.usersMutation(response.data.results || []);
+    this.itemsMutation(response.data.results || []);
 
     return response.data;
   },
