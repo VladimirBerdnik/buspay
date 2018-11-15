@@ -76,7 +76,7 @@ class CardsImporter extends ExternalEntitiesImportService
 
         $this->importUpdatedData($dateForSynchronization);
 
-        $importDuration = time() - $reimportDuration - $startTime;
+        $importDuration = time() - $startTime - $reimportDuration;
 
         Log::info("Cards reimport took ~{$reimportDuration} second(s). Cards import took ~{$importDuration} second(s)");
     }
