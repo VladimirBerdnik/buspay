@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Domain\Import\CardsImporter;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Throwable;
 
@@ -16,7 +17,7 @@ class ImportCardsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'avtotoleu:import_cards';
+    protected $signature = 'avtotoleu:import_cards  {--D|days= : Import data, updated passed days count ago}';
 
     /**
      * The console command description.
@@ -52,6 +53,10 @@ class ImportCardsCommand extends Command
      */
     public function handle(): void
     {
-        $this->cardsImporter->import();
+        $daysCount = $this->option('days');
+
+        $date = $daysCount ? Carbon::now()->subDay($daysCount) : null;
+
+        $this->cardsImporter->import($date);
     }
 }

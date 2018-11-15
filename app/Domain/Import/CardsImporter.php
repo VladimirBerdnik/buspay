@@ -58,9 +58,12 @@ class CardsImporter extends ExternalEntitiesImportService
     /**
      * Performs cards import from external cards storage.
      *
-     * @throws Throwable
+     * @param Carbon|null $importDate Import data, updated after passed date
+     *
+     * @throws InvalidEnumValueException
+     * @throws NotImplementedException
      */
-    public function import(): void
+    public function import(?Carbon $importDate = null): void
     {
         $startTime = time();
 
@@ -68,7 +71,7 @@ class CardsImporter extends ExternalEntitiesImportService
          * Remember date for synchronization before unsyncronized cards import as in this case we can loose some
          * records resynchronized records will change max synchronization date.
          */
-        $dateForSynchronization = $this->getDateForSynchronization();
+        $dateForSynchronization = $importDate ?? $this->getDateForSynchronization();
 
         $this->reimportUnsynchronized();
 
