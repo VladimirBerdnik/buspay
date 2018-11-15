@@ -1,5 +1,8 @@
 <template>
   <div v-if="authenticated">
+    <the-splash-screen v-if="!dataReady"
+                       :steps="steps"
+    />
     <v-navigation-drawer :mini-variant="mini"
                          :clipped="true"
                          :value:="true"
@@ -61,10 +64,12 @@ import DriversService from '../services/DriversService';
 import DriversCardsService from '../services/DriversCardsService';
 import ValidatorsService from '../services/ValidatorsService';
 import AlertsService from '../services/AlertsService';
+import TheSplashScreen from '../components/TheSplashScreen';
 
 export default {
-  name: 'Cabinet',
-  data: () => ({
+  name:       'Cabinet',
+  components: { TheSplashScreen },
+  data:       () => ({
     mini:      true,
     menuItems: [
       { icon: 'business', text: i18n.t('layout.drawer.companies'), to: { name: routes.ROUTE_COMPANIES } },
@@ -78,6 +83,15 @@ export default {
       { icon: 'credit_card', text: i18n.t('layout.drawer.cards'), to: { name: routes.ROUTE_CARDS } },
       { icon: 'today', text: i18n.t('layout.drawer.routeSheets') },
     ],
+    steps: {
+      companies:  { text: i18n.t('layout.drawer.companies'), ready: false, service: CompaniesService },
+      users:      { text: i18n.t('layout.drawer.users'), ready: false, service: UsersService },
+      routes:     { text: i18n.t('layout.drawer.routes'), ready: false, service: RoutesService },
+      buses:      { text: i18n.t('layout.drawer.buses'), ready: false, service: BusesService },
+      drivers:    { text: i18n.t('layout.drawer.drivers'), ready: false, service: DriversService },
+      validators: { text: i18n.t('layout.drawer.validators'), ready: false, service: ValidatorsService },
+      cardTypes:  { text: i18n.t('layout.drawer.cardTypes'), ready: false, service: CardTypesService },
+    },
   }),
   computed: {
     /**
@@ -86,6 +100,13 @@ export default {
      * @return {boolean}
      */
     authenticated: () => AuthService.isAuthenticated(),
+
+    /**
+     * Whether data for personal cabinet ready or not.
+     */
+    dataReady() {
+      return Object.values(this.steps).every(step => step.ready);
+    },
   },
   watch: {
     /**
@@ -99,16 +120,12 @@ export default {
     if (!this.validateAuth()) {
       return;
     }
-
     RolesService.read();
-    CardTypesService.read();
-    CompaniesService.read();
-    RoutesService.read();
-    BusesService.read();
     DriversCardsService.read();
-    UsersService.read();
-    DriversService.read();
-    ValidatorsService.read();
+
+    Object.keys(this.steps).forEach(step => {
+      this.steps[step].service.read().then(() => { this.steps[step].ready = true; });
+    });
   },
   methods: {
     /**

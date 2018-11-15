@@ -24,6 +24,7 @@ export default {
     },
     titles: {
       confirmAction: 'Подтвердите действие',
+      preparingData: 'Загружаются справочники',
     },
     placeholders: {
       search: 'Поиск',
