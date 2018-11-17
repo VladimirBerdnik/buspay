@@ -20,11 +20,11 @@ use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 class BusesValidatorService extends ModelRelationActivityPeriodService
 {
     /**
-     * Opens new buse to validator assignment period.
+     * Opens new bus to validator assignment period.
      *
-     * @param Validator $validator Validator to assign buse to
+     * @param Validator $validator Validator to assign bus to
      * @param Bus $bus Bus to assign validator to
-     * @param Carbon|null $activeFrom Start date of buse to validator assignment period
+     * @param Carbon|null $activeFrom Start date of bus to validator assignment period
      *
      * @return BusesValidator|IActivityPeriod
      *
@@ -44,7 +44,7 @@ class BusesValidatorService extends ModelRelationActivityPeriodService
     }
 
     /**
-     * Closes validator to buse assignment period.
+     * Closes validator to bus assignment period.
      *
      * @param BusesValidator $busesValidator Bus to validator assignment period to close
      * @param Carbon|null $activeTo Date of period at which period should be closed
@@ -60,7 +60,7 @@ class BusesValidatorService extends ModelRelationActivityPeriodService
     }
 
     /**
-     * Returns buse to validator assignment that was active at passed date.
+     * Returns bus to validator assignment that was active at passed date.
      *
      * @param Validator $validator Validator to retrieve assignment for
      * @param Carbon|null $date Date to find tariff period

@@ -131,7 +131,7 @@ class ValidatorsImporter extends ExternalEntitiesImportService
             );
         } catch (Exception $exception) {
             Log::error(
-                "Error occured during verify existing validators attempt: {$exception->getMessage()}",
+                "Error occurred during verify existing validators attempt: {$exception->getMessage()}",
                 $exception->getTrace()
             );
         }
