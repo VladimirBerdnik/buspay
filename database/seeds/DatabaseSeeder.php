@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(BusesSeeder::class);
         $this->call(DriversSeeder::class);
         $this->call(ValidatorsSeeder::class);
+        $this->call(RouteSheetsSeeder::class);
     }
 }

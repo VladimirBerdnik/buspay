@@ -12,16 +12,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Route sheet with driver to bus and route assignment historical information.
  *
  * @property int $id Route sheet unique identifier
+ * @property int $company_id Company identifier to which this route sheet belongs to
  * @property int $route_id Bus route identifier, which served the driver on the bus
  * @property int $bus_id Bus identifier that is on route
  * @property int $driver_id Driver identifier that is on bus on route
- * @property bool $temporary Is this route sheet temporary (reserve) or not
  * @property Carbon $active_from Start date of activity period of this record
  * @property Carbon $active_to End date of activity period of this record
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $deleted_at
  *
+ * @property Company $company Company to which this route sheet belongs to
  * @property Bus $bus Bus that is on route
  * @property Driver $driver Driver that is on bus on route
  * @property Route $route Bus route, which served the driver on the bus
@@ -32,10 +33,10 @@ class RouteSheet extends Model
     use SoftDeletes;
 
     public const ID = 'id';
+    public const COMPANY_ID = 'company_id';
     public const ROUTE_ID = 'route_id';
     public const BUS_ID = 'bus_id';
     public const DRIVER_ID = 'driver_id';
-    public const TEMPORARY = 'temporary';
     public const ACTIVE_FROM = 'active_from';
     public const ACTIVE_TO = 'active_to';
     public const CREATED_AT = 'created_at';
@@ -59,7 +60,6 @@ class RouteSheet extends Model
         self::ROUTE_ID => 'int',
         self::BUS_ID => 'int',
         self::DRIVER_ID => 'int',
-        self::TEMPORARY => 'bool',
     ];
 
     /**
@@ -80,13 +80,23 @@ class RouteSheet extends Model
      * @var string[]
      */
     protected $fillable = [
+        self::COMPANY_ID,
         self::ROUTE_ID,
         self::BUS_ID,
         self::DRIVER_ID,
-        self::TEMPORARY,
         self::ACTIVE_FROM,
         self::ACTIVE_TO,
     ];
+
+    /**
+     * Company to which this route sheet belongs to.
+     *
+     * @return BelongsTo
+     */
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
 
     /**
      * Bus that is on route.

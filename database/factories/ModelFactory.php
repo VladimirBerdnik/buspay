@@ -9,6 +9,7 @@ use App\Models\Company;
 use App\Models\Driver;
 use App\Models\DriversCard;
 use App\Models\Route;
+use App\Models\RouteSheet;
 use App\Models\User;
 use App\Models\Validator;
 use Carbon\Carbon;
@@ -39,6 +40,18 @@ $factory->define(Bus::class, function (Generator $faker, array $parameters) {
         Bus::ACTIVE => $parameters[Bus::ACTIVE] ?? true,
         Bus::ROUTE_ID => $parameters[Bus::ROUTE_ID] ?? null,
         Bus::COMPANY_ID => $parameters[Bus::COMPANY_ID] ?? null,
+    ];
+});
+
+$factory->define(RouteSheet::class, function (Generator $faker, array $parameters) {
+    return [
+        // Have to be filled outside with valid business-logic value
+        RouteSheet::COMPANY_ID => $parameters[RouteSheet::COMPANY_ID] ?? null,
+        RouteSheet::ROUTE_ID => $parameters[RouteSheet::ROUTE_ID] ?? null,
+        RouteSheet::BUS_ID => $parameters[RouteSheet::BUS_ID] ?? null,
+        RouteSheet::DRIVER_ID => $parameters[RouteSheet::DRIVER_ID] ?? null,
+        RouteSheet::ACTIVE_FROM => $parameters[RouteSheet::ACTIVE_FROM] ?? null,
+        RouteSheet::ACTIVE_TO => $parameters[RouteSheet::ACTIVE_TO] ?? null,
     ];
 });
 

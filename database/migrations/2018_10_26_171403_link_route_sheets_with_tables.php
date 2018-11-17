@@ -17,6 +17,7 @@ class LinkRouteSheetsWithTables extends Migration
             $table->foreign(['bus_id'])->on('buses')->references('id')->onDelete('RESTRICT');
             $table->foreign(['driver_id'])->on('drivers')->references('id')->onDelete('RESTRICT');
             $table->foreign(['route_id'])->on('routes')->references('id')->onDelete('RESTRICT');
+            $table->foreign(['company_id'])->on('companies')->references('id')->onDelete('RESTRICT');
         });
     }
 
@@ -31,6 +32,7 @@ class LinkRouteSheetsWithTables extends Migration
             $table->dropForeign(['bus_id']);
             $table->dropForeign(['driver_id']);
             $table->dropForeign(['route_id']);
+            $table->dropForeign(['company_id']);
         });
     }
 }
