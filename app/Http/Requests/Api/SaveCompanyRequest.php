@@ -9,11 +9,6 @@ use Saritasa\Laravel\Validation\Rule;
 
 /**
  * Request to save company details.
- *
- * @property-read string $name Company name
- * @property-read string $bin Business identification number
- * @property-read string $account_number Account number for payments
- * @property-read string $contact_information Company contact information
  */
 class SaveCompanyRequest extends ApiRequest
 {

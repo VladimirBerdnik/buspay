@@ -9,9 +9,6 @@ use Saritasa\Laravel\Validation\Rule;
 
 /**
  * Request with route details to save.
- *
- * @property-read integer|null $company_id Currently assigned to route company identifier
- * @property-read string $name Route name AKA "bus number"
  */
 class SaveRouteRequest extends ApiRequest
 {

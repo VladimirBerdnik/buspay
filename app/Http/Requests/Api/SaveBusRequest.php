@@ -9,11 +9,6 @@ use Saritasa\Laravel\Validation\Rule;
 
 /**
  * Request to save bus details.
- *
- * @property-read integer $company_id Company identifier, to which this bus belongs
- * @property-read integer|null $route_id Usual route identifier, on which this bus is
- * @property-read string $model_name Name of bus model
- * @property-read string $state_number Bus state number
  */
 class SaveBusRequest extends ApiRequest
 {

@@ -9,8 +9,6 @@ use Saritasa\Laravel\Validation\Rule;
 
 /**
  * Request to assign validator to bus.
- *
- * @property-read integer|null $bus_id Bus identifier where validator located
  */
 class SaveValidatorRequest extends ApiRequest
 {

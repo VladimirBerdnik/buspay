@@ -9,14 +9,6 @@ use Saritasa\Laravel\Validation\Rule;
 
 /**
  * Request to save user details.
- *
- * @property-read integer $id User identifier
- * @property-read integer $role_id User role identifier
- * @property-read integer|null $company_id Company identifier in which user works
- * @property-read string $first_name User first name
- * @property-read string $last_name User last name
- * @property-read string $email User email address
- * @property-read string $password User password
  */
 class SaveUserRequest extends ApiRequest
 {

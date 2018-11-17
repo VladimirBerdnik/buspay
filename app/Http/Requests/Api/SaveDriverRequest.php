@@ -8,12 +8,7 @@ use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
 
 /**
- * SaveDriverRequest form request.
- *
- * @property-read integer $company_id Company identifier in which this driver works
- * @property-read string $full_name Driver full name
- * @property-read integer|null $bus_id Bus identifier, on which this driver usually works
- * @property-read integer|null $card_id Current driver card identifier
+ * Request to save driver details.
  */
 class SaveDriverRequest extends ApiRequest
 {
