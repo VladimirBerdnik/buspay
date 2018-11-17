@@ -81,7 +81,7 @@ export default {
       { icon: 'attach_money', text: i18n.t('layout.drawer.tariffs'), to: { name: routes.ROUTE_TARIFFS } },
       { icon: 'style', text: i18n.t('layout.drawer.cardTypes'), to: { name: routes.ROUTE_CARD_TYPES } },
       { icon: 'credit_card', text: i18n.t('layout.drawer.cards'), to: { name: routes.ROUTE_CARDS } },
-      { icon: 'today', text: i18n.t('layout.drawer.routeSheets') },
+      { icon: 'today', text: i18n.t('layout.drawer.routeSheets'), to: { name: routes.ROUTE_ROUTE_SHEETS } },
     ],
     steps: {
       companies:  { text: i18n.t('layout.drawer.companies'), ready: false, service: CompaniesService },

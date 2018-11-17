@@ -11,6 +11,7 @@ import Buses from '../views/tables/Buses';
 import Drivers from '../views/tables/Drivers';
 import Cards from '../views/tables/Cards';
 import Validators from '../views/tables/Validators';
+import RouteSheets from '../views/tables/RouteSheets';
 
 export const ROUTE_HOME = 'home';
 export const ROUTE_CABINET = 'cabinet';
@@ -23,6 +24,7 @@ export const ROUTE_BUSES = 'buses';
 export const ROUTE_DRIVERS = 'drivers';
 export const ROUTE_CARDS = 'cards';
 export const ROUTE_VALIDATORS = 'validators';
+export const ROUTE_ROUTE_SHEETS = 'routeSheets';
 
 Vue.use(Router);
 
@@ -47,6 +49,7 @@ export default new Router({
       { path: 'drivers', component: Drivers, name: ROUTE_DRIVERS },
       { path: 'cards', component: Cards, name: ROUTE_CARDS },
       { path: 'validators', component: Validators, name: ROUTE_VALIDATORS },
+      { path: 'routeSheets', component: RouteSheets, name: ROUTE_ROUTE_SHEETS },
     ],
   } ],
 });

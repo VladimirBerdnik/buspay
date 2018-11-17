@@ -136,6 +136,23 @@
  */
 
 /**
+ * Route sheet represents bus with driver on route presence.
+ *
+ * @typedef {Object} RouteSheet
+ * @property {number} id Route sheet unique identifier
+ * @property {number} company_id Company identifier to which this route sheet belongs to
+ * @property {number|null} route_id Bus route identifier, which served the driver on the bus
+ * @property {number} bus_id Bus identifier that is on route
+ * @property {number|null} driver_id Driver identifier that is on bus on route
+ * @property {string} active_from Start date of activity period of this record
+ * @property {string} active_to End date of activity period of this record
+ * @property {Company} company_id Company to which this route sheet belongs to
+ * @property {Route|null} route_id Bus route, which served the driver on the bus
+ * @property {Bus} bus_id Bus that is on route
+ * @property {Driver|null} driver_id Driver that is on bus on route
+ */
+
+/**
  * Paginated list details.
  *
  * @typedef {Object} PaginationInfo

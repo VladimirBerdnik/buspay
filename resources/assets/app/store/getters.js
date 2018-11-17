@@ -13,11 +13,13 @@ export const USERS_GETTER = 'users';
 export const ROLES_GETTER = 'roles';
 export const ROUTES_GETTER = 'routes';
 export const BUSES_GETTER = 'buses';
+export const DRIVERS_CARDS_GETTER = 'driversCards';
+export const VALIDATORS_GETTER = 'validators';
 export const DRIVERS_GETTER = 'drivers';
 export const CARDS_GETTER = 'cards';
 export const CARDS_PAGINATION_GETTER = 'cardsPagination';
-export const DRIVERS_CARDS_GETTER = 'driversCards';
-export const VALIDATORS_GETTER = 'validators';
+export const ROUTE_SHEETS_GETTER = 'routeSheets';
+export const ROUTE_SHEETS_PAGINATION_GETTER = 'routeSheetsPagination';
 
 const getters = {
   /**
@@ -71,6 +73,8 @@ const simpleGetters = [
   DRIVERS_CARDS_GETTER,
   CARDS_PAGINATION_GETTER,
   VALIDATORS_GETTER,
+  ROUTE_SHEETS_GETTER,
+  ROUTE_SHEETS_PAGINATION_GETTER,
 ];
 
 simpleGetters.forEach(getterType => {

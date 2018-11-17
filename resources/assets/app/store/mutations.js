@@ -20,10 +20,12 @@ export const ROLES_MUTATION = 'roles';
 export const ROUTES_MUTATION = 'routes';
 export const BUSES_MUTATION = 'buses';
 export const DRIVERS_MUTATION = 'drivers';
-export const CARDS_MUTATION = 'cards';
-export const CARDS_PAGINATION_MUTATION = 'cardsPagination';
 export const DRIVERS_CARDS_MUTATION = 'driversCards';
 export const VALIDATORS_MUTATION = 'validators';
+export const CARDS_MUTATION = 'cards';
+export const CARDS_PAGINATION_MUTATION = 'cardsPagination';
+export const ROUTE_SHEETS_MUTATION = 'routeSheets';
+export const ROUTE_SHEETS_PAGINATION_MUTATION = 'routeSheetsPagination';
 
 const mutations = {
   /************************************
@@ -212,6 +214,8 @@ const simpleMutations = [
   DRIVERS_CARDS_MUTATION,
   CARDS_PAGINATION_MUTATION,
   VALIDATORS_MUTATION,
+  ROUTE_SHEETS_MUTATION,
+  ROUTE_SHEETS_PAGINATION_MUTATION,
 ];
 
 simpleMutations.forEach(mutationType => {

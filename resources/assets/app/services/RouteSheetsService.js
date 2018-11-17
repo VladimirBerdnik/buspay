@@ -1,8 +1,8 @@
 import { mapGetters, mapMutations } from 'vuex';
 import axios from '../config/axios';
 import store from '../store/index';
-import { CARDS_MUTATION, CARDS_PAGINATION_MUTATION } from '../store/mutations';
-import { CARDS_GETTER, CARDS_PAGINATION_GETTER } from '../store/getters';
+import { ROUTE_SHEETS_MUTATION, ROUTE_SHEETS_PAGINATION_MUTATION } from '../store/mutations';
+import { ROUTE_SHEETS_GETTER, ROUTE_SHEETS_PAGINATION_GETTER } from '../store/getters';
 
 export default {
   $store: store,
@@ -11,31 +11,31 @@ export default {
    * Mutations from Vuex Store.
    */
   ...mapMutations({
-    itemsMutation:           CARDS_MUTATION,
-    itemsPaginationMutation: CARDS_PAGINATION_MUTATION,
+    itemsMutation:           ROUTE_SHEETS_MUTATION,
+    itemsPaginationMutation: ROUTE_SHEETS_PAGINATION_MUTATION,
   }),
 
   /**
    * Getters from Vuex Storage.
    */
   ...mapGetters({
-    items:           CARDS_GETTER,
-    itemsPagination: CARDS_PAGINATION_GETTER,
+    items:           ROUTE_SHEETS_GETTER,
+    itemsPagination: ROUTE_SHEETS_PAGINATION_GETTER,
   }),
 
   /**
-   * Reads cards list.
+   * Reads route sheets list.
    *
    * @param {Object} params Request parameters such as filters, pagination and sorting details
    *
-   * @return {Card[]}
+   * @return {RouteSheet[]}
    *
    * @throws Error
    */
   async read(params) {
     this.itemsMutation([]);
 
-    const response = await axios.get('/cards/', { params });
+    const response = await axios.get('/route_sheets/', { params });
 
     this.itemsMutation(response.data.results || []);
     this.itemsPaginationMutation(response.data.pagination || {});
@@ -44,16 +44,16 @@ export default {
   },
 
   /**
-   * Returns list of cards.
+   * Returns list of route sheets.
    *
-   * @return {Card[]}
+   * @return {RouteSheet[]}
    */
   get() {
     return this.items();
   },
 
   /**
-   * Returns currently loaded list of cards pagination information.
+   * Returns currently loaded list of route sheets pagination information.
    *
    * @return {PaginationInfo}
    */

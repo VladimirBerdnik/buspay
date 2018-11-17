@@ -96,6 +96,14 @@
               >
                 <v-icon>edit</v-icon>
               </v-btn>
+              <v-btn :title="$t('routeSheet.name')"
+                     flat
+                     icon
+                     class="mx-0"
+                     @click.stop="goToRouteSheets(props.item.id)"
+              >
+                <v-icon>today</v-icon>
+              </v-btn>
               <v-btn flat
                      icon
                      class="mx-0"
@@ -200,6 +208,14 @@ export default {
      */
     goToDrivers(companyId) {
       this.$router.push({ name: routes.ROUTE_DRIVERS, query: { companyId } });
+    },
+    /**
+     * Navigates user to route sheets list page.
+     *
+     * @param {number} companyId Company identifier to display route sheets list for
+     */
+    goToRouteSheets(companyId) {
+      this.$router.push({ name: routes.ROUTE_ROUTE_SHEETS, query: { companyId } });
     },
   },
 };

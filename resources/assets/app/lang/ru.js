@@ -156,6 +156,26 @@ export default {
       },
     },
   },
+  routeSheet: {
+    name:   'Маршуртный лист',
+    fields: {
+      id:      'ID',
+      company: {
+        name: 'Компания',
+      },
+      bus: {
+        state_number: 'Автобус',
+      },
+      driver: {
+        full_name: 'Водитель',
+      },
+      route: {
+        name: 'Маршрут',
+      },
+      active_from: 'Действует с',
+      active_to:   'Действует по',
+    },
+  },
   route: {
     name:          'Маршрут',
     deleteConfirm: 'Удалить маршрут "{item}"?',
