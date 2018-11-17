@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\v1\DriversApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\RolesApiController;
 use App\Http\Controllers\Api\v1\RoutesApiController;
+use App\Http\Controllers\Api\v1\RouteSheetsApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
@@ -27,6 +28,7 @@ use App\Models\Bus;
 use App\Models\Company;
 use App\Models\Driver;
 use App\Models\Route;
+use App\Models\RouteSheet;
 use App\Models\User;
 use App\Models\Validator;
 use Dingo\Api\Routing\Router;
@@ -133,5 +135,13 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         // Card related routes
         $registrar->get('cards/drivers', CardsApiController::class, 'driverCards');
         $registrar->get('cards', CardsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
+
+        // Route sheets related routes
+        $registrar->resource('route_sheets', RouteSheetsApiController::class, [
+            ApiResourceRegistrar::OPTION_ONLY => [
+                ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_UPDATE,
+            ],
+        ], RouteSheet::class);
     });
 });
