@@ -2,36 +2,12 @@ import Vue from 'vue';
 import moment from 'moment';
 import { SECONDS_PER_DAY, MILLISECONDS_PER_SECOND } from './timeConstants';
 import i18n from '../lang/i18n';
-
-/**
- * Helper function to format given date by given format.
- *
- * @param {Date} date Date to format
- * @param {String} format Format
- * @param {String} wrongDateResult When date is empty then this message will be returned
- * @return {string}
- */
-function formatDate(date, format, wrongDateResult = '') {
-  if (date) {
-    return moment(date).format(format);
-  }
-
-  return wrongDateResult;
-}
-
-// Vue date filters
-const dateFilters = {
-  monthDay:     'M.D',
-  timeStamp:    'DD.MM.YYYY hh:mm',
-  shortDate:    'DD.MM.YYYY',
-  fullDate:     'D MMMM YYYY',
-  shortIsoDate: 'YYYY-MM-DD',
-};
+import dateUtils from './date';
 
 // Register date filters with format
-Object.entries(dateFilters).forEach(([ filter, format ]) => {
+Object.entries(dateUtils.formats).forEach(([ filter, format ]) => {
   Vue.filter(filter, (date, wrongDateResult = '') =>
-    formatDate(date, format, wrongDateResult));
+    dateUtils.formatDate(date, format, wrongDateResult));
 });
 
 Vue.filter('fromNow', date => moment(date).fromNow());
