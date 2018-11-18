@@ -1,7 +1,8 @@
 <template>
   <v-dialog
     :value="visible"
-    max-width="360"
+    max-width="400"
+    persistent
     @input="close"
   >
     <v-layout
