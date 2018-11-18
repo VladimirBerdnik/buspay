@@ -123,8 +123,6 @@ class BusService extends EntityService
         Log::debug("Delete bus [{$bus->id}] attempt");
 
         if ($bus->drivers->isNotEmpty() || $bus->validators->isNotEmpty()) {
-            Log::debug("Bus [{$bus->id}] has related records. Can't delete");
-
             throw new BusDeletionException($bus);
         }
 
