@@ -117,11 +117,10 @@
 
       </v-data-table>
 
-      <CompanyForm
-        :visible="editModalVisible"
-        :value="itemToEdit"
-        @close="closeModalForm"
-        @saved="reloadTable"
+      <CompanyForm :visible="editModalVisible"
+                   :value="itemToEdit"
+                   @close="closeModalForm"
+                   @saved="reloadTable"
       />
     </v-flex>
   </v-layout>

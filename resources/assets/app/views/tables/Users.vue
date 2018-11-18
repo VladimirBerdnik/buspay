@@ -94,11 +94,10 @@
 
       </v-data-table>
 
-      <UserForm
-        :visible="editModalVisible"
-        :value="itemToEdit"
-        @close="closeModalForm"
-        @saved="reloadTable"
+      <UserForm :visible="editModalVisible"
+                :value="itemToEdit"
+                @close="closeModalForm"
+                @saved="reloadTable"
       />
     </v-flex>
   </v-layout>

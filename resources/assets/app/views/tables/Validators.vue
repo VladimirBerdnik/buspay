@@ -75,11 +75,10 @@
 
       </v-data-table>
 
-      <ValidatorForm
-        :visible="editModalVisible"
-        :value="itemToEdit"
-        @close="closeModalForm"
-        @saved="reloadTable"
+      <ValidatorForm :visible="editModalVisible"
+                     :value="itemToEdit"
+                     @close="closeModalForm"
+                     @saved="reloadTable"
       />
     </v-flex>
   </v-layout>

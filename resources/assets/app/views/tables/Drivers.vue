@@ -97,11 +97,10 @@
 
       </v-data-table>
 
-      <DriverForm
-        :visible="editModalVisible"
-        :value="itemToEdit"
-        @close="closeModalForm"
-        @saved="reloadTable"
+      <DriverForm :visible="editModalVisible"
+                  :value="itemToEdit"
+                  @close="closeModalForm"
+                  @saved="reloadTable"
       />
     </v-flex>
   </v-layout>

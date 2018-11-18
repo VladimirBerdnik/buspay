@@ -96,11 +96,10 @@
 
       </v-data-table>
 
-      <RouteForm
-        :visible="editModalVisible"
-        :value="itemToEdit"
-        @close="closeModalForm"
-        @saved="reloadTable"
+      <RouteForm :visible="editModalVisible"
+                 :value="itemToEdit"
+                 @close="closeModalForm"
+                 @saved="reloadTable"
       />
     </v-flex>
   </v-layout>
