@@ -2,6 +2,7 @@
 
 namespace App\Domain\Dto;
 
+use Carbon\Carbon;
 use Saritasa\Dto;
 
 /**
@@ -11,8 +12,8 @@ use Saritasa\Dto;
  * @property-read integer|null $route_id Bus route identifier, which served the driver on the bus
  * @property-read integer $bus_id Bus identifier that is on route
  * @property-read integer|null $driver_id Driver identifier that is on bus on route
- * @property-read string $active_from Start date of activity period of this record
- * @property-read string|null $active_to End date of activity period of this record
+ * @property-read Carbon $active_from Start date of activity period of this record
+ * @property-read Carbon|null $active_to End date of activity period of this record
  */
 class RouteSheetData extends Dto
 {
@@ -54,14 +55,14 @@ class RouteSheetData extends Dto
     /**
      * Start date of activity period of this record.
      *
-     * @var string
+     * @var Carbon
      */
     protected $active_from;
 
     /**
      * End date of activity period of this record.
      *
-     * @var string|null
+     * @var Carbon|null
      */
     protected $active_to;
 }

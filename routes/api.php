@@ -140,7 +140,9 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         $registrar->resource('route_sheets', RouteSheetsApiController::class, [
             ApiResourceRegistrar::OPTION_ONLY => [
                 ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_CREATE,
                 ApiResourceRegistrar::ACTION_UPDATE,
+                ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], RouteSheet::class);
     });

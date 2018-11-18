@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\Services\RouteSheetService;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
+use App\Http\Requests\Api\SaveRouteSheetRequest;
+use App\Models\RouteSheet;
 use Dingo\Api\Http\Response;
+use Illuminate\Validation\ValidationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\Exceptions\NotImplementedException;
+use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Saritasa\Transformers\IDataTransformer;
+use Throwable;
 
 /**
  * Route sheets requests API controller.
@@ -58,5 +63,60 @@ class RouteSheetsApiController extends BaseApiController
             ),
             $this->transformer
         );
+    }
+
+    /**
+     * Stores new route sheet in application.
+     *
+     * @param SaveRouteSheetRequest $request Request with new route sheet information
+     *
+     * @return Response
+     *
+     * @throws RepositoryException
+     * @throws ValidationException
+     * @throws Throwable
+     */
+    public function store(SaveRouteSheetRequest $request): Response
+    {
+        $routeSheet = $this->routeSheetService->store($request->getRouteSheetData());
+
+        return $this->response->item($routeSheet, $this->transformer);
+    }
+
+    /**
+     * Updates route sheet details.
+     *
+     * @param SaveRouteSheetRequest $request Request with new route sheet information
+     * @param RouteSheet $routeSheet Route sheet to update
+     *
+     * @return Response
+     *
+     * @throws RepositoryException
+     * @throws ValidationException
+     * @throws Throwable
+     */
+    public function update(SaveRouteSheetRequest $request, RouteSheet $routeSheet): Response
+    {
+        $this->routeSheetService->update($routeSheet, $request->getRouteSheetData());
+
+        return $this->response->item($routeSheet, $this->transformer);
+    }
+
+    /**
+     * Removes route sheet from application.
+     *
+     * @param RouteSheet $routeSheet Route sheet to delete
+     *
+     * @return Response
+     *
+     * @throws RepositoryException
+     * @throws ValidationException
+     * @throws Throwable
+     */
+    public function destroy(RouteSheet $routeSheet): Response
+    {
+        $this->routeSheetService->destroy($routeSheet);
+
+        return $this->response->noContent();
     }
 }
