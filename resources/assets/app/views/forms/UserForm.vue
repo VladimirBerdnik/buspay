@@ -52,12 +52,12 @@
                 required
               />
               <v-text-field
-                v-validate="existingUser ? 'min:6' : 'required|min:6'"
+                v-validate="itemExists ? 'min:6' : 'required|min:6'"
                 v-model="item.password"
                 :append-icon="passwordHidden ? 'visibility' : 'visibility_off'"
                 :type="passwordHidden ? 'password' : 'text'"
                 :error-messages="errors.collect('password')"
-                :label="$t(`forms.user.inputs.password.${existingUser ? 'optional' : 'required'}`)"
+                :label="$t(`forms.user.inputs.password.${itemExists ? 'optional' : 'required'}`)"
                 :data-vv-as="$t('user.fields.password')"
                 name="password"
                 browser-autocomplete="off"
@@ -140,9 +140,6 @@ export default {
     };
   },
   computed: {
-    existingUser() {
-      return this.item.id;
-    },
     companyRequired() {
       return this.item.role_id && UsersService.roleWithCompany(this.item.role_id);
     },

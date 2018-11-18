@@ -23,6 +23,16 @@ export default {
       this.item = Object.assign({}, newValue);
     },
   },
+  computed: {
+    /**
+     * Whether edited model exists or not.
+     *
+     * @return {boolean}
+     */
+    itemExists() {
+      return Boolean(this.item.id);
+    },
+  },
   mounted() {
     this.$on('close', () => { this.inProgress = false; });
   },
