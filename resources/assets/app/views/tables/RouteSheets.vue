@@ -25,6 +25,16 @@
                       class="mr-3"
                       @input="updateQueryParameters"
         />
+        <v-btn color="primary"
+               @click="openModalForm({
+                 company_id: filters.companyId,
+                 route_id: filters.routeId,
+                 bus_id: filters.busId,
+                 driver_id: filters.driverId
+               })"
+        >
+          {{ $t('common.buttons.add') }}
+        </v-btn>
       </v-layout>
     </v-flex>
     <v-data-table :headers="headers"
@@ -67,9 +77,26 @@
         <td>{{ props.item.route.name }}</td>
         <td>{{ props.item.bus.state_number }}</td>
         <td>{{ props.item.driver.full_name }}</td>
-        <td>{{ props.item.active_from | timeStamp }}</td>
-        <td>{{ props.item.active_to | timeStamp }}</td>
-        <td/>
+        <td>{{ props.item.active_from | fullTimeStamp }}</td>
+        <td>{{ props.item.active_to | fullTimeStamp }}</td>
+        <td class="px-0">
+          <div class="cell-buttons">
+            <v-btn flat
+                   icon
+                   class="mx-0"
+                   @click.stop="openModalForm(props.item)"
+            >
+              <v-icon>edit</v-icon>
+            </v-btn>
+            <v-btn flat
+                   icon
+                   class="mx-0"
+                   @click.stop="deleteItem(props.item)"
+            >
+              <v-icon>delete</v-icon>
+            </v-btn>
+          </div>
+        </td>
       </template>
 
     </v-data-table>
@@ -81,6 +108,12 @@
                     dark
       />
     </div>
+
+    <RouteSheetForm :visible="editModalVisible"
+                    :value="itemToEdit"
+                    @close="closeModalForm"
+                    @saved="reloadTable"
+    />
   </div>
 </template>
 
@@ -93,6 +126,8 @@ import RouteSelect from '../dropdowns/RouteSelect';
 import BusSelect from '../dropdowns/BusSelect';
 import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
 import DriverSelect from '../dropdowns/DriverSelect';
+import CRUDTableMixin from '../../mixins/CRUDTableMixin';
+import RouteSheetForm from '../forms/RouteSheetForm';
 
 // Table headers
 const headers = [
@@ -120,12 +155,13 @@ headers.push({
 export default {
   name:       'RouteSheets',
   components: {
+    RouteSheetForm,
     DriverSelect,
     CompanySelect,
     BusSelect,
     RouteSelect,
   },
-  mixins: [ PaginatedTableMixin, WithUrlQueryFilterMixin ],
+  mixins: [ PaginatedTableMixin, WithUrlQueryFilterMixin, CRUDTableMixin ],
   data() {
     return {
       headers,
@@ -137,6 +173,8 @@ export default {
         driverId:  null,
         busId:     null,
       },
+      itemType:             'routeSheet',
+      itemStringIdentifier: 'id',
     };
   },
 };

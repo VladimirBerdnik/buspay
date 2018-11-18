@@ -62,6 +62,9 @@ export default {
     validator: {
       title: 'Параметры валидатора',
     },
+    routeSheet: {
+      title: 'Параметры маршуртного листа',
+    },
     user: {
       title:  'Параметры пользователя',
       inputs: {

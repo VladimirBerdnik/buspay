@@ -44,6 +44,25 @@ export default {
   },
 
   /**
+   * Saves route sheet. Creates new or updates existing.
+   *
+   * @param {RouteSheet} routeSheet Route sheet to save to save
+   *
+   * @return {RouteSheet}
+   */
+  async save(routeSheet) {
+    let response = null;
+
+    if (routeSheet.id) {
+      response = await axios.put(`/route_sheets/${routeSheet.id}/`, routeSheet);
+    } else {
+      response = await axios.post('/route_sheets/', routeSheet);
+    }
+
+    return response.data;
+  },
+
+  /**
    * Returns list of route sheets.
    *
    * @return {RouteSheet[]}
