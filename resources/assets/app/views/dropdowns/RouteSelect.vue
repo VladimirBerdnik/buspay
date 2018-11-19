@@ -7,6 +7,8 @@
             :error-messages="errorMessages"
             :item-text="itemText"
             :item-value="itemValue"
+            append-outer-icon="cached"
+            @click:append-outer="reloadItems"
   />
 </template>
 

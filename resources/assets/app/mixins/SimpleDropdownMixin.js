@@ -59,5 +59,11 @@ export default {
       this.itemId = newValue;
       this.$emit('input', newValue);
     },
+    /**
+     * Loads updated list of items.
+     */
+    reloadItems() {
+      this.service.read();
+    },
   },
 };

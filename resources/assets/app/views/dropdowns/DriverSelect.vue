@@ -8,6 +8,8 @@
                   :item-text="itemText"
                   :item-value="itemValue"
                   persistent-hint
+                  append-outer-icon="cached"
+                  @click:append-outer="reloadItems"
   />
 </template>
 
