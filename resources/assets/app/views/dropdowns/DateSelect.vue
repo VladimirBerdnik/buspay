@@ -33,28 +33,12 @@
 <script>
 import moment from 'moment';
 import dateUtils from '../../utils/date';
+import FormFieldMixin from '../../mixins/FormFieldMixin';
 
 export default {
-  name:  'DateSelect',
-  props: {
-    label: {
-      type:    String,
-      default: null,
-    },
-    value: {
-      type:    String,
-      default: null,
-    },
-    errorMessages: {
-      type:    Array,
-      default: () => [],
-    },
-    clearable: {
-      type:    Boolean,
-      default: true,
-    },
-  },
-  data: () => ({
+  name:   'DateSelect',
+  mixins: [FormFieldMixin],
+  data:   () => ({
     date:          null,
     dateFormatted: null,
     menu:          false,
@@ -62,6 +46,11 @@ export default {
     minutes:       0,
   }),
   watch: {
+    /**
+     * When component model is changed need to remember time of passed date and use value as component value to edit.
+     *
+     * @param {Date} newValue New date passed from outside
+     */
     value(newValue) {
       if (!newValue) {
         this.date = null;
@@ -77,6 +66,11 @@ export default {
       this.minutes = momentDate.minutes();
       this.hours = momentDate.hours();
     },
+    /**
+     * When date in component is changed need to notify parent about new value with respect to passed time.
+     *
+     * @param {String} newValue New value to notify parent
+     */
     date(newValue) {
       this.dateFormatted = this.formatDate(newValue);
 
@@ -93,9 +87,19 @@ export default {
     },
   },
   methods: {
+    /**
+     * Formats date as user readable string.
+     *
+     * @param {Date|String} date Date to format
+     *
+     * @return {string}
+     */
     formatDate(date) {
       return dateUtils.formatDate(date, dateUtils.formats.shortDate, null);
     },
+    /**
+     * Parses user input of date.
+     */
     parseInput() {
       if (!this.dateFormatted) {
         this.date = null;

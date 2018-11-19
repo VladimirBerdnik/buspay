@@ -33,36 +33,34 @@
 <script>
 import moment from 'moment';
 import dateUtils from '../../utils/date';
+import FormFieldMixin from '../../mixins/FormFieldMixin';
 
 export default {
-  name:  'TimeSelect',
-  props: {
-    label: {
-      type:    String,
-      default: null,
-    },
-    value: {
-      type:    String,
-      default: null,
-    },
-    readonly: {
-      type:    Boolean,
-      default: false,
-    },
-  },
-  data: () => ({
+  name:   'TimeSelect',
+  mixins: [FormFieldMixin],
+  data:   () => ({
     time: null,
     menu: false,
   }),
   watch: {
+    /**
+     * When component model is changed need to use value as component value to edit.
+     *
+     * @param {Date} newValue New date passed from outside
+     */
     value(newValue) {
       this.time = dateUtils.formatDate(newValue, dateUtils.formats.shortTime, null);
     },
-    time(newTime) {
-      let value = newTime;
+    /**
+     * When time in component is changed need to notify parent about new value.
+     *
+     * @param {String} newValue New value to notify parent
+     */
+    time(newValue) {
+      let value = newValue;
 
-      if (newTime) {
-        const [ hours, minutes ] = newTime.split(':');
+      if (newValue) {
+        const [ hours, minutes ] = newValue.split(':');
 
         value = moment(this.value)
           .minutes(minutes)

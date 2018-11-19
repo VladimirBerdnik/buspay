@@ -1,25 +1,10 @@
+import FormFieldMixin from './FormFieldMixin';
+
 /**
- * Mixin for dropdown components with ability to select single value.
+ * Mixin for dropdown components with ability to select single value from list of values, retrieved from service.
  */
 export default {
-  props: {
-    value: {
-      type:    Number,
-      default: null,
-    },
-    errorMessages: {
-      type:    Array,
-      default: () => [],
-    },
-    clearable: {
-      type:    Boolean,
-      default: true,
-    },
-    readonly: {
-      type:    Boolean,
-      default: false,
-    },
-  },
+  mixins: [FormFieldMixin],
   data() {
     return {
       itemId:    null,
@@ -29,7 +14,9 @@ export default {
     };
   },
   computed: {
-    items() { return this.service.get(); },
+    items() {
+      return this.service.get();
+    },
   },
   watch: {
     /**
