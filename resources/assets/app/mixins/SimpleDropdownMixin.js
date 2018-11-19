@@ -11,6 +11,7 @@ export default {
       service:   null,
       itemText:  'name',
       itemValue: 'id',
+      loading:   false,
     };
   },
   computed: {
@@ -49,8 +50,16 @@ export default {
     /**
      * Loads updated list of items.
      */
-    reloadItems() {
-      this.service.read();
+    async reloadItems() {
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
+      try {
+        await this.service.read();
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };

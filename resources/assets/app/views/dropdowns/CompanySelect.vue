@@ -7,6 +7,7 @@
                   :error-messages="errorMessages"
                   :item-text="itemText"
                   :item-value="itemValue"
+                  :loading="loading"
                   persistent-hint
                   append-outer-icon="cached"
                   @click:append-outer="reloadItems"
