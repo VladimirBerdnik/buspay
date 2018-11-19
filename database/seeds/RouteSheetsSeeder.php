@@ -29,7 +29,7 @@ class RouteSheetsSeeder extends Seeder
                     }
                     // For two week period
                     foreach (range(14, 1) as $daysAgo) {
-                        $from = Carbon::now()->subDay($daysAgo)->startOfDay()->addHour(6);
+                        $from = Carbon::now('Asia/Almaty')->subDay($daysAgo)->startOfDay()->addHour(6)->tz('UTC');
                         $to = $from->copy()->addHour(14);
                         // Seed route sheets
                         factory(RouteSheet::class)->create([
