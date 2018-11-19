@@ -49,7 +49,7 @@ class CardsApiController extends BaseApiController
      */
     public function index(PaginatedSortedFilteredListRequest $request): Response
     {
-        $filters = $request->getFilters();
+        $filters = $request->getFilters([Card::CARD_TYPE_ID]);
         $searchString = $request->getSearchString();
         if ($searchString) {
             $filters[] = [

@@ -51,7 +51,19 @@ class RouteSheetsApiController extends BaseApiController
      */
     public function index(PaginatedSortedFilteredListRequest $request): Response
     {
-        $filters = $request->getFilters();
+        $filters = $request->getFilters([
+            RouteSheet::COMPANY_ID,
+            RouteSheet::ROUTE_ID,
+            RouteSheet::BUS_ID,
+            RouteSheet::DRIVER_ID,
+        ]);
+
+        if ($request->activeFrom()) {
+            $filters[] = [RouteSheet::ACTIVE_FROM, '>=', $request->activeFrom()];
+        }
+        if ($request->activeTo()) {
+            $filters[] = [RouteSheet::ACTIVE_TO, '<=', $request->activeTo()];
+        }
 
         return $this->response->paginator(
             $this->routeSheetService->getPageWith(

@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests\Api;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Saritasa\DingoApi\Paging\PagingInfo;
 use Saritasa\Exceptions\InvalidEnumValueException;
+use Saritasa\Laravel\Validation\GenericRuleSet;
+use Saritasa\Laravel\Validation\Rule;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\LaravelRepositories\Enums\OrderDirections;
 
@@ -13,6 +16,34 @@ use Saritasa\LaravelRepositories\Enums\OrderDirections;
  */
 class PaginatedSortedFilteredListRequest extends ApiRequest
 {
+    protected const SEARCH_ATTRIBUTE = 'search';
+    protected const ACTIVE_FROM_ATTRIBUTE = 'active_from';
+    protected const ACTIVE_TO_ATTRIBUTE = 'active_to';
+    protected const FILTERS_ATTRIBUTE = 'filters';
+    protected const PAGE_ATTRIBUTE = 'page';
+    protected const PER_PAGE_ATTRIBUTE = 'rowsPerPage';
+    protected const SORT_BY_ATTRIBUTE = 'sortBy';
+    protected const DESCENDING_ATTRIBUTE = 'descending';
+
+    /**
+     * Rules that should be applied to validate request.
+     *
+     * @return string[]|GenericRuleSet[]
+     */
+    public function rules(): array
+    {
+        return [
+            static::SEARCH_ATTRIBUTE => Rule::nullable()->string(),
+            static::ACTIVE_FROM_ATTRIBUTE => Rule::nullable()->date(),
+            static::ACTIVE_TO_ATTRIBUTE => Rule::nullable()->date(),
+            static::FILTERS_ATTRIBUTE => Rule::nullable()->string()->json(),
+            static::PAGE_ATTRIBUTE => Rule::nullable()->int()->min(1),
+            static::PER_PAGE_ATTRIBUTE => Rule::nullable()->int()->min(1)->max(100),
+            static::SORT_BY_ATTRIBUTE => Rule::nullable()->string(),
+            static::DESCENDING_ATTRIBUTE => Rule::nullable(),
+        ];
+    }
+
     /**
      * Returns requested by user page number and limits.
      *
@@ -21,8 +52,8 @@ class PaginatedSortedFilteredListRequest extends ApiRequest
     public function getPagingInfo(): PagingInfo
     {
         return new PagingInfo([
-            'page' => $this->get('page'),
-            'per_page' => $this->get('rowsPerPage'),
+            'page' => $this->get(static::PAGE_ATTRIBUTE),
+            'per_page' => $this->get(static::PER_PAGE_ATTRIBUTE),
         ]);
     }
 
@@ -35,32 +66,38 @@ class PaginatedSortedFilteredListRequest extends ApiRequest
      */
     public function getSortOptions(): ?SortOptions
     {
-        if (!$this->get('sortBy')) {
+        if (!$this->get(static::SORT_BY_ATTRIBUTE)) {
             return null;
         }
 
         return new SortOptions(
-            $this->get('sortBy'),
-            filter_var($this->get('descending'), FILTER_VALIDATE_BOOLEAN) ? OrderDirections::DESC : OrderDirections::ASC
+            $this->get(static::SORT_BY_ATTRIBUTE),
+            filter_var($this->get(static::DESCENDING_ATTRIBUTE), FILTER_VALIDATE_BOOLEAN)
+                ? OrderDirections::DESC
+                : OrderDirections::ASC
         );
     }
 
     /**
      * Returns exact filters that result items should match.
      *
+     * @param string[]|null $allowedFilters List of filters to return only this filters
+     *
      * @return mixed[]
      */
-    public function getFilters(): array
+    public function getFilters(?array $allowedFilters = null): array
     {
-        $filterString = $this->get('filters') ?? '{}';
+        $filterString = $this->get(static::FILTERS_ATTRIBUTE) ?? '{}';
         $filters = json_decode($filterString, true);
+
         $validFilters = [];
         foreach ($filters as $key => $value) {
-            if (!$value || is_array($value)) {
+            $filterParameter = Str::snake($key);
+            if (!$value || is_array($value) || ($allowedFilters && !in_array($filterParameter, $allowedFilters))) {
                 continue;
             }
 
-            $validFilters[Str::snake($key)] = $value;
+            $validFilters[$filterParameter] = $value;
         }
 
         return $validFilters;
@@ -74,6 +111,36 @@ class PaginatedSortedFilteredListRequest extends ApiRequest
      */
     public function getSearchString(): ?string
     {
-        return trim($this->get('search'));
+        return trim($this->get(static::SEARCH_ATTRIBUTE));
+    }
+
+    /**
+     * Returns start date of activity periods filter.
+     *
+     * @return Carbon|null
+     */
+    public function activeFrom(): ?Carbon
+    {
+        $activeFrom = $this->get(static::ACTIVE_FROM_ATTRIBUTE);
+        if (!$activeFrom) {
+            return null;
+        }
+
+        return Carbon::parse($activeFrom);
+    }
+
+    /**
+     * Returns end date of activity periods filter.
+     *
+     * @return Carbon|null
+     */
+    public function activeTo(): ?Carbon
+    {
+        $activeFrom = $this->get(static::ACTIVE_TO_ATTRIBUTE);
+        if (!$activeFrom) {
+            return null;
+        }
+
+        return Carbon::parse($activeFrom);
     }
 }
