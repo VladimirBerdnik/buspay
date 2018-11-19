@@ -22,9 +22,12 @@ export default {
         sortBy:      'id',
       },
       // List of strong equal filters values
-      filters: {},
+      filters:    {},
       // Search string that should be applied to items
-      search:  null,
+      search:     null,
+      // Activity period filters
+      activeFrom: null,
+      activeTo:   null,
     };
   },
   computed: {
@@ -47,10 +50,20 @@ export default {
     filters: {
       deep: true,
       handler() {
+        this.pagination.page = 1;
         this.debouncedReloadTable();
       },
     },
     search() {
+      this.pagination.page = 1;
+      this.debouncedReloadTable();
+    },
+    activeFrom() {
+      this.pagination.page = 1;
+      this.debouncedReloadTable();
+    },
+    activeTo() {
+      this.pagination.page = 1;
       this.debouncedReloadTable();
     },
   },
@@ -73,7 +86,9 @@ export default {
           {},
           this.pagination,
           { filters: this.filters },
-          { search: this.search }
+          { search: this.search },
+          { active_from: this.activeFrom },
+          { active_to: this.activeTo }
         );
 
         await this.service.read(params);

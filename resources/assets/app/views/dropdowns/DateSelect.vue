@@ -17,6 +17,7 @@
       :label="label"
       :error-messages="errorMessages"
       :clearable="clearable"
+      :hint="timeAsHint ? time : ''"
       persistent-hint
       append-icon="event"
       @input="parseInput"
@@ -38,13 +39,41 @@ import FormFieldMixin from '../../mixins/FormFieldMixin';
 export default {
   name:   'DateSelect',
   mixins: [FormFieldMixin],
-  data:   () => ({
+  props:  {
+    value: {
+      type:    String,
+      default: null,
+    },
+    defaultHours: {
+      type:    Number,
+      default: null,
+    },
+    defaultMinutes: {
+      type:    Number,
+      default: null,
+    },
+    defaultSeconds: {
+      type:    Number,
+      default: null,
+    },
+    timeAsHint: {
+      type:    Boolean,
+      default: false,
+    },
+  },
+  data: () => ({
     date:          null,
     dateFormatted: null,
     menu:          false,
     hours:         0,
     minutes:       0,
+    seconds:       0,
   }),
+  computed: {
+    time() {
+      return dateUtils.formatDate(this.date, dateUtils.formats.shortTime, null);
+    },
+  },
   watch: {
     /**
      * When component model is changed need to remember time of passed date and use value as component value to edit.
@@ -56,6 +85,7 @@ export default {
         this.date = null;
         this.hours = 0;
         this.minutes = 0;
+        this.seconds = 0;
 
         return;
       }
@@ -63,8 +93,9 @@ export default {
 
       const momentDate = moment(newValue);
 
-      this.minutes = momentDate.minutes();
-      this.hours = momentDate.hours();
+      this.seconds = this.defaultSeconds !== null ? this.defaultSeconds : momentDate.seconds();
+      this.minutes = this.defaultMinutes !== null ? this.defaultMinutes : momentDate.minutes();
+      this.hours = this.defaultHours !== null ? this.defaultHours : momentDate.hours();
     },
     /**
      * When date in component is changed need to notify parent about new value with respect to passed time.
@@ -79,7 +110,11 @@ export default {
       if (date) {
         const momentDate = moment(newValue);
 
-        date = momentDate.hours(this.hours).minutes(this.minutes).seconds(0).toISOString(false);
+        date = momentDate
+          .hours(this.hours)
+          .minutes(this.minutes)
+          .seconds(this.seconds)
+          .toISOString(false);
         this.date = date;
       }
 

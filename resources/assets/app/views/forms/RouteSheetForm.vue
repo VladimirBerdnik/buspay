@@ -57,7 +57,6 @@
                               :data-vv-as="$t('routeSheet.fields.active_from')"
                               name="active_from"
                   />
-
                 </v-flex>
                 <v-flex xs4
                         class="pl-2"

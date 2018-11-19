@@ -25,6 +25,25 @@
                       class="mr-3"
                       @input="updateQueryParameters"
         />
+        <DateSelect v-model="activeFrom"
+                    :label="$t('routeSheet.fields.active_from')"
+                    :default-hours="0"
+                    :default-minutes="0"
+                    :default-seconds="0"
+                    time-as-hint
+                    class="mr-3 v-input"
+        />
+        <DateSelect v-model="activeTo"
+                    :label="$t('routeSheet.fields.active_to')"
+                    :default-hours="23"
+                    :default-minutes="59"
+                    :default-seconds="59"
+                    time-as-hint
+                    class="v-input"
+        />
+      </v-layout>
+      <v-layout row>
+        <v-spacer/>
         <v-btn color="primary"
                @click="openModalForm({
                  company_id: filters.companyId,
@@ -128,6 +147,7 @@ import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
 import DriverSelect from '../dropdowns/DriverSelect';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import RouteSheetForm from '../forms/RouteSheetForm';
+import DateSelect from '../dropdowns/DateSelect';
 
 // Table headers
 const headers = [
@@ -155,6 +175,7 @@ headers.push({
 export default {
   name:       'RouteSheets',
   components: {
+    DateSelect,
     RouteSheetForm,
     DriverSelect,
     CompanySelect,

@@ -38,7 +38,13 @@ import FormFieldMixin from '../../mixins/FormFieldMixin';
 export default {
   name:   'TimeSelect',
   mixins: [FormFieldMixin],
-  data:   () => ({
+  props:  {
+    value: {
+      type:    String,
+      default: null,
+    },
+  },
+  data: () => ({
     time: null,
     menu: false,
   }),
