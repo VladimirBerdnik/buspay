@@ -4,18 +4,18 @@ use App\Domain\Enums\CardTypesIdentifiers;
 
 return [
     /**
-     * Fare configuration.
+     * Passenger related configuration.
      */
-    'fare' => [
-        // Base payment card type identifier
-        'base_card_type_id' => CardTypesIdentifiers::DEFAULT,
-
-        // Preferential card types identifiers, used to determine compensation amount to transport companies
-        'preferential_card_types' => [
+    'passenger' => [
+        // All card types that should be considered as passengers card types
+        'card_types_ids' => [
+            CardTypesIdentifiers::DEFAULT,
             CardTypesIdentifiers::CHILD,
             CardTypesIdentifiers::RETIRE,
             CardTypesIdentifiers::FREE,
         ],
+        // Base passenger payment card type identifier
+        'base_card_type_id' => CardTypesIdentifiers::DEFAULT,
     ],
     /**
      * Driver related configuration.
@@ -26,5 +26,8 @@ return [
 
         // Hour at which driver's shift on bus should be automatically cancelled (0-23)
         'shift_cancel_hour' => 5,
+
+        // Interval in minutes during which existing driver bus route sheet will not be closed and opened again
+        'authentication_safe_minutes_interval' => 10,
     ],
 ];
