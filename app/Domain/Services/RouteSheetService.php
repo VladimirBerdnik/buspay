@@ -3,6 +3,9 @@
 namespace App\Domain\Services;
 
 use App\Domain\Dto\RouteSheetData;
+use App\Domain\Exceptions\Integrity\TooManyBusRouteSheetsForDateException;
+use App\Domain\Exceptions\Integrity\TooManyDriverRouteSheetsForDateException;
+use App\Extensions\ActivityPeriod\ActivityPeriodAssistant;
 use App\Extensions\ActivityPeriod\ActivityPeriodFilterer;
 use App\Extensions\EntityService;
 use App\Models\Bus;
@@ -10,6 +13,8 @@ use App\Models\Company;
 use App\Models\Driver;
 use App\Models\Route;
 use App\Models\RouteSheet;
+use App\Models\Validator;
+use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Rule as IlluminateRule;
 use Illuminate\Validation\Rules\Exists;
@@ -20,7 +25,7 @@ use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
 use Saritasa\Laravel\Validation\RuleSet;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
-use Validator;
+use Validator as DataValidator;
 
 /**
  * RouteSheet business-logic service.
@@ -179,7 +184,7 @@ class RouteSheetService extends EntityService
 
         $this->correctSeconds($routeSheet);
 
-        Validator::validate(
+        DataValidator::validate(
             $routeSheet->toArray(),
             $this->getRouteSheetValidationRules($routeSheet),
             $this->validationMessages()
@@ -211,7 +216,7 @@ class RouteSheetService extends EntityService
 
         $this->correctSeconds($routeSheet);
 
-        Validator::validate(
+        DataValidator::validate(
             $routeSheet->toArray(),
             $this->getRouteSheetValidationRules($routeSheet),
             $this->validationMessages()
@@ -238,5 +243,85 @@ class RouteSheetService extends EntityService
         $this->getRepository()->delete($routeSheet);
 
         Log::debug("Route sheet [{$routeSheet->id}] deleted");
+    }
+
+    /**
+     * Returns route sheet for bus at given date and time.
+     *
+     * @param Bus $bus Bus to retrieve route sheet for
+     * @param Carbon|null $date Date to retrieve bus route sheet at
+     *
+     * @return Validator|null
+     *
+     * @throws TooManyBusRouteSheetsForDateException
+     */
+    public function getForBus(Bus $bus, ?Carbon $date): ?Validator
+    {
+        $date = $date ?? Carbon::now();
+
+        $routeSheets = $this->getRepository()->getWith(
+            [],
+            [],
+            [
+                [RouteSheet::BUS_ID => $bus->id],
+                [ActivityPeriodAssistant::ACTIVE_FROM, '<=', $date],
+                [
+                    [
+                        [ActivityPeriodAssistant::ACTIVE_TO, '=', null, 'or'],
+                        [ActivityPeriodAssistant::ACTIVE_TO, '>=', $date, 'or'],
+                    ],
+                ],
+            ]
+        );
+
+        if ($routeSheets->count() > 1) {
+            throw new TooManyBusRouteSheetsForDateException($date, $bus, $routeSheets);
+        }
+
+        if ($routeSheets->count() === 1) {
+            return $routeSheets->first();
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns route sheet for driver at given date and time.
+     *
+     * @param Driver $driver Driver to retrieve route sheet for
+     * @param Carbon|null $date Date to retrieve driver route sheet at
+     *
+     * @return Validator|null
+     *
+     * @throws TooManyDriverRouteSheetsForDateException
+     */
+    public function getForDriver(Driver $driver, ?Carbon $date): ?Validator
+    {
+        $date = $date ?? Carbon::now();
+
+        $routeSheets = $this->getRepository()->getWith(
+            [],
+            [],
+            [
+                [RouteSheet::DRIVER_ID => $driver->id],
+                [ActivityPeriodAssistant::ACTIVE_FROM, '<=', $date],
+                [
+                    [
+                        [ActivityPeriodAssistant::ACTIVE_TO, '=', null, 'or'],
+                        [ActivityPeriodAssistant::ACTIVE_TO, '>=', $date, 'or'],
+                    ],
+                ],
+            ]
+        );
+
+        if ($routeSheets->count() > 1) {
+            throw new TooManyDriverRouteSheetsForDateException($date, $driver, $routeSheets);
+        }
+
+        if ($routeSheets->count() === 1) {
+            return $routeSheets->first();
+        }
+
+        return null;
     }
 }
