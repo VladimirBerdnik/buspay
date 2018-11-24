@@ -4,6 +4,7 @@ namespace App\Domain\Services;
 
 use App\Domain\Exceptions\Integrity\NoTariffPeriodForDateException;
 use App\Domain\Exceptions\Integrity\TooManyTariffPeriodsForDateException;
+use App\Extensions\ActivityPeriod\ActivityPeriodAssistant;
 use App\Extensions\EntityService;
 use App\Models\TariffPeriod;
 use Carbon\Carbon;
@@ -28,11 +29,11 @@ class TariffPeriodService extends EntityService
             [],
             [],
             [
-                [TariffPeriod::ACTIVE_FROM, '<=', $date],
+                [ActivityPeriodAssistant::ACTIVE_FROM, '<=', $date],
                 [
                     [
-                        [TariffPeriod::ACTIVE_TO, '=', null, 'or'],
-                        [TariffPeriod::ACTIVE_TO, '>=', $date, 'or'],
+                        [ActivityPeriodAssistant::ACTIVE_TO, '=', null, 'or'],
+                        [ActivityPeriodAssistant::ACTIVE_TO, '>=', $date, 'or'],
                     ],
                 ],
             ]

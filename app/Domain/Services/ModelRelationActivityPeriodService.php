@@ -4,6 +4,7 @@ namespace App\Domain\Services;
 
 use App\Domain\Exceptions\Constraint\ActivityPeriodExistsException;
 use App\Domain\Exceptions\Integrity\TooManyActivityPeriodsException;
+use App\Extensions\ActivityPeriod\ActivityPeriodAssistant;
 use App\Extensions\ActivityPeriod\IActivityPeriod;
 use App\Extensions\ActivityPeriod\IActivityPeriodMaster;
 use App\Extensions\ActivityPeriod\IActivityPeriodRelated;
@@ -25,9 +26,6 @@ use Validator;
  */
 abstract class ModelRelationActivityPeriodService extends EntityService
 {
-    public const ACTIVITY_PERIOD_FROM_ATTRIBUTE = 'active_from';
-    public const ACTIVITY_PERIOD_TO_ATTRIBUTE = 'active_to';
-
     /**
      * Returns model class name that is handled by this activity period service.
      *
@@ -65,23 +63,23 @@ abstract class ModelRelationActivityPeriodService extends EntityService
         IActivityPeriodRelated $relatedRecord
     ): array {
         return [
-            static::ACTIVITY_PERIOD_FROM_ATTRIBUTE => Rule::required()->date()
+            ActivityPeriodAssistant::ACTIVE_FROM => Rule::required()->date()
                 ->when($model->getActiveTo(), function (RuleSet $rule) {
                     /**
                      * Date rules set.
                      *
                      * @var DateRuleSet $rule
                      */
-                    return $rule->before(static::ACTIVITY_PERIOD_TO_ATTRIBUTE);
+                    return $rule->before(ActivityPeriodAssistant::ACTIVE_TO);
                 }),
-            static::ACTIVITY_PERIOD_TO_ATTRIBUTE => Rule::nullable()->date()
+            ActivityPeriodAssistant::ACTIVE_TO => Rule::nullable()->date()
                 ->when($model->getActiveTo(), function (RuleSet $rule) {
                     /**
                      * Date rules set.
                      *
                      * @var DateRuleSet $rule
                      */
-                    return $rule->after(static::ACTIVITY_PERIOD_FROM_ATTRIBUTE);
+                    return $rule->after(ActivityPeriodAssistant::ACTIVE_FROM);
                 }),
             $model->masterModelRelationAttribute() => Rule::required()->modelExists(get_class($masterRecord)),
             $model->relatedModelRelationAttribute() => Rule::required()->modelExists(get_class($relatedRecord)),
@@ -119,7 +117,7 @@ abstract class ModelRelationActivityPeriodService extends EntityService
          * @var Dto $activityPeriodData
          */
         $activityPeriodData = new $modelClass([
-            static::ACTIVITY_PERIOD_FROM_ATTRIBUTE => $activeFrom,
+            ActivityPeriodAssistant::ACTIVE_FROM => $activeFrom,
             $this->getActivityPeriodModelInstance()->relatedModelRelationAttribute() => $related->getKey(),
             $this->getActivityPeriodModelInstance()->masterModelRelationAttribute() => $master->getKey(),
         ]);
@@ -174,7 +172,7 @@ abstract class ModelRelationActivityPeriodService extends EntityService
          *
          * @var Model|IActivityPeriod $activityPeriod
          */
-        $activityPeriod->{static::ACTIVITY_PERIOD_TO_ATTRIBUTE} = $activeTo ?? Carbon::now();
+        $activityPeriod->{ActivityPeriodAssistant::ACTIVE_TO} = $activeTo ?? Carbon::now();
 
         Validator::validate(
             $activityPeriod->toArray(),
@@ -211,11 +209,11 @@ abstract class ModelRelationActivityPeriodService extends EntityService
             [],
             [
                 [$this->getActivityPeriodModelInstance()->masterModelRelationAttribute(), $model->getKey()],
-                [static::ACTIVITY_PERIOD_FROM_ATTRIBUTE, '<=', $date],
+                [ActivityPeriodAssistant::ACTIVE_FROM, '<=', $date],
                 [
                     [
-                        [static::ACTIVITY_PERIOD_TO_ATTRIBUTE, '=', null, 'or'],
-                        [static::ACTIVITY_PERIOD_TO_ATTRIBUTE, '>=', $date, 'or'],
+                        [ActivityPeriodAssistant::ACTIVE_TO, '=', null, 'or'],
+                        [ActivityPeriodAssistant::ACTIVE_TO, '>=', $date, 'or'],
                     ],
                 ],
             ]

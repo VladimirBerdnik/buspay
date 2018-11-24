@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Extensions\ActivityPeriod\ActivityPeriodAssistant;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Saritasa\DingoApi\Paging\PagingInfo;
@@ -17,8 +18,8 @@ use Saritasa\LaravelRepositories\Enums\OrderDirections;
 class PaginatedSortedFilteredListRequest extends ApiRequest
 {
     protected const SEARCH_ATTRIBUTE = 'search';
-    protected const ACTIVE_FROM_ATTRIBUTE = 'active_from';
-    protected const ACTIVE_TO_ATTRIBUTE = 'active_to';
+    protected const ACTIVE_FROM_ATTRIBUTE = ActivityPeriodAssistant::ACTIVE_FROM;
+    protected const ACTIVE_TO_ATTRIBUTE = ActivityPeriodAssistant::ACTIVE_TO;
     protected const FILTERS_ATTRIBUTE = 'filters';
     protected const PAGE_ATTRIBUTE = 'page';
     protected const PER_PAGE_ATTRIBUTE = 'rowsPerPage';
