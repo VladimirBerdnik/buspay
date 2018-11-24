@@ -10,7 +10,7 @@ use Log;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 
 /**
- * Company business-logic service.
+ * Company entity service.
  */
 class CompanyEntityService extends EntityService
 {

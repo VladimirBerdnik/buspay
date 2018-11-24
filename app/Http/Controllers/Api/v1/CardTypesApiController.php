@@ -15,7 +15,7 @@ use Saritasa\Transformers\IDataTransformer;
 class CardTypesApiController extends BaseApiController
 {
     /**
-     * Card types business-logic service.
+     * Card types entity service.
      *
      * @var CardTypeEntityService
      */
@@ -25,7 +25,7 @@ class CardTypesApiController extends BaseApiController
      * Card types requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param CardTypeEntityService $cardTypeService Card types business logic service
+     * @param CardTypeEntityService $cardTypeService Card types entity service
      */
     public function __construct(IDataTransformer $transformer, CardTypeEntityService $cardTypeService)
     {

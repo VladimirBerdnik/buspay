@@ -16,7 +16,7 @@ use Saritasa\Transformers\IDataTransformer;
 class TariffPeriodsApiController extends BaseApiController
 {
     /**
-     * Tariff periods business-logic service.
+     * Tariff periods entity service.
      *
      * @var TariffPeriodEntityService
      */
@@ -26,7 +26,7 @@ class TariffPeriodsApiController extends BaseApiController
      * Tariff periods requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param TariffPeriodEntityService $tariffPeriodService Tariff periods business logic service
+     * @param TariffPeriodEntityService $tariffPeriodService Tariff periods entity service
      */
     public function __construct(IDataTransformer $transformer, TariffPeriodEntityService $tariffPeriodService)
     {

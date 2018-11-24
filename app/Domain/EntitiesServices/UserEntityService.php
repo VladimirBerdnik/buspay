@@ -19,7 +19,7 @@ use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Validator;
 
 /**
- * User business-logic service.
+ * User entity service.
  */
 class UserEntityService extends EntityService
 {

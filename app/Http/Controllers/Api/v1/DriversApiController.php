@@ -19,7 +19,7 @@ use Throwable;
 class DriversApiController extends BaseApiController
 {
     /**
-     * Drivers business-logic service.
+     * Drivers entity service.
      *
      * @var DriverEntityService
      */
@@ -29,7 +29,7 @@ class DriversApiController extends BaseApiController
      * Drivers requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param DriverEntityService $driverService Drivers business logic service
+     * @param DriverEntityService $driverService Drivers entity service
      */
     public function __construct(IDataTransformer $transformer, DriverEntityService $driverService)
     {

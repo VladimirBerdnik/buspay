@@ -19,7 +19,7 @@ use Throwable;
 class RoutesApiController extends BaseApiController
 {
     /**
-     * Routes business-logic service.
+     * Routes entity service.
      *
      * @var RouteEntityService
      */
@@ -29,7 +29,7 @@ class RoutesApiController extends BaseApiController
      * Routes requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param RouteEntityService $routeService Routes business logic service
+     * @param RouteEntityService $routeService Routes entity service
      */
     public function __construct(IDataTransformer $transformer, RouteEntityService $routeService)
     {

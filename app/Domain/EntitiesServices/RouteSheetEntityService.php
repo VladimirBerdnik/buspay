@@ -28,7 +28,7 @@ use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Validator as DataValidator;
 
 /**
- * RouteSheet business-logic service.
+ * RouteSheet entity service.
  */
 class RouteSheetEntityService extends EntityService
 {

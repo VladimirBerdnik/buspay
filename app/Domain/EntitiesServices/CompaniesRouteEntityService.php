@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 
 /**
- * Companies to routes assignments business-logic service.
+ * Companies to routes assignments entity service.
  */
 class CompaniesRouteEntityService extends ModelRelationActivityPeriodService
 {

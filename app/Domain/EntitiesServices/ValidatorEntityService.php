@@ -21,23 +21,23 @@ use Throwable;
 use Validator as DataValidator;
 
 /**
- * Validator business-logic service.
+ * Validator entity service.
  */
 class ValidatorEntityService extends ModelRelationActivityPeriodService
 {
     /**
-     * Bus to validator assignments business-logic.
+     * Bus to validator assignments entity.
      *
      * @var BusesValidatorEntityService
      */
     private $busesValidatorService;
 
     /**
-     * Validator business-logic service.
+     * Validator entity service.
      *
      * @param ConnectionInterface $connection Data storage connection
      * @param IRepository $repository Handled entities storage
-     * @param BusesValidatorEntityService $busesValidatorService Bus to validator assignments business-logic
+     * @param BusesValidatorEntityService $busesValidatorService Bus to validator assignments entity
      */
     public function __construct(
         ConnectionInterface $connection,

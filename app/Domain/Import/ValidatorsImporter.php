@@ -22,7 +22,7 @@ use Throwable;
 class ValidatorsImporter extends ExternalEntitiesImportService
 {
     /**
-     * Validator business-logic service.
+     * Validator entity service.
      *
      * @var ValidatorEntityService
      */
@@ -32,7 +32,7 @@ class ValidatorsImporter extends ExternalEntitiesImportService
      * Validators importer. Allows to import validators records from external storage.
      *
      * @param ConnectionInterface $connection External storage connection
-     * @param ValidatorEntityService $validatorService Validator business-logic service
+     * @param ValidatorEntityService $validatorService Validator entity service
      */
     public function __construct(ConnectionInterface $connection, ValidatorEntityService $validatorService)
     {

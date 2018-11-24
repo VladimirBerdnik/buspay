@@ -15,7 +15,7 @@ use Saritasa\Transformers\IDataTransformer;
 class RolesApiController extends BaseApiController
 {
     /**
-     * Roles business-logic service.`
+     * Roles entity service.`
      *
      * @var RoleEntityService
      */
@@ -25,7 +25,7 @@ class RolesApiController extends BaseApiController
      * Roles requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param RoleEntityService $roleService Roles business logic service
+     * @param RoleEntityService $roleService Roles entity service
      */
     public function __construct(IDataTransformer $transformer, RoleEntityService $roleService)
     {

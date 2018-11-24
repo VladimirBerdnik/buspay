@@ -20,23 +20,23 @@ use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Throwable;
 
 /**
- * Card business-logic service.
+ * Card entity service.
  */
 class CardService extends EntityService
 {
     /**
-     * Drivers business logic service.
+     * Drivers entity service.
      *
      * @var DriverEntityService
      */
     private $driverService;
 
     /**
-     * Card business-logic service.
+     * Card entity service.
      *
      * @param ConnectionInterface $connection Storage connection interface
      * @param IRepository $repository Handled entities records storage
-     * @param DriverEntityService $driverService Drivers business logic service
+     * @param DriverEntityService $driverService Drivers entity service
      */
     public function __construct(
         ConnectionInterface $connection,

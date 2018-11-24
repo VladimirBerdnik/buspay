@@ -27,7 +27,7 @@ use Throwable;
 class CardsImporter extends ExternalEntitiesImportService
 {
     /**
-     * Card business-logic service.
+     * Card entity service.
      *
      * @var CardService
      */
@@ -37,7 +37,7 @@ class CardsImporter extends ExternalEntitiesImportService
      * Cards importer. Allows to import cards records from external storage.
      *
      * @param ConnectionInterface $connection External storage connection
-     * @param CardService $cardService Card business-logic service
+     * @param CardService $cardService Card entity service
      */
     public function __construct(ConnectionInterface $connection, CardService $cardService)
     {

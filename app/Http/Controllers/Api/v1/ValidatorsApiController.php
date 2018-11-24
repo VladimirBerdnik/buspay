@@ -19,7 +19,7 @@ use Throwable;
 class ValidatorsApiController extends BaseApiController
 {
     /**
-     * Validators business-logic service.
+     * Validators entity service.
      *
      * @var ValidatorEntityService
      */
@@ -29,7 +29,7 @@ class ValidatorsApiController extends BaseApiController
      * Validators requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param ValidatorEntityService $validatorService Validators business logic service
+     * @param ValidatorEntityService $validatorService Validators entity service
      */
     public function __construct(IDataTransformer $transformer, ValidatorEntityService $validatorService)
     {

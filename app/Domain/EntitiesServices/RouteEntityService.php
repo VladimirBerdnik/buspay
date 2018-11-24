@@ -24,23 +24,23 @@ use Throwable;
 use Validator;
 
 /**
- * Route business-logic service.
+ * Route entity service.
  */
 class RouteEntityService extends EntityService
 {
     /**
-     * Company to route assignments business-logic.
+     * Company to route assignments entity.
      *
      * @var CompaniesRouteEntityService
      */
     private $companiesRouteService;
 
     /**
-     * Route business-logic service.
+     * Route entity service.
      *
      * @param ConnectionInterface $connection Data storage connection
      * @param IRepository $repository Handled entities storage
-     * @param CompaniesRouteEntityService $companiesRouteService Company to route assignments business-logic
+     * @param CompaniesRouteEntityService $companiesRouteService Company to route assignments entity
      */
     public function __construct(
         ConnectionInterface $connection,

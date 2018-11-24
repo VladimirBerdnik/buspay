@@ -17,7 +17,7 @@ use Saritasa\Transformers\IDataTransformer;
 class CompaniesApiController extends BaseApiController
 {
     /**
-     * Companies business-logic service.
+     * Companies entity service.
      *
      * @var CompanyEntityService
      */
@@ -27,7 +27,7 @@ class CompaniesApiController extends BaseApiController
      * Companies requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param CompanyEntityService $companyService Companies business logic service
+     * @param CompanyEntityService $companyService Companies entity service
      */
     public function __construct(IDataTransformer $transformer, CompanyEntityService $companyService)
     {

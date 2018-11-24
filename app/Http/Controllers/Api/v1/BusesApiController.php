@@ -19,7 +19,7 @@ use Throwable;
 class BusesApiController extends BaseApiController
 {
     /**
-     * Buses business-logic service.
+     * Buses entity service.
      *
      * @var BusEntityService
      */
@@ -29,7 +29,7 @@ class BusesApiController extends BaseApiController
      * Buses requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param BusEntityService $busService Buses business logic service
+     * @param BusEntityService $busService Buses entity service
      */
     public function __construct(IDataTransformer $transformer, BusEntityService $busService)
     {

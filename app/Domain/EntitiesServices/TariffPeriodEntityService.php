@@ -10,7 +10,7 @@ use App\Models\TariffPeriod;
 use Carbon\Carbon;
 
 /**
- * TariffPeriod business-logic service.
+ * TariffPeriod entity service.
  */
 class TariffPeriodEntityService extends EntityService
 {

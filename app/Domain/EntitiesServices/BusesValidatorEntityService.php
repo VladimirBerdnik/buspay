@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 
 /**
- * BusesValidator business-logic service.
+ * BusesValidator entity service.
  */
 class BusesValidatorEntityService extends ModelRelationActivityPeriodService
 {

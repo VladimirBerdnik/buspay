@@ -13,7 +13,7 @@ use Saritasa\LaravelRepositories\Contracts\IRepository;
 use Saritasa\LaravelRepositories\Exceptions\ModelNotFoundException;
 
 /**
- * Card types business-logic service.
+ * Card types entity service.
  */
 class CardTypeEntityService extends EntityService
 {
@@ -25,7 +25,7 @@ class CardTypeEntityService extends EntityService
     private $configurationRepository;
 
     /**
-     * Card types business-logic service.
+     * Card types entity service.
      *
      * @param ConnectionInterface $connection Storage connection interface
      * @param IRepository $repository Handled entities records storage

@@ -28,23 +28,23 @@ use Throwable;
 use Validator;
 
 /**
- * Driver business-logic service.
+ * Driver entity service.
  */
 class DriverEntityService extends EntityService
 {
     /**
-     * Company to driver assignments business-logic.
+     * Company to driver assignments entity.
      *
      * @var DriversCardEntityService
      */
     private $driversCardService;
 
     /**
-     * Driver business-logic service.
+     * Driver entity service.
      *
      * @param ConnectionInterface $connection Data storage connection
      * @param IRepository $repository Handled entities storage
-     * @param DriversCardEntityService $driversCardService Company to driver assignments business-logic
+     * @param DriversCardEntityService $driversCardService Company to driver assignments entity
      */
     public function __construct(
         ConnectionInterface $connection,

@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 
 /**
- * Cards to drivers assignments business-logic service.
+ * Cards to drivers assignments entity service.
  */
 class DriversCardEntityService extends ModelRelationActivityPeriodService
 {

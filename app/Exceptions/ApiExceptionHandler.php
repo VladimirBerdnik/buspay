@@ -93,12 +93,12 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
     protected function genericResponse(Exception $exception): Response
     {
         if ($exception instanceof BusinessLogicConstraintException) {
-            // All user attempts to break business logic constraints that was successfully caught by application
+            // All user attempts to break entity constraints that was successfully caught by application
             $message = $this->getExceptionMessage($exception);
 
             return response()->make(new ErrorMessage($message), Response::HTTP_BAD_REQUEST);
         } elseif ($exception instanceof BusinessLogicIntegrityException) {
-            // All breaks of application business logic exceptions that was detected
+            // All breaks of application entity exceptions that was detected
             $message = $this->getExceptionMessage($exception);
 
             return response()->make(new ErrorMessage($message), Response::HTTP_INTERNAL_SERVER_ERROR);
