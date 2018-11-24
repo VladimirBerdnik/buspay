@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\RouteSheetService;
+use App\Domain\EntitiesServices\RouteSheetService;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
 use App\Http\Requests\Api\SaveRouteSheetRequest;
 use App\Models\RouteSheet;

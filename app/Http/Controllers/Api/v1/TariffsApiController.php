@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\TariffService;
+use App\Domain\EntitiesServices\TariffService;
 use App\Models\Tariff;
 use App\Models\TariffFare;
 use App\Models\TariffPeriod;

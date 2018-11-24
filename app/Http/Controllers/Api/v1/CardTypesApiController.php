@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\CardTypeService;
+use App\Domain\EntitiesServices\CardTypeService;
 use App\Models\CardType;
 use Dingo\Api\Http\Response;
 use Saritasa\Exceptions\InvalidEnumValueException;

@@ -3,9 +3,9 @@
 namespace App\Domain\Import;
 
 use App\Domain\Dto\CardData;
+use App\Domain\EntitiesServices\CardService;
 use App\Domain\Exceptions\Integrity\TooManyCardsWithNumberException;
 use App\Domain\Import\Dto\ExternalCardData;
-use App\Domain\Services\CardService;
 use App\Models\Card;
 use Carbon\Carbon;
 use DateTime;

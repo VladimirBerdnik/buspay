@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\ValidatorService;
+use App\Domain\EntitiesServices\ValidatorService;
 use App\Http\Requests\Api\SaveValidatorRequest;
 use App\Models\Validator;
 use Dingo\Api\Http\Response;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\TariffPeriodService;
+use App\Domain\EntitiesServices\TariffPeriodService;
 use App\Models\TariffPeriod;
 use Dingo\Api\Http\Response;
 use Saritasa\Exceptions\InvalidEnumValueException;

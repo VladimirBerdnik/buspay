@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Services;
+namespace App\Domain\EntitiesServices;
 
 use App\Extensions\EntityService;
 use App\Models\Card;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Services;
+namespace App\Domain\EntitiesServices;
 
 use App\Domain\Dto\RouteData;
 use App\Domain\Exceptions\Constraint\RouteDeletionException;

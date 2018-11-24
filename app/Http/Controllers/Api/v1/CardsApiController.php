@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Domain\EntitiesServices\CardService;
 use App\Domain\Enums\CardTypesIdentifiers;
-use App\Domain\Services\CardService;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
 use App\Models\Card;
 use Dingo\Api\Http\Response;

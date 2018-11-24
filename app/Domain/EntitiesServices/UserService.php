@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Services;
+namespace App\Domain\EntitiesServices;
 
 use App\Domain\Dto\UserData;
 use App\Domain\Enums\RolesIdentifiers;

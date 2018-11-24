@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Services;
+namespace App\Domain\EntitiesServices;
 
 use App\Domain\Exceptions\Constraint\ActivityPeriodExistsException;
 use App\Domain\Exceptions\Integrity\TooManyActivityPeriodsException;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\RouteService;
+use App\Domain\EntitiesServices\RouteService;
 use App\Http\Requests\Api\SaveRouteRequest;
 use App\Models\Route;
 use Dingo\Api\Http\Response;

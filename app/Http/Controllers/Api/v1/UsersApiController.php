@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\UserService;
+use App\Domain\EntitiesServices\UserService;
 use App\Http\Requests\Api\SaveUserRequest;
 use App\Models\User;
 use Dingo\Api\Http\Response;

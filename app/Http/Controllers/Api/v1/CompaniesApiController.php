@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\CompanyService;
+use App\Domain\EntitiesServices\CompanyService;
 use App\Http\Requests\Api\SaveCompanyRequest;
 use App\Models\Company;
 use Dingo\Api\Http\Response;

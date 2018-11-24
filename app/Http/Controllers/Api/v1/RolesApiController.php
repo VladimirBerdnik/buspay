@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\RoleService;
+use App\Domain\EntitiesServices\RoleService;
 use App\Models\Role;
 use Dingo\Api\Http\Response;
 use Saritasa\Exceptions\InvalidEnumValueException;

@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use App\Domain\Exceptions\Integrity\NoTariffPeriodForDateException;
 use App\Domain\Exceptions\Integrity\TooManyTariffPeriodsForDateException;
-use App\Domain\Services\TariffPeriodService;
+use App\Domain\EntitiesServices\TariffPeriodService;
 use App\Models\TariffPeriod;
 use App\Repositories\TariffPeriodRepository;
 use Carbon\Carbon;

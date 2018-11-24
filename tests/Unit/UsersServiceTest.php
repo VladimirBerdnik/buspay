@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Domain\Dto\UserData;
-use App\Domain\Services\UserService;
+use App\Domain\EntitiesServices\UserService;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Database\ConnectionInterface;

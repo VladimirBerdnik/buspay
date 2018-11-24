@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\BusService;
+use App\Domain\EntitiesServices\BusService;
 use App\Http\Requests\Api\SaveBusRequest;
 use App\Models\Bus;
 use Dingo\Api\Http\Response;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\Services\DriverService;
+use App\Domain\EntitiesServices\DriverService;
 use App\Http\Requests\Api\SaveDriverRequest;
 use App\Models\Driver;
 use Dingo\Api\Http\Response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Services;
+namespace App\Domain\EntitiesServices;
 
 use App\Domain\Exceptions\Integrity\NoTariffPeriodForDateException;
 use App\Domain\Exceptions\Integrity\TooManyTariffPeriodsForDateException;
