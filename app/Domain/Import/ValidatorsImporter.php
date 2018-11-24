@@ -3,7 +3,7 @@
 namespace App\Domain\Import;
 
 use App\Domain\Dto\ValidatorData;
-use App\Domain\EntitiesServices\ValidatorService;
+use App\Domain\EntitiesServices\ValidatorEntityService;
 use App\Domain\Exceptions\Integrity\TooManyValidatorsWithExternalIdException;
 use App\Domain\Import\Dto\ExternalValidatorData;
 use App\Models\Validator;
@@ -24,7 +24,7 @@ class ValidatorsImporter extends ExternalEntitiesImportService
     /**
      * Validator business-logic service.
      *
-     * @var ValidatorService
+     * @var ValidatorEntityService
      */
     private $validatorService;
 
@@ -32,9 +32,9 @@ class ValidatorsImporter extends ExternalEntitiesImportService
      * Validators importer. Allows to import validators records from external storage.
      *
      * @param ConnectionInterface $connection External storage connection
-     * @param ValidatorService $validatorService Validator business-logic service
+     * @param ValidatorEntityService $validatorService Validator business-logic service
      */
-    public function __construct(ConnectionInterface $connection, ValidatorService $validatorService)
+    public function __construct(ConnectionInterface $connection, ValidatorEntityService $validatorService)
     {
         parent::__construct($connection);
         $this->validatorService = $validatorService;

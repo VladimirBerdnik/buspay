@@ -12,7 +12,7 @@ use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 /**
  * Company business-logic service.
  */
-class CompanyService extends EntityService
+class CompanyEntityService extends EntityService
 {
     /**
      * Stores new company.

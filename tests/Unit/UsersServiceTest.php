@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Domain\Dto\UserData;
-use App\Domain\EntitiesServices\UserService;
+use App\Domain\EntitiesServices\UserEntityService;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Database\ConnectionInterface;
@@ -35,7 +35,7 @@ class UsersServiceTest extends TestCase
             return $user;
         });
 
-        $usersService = new UserService(Mockery::mock(ConnectionInterface::class), $usersRepository);
+        $usersService = new UserEntityService(Mockery::mock(ConnectionInterface::class), $usersRepository);
         $userData = new UserData([
             UserData::FIRST_NAME => 'first',
             UserData::LAST_NAME => 'last',
@@ -76,7 +76,7 @@ class UsersServiceTest extends TestCase
             return $user;
         });
 
-        $usersService = new UserService(Mockery::mock(ConnectionInterface::class), $usersRepository);
+        $usersService = new UserEntityService(Mockery::mock(ConnectionInterface::class), $usersRepository);
 
         $originalPassword = '123456';
         $user = new User([User::PASSWORD => $originalPassword]);

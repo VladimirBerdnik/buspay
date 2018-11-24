@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\UserService;
+use App\Domain\EntitiesServices\UserEntityService;
 use App\Http\Requests\Api\SaveUserRequest;
 use App\Models\User;
 use Dingo\Api\Http\Response;
@@ -21,7 +21,7 @@ class UsersApiController extends BaseApiController
     /**
      * Users business-logic service.
      *
-     * @var UserService
+     * @var UserEntityService
      */
     private $userService;
 
@@ -29,9 +29,9 @@ class UsersApiController extends BaseApiController
      * Users requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param UserService $userService Users business logic service
+     * @param UserEntityService $userService Users business logic service
      */
-    public function __construct(IDataTransformer $transformer, UserService $userService)
+    public function __construct(IDataTransformer $transformer, UserEntityService $userService)
     {
         parent::__construct($transformer);
         $this->userService = $userService;

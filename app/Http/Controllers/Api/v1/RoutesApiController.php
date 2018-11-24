@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\RouteService;
+use App\Domain\EntitiesServices\RouteEntityService;
 use App\Http\Requests\Api\SaveRouteRequest;
 use App\Models\Route;
 use Dingo\Api\Http\Response;
@@ -21,7 +21,7 @@ class RoutesApiController extends BaseApiController
     /**
      * Routes business-logic service.
      *
-     * @var RouteService
+     * @var RouteEntityService
      */
     private $routeService;
 
@@ -29,9 +29,9 @@ class RoutesApiController extends BaseApiController
      * Routes requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param RouteService $routeService Routes business logic service
+     * @param RouteEntityService $routeService Routes business logic service
      */
-    public function __construct(IDataTransformer $transformer, RouteService $routeService)
+    public function __construct(IDataTransformer $transformer, RouteEntityService $routeService)
     {
         parent::__construct($transformer);
         $this->routeService = $routeService;

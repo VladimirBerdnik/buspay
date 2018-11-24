@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\BusService;
+use App\Domain\EntitiesServices\BusEntityService;
 use App\Http\Requests\Api\SaveBusRequest;
 use App\Models\Bus;
 use Dingo\Api\Http\Response;
@@ -21,7 +21,7 @@ class BusesApiController extends BaseApiController
     /**
      * Buses business-logic service.
      *
-     * @var BusService
+     * @var BusEntityService
      */
     private $busService;
 
@@ -29,9 +29,9 @@ class BusesApiController extends BaseApiController
      * Buses requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param BusService $busService Buses business logic service
+     * @param BusEntityService $busService Buses business logic service
      */
-    public function __construct(IDataTransformer $transformer, BusService $busService)
+    public function __construct(IDataTransformer $transformer, BusEntityService $busService)
     {
         parent::__construct($transformer);
         $this->busService = $busService;

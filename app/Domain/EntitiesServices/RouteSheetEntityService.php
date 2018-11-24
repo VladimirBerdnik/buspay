@@ -30,7 +30,7 @@ use Validator as DataValidator;
 /**
  * RouteSheet business-logic service.
  */
-class RouteSheetService extends EntityService
+class RouteSheetEntityService extends EntityService
 {
     use ActivityPeriodFilterer;
 

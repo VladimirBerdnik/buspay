@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\RoleService;
+use App\Domain\EntitiesServices\RoleEntityService;
 use App\Models\Role;
 use Dingo\Api\Http\Response;
 use Saritasa\Exceptions\InvalidEnumValueException;
@@ -17,7 +17,7 @@ class RolesApiController extends BaseApiController
     /**
      * Roles business-logic service.`
      *
-     * @var RoleService
+     * @var RoleEntityService
      */
     private $roleService;
 
@@ -25,9 +25,9 @@ class RolesApiController extends BaseApiController
      * Roles requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param RoleService $roleService Roles business logic service
+     * @param RoleEntityService $roleService Roles business logic service
      */
-    public function __construct(IDataTransformer $transformer, RoleService $roleService)
+    public function __construct(IDataTransformer $transformer, RoleEntityService $roleService)
     {
         parent::__construct($transformer);
         $this->roleService = $roleService;

@@ -17,7 +17,7 @@ use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 /**
  * Cards to drivers assignments business-logic service.
  */
-class DriversCardService extends ModelRelationActivityPeriodService
+class DriversCardEntityService extends ModelRelationActivityPeriodService
 {
     /**
      * Opens new card to driver assignment period.

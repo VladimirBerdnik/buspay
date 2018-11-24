@@ -30,12 +30,12 @@ use Validator;
 /**
  * Driver business-logic service.
  */
-class DriverService extends EntityService
+class DriverEntityService extends EntityService
 {
     /**
      * Company to driver assignments business-logic.
      *
-     * @var DriversCardService
+     * @var DriversCardEntityService
      */
     private $driversCardService;
 
@@ -44,12 +44,12 @@ class DriverService extends EntityService
      *
      * @param ConnectionInterface $connection Data storage connection
      * @param IRepository $repository Handled entities storage
-     * @param DriversCardService $driversCardService Company to driver assignments business-logic
+     * @param DriversCardEntityService $driversCardService Company to driver assignments business-logic
      */
     public function __construct(
         ConnectionInterface $connection,
         IRepository $repository,
-        DriversCardService $driversCardService
+        DriversCardEntityService $driversCardService
     ) {
         parent::__construct($connection, $repository);
         $this->driversCardService = $driversCardService;

@@ -27,7 +27,7 @@ class CardService extends EntityService
     /**
      * Drivers business logic service.
      *
-     * @var DriverService
+     * @var DriverEntityService
      */
     private $driverService;
 
@@ -36,10 +36,13 @@ class CardService extends EntityService
      *
      * @param ConnectionInterface $connection Storage connection interface
      * @param IRepository $repository Handled entities records storage
-     * @param DriverService $driverService Drivers business logic service
+     * @param DriverEntityService $driverService Drivers business logic service
      */
-    public function __construct(ConnectionInterface $connection, IRepository $repository, DriverService $driverService)
-    {
+    public function __construct(
+        ConnectionInterface $connection,
+        IRepository $repository,
+        DriverEntityService $driverService
+    ) {
         parent::__construct($connection, $repository);
         $this->driverService = $driverService;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\CardTypeService;
+use App\Domain\EntitiesServices\CardTypeEntityService;
 use App\Models\CardType;
 use Dingo\Api\Http\Response;
 use Saritasa\Exceptions\InvalidEnumValueException;
@@ -17,7 +17,7 @@ class CardTypesApiController extends BaseApiController
     /**
      * Card types business-logic service.
      *
-     * @var CardTypeService
+     * @var CardTypeEntityService
      */
     private $cardTypeService;
 
@@ -25,9 +25,9 @@ class CardTypesApiController extends BaseApiController
      * Card types requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param CardTypeService $cardTypeService Card types business logic service
+     * @param CardTypeEntityService $cardTypeService Card types business logic service
      */
-    public function __construct(IDataTransformer $transformer, CardTypeService $cardTypeService)
+    public function __construct(IDataTransformer $transformer, CardTypeEntityService $cardTypeService)
     {
         parent::__construct($transformer);
         $this->cardTypeService = $cardTypeService;

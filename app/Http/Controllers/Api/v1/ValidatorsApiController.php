@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\ValidatorService;
+use App\Domain\EntitiesServices\ValidatorEntityService;
 use App\Http\Requests\Api\SaveValidatorRequest;
 use App\Models\Validator;
 use Dingo\Api\Http\Response;
@@ -21,7 +21,7 @@ class ValidatorsApiController extends BaseApiController
     /**
      * Validators business-logic service.
      *
-     * @var ValidatorService
+     * @var ValidatorEntityService
      */
     private $validatorService;
 
@@ -29,9 +29,9 @@ class ValidatorsApiController extends BaseApiController
      * Validators requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param ValidatorService $validatorService Validators business logic service
+     * @param ValidatorEntityService $validatorService Validators business logic service
      */
-    public function __construct(IDataTransformer $transformer, ValidatorService $validatorService)
+    public function __construct(IDataTransformer $transformer, ValidatorEntityService $validatorService)
     {
         parent::__construct($transformer);
         $this->validatorService = $validatorService;

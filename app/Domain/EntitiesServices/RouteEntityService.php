@@ -26,12 +26,12 @@ use Validator;
 /**
  * Route business-logic service.
  */
-class RouteService extends EntityService
+class RouteEntityService extends EntityService
 {
     /**
      * Company to route assignments business-logic.
      *
-     * @var CompaniesRouteService
+     * @var CompaniesRouteEntityService
      */
     private $companiesRouteService;
 
@@ -40,12 +40,12 @@ class RouteService extends EntityService
      *
      * @param ConnectionInterface $connection Data storage connection
      * @param IRepository $repository Handled entities storage
-     * @param CompaniesRouteService $companiesRouteService Company to route assignments business-logic
+     * @param CompaniesRouteEntityService $companiesRouteService Company to route assignments business-logic
      */
     public function __construct(
         ConnectionInterface $connection,
         IRepository $repository,
-        CompaniesRouteService $companiesRouteService
+        CompaniesRouteEntityService $companiesRouteService
     ) {
         parent::__construct($connection, $repository);
         $this->companiesRouteService = $companiesRouteService;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\DriverService;
+use App\Domain\EntitiesServices\DriverEntityService;
 use App\Http\Requests\Api\SaveDriverRequest;
 use App\Models\Driver;
 use Dingo\Api\Http\Response;
@@ -21,7 +21,7 @@ class DriversApiController extends BaseApiController
     /**
      * Drivers business-logic service.
      *
-     * @var DriverService
+     * @var DriverEntityService
      */
     private $driverService;
 
@@ -29,9 +29,9 @@ class DriversApiController extends BaseApiController
      * Drivers requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param DriverService $driverService Drivers business logic service
+     * @param DriverEntityService $driverService Drivers business logic service
      */
-    public function __construct(IDataTransformer $transformer, DriverService $driverService)
+    public function __construct(IDataTransformer $transformer, DriverEntityService $driverService)
     {
         parent::__construct($transformer);
         $this->driverService = $driverService;

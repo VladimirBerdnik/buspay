@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\RouteSheetService;
+use App\Domain\EntitiesServices\RouteSheetEntityService;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
 use App\Http\Requests\Api\SaveRouteSheetRequest;
 use App\Models\RouteSheet;
@@ -22,7 +22,7 @@ class RouteSheetsApiController extends BaseApiController
     /**
      * Route sheets business-logic service.
      *
-     * @var RouteSheetService
+     * @var RouteSheetEntityService
      */
     private $routeSheetService;
 
@@ -30,9 +30,9 @@ class RouteSheetsApiController extends BaseApiController
      * Route sheets requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param RouteSheetService $routeSheetService Route sheets business logic service
+     * @param RouteSheetEntityService $routeSheetService Route sheets business logic service
      */
-    public function __construct(IDataTransformer $transformer, RouteSheetService $routeSheetService)
+    public function __construct(IDataTransformer $transformer, RouteSheetEntityService $routeSheetService)
     {
         parent::__construct($transformer);
         $this->routeSheetService = $routeSheetService;

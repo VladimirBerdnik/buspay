@@ -21,7 +21,7 @@ use Validator;
 /**
  * Bus business-logic service.
  */
-class BusService extends EntityService
+class BusEntityService extends EntityService
 {
     /**
      * Returns validation rule to store or update bus.

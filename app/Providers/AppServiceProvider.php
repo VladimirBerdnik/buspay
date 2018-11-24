@@ -2,22 +2,22 @@
 
 namespace App\Providers;
 
-use App\Domain\EntitiesServices\BusesValidatorService;
-use App\Domain\EntitiesServices\BusService;
+use App\Domain\EntitiesServices\BusEntityService;
+use App\Domain\EntitiesServices\BusesValidatorEntityService;
 use App\Domain\EntitiesServices\CardService;
-use App\Domain\EntitiesServices\CardTypeService;
-use App\Domain\EntitiesServices\CompaniesRouteService;
-use App\Domain\EntitiesServices\CompanyService;
-use App\Domain\EntitiesServices\DriversCardService;
-use App\Domain\EntitiesServices\DriverService;
-use App\Domain\EntitiesServices\RoleService;
-use App\Domain\EntitiesServices\RouteService;
-use App\Domain\EntitiesServices\RouteSheetService;
-use App\Domain\EntitiesServices\TariffFareService;
-use App\Domain\EntitiesServices\TariffPeriodService;
-use App\Domain\EntitiesServices\TariffService;
-use App\Domain\EntitiesServices\UserService;
-use App\Domain\EntitiesServices\ValidatorService;
+use App\Domain\EntitiesServices\CardTypeEntityService;
+use App\Domain\EntitiesServices\CompaniesRouteEntityService;
+use App\Domain\EntitiesServices\CompanyEntityService;
+use App\Domain\EntitiesServices\DriverEntityService;
+use App\Domain\EntitiesServices\DriversCardEntityService;
+use App\Domain\EntitiesServices\RoleEntityService;
+use App\Domain\EntitiesServices\RouteEntityService;
+use App\Domain\EntitiesServices\RouteSheetEntityService;
+use App\Domain\EntitiesServices\TariffEntityService;
+use App\Domain\EntitiesServices\TariffFareEntityService;
+use App\Domain\EntitiesServices\TariffPeriodEntityService;
+use App\Domain\EntitiesServices\UserEntityService;
+use App\Domain\EntitiesServices\ValidatorEntityService;
 use App\Domain\Import\CardsImporter;
 use App\Domain\Import\ValidatorsImporter;
 use App\Exceptions\ApiExceptionHandler;
@@ -113,26 +113,30 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Register repositories bindings
-        $this->app->when(BusesValidatorService::class)
+        $this->app->when(BusesValidatorEntityService::class)
             ->needs(IRepository::class)
             ->give(BusesValidatorRepository::class);
-        $this->app->when(CompaniesRouteService::class)
+        $this->app->when(CompaniesRouteEntityService::class)
             ->needs(IRepository::class)
             ->give(CompaniesRouteRepository::class);
         $this->app->when(CardService::class)->needs(IRepository::class)->give(CardRepository::class);
-        $this->app->when(CardTypeService::class)->needs(IRepository::class)->give(CardTypeRepository::class);
-        $this->app->when(BusService::class)->needs(IRepository::class)->give(BusRepository::class);
-        $this->app->when(CompanyService::class)->needs(IRepository::class)->give(CompanyRepository::class);
-        $this->app->when(DriverService::class)->needs(IRepository::class)->give(DriverRepository::class);
-        $this->app->when(DriversCardService::class)->needs(IRepository::class)->give(DriversCardRepository::class);
-        $this->app->when(RoleService::class)->needs(IRepository::class)->give(RoleRepository::class);
-        $this->app->when(RouteService::class)->needs(IRepository::class)->give(RouteRepository::class);
-        $this->app->when(RouteSheetService::class)->needs(IRepository::class)->give(RouteSheetRepository::class);
-        $this->app->when(TariffService::class)->needs(IRepository::class)->give(TariffRepository::class);
-        $this->app->when(TariffPeriodService::class)->needs(IRepository::class)->give(TariffPeriodRepository::class);
-        $this->app->when(TariffFareService::class)->needs(IRepository::class)->give(TariffFareRepository::class);
-        $this->app->when(UserService::class)->needs(IRepository::class)->give(UserRepository::class);
-        $this->app->when(ValidatorService::class)->needs(IRepository::class)->give(ValidatorRepository::class);
+        $this->app->when(CardTypeEntityService::class)->needs(IRepository::class)->give(CardTypeRepository::class);
+        $this->app->when(BusEntityService::class)->needs(IRepository::class)->give(BusRepository::class);
+        $this->app->when(CompanyEntityService::class)->needs(IRepository::class)->give(CompanyRepository::class);
+        $this->app->when(DriverEntityService::class)->needs(IRepository::class)->give(DriverRepository::class);
+        $this->app->when(DriversCardEntityService::class)
+            ->needs(IRepository::class)
+            ->give(DriversCardRepository::class);
+        $this->app->when(RoleEntityService::class)->needs(IRepository::class)->give(RoleRepository::class);
+        $this->app->when(RouteEntityService::class)->needs(IRepository::class)->give(RouteRepository::class);
+        $this->app->when(RouteSheetEntityService::class)->needs(IRepository::class)->give(RouteSheetRepository::class);
+        $this->app->when(TariffEntityService::class)->needs(IRepository::class)->give(TariffRepository::class);
+        $this->app->when(TariffPeriodEntityService::class)
+            ->needs(IRepository::class)
+            ->give(TariffPeriodRepository::class);
+        $this->app->when(TariffFareEntityService::class)->needs(IRepository::class)->give(TariffFareRepository::class);
+        $this->app->when(UserEntityService::class)->needs(IRepository::class)->give(UserRepository::class);
+        $this->app->when(ValidatorEntityService::class)->needs(IRepository::class)->give(ValidatorRepository::class);
 
         // Register transformers bindings
         $this->app->when(ProfileApiController::class)->needs(IDataTransformer::class)->give(ProfileTransformer::class);

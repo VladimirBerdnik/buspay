@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\CompanyService;
+use App\Domain\EntitiesServices\CompanyEntityService;
 use App\Http\Requests\Api\SaveCompanyRequest;
 use App\Models\Company;
 use Dingo\Api\Http\Response;
@@ -19,7 +19,7 @@ class CompaniesApiController extends BaseApiController
     /**
      * Companies business-logic service.
      *
-     * @var CompanyService
+     * @var CompanyEntityService
      */
     private $companyService;
 
@@ -27,9 +27,9 @@ class CompaniesApiController extends BaseApiController
      * Companies requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param CompanyService $companyService Companies business logic service
+     * @param CompanyEntityService $companyService Companies business logic service
      */
-    public function __construct(IDataTransformer $transformer, CompanyService $companyService)
+    public function __construct(IDataTransformer $transformer, CompanyEntityService $companyService)
     {
         parent::__construct($transformer);
         $this->companyService = $companyService;

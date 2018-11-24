@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\TariffPeriodService;
+use App\Domain\EntitiesServices\TariffPeriodEntityService;
 use App\Models\TariffPeriod;
 use Dingo\Api\Http\Response;
 use Saritasa\Exceptions\InvalidEnumValueException;
@@ -18,7 +18,7 @@ class TariffPeriodsApiController extends BaseApiController
     /**
      * Tariff periods business-logic service.
      *
-     * @var TariffPeriodService
+     * @var TariffPeriodEntityService
      */
     private $tariffPeriodService;
 
@@ -26,9 +26,9 @@ class TariffPeriodsApiController extends BaseApiController
      * Tariff periods requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param TariffPeriodService $tariffPeriodService Tariff periods business logic service
+     * @param TariffPeriodEntityService $tariffPeriodService Tariff periods business logic service
      */
-    public function __construct(IDataTransformer $transformer, TariffPeriodService $tariffPeriodService)
+    public function __construct(IDataTransformer $transformer, TariffPeriodEntityService $tariffPeriodService)
     {
         parent::__construct($transformer);
         $this->tariffPeriodService = $tariffPeriodService;

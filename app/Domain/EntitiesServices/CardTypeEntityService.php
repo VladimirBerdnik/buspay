@@ -15,7 +15,7 @@ use Saritasa\LaravelRepositories\Exceptions\ModelNotFoundException;
 /**
  * Card types business-logic service.
  */
-class CardTypeService extends EntityService
+class CardTypeEntityService extends EntityService
 {
     /**
      * Configuration storage.

@@ -21,7 +21,7 @@ use Validator;
 /**
  * User business-logic service.
  */
-class UserService extends EntityService
+class UserEntityService extends EntityService
 {
     /**
      * List of user roles that should have assigned company.

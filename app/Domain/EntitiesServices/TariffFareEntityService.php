@@ -7,6 +7,6 @@ use App\Extensions\EntityService;
 /**
  * TariffFare business-logic service.
  */
-class TariffFareService extends EntityService
+class TariffFareEntityService extends EntityService
 {
 }

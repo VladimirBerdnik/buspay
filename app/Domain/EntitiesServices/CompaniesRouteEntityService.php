@@ -17,7 +17,7 @@ use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 /**
  * Companies to routes assignments business-logic service.
  */
-class CompaniesRouteService extends ModelRelationActivityPeriodService
+class CompaniesRouteEntityService extends ModelRelationActivityPeriodService
 {
     /**
      * Opens new company to route assignment period.

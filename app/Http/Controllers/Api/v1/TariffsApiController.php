@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\TariffService;
+use App\Domain\EntitiesServices\TariffEntityService;
 use App\Models\Tariff;
 use App\Models\TariffFare;
 use App\Models\TariffPeriod;
@@ -19,7 +19,7 @@ class TariffsApiController extends BaseApiController
     /**
      * Tariffs business-logic service.
      *
-     * @var TariffService
+     * @var TariffEntityService
      */
     private $tariffService;
 
@@ -27,9 +27,9 @@ class TariffsApiController extends BaseApiController
      * Tariffs requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param TariffService $tariffService Tariffs business logic service
+     * @param TariffEntityService $tariffService Tariffs business logic service
      */
-    public function __construct(IDataTransformer $transformer, TariffService $tariffService)
+    public function __construct(IDataTransformer $transformer, TariffEntityService $tariffService)
     {
         parent::__construct($transformer);
         $this->tariffService = $tariffService;

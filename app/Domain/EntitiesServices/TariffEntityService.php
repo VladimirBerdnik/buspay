@@ -5,8 +5,8 @@ namespace App\Domain\EntitiesServices;
 use App\Extensions\EntityService;
 
 /**
- * Role business-logic service.
+ * Tariff business-logic service.
  */
-class RoleService extends EntityService
+class TariffEntityService extends EntityService
 {
 }

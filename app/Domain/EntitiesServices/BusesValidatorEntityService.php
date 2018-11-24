@@ -17,7 +17,7 @@ use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 /**
  * BusesValidator business-logic service.
  */
-class BusesValidatorService extends ModelRelationActivityPeriodService
+class BusesValidatorEntityService extends ModelRelationActivityPeriodService
 {
     /**
      * Opens new bus to validator assignment period.

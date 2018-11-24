@@ -23,12 +23,12 @@ use Validator as DataValidator;
 /**
  * Validator business-logic service.
  */
-class ValidatorService extends ModelRelationActivityPeriodService
+class ValidatorEntityService extends ModelRelationActivityPeriodService
 {
     /**
      * Bus to validator assignments business-logic.
      *
-     * @var BusesValidatorService
+     * @var BusesValidatorEntityService
      */
     private $busesValidatorService;
 
@@ -37,12 +37,12 @@ class ValidatorService extends ModelRelationActivityPeriodService
      *
      * @param ConnectionInterface $connection Data storage connection
      * @param IRepository $repository Handled entities storage
-     * @param BusesValidatorService $busesValidatorService Bus to validator assignments business-logic
+     * @param BusesValidatorEntityService $busesValidatorService Bus to validator assignments business-logic
      */
     public function __construct(
         ConnectionInterface $connection,
         IRepository $repository,
-        BusesValidatorService $busesValidatorService
+        BusesValidatorEntityService $busesValidatorService
     ) {
         parent::__construct($connection, $repository);
         $this->busesValidatorService = $busesValidatorService;

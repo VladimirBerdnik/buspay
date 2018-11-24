@@ -12,7 +12,7 @@ use Carbon\Carbon;
 /**
  * TariffPeriod business-logic service.
  */
-class TariffPeriodService extends EntityService
+class TariffPeriodEntityService extends EntityService
 {
     /**
      * Returns tariff period that was active at passed date.
