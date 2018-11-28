@@ -51,6 +51,27 @@ class TariffPeriodEntityService extends EntityService
     }
 
     /**
+     * Returns tariff period that was active at passed date. Throws an exception when no tariff period for date exists.
+     *
+     * @param Carbon $date Date to find tariff period
+     *
+     * @return TariffPeriod
+     *
+     * @throws TooManyTariffPeriodsForDateException
+     * @throws NoTariffPeriodForDateException
+     */
+    public function getForDateOrFail(Carbon $date): TariffPeriod
+    {
+        $tariffPeriod = $this->getForDate($date);
+
+        if (!$tariffPeriod) {
+            throw new NoTariffPeriodForDateException($date);
+        }
+
+        return $tariffPeriod;
+    }
+
+    /**
      * Returns tariff period that is active now.
      *
      * @return TariffPeriod|null
@@ -60,14 +81,6 @@ class TariffPeriodEntityService extends EntityService
      */
     public function getCurrent(): TariffPeriod
     {
-        $now = Carbon::now();
-
-        $tariffPeriod = $this->getForDate($now);
-
-        if (!$tariffPeriod) {
-            throw new NoTariffPeriodForDateException($now);
-        }
-
-        return $tariffPeriod;
+        return $this->getForDateOrFail(Carbon::now());
     }
 }

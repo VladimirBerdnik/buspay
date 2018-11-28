@@ -5,6 +5,7 @@ namespace App\Domain\EntitiesServices;
 use App\Domain\Exceptions\Constraint\ActivityPeriodExistsException;
 use App\Domain\Exceptions\Constraint\DriverCardExistsException;
 use App\Domain\Exceptions\Integrity\TooManyActivityPeriodsException;
+use App\Domain\Exceptions\Integrity\TooManyCardDriversException;
 use App\Domain\Exceptions\Integrity\TooManyDriverCardsException;
 use App\Extensions\ActivityPeriod\IActivityPeriod;
 use App\Models\Card;
@@ -63,7 +64,7 @@ class DriversCardEntityService extends ModelRelationActivityPeriodService
      * Returns card to driver assignment that was active at passed date.
      *
      * @param Driver $driver Driver to retrieve assignment for
-     * @param Carbon|null $date Date to find tariff period
+     * @param Carbon|null $date Date to find activity period
      *
      * @return DriversCard|IActivityPeriod|null
      *
@@ -75,6 +76,25 @@ class DriversCardEntityService extends ModelRelationActivityPeriodService
             return $this->getPeriodFor($driver, $date);
         } catch (TooManyActivityPeriodsException $e) {
             throw new TooManyDriverCardsException($date, $driver, $e->getActivityPeriods());
+        }
+    }
+
+    /**
+     * Returns card to driver assignment that was active at passed date.
+     *
+     * @param Card $card Card to retrieve assignment for
+     * @param Carbon|null $date Date to find activity period
+     *
+     * @return DriversCard|IActivityPeriod|null
+     *
+     * @throws TooManyCardDriversException
+     */
+    public function getForCard(Card $card, ?Carbon $date = null): ?DriversCard
+    {
+        try {
+            return $this->getPeriodFor($card, $date);
+        } catch (TooManyActivityPeriodsException $e) {
+            throw new TooManyCardDriversException($date, $card, $e->getActivityPeriods());
         }
     }
 }

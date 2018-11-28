@@ -7,12 +7,14 @@ use App\Domain\Exceptions\Integrity\TooManyActivityPeriodsException;
 use App\Extensions\ActivityPeriod\ActivityPeriodAssistant;
 use App\Extensions\ActivityPeriod\IActivityPeriod;
 use App\Extensions\ActivityPeriod\IActivityPeriodMaster;
+use App\Extensions\ActivityPeriod\IActivityPeriodParticipant;
 use App\Extensions\ActivityPeriod\IActivityPeriodRelated;
 use App\Extensions\EntityService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
 use Log;
+use LogicException;
 use Saritasa\Dto;
 use Saritasa\Laravel\Validation\DateRuleSet;
 use Saritasa\Laravel\Validation\GenericRuleSet;
@@ -193,22 +195,30 @@ abstract class ModelRelationActivityPeriodService extends EntityService
     /**
      * Returns master to related record assignment that was active at passed date.
      *
-     * @param IActivityPeriodMaster $model Model to retrieve activity period for
+     * @param IActivityPeriodParticipant $model Model to retrieve activity period for
      * @param Carbon|null $date Date to find activity period record
      *
      * @return IActivityPeriod|null
      *
      * @throws TooManyActivityPeriodsException
      */
-    protected function getPeriodFor(IActivityPeriodMaster $model, ?Carbon $date = null): ?IActivityPeriod
+    protected function getPeriodFor(IActivityPeriodParticipant $model, ?Carbon $date = null): ?IActivityPeriod
     {
         $date = $date ?? Carbon::now();
+
+        if ($model instanceof IActivityPeriodMaster) {
+            $filteringAttribute = $this->getActivityPeriodModelInstance()->masterModelRelationAttribute();
+        } elseif ($model instanceof IActivityPeriodRelated) {
+            $filteringAttribute = $this->getActivityPeriodModelInstance()->relatedModelRelationAttribute();
+        } else {
+            throw new LogicException(get_class($model) . ' is neither master or related model in activity period');
+        }
 
         $periods = $this->getRepository()->getWith(
             [],
             [],
             [
-                [$this->getActivityPeriodModelInstance()->masterModelRelationAttribute(), $model->getKey()],
+                [$filteringAttribute, $model->getKey()],
                 [ActivityPeriodAssistant::ACTIVE_FROM, '<=', $date],
                 [
                     [

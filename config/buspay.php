@@ -30,4 +30,11 @@ return [
         // Interval in minutes during which existing driver bus route sheet will not be closed and opened again
         'authentication_safe_minutes_interval' => 10,
     ],
+    /**
+     * Card on validator authorization related configuration.
+     */
+    'authorization' => [
+        // Card types identifiers that should be ignored during authorization attempt. Possible system card types
+        'ignored_card_types_identifiers' => [],
+    ],
 ];

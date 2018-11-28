@@ -6,7 +6,7 @@ namespace App\Extensions\ActivityPeriod;
  * Activity period master record. This record should be presented in related activity periods records only once at the
  * same moment of time.
  */
-interface IActivityPeriodMaster
+interface IActivityPeriodMaster extends IActivityPeriodParticipant
 {
     /**
      * Returns activation period master model unique identifier.

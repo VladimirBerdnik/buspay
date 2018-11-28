@@ -32,20 +32,6 @@ trait RepositoryRetrievingMethodsProxyTrait
     }
 
     /**
-     * Find model by their id. Returns new model when model with ID not found
-     *
-     * @param string|int $id Model id to find
-     *
-     * @return Model
-     *
-     * @throws ModelNotFoundException
-     */
-    public function findOrNew($id): Model
-    {
-        return $this->getRepository()->findOrNew($id);
-    }
-
-    /**
      * Returns first model matching given filters.
      *
      * @param mixed[] $fieldValues Filters collection

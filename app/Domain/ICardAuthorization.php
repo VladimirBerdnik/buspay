@@ -20,6 +20,13 @@ interface ICardAuthorization
     public function getDate(): Carbon;
 
     /**
+     * Authorized card serial number.
+     *
+     * @return integer
+     */
+    public function getCardSerialNumber(): int;
+
+    /**
      * Authorized card.
      *
      * @return Card
@@ -27,11 +34,25 @@ interface ICardAuthorization
     public function getCard(): Card;
 
     /**
+     * Serial number of validator that authorized card.
+     *
+     * @return string
+     */
+    public function getValidatorSerialNumber(): string;
+
+    /**
      * Validator that authorizes card.
      *
      * @return Validator
      */
     public function getValidator(): Validator;
+
+    /**
+     * Payment tariff identifier that was used to pay bus trip.
+     *
+     * @return integer|null
+     */
+    public function getTariffIdentifier(): ?int;
 
     /**
      * Payment tariff that was used to pay bus trip.
@@ -46,4 +67,11 @@ interface ICardAuthorization
      * @return integer|null
      */
     public function getPaymentAmount(): ?int;
+
+    /**
+     * Returns card authorization details as array.
+     *
+     * @return string[]
+     */
+    public function toArray(): array;
 }

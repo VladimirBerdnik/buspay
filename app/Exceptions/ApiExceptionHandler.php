@@ -75,7 +75,7 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
 
         if (!$message) {
             Log::notice("No translate for exception class [{$exceptionClass}] found");
-            $message = $exception->getMessage() ?? $exceptionClass;
+            $message = $exception->getMessage() ?? $exception->__toString() ?? $exceptionClass;
         }
 
         return $message;
