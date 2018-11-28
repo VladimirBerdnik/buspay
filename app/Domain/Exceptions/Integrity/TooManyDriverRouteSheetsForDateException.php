@@ -23,13 +23,13 @@ class TooManyDriverRouteSheetsForDateException extends TooManyRouteSheetsForDate
      * Thrown when multiple route sheets for date are exists.
      *
      * @param Carbon $date Date for which many route sheets exists
-     * @param Driver $driver Driver for which few route sheets for date exists
+     * @param Driver $card Driver for which few route sheets for date exists
      * @param Collection|RouteSheet[] $routeSheets List of route sheets for date
      */
-    public function __construct(Carbon $date, Driver $driver, Collection $routeSheets)
+    public function __construct(Carbon $date, Driver $card, Collection $routeSheets)
     {
         parent::__construct($date, $routeSheets);
-        $this->driver = $driver;
+        $this->driver = $card;
     }
 
     /**

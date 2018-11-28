@@ -37,15 +37,15 @@ class TooManyDriverCardsException extends BusinessLogicIntegrityException
      * Thrown when multiple card to driver assignments for date are exists.
      *
      * @param Carbon $date Date for which many card to driver assignments exists
-     * @param Driver $driver Driver for which few assignments exists
+     * @param Driver $card Driver for which few assignments exists
      * @param Collection|DriversCard[] $cardDrivers List of card to driver assignments for date
      */
-    public function __construct(Carbon $date, Driver $driver, Collection $cardDrivers)
+    public function __construct(Carbon $date, Driver $card, Collection $cardDrivers)
     {
         parent::__construct('Few cards to driver assignments for date');
         $this->date = $date;
         $this->cardDrivers = $cardDrivers;
-        $this->driver = $driver;
+        $this->driver = $card;
     }
 
     /**

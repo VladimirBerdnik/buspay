@@ -2,6 +2,7 @@
 
 namespace App\Domain\Exceptions\Constraint;
 
+use App\Extensions\ContextRetrievingTrait;
 use LogicException;
 
 /**
@@ -9,4 +10,5 @@ use LogicException;
  */
 abstract class BusinessLogicConstraintException extends LogicException
 {
+    use ContextRetrievingTrait;
 }

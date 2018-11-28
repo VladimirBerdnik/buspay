@@ -2,6 +2,7 @@
 
 namespace App\Domain\Exceptions\Integrity;
 
+use App\Extensions\ContextRetrievingTrait;
 use Exception;
 
 /**
@@ -9,4 +10,5 @@ use Exception;
  */
 abstract class BusinessLogicIntegrityException extends Exception
 {
+    use ContextRetrievingTrait;
 }

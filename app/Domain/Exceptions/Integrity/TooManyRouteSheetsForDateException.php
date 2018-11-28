@@ -16,14 +16,14 @@ abstract class TooManyRouteSheetsForDateException extends BusinessLogicIntegrity
      *
      * @var Carbon
      */
-    protected $date;
+    private $date;
 
     /**
      * List of route sheets for date.
      *
      * @var Collection|RouteSheet[]
      */
-    protected $routeSheets;
+    private $routeSheets;
 
     /**
      * Thrown when multiple route sheets for date are exists.
