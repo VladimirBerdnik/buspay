@@ -24,25 +24,27 @@ trait ActivityPeriodFilterer
     protected function handleActivityPeriodUniqueness(Builder $builder, Carbon $activeFrom, ?Carbon $activeTo): Builder
     {
         return $builder
-            ->where(function (Builder $builder) use ($activeFrom) {
-                return $builder
-                    ->where(ActivityPeriodAssistant::ACTIVE_FROM, '<=', $activeFrom)
-                    ->where(function (Builder $builder) use ($activeFrom) {
+            ->where(function (Builder $builder) use ($activeTo, $activeFrom) {
+                return $builder->where(function (Builder $builder) use ($activeFrom, $activeTo) {
+                    return $builder
+                        ->where(ActivityPeriodAssistant::ACTIVE_FROM, '<=', $activeFrom)
+                        ->where(function (Builder $builder) use ($activeFrom) {
+                            return $builder
+                                /* Covers 4, 5, 6 intersection cases*/
+                                ->orWhere(ActivityPeriodAssistant::ACTIVE_TO, '>=', $activeFrom)
+                                /* Covers 9, 10 intersection cases*/
+                                ->orWhereNull(ActivityPeriodAssistant::ACTIVE_TO);
+                        });
+                })
+                    ->orWhere(function (Builder $builder) use ($activeFrom, $activeTo) {
+                        /* Covers 1, 2, 7 intersection cases*/
                         return $builder
-                            /* Covers 4, 5, 6 intersection cases*/
-                            ->orWhere(ActivityPeriodAssistant::ACTIVE_TO, '>=', $activeFrom)
-                            /* Covers 9, 10 intersection cases*/
-                            ->orWhereNull(ActivityPeriodAssistant::ACTIVE_TO);
-                    });
-            })
-            ->orWhere(function (Builder $builder) use ($activeFrom, $activeTo) {
-                /* Covers 1, 2, 7 intersection cases*/
-                return $builder
-                    ->where(ActivityPeriodAssistant::ACTIVE_FROM, '>=', $activeFrom)
-                    ->when($activeTo, function (Builder $builder) use ($activeTo) {
-                        /* Covers 3, 8 intersection cases*/
-                        return $builder
-                            ->where(ActivityPeriodAssistant::ACTIVE_FROM, '<=', $activeTo);
+                            ->where(ActivityPeriodAssistant::ACTIVE_FROM, '>=', $activeFrom)
+                            ->when($activeTo, function (Builder $builder) use ($activeTo) {
+                                /* Covers 3, 8 intersection cases*/
+                                return $builder
+                                    ->where(ActivityPeriodAssistant::ACTIVE_FROM, '<=', $activeTo);
+                            });
                     });
             });
     }

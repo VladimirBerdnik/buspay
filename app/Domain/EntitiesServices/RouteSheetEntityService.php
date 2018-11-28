@@ -259,7 +259,11 @@ class RouteSheetEntityService extends EntityService
 
         $routeSheet->driver_id = $driver->id;
 
-        Validator::validate($routeSheet->toArray(), $this->getRouteSheetValidationRules($routeSheet));
+        Validator::validate(
+            $routeSheet->toArray(),
+            $this->getRouteSheetValidationRules($routeSheet),
+            $this->validationMessages()
+        );
 
         $this->getRepository()->save($routeSheet);
 
