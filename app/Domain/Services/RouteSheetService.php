@@ -13,9 +13,11 @@ use App\Models\Driver;
 use App\Models\RouteSheet;
 use Carbon\Carbon;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Log;
 use Saritasa\Exceptions\InvalidEnumValueException;
+use Saritasa\Exceptions\NotImplementedException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\LaravelRepositories\Enums\OrderDirections;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
@@ -144,6 +146,8 @@ class RouteSheetService
     {
         $date = $date ?? Carbon::now();
 
+        Log::debug("Close route sheet [{$routeSheet->id}] at {$date->toIso8601String()} attempt");
+
         $routeSheetData = new RouteSheetData([
             RouteSheetData::COMPANY_ID => $routeSheet->company_id,
             RouteSheetData::ROUTE_ID => $routeSheet->route_id,
@@ -154,6 +158,41 @@ class RouteSheetService
         ]);
 
         $this->routeSheetEntityService->update($routeSheet, $routeSheetData);
+
+        Log::debug("Route sheet [{$routeSheet->id}] closed");
+    }
+
+    /**
+     * Closes all opened route sheets.
+     *
+     * @param Carbon|null $date Date to close route sheets at
+     *
+     * @throws InvalidEnumValueException
+     * @throws NotImplementedException
+     */
+    public function closeOpenedRouteSheets(?Carbon $date = null): void
+    {
+        $date = $date ?? Carbon::now();
+
+        Log::debug('Close all opened route sheets attempt');
+
+        $closedRouteSheetsCount = 0;
+
+        $this->routeSheetEntityService->chunkWith(
+            [],
+            [],
+            [RouteSheet::ACTIVE_TO => null],
+            new SortOptions(RouteSheet::COMPANY_ID),
+            100,
+            function (Collection $routeSheets) use (&$closedRouteSheetsCount, $date): void {
+                foreach ($routeSheets as $routeSheet) {
+                    $closedRouteSheetsCount++;
+                    $this->closeRouteSheet($routeSheet, $date);
+                }
+            }
+        );
+
+        Log::info("Closed {$closedRouteSheetsCount} opened route sheets");
     }
 
     /**

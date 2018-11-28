@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CloseRouteSheets;
 use App\Console\Commands\ImportCardsCommand;
 use App\Console\Commands\ImportValidatorsCommand;
 use Illuminate\Console\Scheduling\Schedule;
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         ImportCardsCommand::class,
         ImportValidatorsCommand::class,
+        CloseRouteSheets::class,
     ];
 
     /**
@@ -31,8 +33,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(ImportCardsCommand::class)->hourly()->withoutOverlapping()->onOneServer();
-        $schedule->command(ImportValidatorsCommand::class)->hourly()->withoutOverlapping()->onOneServer();
+        $schedule->command(ImportCardsCommand::class)
+            ->hourly()
+            ->withoutOverlapping()
+            ->onOneServer();
+        $schedule->command(ImportValidatorsCommand::class)
+            ->hourly()
+            ->withoutOverlapping()
+            ->onOneServer();
+        $schedule->command(CloseRouteSheets::class)
+            ->dailyAt(config('buspay.driver.shift_cancel_hour'))
+            ->withoutOverlapping()
+            ->onOneServer();
     }
 
     /**

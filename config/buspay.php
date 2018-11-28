@@ -24,8 +24,8 @@ return [
         // Drivers card type identifier
         'card_type_id' => CardTypesIdentifiers::DRIVER,
 
-        // Hour at which driver's shift on bus should be automatically cancelled (0-23)
-        'shift_cancel_hour' => 5,
+        // Hour at which driver's shift on bus should be automatically cancelled (0-23). Server timezone is used
+        'shift_cancel_hour' => '06:00',
 
         // Interval in minutes during which existing driver bus route sheet will not be closed and opened again
         'authentication_safe_minutes_interval' => 10,
