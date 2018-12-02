@@ -114,6 +114,7 @@ export default {
           .hours(this.hours)
           .minutes(this.minutes)
           .seconds(this.seconds)
+          .utc(false)
           .toISOString(false);
         this.date = date;
       }

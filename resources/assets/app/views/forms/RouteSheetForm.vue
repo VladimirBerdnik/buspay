@@ -49,7 +49,7 @@
                             name="driver_id"
               />
               <v-layout row>
-                <v-flex xs8>
+                <v-flex xs7>
                   <DateSelect v-validate="'required'"
                               v-model="item.active_from"
                               :label="$t('routeSheet.fields.active_from')"
@@ -61,17 +61,21 @@
                 <v-flex xs4
                         class="pl-2"
                 >
-                  <TimeSelect v-validate="'required'"
-                              v-model="item.active_from"
-                              :readonly="!Boolean(item.active_from)"
-                              :error-messages="errors.collect('active_from')"
-                              :data-vv-as="$t('routeSheet.fields.active_from')"
-                              name="active_from_time"
+                  <v-text-field v-validate="'required'"
+                                v-model="active_from_time"
+                                :readonly="!Boolean(item.active_from)"
+                                :error-messages="errors.collect('active_from_time')"
+                                required
+                                append-icon="access_time"
+                                type="time"
+                                step="1"
+                                name="active_from_time"
+                                @change="handleActiveFromTime"
                   />
                 </v-flex>
               </v-layout>
               <v-layout row>
-                <v-flex xs8>
+                <v-flex xs7>
                   <DateSelect v-validate="''"
                               v-model="item.active_to"
                               :label="$t('routeSheet.fields.active_to')"
@@ -84,12 +88,16 @@
                 <v-flex xs4
                         class="pl-2"
                 >
-                  <TimeSelect v-validate="''"
-                              v-model="item.active_to"
-                              :readonly="!Boolean(item.active_to)"
-                              :error-messages="errors.collect('active_to')"
-                              :data-vv-as="$t('routeSheet.fields.active_to')"
-                              name="active_to_time"
+                  <v-text-field v-validate="item.active_to ? 'required' : ''"
+                                v-model="active_to_time"
+                                :readonly="!Boolean(item.active_to)"
+                                :error-messages="errors.collect('active_to_time')"
+                                required
+                                append-icon="access_time"
+                                type="time"
+                                step="1"
+                                name="active_to_time"
+                                @change="handleActiveToTime"
                   />
                 </v-flex>
               </v-layout>
@@ -121,6 +129,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import RouteSheetsService from '../../services/RouteSheetsService';
 import FormValidationMixin from '../../mixins/FormValidationMixin';
 import CompanySelect from '../dropdowns/CompanySelect';
@@ -131,12 +140,10 @@ import EntityFormMixin from '../../mixins/EntityFormMixin';
 import BusSelect from '../dropdowns/BusSelect';
 import DriverSelect from '../dropdowns/DriverSelect';
 import DateSelect from '../dropdowns/DateSelect';
-import TimeSelect from '../dropdowns/TimeSelect';
 
 export default {
   name:       'RouteSheetForm',
   components: {
-    TimeSelect,
     DateSelect,
     DriverSelect,
     BusSelect,
@@ -151,7 +158,10 @@ export default {
   ],
   data() {
     return {
-      item: {
+      active_to_time:   null,
+      active_from_time: null,
+      emptyTime:        '00:00:00',
+      item:             {
         id:          null,
         company_id:  null,
         route_id:    null,
@@ -169,6 +179,64 @@ export default {
       handler(newValue) {
         this.item = Object.assign({}, newValue);
       },
+    },
+    item: {
+      deep: true,
+      handler(newValue) {
+        this.active_from_time = this.getTime(newValue.active_from);
+        this.active_to_time = this.getTime(newValue.active_to);
+      },
+    },
+  },
+  methods: {
+    handleActiveToTime(newValue) {
+      this.active_to_time = newValue || this.emptyTime;
+
+      if (!this.item.active_to) {
+        return;
+      }
+
+      this.item.active_to = this.setTime(this.item.active_to, this.active_to_time);
+    },
+    handleActiveFromTime(newValue) {
+      this.active_from_time = newValue || this.emptyTime;
+
+      if (!this.item.active_from) {
+        return;
+      }
+
+      this.item.active_from = this.setTime(this.item.active_from, this.active_from_time);
+    },
+    /**
+     * Extracts time part from date.
+     *
+     * @param {Date} date Date to extract time from
+     * @return {string|null} Time string
+     */
+    getTime(date) {
+      if (date) {
+        return moment(date).format('HH:mm:ss');
+      }
+
+      return null;
+    },
+    /**
+     * Sets time part of date.
+     *
+     * @param {Date} date Date to set time in
+     * @param {string} timeString Time to set
+     *
+     * @return {string} Date with new time
+     */
+    setTime(date, timeString) {
+      const [ hours, minutes, seconds ] = timeString.split(':');
+
+      return moment(date)
+        .minutes(Number.parseInt(minutes, 10))
+        .hour(Number.parseInt(hours, 10))
+        .second(Number.parseInt(seconds, 10))
+        .utc(false)
+        .format();
     },
   },
 };
