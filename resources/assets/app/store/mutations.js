@@ -1,7 +1,9 @@
 import jwtDecode from 'jwt-decode';
+import getInitialState from './initialState';
 
 export const LOGIN_MUTATION = 'login';
 export const LOGOUT_MUTATION = 'logout';
+export const RESET_STATE_MUTATION = 'reset';
 export const OPEN_CONFIRMATION_MODAL_MUTATION = 'openConfirmationModal';
 export const CLOSE_CONFIRMATION_MODAL_MUTATION = 'closeConfirmationModal';
 export const OPEN_ERROR_NOTIFICATION_MODAL_MUTATION = 'openErrorNotificationModal';
@@ -57,8 +59,17 @@ const mutations = {
     state.auth.token = null;
     state.auth.decodedToken = null;
     state.auth.authenticated = false;
+    this.commit(RESET_STATE_MUTATION);
   },
 
+  /**
+   * Resets state to it's initial value.
+   *
+   * @param {Object} state State to reset
+   */
+  [RESET_STATE_MUTATION](state) {
+    Object.assign(state, getInitialState());
+  },
   /*****************************
    * PROFILE RELATED MUTATIONS *
    ****************************/
