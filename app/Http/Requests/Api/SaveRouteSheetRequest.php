@@ -26,7 +26,7 @@ class SaveRouteSheetRequest extends ApiRequest
             RouteSheet::BUS_ID => Rule::required()->int(),
             RouteSheet::DRIVER_ID => Rule::nullable()->int(),
             RouteSheet::ACTIVE_FROM => Rule::required()->date(),
-            RouteSheet::ACTIVE_TO => Rule::nullable()->date(),
+            RouteSheet::ACTIVE_TO => Rule::required()->date(),
         ];
     }
 

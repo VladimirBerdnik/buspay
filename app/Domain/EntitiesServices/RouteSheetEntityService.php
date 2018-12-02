@@ -49,7 +49,7 @@ class RouteSheetEntityService extends EntityService
                      */
                     return $rule->before(RouteSheet::ACTIVE_TO);
                 }),
-            RouteSheet::ACTIVE_TO => Rule::nullable()->date()
+            RouteSheet::ACTIVE_TO => Rule::required()->date()
                 ->when($routeSheet->getActiveTo(), function (RuleSet $rule) {
                     /**
                      * Date rules set.
@@ -144,24 +144,6 @@ class RouteSheetEntityService extends EntityService
     }
 
     /**
-     * Applies activity period values fix for seconds.
-     *
-     * @param RouteSheet $routeSheet Route sheet to apply seconds fix
-     *
-     * @return void
-     */
-    private function correctSeconds(RouteSheet $routeSheet): void
-    {
-        if ($routeSheet->active_from) {
-            $routeSheet->active_from = $routeSheet->active_from->second(0);
-        }
-
-        if ($routeSheet->active_to) {
-            $routeSheet->active_to = $routeSheet->active_to->second(59);
-        }
-    }
-
-    /**
      * Stores new route sheet.
      *
      * @param RouteSheetData $routeSheetData Route sheet details to create
@@ -176,8 +158,6 @@ class RouteSheetEntityService extends EntityService
         Log::debug("Create route sheet attempt", $routeSheetData->toArray());
 
         $routeSheet = new RouteSheet($routeSheetData->toArray());
-
-        $this->correctSeconds($routeSheet);
 
         Validator::validate(
             $routeSheet->toArray(),
@@ -208,8 +188,6 @@ class RouteSheetEntityService extends EntityService
         Log::debug("Update route sheet [{$routeSheet->id}] attempt");
 
         $routeSheet->fill($routeSheetData->toArray());
-
-        $this->correctSeconds($routeSheet);
 
         Validator::validate(
             $routeSheet->toArray(),

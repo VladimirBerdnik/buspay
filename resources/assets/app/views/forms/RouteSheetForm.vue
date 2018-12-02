@@ -65,7 +65,7 @@
                                 v-model="active_from_time"
                                 :readonly="!Boolean(item.active_from)"
                                 :error-messages="errors.collect('active_from_time')"
-                                required
+                                :data-vv-as="$t('routeSheet.fields.active_from')"
                                 append-icon="access_time"
                                 type="time"
                                 step="1"
@@ -76,7 +76,7 @@
               </v-layout>
               <v-layout row>
                 <v-flex xs7>
-                  <DateSelect v-validate="''"
+                  <DateSelect v-validate="'required'"
                               v-model="item.active_to"
                               :label="$t('routeSheet.fields.active_to')"
                               :error-messages="errors.collect('active_to')"
@@ -88,11 +88,11 @@
                 <v-flex xs4
                         class="pl-2"
                 >
-                  <v-text-field v-validate="item.active_to ? 'required' : ''"
+                  <v-text-field v-validate="'required'"
                                 v-model="active_to_time"
                                 :readonly="!Boolean(item.active_to)"
                                 :error-messages="errors.collect('active_to_time')"
-                                required
+                                :data-vv-as="$t('routeSheet.fields.active_to')"
                                 append-icon="access_time"
                                 type="time"
                                 step="1"

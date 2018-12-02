@@ -322,7 +322,9 @@ class RouteSheetService
             RouteSheetData::BUS_ID => $bus->id,
             RouteSheetData::DRIVER_ID => $driver ? $driver->id : null,
             RouteSheetData::ACTIVE_FROM => $date,
-            RouteSheetData::ACTIVE_TO => $routeSheetAfter ? $routeSheetAfter->active_from->copy()->subSecond() : null,
+            RouteSheetData::ACTIVE_TO => $routeSheetAfter
+                ? $routeSheetAfter->active_from->copy()->subSecond()
+                : $date->copy()->endOfDay(),
         ]);
 
         $this->routeSheetEntityService->store($routeSheetData);
