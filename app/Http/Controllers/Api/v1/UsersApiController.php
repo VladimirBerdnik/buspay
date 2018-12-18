@@ -47,7 +47,12 @@ class UsersApiController extends BaseApiController
     public function index(): Response
     {
         return $this->response->collection(
-            $this->userService->getWith(['role', 'company'], [], [], new SortOptions(User::ID)),
+            $this->userService->getWith(
+                ['role', 'company'],
+                [],
+                $this->singleCompanyUser() ? [User::COMPANY_ID => $this->user->company_id] : [],
+                new SortOptions(User::ID)
+            ),
             $this->transformer
         );
     }

@@ -50,7 +50,7 @@ class BusesApiController extends BaseApiController
             $this->busService->getWith(
                 ['company', 'route'],
                 ['drivers', 'validators'],
-                [],
+                $this->singleCompanyUser() ? [Bus::COMPANY_ID => $this->user->company_id] : [],
                 new SortOptions(Bus::COMPANY_ID)
             ),
             $this->transformer

@@ -65,6 +65,10 @@ class RouteSheetsApiController extends BaseApiController
             $filters[] = [RouteSheet::ACTIVE_TO, '<=', $request->activeTo()];
         }
 
+        if ($this->singleCompanyUser()) {
+            $filters[] = [RouteSheet::COMPANY_ID, '=', $this->user->company_id];
+        }
+
         return $this->response->paginator(
             $this->routeSheetService->getPageWith(
                 $request->getPagingInfo(),

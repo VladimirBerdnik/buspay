@@ -50,7 +50,7 @@ class DriversApiController extends BaseApiController
             $this->driverService->getWith(
                 ['company', 'bus', 'card'],
                 [],
-                [],
+                $this->singleCompanyUser() ? [Driver::COMPANY_ID => $this->user->company_id] : [],
                 new SortOptions(Driver::FULL_NAME)
             ),
             $this->transformer

@@ -47,7 +47,13 @@ class RoutesApiController extends BaseApiController
     public function index(): Response
     {
         return $this->response->collection(
-            $this->routeService->getWith(['company'], ['buses'], [], new SortOptions(Route::NAME)),
+            $this->routeService->getWith(
+                ['company'],
+                ['buses'],
+                $this->singleCompanyUser()
+                ? [Route::COMPANY_ID => $this->user->company_id] : [],
+                new SortOptions(Route::NAME)
+            ),
             $this->transformer
         );
     }

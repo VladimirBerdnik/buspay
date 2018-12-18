@@ -48,7 +48,7 @@ class CompaniesApiController extends BaseApiController
             $this->companyService->getWith(
                 [],
                 ['buses', 'drivers', 'routes', 'users'],
-                [],
+                $this->singleCompanyUser() ? [Company::ID => $this->user->company_id] : [],
                 new SortOptions(Company::NAME)
             ),
             $this->transformer

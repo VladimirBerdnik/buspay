@@ -9,7 +9,6 @@ use Dingo\Api\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
-use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Saritasa\Transformers\IDataTransformer;
 use Throwable;
 
@@ -65,7 +64,6 @@ class ValidatorsApiController extends BaseApiController
      *
      * @return Response
      *
-     * @throws RepositoryException
      * @throws Throwable
      * @throws ValidationException
      */
