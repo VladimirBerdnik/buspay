@@ -43,7 +43,7 @@ use Saritasa\LaravelControllers\Api\ResetPasswordApiController;
  * @var Router $api
  */
 $api = app(Router::class);
-$api->version(config('api.version'), ['middleware' => 'bindings'], function (Router $api) {
+$api->version(config('api.version'), ['middleware' => 'bindings'], function (Router $api): void {
     $registrar = new ApiResourceRegistrar($api);
 
     // Authentication related routes
@@ -53,7 +53,7 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
     $registrar->put('auth/password/reset', ResetPasswordApiController::class, 'reset');
 
     // Group of routes that require authentication
-    $api->group(['middleware' => ['jwt.auth']], function (Router $api) {
+    $api->group(['middleware' => ['jwt.auth']], function (Router $api): void {
         $registrar = new ApiResourceRegistrar($api);
 
         // Authentication related routes
