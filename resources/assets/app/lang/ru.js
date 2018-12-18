@@ -1,4 +1,4 @@
-import roles from '../enums/roles';
+import roles from '../policies/roles';
 
 export default {
   app: {
@@ -87,16 +87,18 @@ export default {
       },
     },
     drawer: {
-      companies:   'Компании',
-      users:       'Пользователи',
-      routes:      'Маршруты',
-      buses:       'Автобусы',
-      drivers:     'Водители',
-      validators:  'Валидаторы',
-      routeSheets: 'Маршрутные листы',
-      tariffs:     'Тарифы',
-      cardTypes:   'Типы карт',
-      cards:       'Карты',
+      companies:    'Компании',
+      users:        'Пользователи',
+      routes:       'Маршруты',
+      buses:        'Автобусы',
+      drivers:      'Водители',
+      validators:   'Валидаторы',
+      routeSheets:  'Маршрутные листы',
+      tariffs:      'Тарифы',
+      cardTypes:    'Типы карт',
+      cards:        'Карты',
+      roles:        'Роли пользователей',
+      driversCards: 'Водительские карты',
     },
   },
   periods: {
@@ -215,10 +217,10 @@ export default {
       name: 'Название',
     },
     items: {
-      [roles.ADMIN]:      'Администратор',
-      [roles.SUPPORT]:    'Тех.поддержка',
-      [roles.OPERATOR]:   'Оператор',
-      [roles.GOVERNMENT]: 'Гос.служащщий',
+      [roles.ADMIN]:                      'Администратор',
+      [roles.SUPPORT]:                    'Тех.поддержка',
+      [roles.TRANSPORT_COMPANY_OPERATOR]: 'Оператор',
+      [roles.GOVERNMENT]:                 'Гос.служащщий',
     },
   },
   tariffPeriod: {
