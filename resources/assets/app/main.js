@@ -8,6 +8,7 @@ import ruVuetify from 'vuetify/es5/locale/ru';
 import App from './App';
 import i18n from './lang/i18n';
 import router from './router';
+import PoliciesMixin from './mixins/PoliciesMixin';
 import store from './store';
 import './utils/filters';
 
@@ -23,6 +24,8 @@ Vue.use(Vuetify, {
     current: 'ru',
   },
 });
+
+Vue.mixin(PoliciesMixin);
 
 // eslint-disable-next-line no-new
 new Vue({

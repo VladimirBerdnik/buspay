@@ -1,7 +1,7 @@
 import { mapGetters, mapMutations } from 'vuex';
 import axios from '../config/axios';
 import store from '../store/index';
-import roles from '../enums/roles';
+import roles from '../policies/roles';
 import { USERS_MUTATION } from '../store/mutations';
 import { USERS_GETTER } from '../store/getters';
 
