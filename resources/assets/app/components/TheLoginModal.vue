@@ -52,7 +52,7 @@
             >
               <v-spacer/>
               <v-btn color="default"
-                     @click="close"
+                     @click="close(false)"
               >
                 {{ $t('common.buttons.close') }}
               </v-btn>

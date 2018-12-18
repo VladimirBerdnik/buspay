@@ -27,3 +27,13 @@ export function hasClientError(response) {
 export function hasUnauthenticatedError(response) {
   return response && response.status === 401;
 }
+
+/**
+ * Checks that response has token expired error.
+ *
+ * @param {Object} response Response to check
+ * @return {Boolean} Checking result
+ */
+export function hasTokenExpiredError(response) {
+  return response && hasUnauthenticatedError(response) && response.data.code === 498;
+}

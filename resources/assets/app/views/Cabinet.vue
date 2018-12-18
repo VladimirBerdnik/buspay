@@ -120,11 +120,11 @@ export default {
     if (!this.validateAuth()) {
       return;
     }
-    RolesService.read();
-    DriversCardsService.read();
+    await RolesService.read();
+    await DriversCardsService.read();
 
-    Object.keys(this.steps).forEach(step => {
-      this.steps[step].service.read().then(() => { this.steps[step].ready = true; });
+    Object.keys(this.steps).forEach(async step => {
+      await this.steps[step].service.read().then(() => { this.steps[step].ready = true; });
     });
   },
   methods: {

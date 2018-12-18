@@ -4,6 +4,7 @@ import AlertsService from '../services/AlertsService';
 import i18n from '../lang/i18n';
 import config from '../config';
 import * as utils from '../utils/utils';
+import UserInteractionService from '../services/UserInteractionService';
 
 const http = axios.create({
   baseURL: config.api.url,
@@ -12,11 +13,20 @@ const http = axios.create({
   },
 });
 
+/**
+ * Returns formatted bearer authentication token.
+ *
+ * @return {string}
+ */
+function getBearerToken() {
+  return `Bearer ${AuthService.getToken()}`;
+}
+
 // Add auth token for every request when presented
 http.interceptors.request.use(
   config => {
     if (AuthService.isAuthenticated()) {
-      config.headers.Authorization = `Bearer ${AuthService.getToken()}`;
+      config.headers.Authorization = getBearerToken();
     }
 
     return config;
@@ -47,13 +57,37 @@ function getMessageFromResponse(error, defaultMessage) {
 // Error handler interceptor
 http.interceptors.response.use(
   response => response,
-  error => {
+  async error => {
+    const originalRequest = error.config;
+
     if (utils.hasServerError(error.response)) {
       // React on server errors
       AlertsService.error(getMessageFromResponse(error, i18n.t('common.notifications.serverError')));
     } else if (utils.hasUnauthenticatedError(error.response)) {
-      // Do not react to unauthenticated error like "token mismatch" or "token not provided"
-      AuthService.logoutMutation();
+      const oldTokenUsed = originalRequest.headers.Authorization !== getBearerToken();
+
+      if (originalRequest.retried) {
+        return Promise.reject(error);
+      }
+
+      originalRequest.retried = true;
+
+      if (!oldTokenUsed) {
+        try {
+          if (utils.hasTokenExpiredError(error.response)) {
+            await AuthService.refreshToken();
+          } else {
+            await UserInteractionService.handleLogin();
+          }
+        } catch (e) {
+          AuthService.logoutMutation();
+        }
+      }
+
+      originalRequest.headers.Authorization = getBearerToken();
+      originalRequest.url = originalRequest.url.replace(config.api.url, '');
+
+      return http(originalRequest).then(response => response);
     } else if (utils.hasClientError(error.response)) {
       // React on client error
       AlertsService.error(getMessageFromResponse(error, i18n.t('common.notifications.clientError')));
