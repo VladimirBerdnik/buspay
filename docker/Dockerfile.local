@@ -1,4 +1,4 @@
-FROM "saritasa/alpine-php71-nginx-phpfpm-s6:1.0"
+FROM "alevlaber/alpine-php71-nginx-phpfpm-s6:latest"
 
 ### Descriptions
 MAINTAINER VladimirBerdnik
