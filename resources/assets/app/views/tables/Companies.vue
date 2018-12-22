@@ -16,7 +16,8 @@
           single-line
           clearable
         />
-        <v-btn color="primary"
+        <v-btn v-show="policies.creationAllowed(policies.itemsTypes.companies)"
+               color="primary"
                @click="openModalForm({})"
         >
           {{ $t('common.buttons.add') }}
@@ -53,50 +54,65 @@
                            color="blue"
                            indeterminate
         />
-
         <template
           slot="items"
           slot-scope="props"
         >
           <td>{{ props.item.id }}</td>
-          <td class="action-cell"
-              @click.stop="openModalForm(props.item)"
+          <ActionCell :item-type="policies.itemsTypes.companies"
+                      :intention="policies.intentions.show"
+                      @activate="openModalForm(props.item)"
+
           >
             {{ props.item.name }}
-          </td>
+          </ActionCell>
           <td>{{ props.item.bin }}</td>
           <td>{{ props.item.account_number }}</td>
           <td>{{ props.item.contact_information }}</td>
-          <td class="action-cell text-xs-right"
-              @click.stop="goToBuses(props.item.id)"
+          <ActionCell :item-type="policies.itemsTypes.buses"
+                      :intention="policies.intentions.get"
+                      class="text-xs-right"
+                      @activate="goToBuses(props.item.id)"
+
           >
             {{ props.item.buses_count }}
-          </td>
-          <td class="action-cell text-xs-right"
-              @click.stop="goToDrivers(props.item.id)"
+          </ActionCell>
+          <ActionCell :item-type="policies.itemsTypes.drivers"
+                      :intention="policies.intentions.get"
+                      class="text-xs-right"
+                      @activate="goToDrivers(props.item.id)"
+
           >
             {{ props.item.drivers_count }}
-          </td>
-          <td class="action-cell text-xs-right"
-              @click.stop="goToRoutes(props.item.id)"
+          </ActionCell>
+          <ActionCell :item-type="policies.itemsTypes.routes"
+                      :intention="policies.intentions.get"
+                      class="text-xs-right"
+                      @activate="goToRoutes(props.item.id)"
+
           >
             {{ props.item.routes_count }}
-          </td>
-          <td class="action-cell text-xs-right"
-              @click.stop="goToUsers(props.item.id)"
+          </ActionCell>
+          <ActionCell :item-type="policies.itemsTypes.users"
+                      :intention="policies.intentions.get"
+                      class="text-xs-right"
+                      @activate="goToUsers(props.item.id)"
+
           >
             {{ props.item.users_count }}
-          </td>
+          </ActionCell>
           <td class="px-0">
             <div class="cell-buttons">
-              <v-btn flat
+              <v-btn v-show="policies.updatingAllowed(policies.itemsTypes.companies)"
+                     flat
                      icon
                      class="mx-0"
                      @click.stop="openModalForm(props.item)"
               >
                 <v-icon>edit</v-icon>
               </v-btn>
-              <v-btn :title="$t('routeSheet.name')"
+              <v-btn v-show="policies.listRetrievingAllowed(policies.itemsTypes.routeSheets)"
+                     :title="$t('routeSheet.name')"
                      flat
                      icon
                      class="mx-0"
@@ -104,7 +120,8 @@
               >
                 <v-icon>today</v-icon>
               </v-btn>
-              <v-btn flat
+              <v-btn v-show="policies.deletionAllowed(policies.itemsTypes.companies)"
+                     flat
                      icon
                      class="mx-0"
                      @click.stop="deleteItem(props.item)"
@@ -133,6 +150,8 @@ import CompaniesService from '../../services/CompaniesService';
 import CompanyForm from '../../views/forms/CompanyForm';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
+import ActionCell from './components/ActionCell';
+import PoliciesService from '../../services/PoliciesService';
 
 // Table headers
 const headers = [
@@ -163,6 +182,7 @@ headers.push({
 export default {
   name:       'Companies',
   components: {
+    ActionCell,
     CompanyForm,
   },
   mixins: [ CRUDTableMixin, SimpleTableMixin ],
@@ -171,7 +191,7 @@ export default {
       headers,
       search:               null,
       service:              CompaniesService,
-      itemType:             'company',
+      itemType:             PoliciesService.itemsTypes.companies,
       itemStringIdentifier: 'name',
     };
   },
