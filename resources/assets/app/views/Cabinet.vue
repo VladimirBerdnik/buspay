@@ -28,7 +28,7 @@
 
       <v-list dense>
         <template v-for="(menuItem, itemType) in menuItems">
-          <v-list-tile v-if="policies.listRetrievingAllowed(itemType)"
+          <v-list-tile v-if="policies.canSeeList(itemType)"
                        :key="itemType"
                        :to="menuItem.to"
                        :title="$t(`layout.drawer.${itemType}`)"
@@ -130,7 +130,7 @@ export default {
       return;
     }
     Object.keys(cabinetPreparationSteps).forEach(async step => {
-      if (!this.policies.listRetrievingAllowed(step)) {
+      if (!this.policies.canSeeList(step)) {
         return;
       }
       this.$set(this.steps, step, cabinetPreparationSteps[step]);

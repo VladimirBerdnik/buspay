@@ -16,7 +16,7 @@
           single-line
           clearable
         />
-        <v-btn v-show="policies.creationAllowed(policies.itemsTypes.companies)"
+        <v-btn v-show="policies.canCreate(policies.itemsTypes.companies)"
                color="primary"
                @click="openModalForm({})"
         >
@@ -103,7 +103,7 @@
           </ActionCell>
           <td class="px-0">
             <div class="cell-buttons">
-              <v-btn v-show="policies.updatingAllowed(policies.itemsTypes.companies)"
+              <v-btn v-show="policies.canUpdate(policies.itemsTypes.companies)"
                      flat
                      icon
                      class="mx-0"
@@ -111,7 +111,7 @@
               >
                 <v-icon>edit</v-icon>
               </v-btn>
-              <v-btn v-show="policies.listRetrievingAllowed(policies.itemsTypes.routeSheets)"
+              <v-btn v-show="policies.canSeeList(policies.itemsTypes.routeSheets)"
                      :title="$t('routeSheet.name')"
                      flat
                      icon
@@ -120,7 +120,7 @@
               >
                 <v-icon>today</v-icon>
               </v-btn>
-              <v-btn v-show="policies.deletionAllowed(policies.itemsTypes.companies)"
+              <v-btn v-show="policies.canDelete(policies.itemsTypes.companies)"
                      flat
                      icon
                      class="mx-0"

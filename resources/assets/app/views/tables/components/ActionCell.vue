@@ -25,7 +25,7 @@ export default {
      * @return {boolean}
      */
     intentionAllowed() {
-      return this.policies.actionAllowed(this.itemType, this.intention);
+      return this.policies.can(this.itemType, this.intention);
     },
     /**
      * Style classes of component.

@@ -19,7 +19,7 @@ export default {
   // Entity specific intentions
 
   /** Update assigned to bus default route */
-  updateBusToRouteAssignment:  'updateBusToRouteAssignment',
+  changeBusRoute:  'changeBusRoute',
   /** Update assigned to driver default bus */
-  updateDriverToBusAssignment: 'updateDriverToBusAssignment',
+  changeDriverBus: 'changeDriverBus',
 };

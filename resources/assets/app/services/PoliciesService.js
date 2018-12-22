@@ -18,7 +18,7 @@ export default {
    *
    * @return {boolean}
    */
-  actionAllowed(itemType, intention) {
+  can(itemType, intention) {
     const user = ProfileService.get();
 
     // Admin can do anything
@@ -47,8 +47,8 @@ export default {
    *
    * @return {boolean}
    */
-  seeingAllowed(itemType) {
-    return this.actionAllowed(itemType, intentions.show);
+  canSeeItem(itemType) {
+    return this.can(itemType, intentions.show);
   },
   /**
    * Returns whether get intention is allowed for given entity type or not.
@@ -57,8 +57,8 @@ export default {
    *
    * @return {boolean}
    */
-  listRetrievingAllowed(itemType) {
-    return this.actionAllowed(itemType, intentions.get);
+  canSeeList(itemType) {
+    return this.can(itemType, intentions.get);
   },
   /**
    * Returns whether create intention is allowed for given entity type or not.
@@ -67,8 +67,8 @@ export default {
    *
    * @return {boolean}
    */
-  creationAllowed(itemType) {
-    return this.actionAllowed(itemType, intentions.create);
+  canCreate(itemType) {
+    return this.can(itemType, intentions.create);
   },
   /**
    * Returns whether update intention is allowed for given entity type or not.
@@ -77,8 +77,8 @@ export default {
    *
    * @return {boolean}
    */
-  updatingAllowed(itemType) {
-    return this.actionAllowed(itemType, intentions.update);
+  canUpdate(itemType) {
+    return this.can(itemType, intentions.update);
   },
   /**
    * Returns whether delete intention is allowed for given entity type or not.
@@ -87,7 +87,7 @@ export default {
    *
    * @return {boolean}
    */
-  deletionAllowed(itemType) {
-    return this.actionAllowed(itemType, intentions.delete);
+  canDelete(itemType) {
+    return this.can(itemType, intentions.delete);
   },
 };
