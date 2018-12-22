@@ -25,7 +25,8 @@
                      :company-id="filters.companyId"
                      @input="updateQueryParameters"
         />
-        <v-btn color="primary"
+        <v-btn v-show="policies.canCreate(policies.itemsTypes.buses)"
+               color="primary"
                @click="openModalForm({company_id: filters.companyId, route_id: filters.routeId})"
         >
           {{ $t('common.buttons.add') }}
@@ -67,30 +68,38 @@
           slot-scope="props"
         >
           <td>{{ props.item.id }}</td>
-          <td class="action-cell"
-              @click.stop="openModalForm(props.item)"
+          <ActionCell :item-type="policies.itemsTypes.buses"
+                      :intention="policies.intentions.show"
+                      @activate="openModalForm(props.item)"
+
           >
             {{ props.item.state_number }}
-          </td>
+          </ActionCell>
           <td>{{ props.item.model_name }}</td>
           <td>{{ props.item.company.name }}</td>
           <td>{{ props.item.route.name }}</td>
-          <td class="action-cell text-xs-right"
-              @click.stop="goToDrivers(props.item.id)"
+          <ActionCell :item-type="policies.itemsTypes.drivers"
+                      :intention="policies.intentions.get"
+                      class="text-xs-right"
+                      @activate="goToDrivers(props.item.id)"
+
           >
             {{ props.item.drivers_count }}
-          </td>
+          </ActionCell>
           <td class="text-xs-right">{{ props.item.validators_count }}</td>
           <td class="px-0">
             <div class="cell-buttons">
-              <v-btn flat
+              <v-btn v-show="policies.canUpdate(itemType)
+                     || policies.can(itemType, policies.intentions.changeBusRoute)"
+                     flat
                      icon
                      class="mx-0"
                      @click.stop="openModalForm(props.item)"
               >
                 <v-icon>edit</v-icon>
               </v-btn>
-              <v-btn flat
+              <v-btn v-show="policies.canDelete(itemType)"
+                     flat
                      icon
                      class="mx-0"
                      @click.stop="deleteItem(props.item)"
@@ -122,6 +131,8 @@ import RouteSelect from '../dropdowns/RouteSelect';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
+import PoliciesService from '../../services/PoliciesService';
+import ActionCell from './components/ActionCell';
 
 // Table headers
 const headers = [
@@ -150,6 +161,7 @@ headers.push({
 export default {
   name:       'Buses',
   components: {
+    ActionCell,
     RouteSelect,
     CompanySelect,
     BusForm,
@@ -164,7 +176,7 @@ export default {
         routeId:   null,
       },
       service:              BusesService,
-      itemType:             'bus',
+      itemType:             PoliciesService.itemsTypes.buses,
       itemStringIdentifier: 'state_number',
     };
   },

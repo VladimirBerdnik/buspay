@@ -25,6 +25,7 @@
                 :error-messages="errors.collect('model_name')"
                 :label="$t('bus.fields.model_name')"
                 :data-vv-as="$t('bus.fields.model_name')"
+                :readonly="!formEditable"
                 name="model_name"
                 type="text"
                 required
@@ -35,6 +36,7 @@
                 :error-messages="errors.collect('state_number')"
                 :label="$t('bus.fields.state_number')"
                 :data-vv-as="$t('bus.fields.state_number')"
+                :readonly="!formEditable"
                 name="state_number"
                 type="text"
                 required
@@ -44,6 +46,7 @@
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('bus.fields.company.name')"
                              :clearable="false"
+                             :readonly="!formEditable"
                              name="company_id"
               />
               <RouteSelect v-validate="''"
@@ -52,6 +55,7 @@
                            :company-id="item.company_id"
                            :error-messages="errors.collect('route_id')"
                            :data-vv-as="$t('bus.fields.route.name')"
+                           :readonly="!policies.can(itemType, policies.intentions.changeBusRoute)"
                            name="route_id"
               />
             </v-form>
@@ -67,7 +71,8 @@
               >
                 {{ $t('common.buttons.close') }}
               </v-btn>
-              <v-btn :loading="inProgress"
+              <v-btn v-if="formSubmittable"
+                     :loading="inProgress"
                      color="primary"
                      @click="save"
               >
@@ -82,6 +87,7 @@
 </template>
 
 <script>
+import PoliciesService from '../../services/PoliciesService';
 import BusesService from '../../services/BusesService';
 import FormValidationMixin from '../../mixins/FormValidationMixin';
 import CompanySelect from '../dropdowns/CompanySelect';
@@ -107,7 +113,9 @@ export default {
         company_id:   null,
         route_id:     null,
       },
-      service: BusesService,
+      itemType:          PoliciesService.itemsTypes.buses,
+      service:           BusesService,
+      partialIntentions: [PoliciesService.intentions.changeBusRoute],
     };
   },
 };
