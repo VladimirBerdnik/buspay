@@ -16,7 +16,7 @@
             <v-spacer/>
           </v-toolbar>
           <v-card-text>
-            <v-form @keyup.native.enter="!formEditable ? save : null">
+            <v-form @keyup.native.enter="save">
 
               <v-text-field
                 v-validate="'required'"
@@ -79,7 +79,7 @@
               >
                 {{ $t('common.buttons.close') }}
               </v-btn>
-              <v-btn v-if="formEditable"
+              <v-btn v-if="formSubmittable"
                      :loading="inProgress"
                      color="primary"
                      @click="save"
