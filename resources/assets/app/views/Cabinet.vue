@@ -27,11 +27,11 @@
       </v-list>
 
       <v-list dense>
-        <template v-for="(menuItem, entityType) in menuItems">
-          <v-list-tile v-if="policies.listRetrievingAllowed(entityType)"
-                       :key="entityType"
+        <template v-for="(menuItem, itemType) in menuItems">
+          <v-list-tile v-if="policies.listRetrievingAllowed(itemType)"
+                       :key="itemType"
                        :to="menuItem.to"
-                       :title="$t(`layout.drawer.${entityType}`)"
+                       :title="$t(`layout.drawer.${itemType}`)"
                        class="py-2"
           >
             <v-list-tile-action class="my-2">
@@ -43,7 +43,7 @@
             </v-list-tile-action>
             <v-list-tile-content class="my-2">
               <v-list-tile-title class="subheading">
-                {{ $t(`layout.drawer.${entityType}`) }}
+                {{ $t(`layout.drawer.${itemType}`) }}
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -58,7 +58,7 @@
 import AuthService from '../services/AuthService';
 import i18n from '../lang/i18n';
 import * as routes from '../router';
-import entitiesTypes from '../policies/entitiesTypes';
+import itemsTypes from '../policies/itemsTypes';
 import CompaniesService from '../services/CompaniesService';
 import RolesService from '../services/RolesService';
 import CardTypesService from '../services/CardTypesService';
@@ -72,15 +72,15 @@ import AlertsService from '../services/AlertsService';
 import TheSplashScreen from '../components/TheSplashScreen';
 
 const cabinetPreparationSteps = {
-  [entitiesTypes.roles]:        { text: i18n.t('layout.drawer.roles'), ready: false, service: RolesService },
-  [entitiesTypes.driversCards]: { text: i18n.t('layout.drawer.driversCards'), ready: false, service: DriversCardsService },
-  [entitiesTypes.companies]:    { text: i18n.t('layout.drawer.companies'), ready: false, service: CompaniesService },
-  [entitiesTypes.users]:        { text: i18n.t('layout.drawer.users'), ready: false, service: UsersService },
-  [entitiesTypes.routes]:       { text: i18n.t('layout.drawer.routes'), ready: false, service: RoutesService },
-  [entitiesTypes.buses]:        { text: i18n.t('layout.drawer.buses'), ready: false, service: BusesService },
-  [entitiesTypes.drivers]:      { text: i18n.t('layout.drawer.drivers'), ready: false, service: DriversService },
-  [entitiesTypes.validators]:   { text: i18n.t('layout.drawer.validators'), ready: false, service: ValidatorsService },
-  [entitiesTypes.cardTypes]:    { text: i18n.t('layout.drawer.cardTypes'), ready: false, service: CardTypesService },
+  [itemsTypes.roles]:        { text: i18n.t('layout.drawer.role'), ready: false, service: RolesService },
+  [itemsTypes.driversCards]: { text: i18n.t('layout.drawer.driverCard'), ready: false, service: DriversCardsService },
+  [itemsTypes.companies]:    { text: i18n.t('layout.drawer.company'), ready: false, service: CompaniesService },
+  [itemsTypes.users]:        { text: i18n.t('layout.drawer.user'), ready: false, service: UsersService },
+  [itemsTypes.routes]:       { text: i18n.t('layout.drawer.route'), ready: false, service: RoutesService },
+  [itemsTypes.buses]:        { text: i18n.t('layout.drawer.bus'), ready: false, service: BusesService },
+  [itemsTypes.drivers]:      { text: i18n.t('layout.drawer.driver'), ready: false, service: DriversService },
+  [itemsTypes.validators]:   { text: i18n.t('layout.drawer.validator'), ready: false, service: ValidatorsService },
+  [itemsTypes.cardTypes]:    { text: i18n.t('layout.drawer.cardType'), ready: false, service: CardTypesService },
 };
 
 export default {
@@ -89,16 +89,16 @@ export default {
   data:       () => ({
     mini:      true,
     menuItems: {
-      [entitiesTypes.companies]:   { icon: 'business', to: { name: routes.ROUTE_COMPANIES } },
-      [entitiesTypes.users]:       { icon: 'supervisor_account', to: { name: routes.ROUTE_USERS } },
-      [entitiesTypes.routes]:      { icon: 'map', to: { name: routes.ROUTE_ROUTES } },
-      [entitiesTypes.buses]:       { icon: 'directions_bus', to: { name: routes.ROUTE_BUSES } },
-      [entitiesTypes.drivers]:     { icon: 'recent_actors', to: { name: routes.ROUTE_DRIVERS } },
-      [entitiesTypes.validators]:  { icon: 'nfc', to: { name: routes.ROUTE_VALIDATORS } },
-      [entitiesTypes.tariffs]:     { icon: 'attach_money', to: { name: routes.ROUTE_TARIFFS } },
-      [entitiesTypes.cardTypes]:   { icon: 'style', to: { name: routes.ROUTE_CARD_TYPES } },
-      [entitiesTypes.cards]:       { icon: 'credit_card', to: { name: routes.ROUTE_CARDS } },
-      [entitiesTypes.routeSheets]: { icon: 'today', to: { name: routes.ROUTE_ROUTE_SHEETS } },
+      [itemsTypes.companies]:   { icon: 'business', to: { name: routes.ROUTE_COMPANIES } },
+      [itemsTypes.users]:       { icon: 'supervisor_account', to: { name: routes.ROUTE_USERS } },
+      [itemsTypes.routes]:      { icon: 'map', to: { name: routes.ROUTE_ROUTES } },
+      [itemsTypes.buses]:       { icon: 'directions_bus', to: { name: routes.ROUTE_BUSES } },
+      [itemsTypes.drivers]:     { icon: 'recent_actors', to: { name: routes.ROUTE_DRIVERS } },
+      [itemsTypes.validators]:  { icon: 'nfc', to: { name: routes.ROUTE_VALIDATORS } },
+      [itemsTypes.tariffs]:     { icon: 'attach_money', to: { name: routes.ROUTE_TARIFFS } },
+      [itemsTypes.cardTypes]:   { icon: 'style', to: { name: routes.ROUTE_CARD_TYPES } },
+      [itemsTypes.cards]:       { icon: 'credit_card', to: { name: routes.ROUTE_CARDS } },
+      [itemsTypes.routeSheets]: { icon: 'today', to: { name: routes.ROUTE_ROUTE_SHEETS } },
     },
     steps: {},
   }),
