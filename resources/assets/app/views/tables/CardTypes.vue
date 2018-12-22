@@ -17,7 +17,8 @@
     >
       <td>{{ props.item.id }}</td>
       <td>{{ props.item.name }}</td>
-      <td class="action-cell text-xs-right"
+      <td v-if="policies.canSeeList(policies.itemsTypes.cards)"
+          class="action-cell text-xs-right"
           @click.stop="goToCards(props.item.id)"
       >
         {{ props.item.cards_count }}
@@ -30,6 +31,7 @@
 <script>
 import * as routes from '../../router';
 import i18n from '../../lang/i18n';
+import PoliciesService from '../../services/PoliciesService';
 import CardTypesService from '../../services/CardTypesService';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 
@@ -37,8 +39,11 @@ import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 const headers = [
   { value: 'id' },
   { value: 'name' },
-  { value: 'cards_count' },
 ];
+
+if (PoliciesService.canSeeList(PoliciesService.itemsTypes.cards)) {
+  headers.push({ value: 'cards_count' });
+}
 
 // Table headers translates
 Object.values(headers).forEach((header, key) => {
@@ -66,7 +71,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-</style>
