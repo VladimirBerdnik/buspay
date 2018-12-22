@@ -13,10 +13,11 @@ export default {
   },
   data() {
     return {
-      item:       {},
-      service:    null,
-      inProgress: false,
-      itemType:   null,
+      item:              {},
+      service:           null,
+      inProgress:        false,
+      itemType:          null,
+      partialIntentions: [],
     };
   },
   watch: {
@@ -40,8 +41,23 @@ export default {
      */
     formEditable() {
       return this.itemExists
-        ? this.policies.updatingAllowed(this.itemType)
-        : this.policies.creationAllowed(this.itemType);
+        ? this.policies.canUpdate(this.itemType)
+        : this.policies.canCreate(this.itemType);
+    },
+    /**
+     * Determines whether form can be submitted or not.
+     *
+     * @return {boolean}
+     */
+    formSubmittable() {
+      const partialIntentionsAllowed = Object.values(this.partialIntentions)
+        .some(intention => this.policies.can(this.itemType, intention));
+
+      if (partialIntentionsAllowed) {
+        return true;
+      }
+
+      return this.formEditable;
     },
   },
   mounted() {
@@ -52,6 +68,10 @@ export default {
      * Performs save request.
      */
     async save() {
+      if (!this.formSubmittable) {
+        return;
+      }
+
       if (this.inProgress) {
         return;
       }
