@@ -16,7 +16,7 @@
       v-model="dateFormatted"
       :label="label"
       :error-messages="errorMessages"
-      :clearable="clearable"
+      :clearable="!readonly && clearable"
       :hint="timeAsHint ? time : ''"
       persistent-hint
       append-icon="event"

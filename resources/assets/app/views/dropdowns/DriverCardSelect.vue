@@ -2,14 +2,14 @@
   <v-autocomplete v-model="itemId"
                   :items="items"
                   :label="$t('card.name')"
-                  :clearable="clearable"
+                  :clearable="!readonly && clearable"
                   :readonly="readonly"
                   :error-messages="errorMessages"
                   :item-text="itemText"
                   :item-value="itemValue"
                   :loading="loading"
+                  :append-outer-icon="!readonly ? 'cached' : null"
                   persistent-hint
-                  append-outer-icon="cached"
                   @click:append-outer="reloadItems"
   />
 </template>

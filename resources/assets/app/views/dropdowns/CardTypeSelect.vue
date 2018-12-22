@@ -2,7 +2,7 @@
   <v-select v-model="itemId"
             :items="items"
             :label="$t('cardType.name')"
-            :clearable="clearable"
+            :clearable="!readonly && clearable"
             :readonly="readonly"
             :error-messages="errorMessages"
             :item-text="itemText"

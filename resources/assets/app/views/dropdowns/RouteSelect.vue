@@ -2,13 +2,13 @@
   <v-select v-model="itemId"
             :items="items"
             :label="$t('route.name')"
-            :clearable="clearable"
+            :clearable="!readonly && clearable"
             :readonly="readonly"
             :error-messages="errorMessages"
             :item-text="itemText"
             :item-value="itemValue"
+            :append-outer-icon="!readonly ? 'cached' : null"
             :loading="loading"
-            append-outer-icon="cached"
             @click:append-outer="reloadItems"
   />
 </template>
