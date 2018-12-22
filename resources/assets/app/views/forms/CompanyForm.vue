@@ -16,7 +16,7 @@
             <v-spacer/>
           </v-toolbar>
           <v-card-text>
-            <v-form @keyup.native.enter="save">
+            <v-form @keyup.native.enter="!formEditable ? save : null">
 
               <v-text-field
                 v-validate="'required'"
@@ -24,6 +24,7 @@
                 :error-messages="errors.collect('name')"
                 :label="$t('company.fields.name')"
                 :data-vv-as="$t('company.fields.name')"
+                :readonly="!formEditable"
                 name="name"
                 type="text"
                 required
@@ -35,6 +36,7 @@
                 :error-messages="errors.collect('bin')"
                 :label="$t('company.fields.bin')"
                 :data-vv-as="$t('company.fields.bin')"
+                :readonly="!formEditable"
                 name="bin"
                 type="text"
                 required
@@ -46,6 +48,7 @@
                 :error-messages="errors.collect('account_number')"
                 :label="$t('company.fields.account_number')"
                 :data-vv-as="$t('company.fields.account_number')"
+                :readonly="!formEditable"
                 name="account_number"
                 type="text"
                 required
@@ -57,6 +60,7 @@
                 :error-messages="errors.collect('contact_information')"
                 :label="$t('company.fields.contact_information')"
                 :data-vv-as="$t('company.fields.contact_information')"
+                :readonly="!formEditable"
                 name="contact_information"
                 type="text"
                 required
@@ -75,7 +79,8 @@
               >
                 {{ $t('common.buttons.close') }}
               </v-btn>
-              <v-btn :loading="inProgress"
+              <v-btn v-if="formEditable"
+                     :loading="inProgress"
                      color="primary"
                      @click="save"
               >
@@ -94,6 +99,7 @@ import CompaniesService from '../../services/CompaniesService';
 import FormValidationMixin from '../../mixins/FormValidationMixin';
 import ModalFormMixin from '../../mixins/ModalFormMixin';
 import EntityFormMixin from '../../mixins/EntityFormMixin';
+import PoliciesService from '../../services/PoliciesService';
 
 export default {
   name:   'CompanyForm',
@@ -111,7 +117,8 @@ export default {
         account_number:      null,
         contact_information: null,
       },
-      service: CompaniesService,
+      service:  CompaniesService,
+      itemType: PoliciesService.itemsTypes.buses,
     };
   },
 };
