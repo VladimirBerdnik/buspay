@@ -16,6 +16,7 @@ export default {
       item:       {},
       service:    null,
       inProgress: false,
+      itemType:   null,
     };
   },
   watch: {
@@ -31,6 +32,16 @@ export default {
      */
     itemExists() {
       return Boolean(this.item.id);
+    },
+    /**
+     * Returns whether form components editable or not.
+     *
+     * @return {boolean}
+     */
+    formEditable() {
+      return this.itemExists
+        ? this.policies.updatingAllowed(this.itemType)
+        : this.policies.creationAllowed(this.itemType);
     },
   },
   mounted() {
