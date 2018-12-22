@@ -16,7 +16,7 @@
           single-line
           clearable
         />
-        <v-btn v-show="policies.canCreate(policies.itemsTypes.companies)"
+        <v-btn v-show="policies.canCreate(itemType)"
                color="primary"
                @click="openModalForm({})"
         >
@@ -59,7 +59,7 @@
           slot-scope="props"
         >
           <td>{{ props.item.id }}</td>
-          <ActionCell :item-type="policies.itemsTypes.companies"
+          <ActionCell :item-type="itemType"
                       :intention="policies.intentions.show"
                       @activate="openModalForm(props.item)"
 
@@ -103,7 +103,7 @@
           </ActionCell>
           <td class="px-0">
             <div class="cell-buttons">
-              <v-btn v-show="policies.canUpdate(policies.itemsTypes.companies)"
+              <v-btn v-show="policies.canUpdate(itemType)"
                      flat
                      icon
                      class="mx-0"
@@ -120,7 +120,7 @@
               >
                 <v-icon>today</v-icon>
               </v-btn>
-              <v-btn v-show="policies.canDelete(policies.itemsTypes.companies)"
+              <v-btn v-show="policies.canDelete(itemType)"
                      flat
                      icon
                      class="mx-0"

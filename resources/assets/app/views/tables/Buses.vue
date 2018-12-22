@@ -25,7 +25,7 @@
                      :company-id="filters.companyId"
                      @input="updateQueryParameters"
         />
-        <v-btn v-show="policies.canCreate(policies.itemsTypes.buses)"
+        <v-btn v-show="policies.canCreate(itemType)"
                color="primary"
                @click="openModalForm({company_id: filters.companyId, route_id: filters.routeId})"
         >
@@ -68,7 +68,7 @@
           slot-scope="props"
         >
           <td>{{ props.item.id }}</td>
-          <ActionCell :item-type="policies.itemsTypes.buses"
+          <ActionCell :item-type="itemType"
                       :intention="policies.intentions.show"
                       @activate="openModalForm(props.item)"
 
