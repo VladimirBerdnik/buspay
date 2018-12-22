@@ -20,7 +20,8 @@
         <CompanySelect v-model="filters.companyId"
                        @input="updateQueryParameters"
         />
-        <v-btn color="primary"
+        <v-btn v-show="policies.canCreate(itemType)"
+               color="primary"
                @click="openModalForm({company_id: filters.companyId})"
         >
           {{ $t('common.buttons.add') }}
@@ -63,27 +64,33 @@
           slot-scope="props"
         >
           <td>{{ props.item.id }}</td>
-          <td class="action-cell"
-              @click.stop="openModalForm(props.item)"
+          <ActionCell :item-type="itemType"
+                      :intention="policies.intentions.show"
+                      @activate="openModalForm(props.item)"
+
           >
             {{ props.item.name }}
-          </td>
+          </ActionCell>
           <td>{{ props.item.company.name }}</td>
-          <td class="action-cell text-xs-right"
-              @click.stop="goToBuses(props.item.id)"
+          <ActionCell :item-type="policies.itemsTypes.buses"
+                      :intention="policies.intentions.get"
+                      @activate="goToBuses(props.item.id)"
+
           >
             {{ props.item.buses_count }}
-          </td>
+          </ActionCell>
           <td class="px-0">
             <div class="cell-buttons">
-              <v-btn flat
+              <v-btn v-show="policies.canUpdate(itemType)"
+                     flat
                      icon
                      class="mx-0"
                      @click.stop="openModalForm(props.item)"
               >
                 <v-icon>edit</v-icon>
               </v-btn>
-              <v-btn flat
+              <v-btn v-show="policies.canDelete(itemType)"
+                     flat
                      icon
                      class="mx-0"
                      @click.stop="deleteItem(props.item)"
@@ -114,6 +121,8 @@ import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import * as routes from '../../router';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
+import PoliciesService from '../../services/PoliciesService';
+import ActionCell from './components/ActionCell';
 
 // Table headers
 const headers = [
@@ -139,6 +148,7 @@ headers.push({
 export default {
   name:       'Routes',
   components: {
+    ActionCell,
     CompanySelect,
     RouteForm,
   },
@@ -147,7 +157,7 @@ export default {
     return {
       headers,
       service:              RoutesService,
-      itemType:             'route',
+      itemType:             PoliciesService.itemsTypes.routes,
       itemStringIdentifier: 'name',
       search:               null,
       filters:              {

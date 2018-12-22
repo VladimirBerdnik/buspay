@@ -26,6 +26,7 @@
                 :error-messages="errors.collect('name')"
                 :label="$t('route.fields.name')"
                 :data-vv-as="$t('route.fields.name')"
+                :readonly="!formEditable"
                 name="name"
                 type="text"
                 required
@@ -34,6 +35,7 @@
                              v-model="item.company_id"
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('route.fields.company.name')"
+                             :readonly="!formEditable"
                              name="company_id"
                              @input="validateField('company_id')"
               />
@@ -50,7 +52,8 @@
               >
                 {{ $t('common.buttons.close') }}
               </v-btn>
-              <v-btn :loading="inProgress"
+              <v-btn v-if="formSubmittable"
+                     :loading="inProgress"
                      color="primary"
                      @click="save"
               >
