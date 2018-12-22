@@ -25,6 +25,7 @@
                 :error-messages="errors.collect('full_name')"
                 :label="$t('driver.fields.full_name')"
                 :data-vv-as="$t('driver.fields.full_name')"
+                :readonly="!formEditable"
                 name="full_name"
                 type="text"
                 required
@@ -34,7 +35,7 @@
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('driver.fields.company.name')"
                              :clearable="false"
-                             :readonly="!!item.id"
+                             :readonly="Boolean(item.id) || !formEditable"
                              name="company_id"
               />
               <BusSelect v-validate="''"
@@ -43,12 +44,15 @@
                          :company-id="item.company_id"
                          :error-messages="errors.collect('bus_id')"
                          :data-vv-as="$t('driver.fields.bus.state_number')"
+                         :readonly="!policies.can(itemType, policies.intentions.changeDriverBus)"
                          name="bus_id"
               />
               <DriverCardSelect v-validate="''"
                                 v-model="item.card_id"
                                 :error-messages="errors.collect('card_id')"
                                 :data-vv-as="$t('driver.fields.card.card_number')"
+                                :fallback-item="item.card"
+                                :readonly="!formEditable"
                                 name="card_id"
               />
             </v-form>
@@ -64,7 +68,8 @@
               >
                 {{ $t('common.buttons.close') }}
               </v-btn>
-              <v-btn :loading="inProgress"
+              <v-btn v-if="formSubmittable"
+                     :loading="inProgress"
                      color="primary"
                      @click="save"
               >
@@ -86,6 +91,7 @@ import ModalFormMixin from '../../mixins/ModalFormMixin';
 import BusSelect from '../dropdowns/BusSelect';
 import DriverCardSelect from '../dropdowns/DriverCardSelect';
 import EntityFormMixin from '../../mixins/EntityFormMixin';
+import PoliciesService from '../../services/PoliciesService';
 
 export default {
   name:       'DriverForm',
@@ -105,7 +111,9 @@ export default {
         company_id: null,
         bus_id:     null,
       },
-      service: DriversService,
+      service:           DriversService,
+      itemType:          PoliciesService.itemsTypes.drivers,
+      partialIntentions: [PoliciesService.intentions.changeBusRoute],
     };
   },
 };

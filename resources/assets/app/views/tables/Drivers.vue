@@ -25,7 +25,8 @@
                    :company-id="filters.companyId"
                    @input="updateQueryParameters"
         />
-        <v-btn color="primary"
+        <v-btn v-show="policies.canCreate(itemType)"
+               color="primary"
                @click="openModalForm({company_id: filters.companyId, bus_id: filters.busId})"
         >
           {{ $t('common.buttons.add') }}
@@ -67,24 +68,29 @@
           slot-scope="props"
         >
           <td>{{ props.item.id }}</td>
-          <td class="action-cell"
-              @click.stop="openModalForm(props.item)"
+          <ActionCell :item-type="itemType"
+                      :intention="policies.intentions.show"
+                      @activate="openModalForm(props.item)"
+
           >
             {{ props.item.full_name }}
-          </td>
+          </ActionCell>
           <td>{{ props.item.company.name }}</td>
           <td>{{ props.item.bus.state_number }}</td>
           <td>{{ props.item.card.card_number }}</td>
           <td class="px-0">
             <div class="cell-buttons">
-              <v-btn flat
+              <v-btn v-show="policies.canUpdate(itemType)
+                     || policies.can(itemType, policies.intentions.changeDriverBus)"
+                     flat
                      icon
                      class="mx-0"
                      @click.stop="openModalForm(props.item)"
               >
                 <v-icon>edit</v-icon>
               </v-btn>
-              <v-btn flat
+              <v-btn v-show="policies.canDelete(itemType)"
+                     flat
                      icon
                      class="mx-0"
                      @click.stop="deleteItem(props.item)"
@@ -115,6 +121,8 @@ import BusSelect from '../dropdowns/BusSelect';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
+import PoliciesService from '../../services/PoliciesService';
+import ActionCell from './components/ActionCell';
 
 // Table headers
 const headers = [
@@ -141,6 +149,7 @@ headers.push({
 export default {
   name:       'Drivers',
   components: {
+    ActionCell,
     CompanySelect,
     BusSelect,
     DriverForm,
@@ -150,7 +159,7 @@ export default {
     return {
       headers,
       service:              DriversService,
-      itemType:             'driver',
+      itemType:             PoliciesService.itemsTypes.drivers,
       itemStringIdentifier: 'full_name',
       search:               null,
       filters:              {
