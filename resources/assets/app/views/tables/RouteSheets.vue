@@ -44,7 +44,8 @@
       </v-layout>
       <v-layout row>
         <v-spacer/>
-        <v-btn color="primary"
+        <v-btn v-if="policies.canCreate(itemType)"
+               color="primary"
                @click="openModalForm({
                  company_id: filters.companyId,
                  route_id: filters.routeId,
@@ -91,7 +92,13 @@
       <template slot="items"
                 slot-scope="props"
       >
-        <td>{{ props.item.id }}</td>
+        <ActionCell :item-type="itemType"
+                    :intention="policies.intentions.show"
+                    @activate="openModalForm(props.item)"
+
+        >
+          {{ props.item.id }}
+        </ActionCell>
         <td>{{ props.item.company.name }}</td>
         <td>{{ props.item.route.name }}</td>
         <td>{{ props.item.bus.state_number }}</td>
@@ -100,14 +107,16 @@
         <td>{{ props.item.active_to | fullTimeStamp }}</td>
         <td class="px-0">
           <div class="cell-buttons">
-            <v-btn flat
+            <v-btn v-show="policies.canUpdate(policies.itemsTypes.routeSheets)"
+                   flat
                    icon
                    class="mx-0"
                    @click.stop="openModalForm(props.item)"
             >
               <v-icon>edit</v-icon>
             </v-btn>
-            <v-btn flat
+            <v-btn v-show="policies.canDelete(policies.itemsTypes.routeSheets)"
+                   flat
                    icon
                    class="mx-0"
                    @click.stop="deleteItem(props.item)"
@@ -148,6 +157,8 @@ import DriverSelect from '../dropdowns/DriverSelect';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import RouteSheetForm from '../forms/RouteSheetForm';
 import DateSelect from '../dropdowns/DateSelect';
+import PoliciesService from '../../services/PoliciesService';
+import ActionCell from './components/ActionCell';
 
 // Table headers
 const headers = [
@@ -175,6 +186,7 @@ headers.push({
 export default {
   name:       'RouteSheets',
   components: {
+    ActionCell,
     DateSelect,
     RouteSheetForm,
     DriverSelect,
@@ -194,7 +206,7 @@ export default {
         driverId:  null,
         busId:     null,
       },
-      itemType:             'routeSheet',
+      itemType:             PoliciesService.itemsTypes.routeSheets,
       itemStringIdentifier: 'id',
     };
   },

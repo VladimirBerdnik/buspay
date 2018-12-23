@@ -21,7 +21,7 @@
             >
               <CompanySelect v-validate="'required'"
                              v-model="item.company_id"
-                             :readonly="itemExists"
+                             :readonly="itemExists || !formEditable"
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('routeSheet.fields.company.name')"
                              :clearable="false"
@@ -32,6 +32,7 @@
                            :company-id="item.company_id"
                            :error-messages="errors.collect('route_id')"
                            :data-vv-as="$t('routeSheet.fields.route.name')"
+                           :readonly="!formEditable"
                            name="route_id"
               />
               <BusSelect v-validate="'required'"
@@ -39,6 +40,7 @@
                          :company-id="item.company_id"
                          :error-messages="errors.collect('bus_id')"
                          :data-vv-as="$t('routeSheet.fields.bus.state_number')"
+                         :readonly="!formEditable"
                          name="bus_id"
               />
               <DriverSelect v-validate="''"
@@ -46,6 +48,7 @@
                             :company-id="item.company_id"
                             :error-messages="errors.collect('driver_id')"
                             :data-vv-as="$t('routeSheet.fields.driver.full_name')"
+                            :readonly="!formEditable"
                             name="driver_id"
               />
               <v-layout row>
@@ -55,6 +58,7 @@
                               :label="$t('routeSheet.fields.active_from')"
                               :error-messages="errors.collect('active_from')"
                               :data-vv-as="$t('routeSheet.fields.active_from')"
+                              :readonly="!formEditable"
                               name="active_from"
                   />
                 </v-flex>
@@ -63,7 +67,7 @@
                 >
                   <v-text-field v-validate="'required'"
                                 v-model="active_from_time"
-                                :readonly="!Boolean(item.active_from)"
+                                :readonly="!Boolean(item.active_from) || !formEditable"
                                 :error-messages="errors.collect('active_from_time')"
                                 :data-vv-as="$t('routeSheet.fields.active_from')"
                                 append-icon="access_time"
@@ -82,6 +86,7 @@
                               :error-messages="errors.collect('active_to')"
                               :data-vv-as="$t('routeSheet.fields.active_to')"
                               :clearable="true"
+                              :readonly="!formEditable"
                               name="active_to"
                   />
                 </v-flex>
@@ -90,7 +95,7 @@
                 >
                   <v-text-field v-validate="'required'"
                                 v-model="active_to_time"
-                                :readonly="!Boolean(item.active_to)"
+                                :readonly="!Boolean(item.active_to) || !formEditable"
                                 :error-messages="errors.collect('active_to_time')"
                                 :data-vv-as="$t('routeSheet.fields.active_to')"
                                 append-icon="access_time"
@@ -114,7 +119,8 @@
               >
                 {{ $t('common.buttons.close') }}
               </v-btn>
-              <v-btn :loading="inProgress"
+              <v-btn v-if="formSubmittable"
+                     :loading="inProgress"
                      color="primary"
                      @click="save"
               >
