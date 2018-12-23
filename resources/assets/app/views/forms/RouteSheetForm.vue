@@ -146,6 +146,7 @@ import EntityFormMixin from '../../mixins/EntityFormMixin';
 import BusSelect from '../dropdowns/BusSelect';
 import DriverSelect from '../dropdowns/DriverSelect';
 import DateSelect from '../dropdowns/DateSelect';
+import PoliciesService from '../../services/PoliciesService';
 
 export default {
   name:       'RouteSheetForm',
@@ -176,7 +177,8 @@ export default {
         active_from: null,
         active_to:   null,
       },
-      service: RouteSheetsService,
+      service:  RouteSheetsService,
+      itemType: PoliciesService.itemsTypes.routeSheets,
     };
   },
   watch: {

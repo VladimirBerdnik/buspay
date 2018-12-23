@@ -74,6 +74,7 @@ import ModalFormMixin from '../../mixins/ModalFormMixin';
 import BusSelect from '../dropdowns/BusSelect';
 import EntityFormMixin from '../../mixins/EntityFormMixin';
 import ValidatorsService from '../../services/ValidatorsService';
+import PoliciesService from '../../services/PoliciesService';
 
 export default {
   name:       'ValidatorForm',
@@ -93,7 +94,8 @@ export default {
         model:         null,
         bus_id:        null,
       },
-      service: ValidatorsService,
+      service:  ValidatorsService,
+      itemType: PoliciesService.itemsTypes.validators,
     };
   },
 };

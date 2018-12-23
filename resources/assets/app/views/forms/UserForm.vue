@@ -123,6 +123,7 @@ import CompanySelect from '../dropdowns/CompanySelect';
 import RoleSelect from '../dropdowns/RoleSelect';
 import ModalFormMixin from '../../mixins/ModalFormMixin';
 import EntityFormMixin from '../../mixins/EntityFormMixin';
+import PoliciesService from '../../services/PoliciesService';
 
 export default {
   name:       'UserForm',
@@ -144,7 +145,8 @@ export default {
         role_id:    null,
         company_id: null,
       },
-      service: UsersService,
+      service:  UsersService,
+      itemType: PoliciesService.itemsTypes.users,
     };
   },
   computed: {

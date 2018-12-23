@@ -73,6 +73,7 @@ import FormValidationMixin from '../../mixins/FormValidationMixin';
 import CompanySelect from '../dropdowns/CompanySelect';
 import ModalFormMixin from '../../mixins/ModalFormMixin';
 import EntityFormMixin from '../../mixins/EntityFormMixin';
+import PoliciesService from '../../services/PoliciesService';
 
 export default {
   name:       'RouteForm',
@@ -89,7 +90,8 @@ export default {
         name:       null,
         company_id: null,
       },
-      service: RoutesService,
+      service:  RoutesService,
+      itemType: PoliciesService.itemsTypes.routes,
     };
   },
 };
