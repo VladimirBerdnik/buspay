@@ -17,12 +17,14 @@
     >
       <td>{{ props.item.id }}</td>
       <td>{{ props.item.name }}</td>
-      <td v-if="policies.canSeeList(policies.itemsTypes.cards)"
-          class="action-cell text-xs-right"
-          @click.stop="goToCards(props.item.id)"
+      <ActionCell :item-type="policies.itemsTypes.cards"
+                  :intention="policies.intentions.get"
+                  class="text-xs-right"
+                  @activate="goToCards(props.item.id)"
+
       >
         {{ props.item.cards_count }}
-      </td>
+      </ActionCell>
     </template>
 
   </v-data-table>
@@ -31,19 +33,16 @@
 <script>
 import * as routes from '../../router';
 import i18n from '../../lang/i18n';
-import PoliciesService from '../../services/PoliciesService';
 import CardTypesService from '../../services/CardTypesService';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
+import ActionCell from './components/ActionCell';
 
 // Table headers
 const headers = [
   { value: 'id' },
   { value: 'name' },
+  { value: 'cards_count' },
 ];
-
-if (PoliciesService.canSeeList(PoliciesService.itemsTypes.cards)) {
-  headers.push({ value: 'cards_count' });
-}
 
 // Table headers translates
 Object.values(headers).forEach((header, key) => {
@@ -51,8 +50,9 @@ Object.values(headers).forEach((header, key) => {
 });
 
 export default {
-  name:   'CardTypes',
-  mixins: [SimpleTableMixin],
+  name:       'CardTypes',
+  components: { ActionCell },
+  mixins:     [SimpleTableMixin],
   data() {
     return {
       headers,

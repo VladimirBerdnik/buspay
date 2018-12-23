@@ -62,7 +62,8 @@
           <td>{{ props.item.bus.state_number }}</td>
           <td class="px-0">
             <div class="cell-buttons">
-              <v-btn flat
+              <v-btn v-show="policies.canUpdate(policies.itemsTypes.validators)"
+                     flat
                      icon
                      class="mx-0"
                      @click.stop="openModalForm(props.item)"
@@ -90,6 +91,7 @@ import ValidatorsService from '../../services/ValidatorsService';
 import ValidatorForm from '../../views/forms/ValidatorForm';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
+import PoliciesService from '../../services/PoliciesService';
 
 // Table headers
 const headers = [
@@ -123,7 +125,7 @@ export default {
       headers,
       search:               null,
       service:              ValidatorsService,
-      itemType:             'validator',
+      itemType:             PoliciesService.itemsTypes.validators,
       itemStringIdentifier: 'serial_number',
     };
   },
