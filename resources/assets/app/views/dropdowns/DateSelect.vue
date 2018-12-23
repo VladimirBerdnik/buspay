@@ -17,12 +17,14 @@
       :label="label"
       :error-messages="errorMessages"
       :clearable="!readonly && clearable"
+      :readonly="readonly"
       :hint="timeAsHint ? time : ''"
       persistent-hint
       append-icon="event"
       @input="parseInput"
     />
     <v-date-picker v-model="date"
+                   :readonly="readonly"
                    no-title
                    locale="ru-Ru"
                    first-day-of-week="1"
