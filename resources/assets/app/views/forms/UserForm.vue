@@ -26,6 +26,7 @@
                 :error-messages="errors.collect('first_name')"
                 :label="$t('user.fields.first_name')"
                 :data-vv-as="$t('user.fields.first_name')"
+                :readonly="!formEditable"
                 name="first_name"
                 type="text"
                 required
@@ -36,6 +37,7 @@
                 :error-messages="errors.collect('last_name')"
                 :label="$t('user.fields.last_name')"
                 :data-vv-as="$t('user.fields.last_name')"
+                :readonly="!formEditable"
                 name="last_name"
                 type="text"
                 required
@@ -46,6 +48,7 @@
                 :error-messages="errors.collect('email')"
                 :label="$t('user.fields.email')"
                 :data-vv-as="$t('user.fields.email')"
+                :readonly="!formEditable"
                 name="email"
                 browser-autocomplete="off"
                 type="text"
@@ -59,6 +62,7 @@
                 :error-messages="errors.collect('password')"
                 :label="$t(`forms.user.inputs.password.${itemExists ? 'optional' : 'required'}`)"
                 :data-vv-as="$t('user.fields.password')"
+                :readonly="!formEditable"
                 name="password"
                 browser-autocomplete="off"
                 data-vv-name="password"
@@ -70,6 +74,8 @@
                           :error-messages="errors.collect('role_id')"
                           :data-vv-as="$t('user.fields.role.name')"
                           :clearable="false"
+                          :fallback-item="item.role"
+                          :readonly="!formEditable"
                           name="role_id"
               />
               <CompanySelect v-validate="companyRequired ? 'required' : ''"
@@ -78,6 +84,7 @@
                              :error-messages="errors.collect('company_id')"
                              :data-vv-as="$t('user.fields.company.name')"
                              :clearable="false"
+                             :readonly="!formEditable"
                              name="company_id"
                              @input="validateField('company_id')"
               />
@@ -94,7 +101,8 @@
               >
                 {{ $t('common.buttons.close') }}
               </v-btn>
-              <v-btn :loading="inProgress"
+              <v-btn v-if="formSubmittable"
+                     :loading="inProgress"
                      color="primary"
                      @click="save"
               >

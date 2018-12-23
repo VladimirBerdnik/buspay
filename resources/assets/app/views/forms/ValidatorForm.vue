@@ -37,6 +37,7 @@
                          v-model="item.bus_id"
                          :error-messages="errors.collect('bus_id')"
                          :data-vv-as="$t('validator.fields.bus.state_number')"
+                         :readonly="!formEditable"
                          name="bus_id"
               />
             </v-form>
@@ -52,7 +53,8 @@
               >
                 {{ $t('common.buttons.close') }}
               </v-btn>
-              <v-btn :loading="inProgress"
+              <v-btn v-if="formSubmittable"
+                     :loading="inProgress"
                      color="primary"
                      @click="save"
               >
