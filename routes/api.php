@@ -63,69 +63,8 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         // Card types related routes
         $registrar->get('cardTypes', CardTypesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
-        $api->group(['middleware' => 'role:admin'], function (Router $api): void {
-            $registrar = new ApiResourceRegistrar($api);
-
-            // Roles related routes
-            $registrar->get('roles', RolesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
-
-            // Companies related routes
-            $registrar->resource('companies', CompaniesApiController::class, [
-                ApiResourceRegistrar::OPTION_ONLY => [
-                    ApiResourceRegistrar::ACTION_CREATE,
-                    ApiResourceRegistrar::ACTION_UPDATE,
-                    ApiResourceRegistrar::ACTION_DESTROY,
-                ],
-            ], Company::class);
-
-            // Users related routes
-            $registrar->resource('users', UsersApiController::class, [
-                ApiResourceRegistrar::OPTION_ONLY => [
-                    ApiResourceRegistrar::ACTION_INDEX,
-                    ApiResourceRegistrar::ACTION_CREATE,
-                    ApiResourceRegistrar::ACTION_UPDATE,
-                    ApiResourceRegistrar::ACTION_DESTROY,
-                ],
-            ], User::class);
-
-            // Route related routes
-            $registrar->resource('routes', RoutesApiController::class, [
-                ApiResourceRegistrar::OPTION_ONLY => [
-                    ApiResourceRegistrar::ACTION_CREATE,
-                    ApiResourceRegistrar::ACTION_UPDATE,
-                    ApiResourceRegistrar::ACTION_DESTROY,
-                ],
-            ], Route::class);
-
-            // Bus related routes
-            $registrar->resource('buses', BusesApiController::class, [
-                ApiResourceRegistrar::OPTION_ONLY => [
-                    ApiResourceRegistrar::ACTION_CREATE,
-                    ApiResourceRegistrar::ACTION_DESTROY,
-                ],
-            ], Bus::class);
-
-            // Driver related routes
-            $registrar->resource('drivers', DriversApiController::class, [
-                ApiResourceRegistrar::OPTION_ONLY => [
-                    ApiResourceRegistrar::ACTION_CREATE,
-                    ApiResourceRegistrar::ACTION_UPDATE,
-                    ApiResourceRegistrar::ACTION_DESTROY,
-                ],
-            ], Driver::class);
-
-            // Validator related routes
-            $registrar->resource('validators', ValidatorsApiController::class, [
-                ApiResourceRegistrar::OPTION_ONLY => [
-                    ApiResourceRegistrar::ACTION_INDEX,
-                    ApiResourceRegistrar::ACTION_UPDATE,
-                ],
-            ], Validator::class);
-
-            // Card related routes
-            $registrar->get('cards/drivers', CardsApiController::class, 'driverCards');
-            $registrar->get('cards', CardsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
-        });
+        // Roles related routes
+        $registrar->get('roles', RolesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
         // Tariffs related routes
         $registrar->get(
@@ -139,13 +78,29 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         $registrar->resource('companies', CompaniesApiController::class, [
             ApiResourceRegistrar::OPTION_ONLY => [
                 ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_CREATE,
+                ApiResourceRegistrar::ACTION_UPDATE,
+                ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], Company::class);
+
+        // Users related routes
+        $registrar->resource('users', UsersApiController::class, [
+            ApiResourceRegistrar::OPTION_ONLY => [
+                ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_CREATE,
+                ApiResourceRegistrar::ACTION_UPDATE,
+                ApiResourceRegistrar::ACTION_DESTROY,
+            ],
+        ], User::class);
 
         // Route related routes
         $registrar->resource('routes', RoutesApiController::class, [
             ApiResourceRegistrar::OPTION_ONLY => [
                 ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_CREATE,
+                ApiResourceRegistrar::ACTION_UPDATE,
+                ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], Route::class);
 
@@ -153,7 +108,9 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         $registrar->resource('buses', BusesApiController::class, [
             ApiResourceRegistrar::OPTION_ONLY => [
                 ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_CREATE,
                 ApiResourceRegistrar::ACTION_UPDATE,
+                ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], Bus::class);
 
@@ -161,8 +118,23 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         $registrar->resource('drivers', DriversApiController::class, [
             ApiResourceRegistrar::OPTION_ONLY => [
                 ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_CREATE,
+                ApiResourceRegistrar::ACTION_UPDATE,
+                ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], Driver::class);
+
+        // Validator related routes
+        $registrar->resource('validators', ValidatorsApiController::class, [
+            ApiResourceRegistrar::OPTION_ONLY => [
+                ApiResourceRegistrar::ACTION_INDEX,
+                ApiResourceRegistrar::ACTION_UPDATE,
+            ],
+        ], Validator::class);
+
+        // Card related routes
+        $registrar->get('cards/drivers', CardsApiController::class, 'driverCards');
+        $registrar->get('cards', CardsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
         // Route sheets related routes
         $registrar->resource('route_sheets', RouteSheetsApiController::class, [
