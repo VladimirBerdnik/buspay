@@ -5,6 +5,13 @@ import FormFieldMixin from './FormFieldMixin';
  */
 export default {
   mixins: [FormFieldMixin],
+  props:  {
+    fallbackItem: {
+      type:     Object,
+      default:  null,
+      required: false,
+    },
+  },
   data() {
     return {
       itemId:    null,
@@ -16,7 +23,13 @@ export default {
   },
   computed: {
     items() {
-      return this.service.get();
+      const allItems = this.service.get();
+
+      if (allItems.length === 0 && this.fallbackItem) {
+        return [this.fallbackItem];
+      }
+
+      return allItems;
     },
   },
   watch: {
