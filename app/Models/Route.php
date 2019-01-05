@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\IBelongsToCompany;
 use App\Extensions\ActivityPeriod\IActivityPeriod;
 use App\Extensions\ActivityPeriod\IActivityPeriodMaster;
 use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
@@ -27,7 +28,7 @@ use Illuminate\Support\Collection;
  * @property Collection|CompaniesRoute[] $companiesRoutes Assignments of route to company information
  * @property Collection|RouteSheet[] $routeSheets All route sheets information that served this route
  */
-class Route extends Model implements IHasActivityPeriodsHistory, IActivityPeriodMaster
+class Route extends Model implements IHasActivityPeriodsHistory, IActivityPeriodMaster, IBelongsToCompany
 {
     use SoftDeletes;
 

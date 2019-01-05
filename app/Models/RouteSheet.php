@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\IBelongsToCompany;
 use App\Extensions\ActivityPeriod\ActivityPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Driver $driver Driver that is on bus on route
  * @property Route $route Bus route, which served the driver on the bus
  */
-class RouteSheet extends Model
+class RouteSheet extends Model implements IBelongsToCompany
 {
     use ActivityPeriod;
     use SoftDeletes;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\IBelongsToCompany;
 use App\Extensions\ActivityPeriod\ActivityPeriod;
 use App\Extensions\ActivityPeriod\IActivityPeriod;
 use App\Extensions\ActivityPeriod\IActivityPeriodMaster;
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Company $company Linked to route company
  * @property Route $route Linked to company route
  */
-class CompaniesRoute extends Model implements IActivityPeriod
+class CompaniesRoute extends Model implements IActivityPeriod, IBelongsToCompany
 {
     use ActivityPeriod;
     use SoftDeletes;

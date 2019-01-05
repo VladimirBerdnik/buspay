@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\IBelongsToCompany;
 use App\Extensions\ActivityPeriod\IActivityPeriod;
 use App\Extensions\ActivityPeriod\IActivityPeriodMaster;
 use App\Extensions\ActivityPeriod\IHasActivityPeriodsHistory;
@@ -33,7 +34,7 @@ use Illuminate\Support\Collection;
  * @property Card $card Current driver card
  * @property Collection|RouteSheet[] $routeSheets All route sheets where this driver was
  */
-class Driver extends Model implements IHasActivityPeriodsHistory, IActivityPeriodMaster
+class Driver extends Model implements IHasActivityPeriodsHistory, IActivityPeriodMaster, IBelongsToCompany
 {
     use SoftDeletes;
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\IBelongsToCompany;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,7 +29,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property Company $company Company in which user works
  * @property Role $role User role
  */
-class User extends BaseUserModel implements JWTSubject, IHasRole
+class User extends BaseUserModel implements JWTSubject, IHasRole, IBelongsToCompany
 {
     use Notifiable;
     use SoftDeletes;
