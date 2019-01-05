@@ -113,7 +113,7 @@ export default {
       },
       service:           DriversService,
       itemType:          PoliciesService.itemsTypes.drivers,
-      partialIntentions: [PoliciesService.intentions.changeBusRoute],
+      partialIntentions: [PoliciesService.intentions.changeDriverBus],
     };
   },
 };
