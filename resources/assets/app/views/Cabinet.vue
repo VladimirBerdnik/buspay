@@ -134,7 +134,13 @@ export default {
     await PoliciesService.read();
 
     Object.keys(cabinetPreparationSteps).forEach(async step => {
-      if (!this.policies.canSeeList(step)) {
+      // Workaround for drivers card entity pseudo type
+      if (step === itemsTypes.driversCards) {
+        // Drivers cards entity type list retrieving should be checked by cards intention
+        if (!this.policies.can(itemsTypes.cards, this.policies.intentions.getDriversCards)) {
+          return;
+        }
+      } else if (!this.policies.canSeeList(step)) {
         return;
       }
       this.$set(this.steps, step, cabinetPreparationSteps[step]);

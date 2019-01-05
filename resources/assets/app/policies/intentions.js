@@ -22,4 +22,6 @@ export default {
   changeBusRoute:  'changeBusRoute',
   /** Update assigned to driver default bus */
   changeDriverBus: 'changeDriverBus',
+  /** Retrieve only cards that can be assigned to driver */
+  getDriversCards: 'getDriversCards',
 };
