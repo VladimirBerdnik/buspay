@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\v1\CardsApiController;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\DriversApiController;
+use App\Http\Controllers\Api\v1\PoliciesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\RolesApiController;
 use App\Http\Controllers\Api\v1\RoutesApiController;
@@ -59,6 +60,9 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         // Authentication related routes
         $registrar->get('me', ProfileApiController::class, 'me');
         $registrar->delete('auth', JWTAuthApiController::class, 'logout');
+
+        // Policies list
+        $registrar->get('policies', PoliciesApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
         // Card types related routes
         $registrar->get('cardTypes', CardTypesApiController::class, ApiResourceRegistrar::ACTION_INDEX);

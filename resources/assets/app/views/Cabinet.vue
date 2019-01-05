@@ -70,6 +70,7 @@ import DriversCardsService from '../services/DriversCardsService';
 import ValidatorsService from '../services/ValidatorsService';
 import AlertsService from '../services/AlertsService';
 import TheSplashScreen from '../components/TheSplashScreen';
+import PoliciesService from '../services/PoliciesService';
 
 const cabinetPreparationSteps = {
   [itemsTypes.roles]:        { text: i18n.t('layout.drawer.role'), ready: false, service: RolesService },
@@ -129,6 +130,9 @@ export default {
     if (!this.validateAuth()) {
       return;
     }
+
+    await PoliciesService.read();
+
     Object.keys(cabinetPreparationSteps).forEach(async step => {
       if (!this.policies.canSeeList(step)) {
         return;

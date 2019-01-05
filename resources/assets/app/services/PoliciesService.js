@@ -1,15 +1,32 @@
 import roles from '../policies/roles';
-import policies from '../policies';
 import intentions from '../policies/intentions';
 import itemsTypes from '../policies/itemsTypes';
 import ProfileService from './ProfileService';
-
+import axios from '../config/axios';
 /**
  * Service to check ability of user to perform some intention on entities.
  */
 export default {
   itemsTypes,
   intentions,
+
+  policies: {},
+
+  /**
+   * Reads policies configuration.
+   *
+   * @return {[]}
+   *
+   * @throws Error
+   */
+  async read() {
+    const response = await axios.get('/policies/');
+
+    this.policies = (response.data || {});
+
+    return response.data;
+  },
+
   /**
    * Returns whether requested action is allowed for currently logged in user or not.
    *
@@ -31,13 +48,13 @@ export default {
       && user.role
       && user.role.id
       // policies declared
-      && policies
+      && this.policies
       // policies for entity declared
-      && policies[itemType]
+      && this.policies[itemType]
       // policies for intention for entity declared
-      && policies[itemType][intention]
+      && this.policies[itemType][intention]
       // role is in list of allowed intention executors
-      && policies[itemType][intention].indexOf(user.role.id) !== -1
+      && this.policies[itemType][intention].indexOf(user.role.id) !== -1
     );
   },
   /**
