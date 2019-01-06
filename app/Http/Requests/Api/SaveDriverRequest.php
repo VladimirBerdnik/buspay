@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Domain\Dto\DriverData;
+use App\Domain\Dto\DriverBusData;
+use App\Domain\Dto\DriverFullData;
 use App\Models\Driver;
 use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
@@ -28,12 +29,22 @@ class SaveDriverRequest extends ApiRequest
     }
 
     /**
-     * Returns driver details.
+     * Returns driver bus details.
      *
-     * @return DriverData
+     * @return DriverBusData
      */
-    public function getDriverData(): DriverData
+    public function getDriverBusData(): DriverBusData
     {
-        return new DriverData($this->all());
+        return new DriverBusData($this->all());
+    }
+
+    /**
+     * Returns driver full details.
+     *
+     * @return DriverFullData
+     */
+    public function getDriverFullData(): DriverFullData
+    {
+        return new DriverFullData($this->all());
     }
 }

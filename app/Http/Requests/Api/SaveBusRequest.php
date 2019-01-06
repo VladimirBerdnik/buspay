@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Domain\Dto\BusData;
+use App\Domain\Dto\BusFullData;
+use App\Domain\Dto\BusRouteData;
 use App\Models\Bus;
 use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
@@ -28,12 +29,22 @@ class SaveBusRequest extends ApiRequest
     }
 
     /**
-     * Returns bus details.
+     * Returns bus route only details.
      *
-     * @return BusData
+     * @return BusRouteData
      */
-    public function getBusData(): BusData
+    public function getBusRouteData(): BusRouteData
     {
-        return new BusData($this->all());
+        return new BusRouteData($this->all());
+    }
+
+    /**
+     * Returns bus full details.
+     *
+     * @return BusFullData
+     */
+    public function getBusFullData(): BusFullData
+    {
+        return new BusFullData($this->all());
     }
 }

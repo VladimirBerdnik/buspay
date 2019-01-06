@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\EntitiesServices\RouteEntityService;
+use App\Domain\Enums\Abilities;
 use App\Http\Requests\Api\SaveRouteRequest;
 use App\Models\Route;
 use Dingo\Api\Http\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\ValidationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
@@ -43,15 +45,19 @@ class RoutesApiController extends BaseApiController
      * @return Response
      *
      * @throws InvalidEnumValueException In case of invalid order direction usage
+     * @throws AuthorizationException
      */
     public function index(): Response
     {
+        $this->authorize(Abilities::GET, new Route());
+
         return $this->response->collection(
             $this->routeService->getWith(
                 ['company'],
                 ['buses'],
                 $this->singleCompanyUser()
-                ? [Route::COMPANY_ID => $this->user->company_id] : [],
+                    ? [Route::COMPANY_ID => $this->user->company_id]
+                    : [],
                 new SortOptions(Route::NAME)
             ),
             $this->transformer
@@ -71,6 +77,8 @@ class RoutesApiController extends BaseApiController
      */
     public function store(SaveRouteRequest $request): Response
     {
+        $this->authorize(Abilities::CREATE, new Route());
+
         $route = $this->routeService->store($request->getRouteData());
 
         return $this->response->item($route, $this->transformer);
@@ -90,6 +98,8 @@ class RoutesApiController extends BaseApiController
      */
     public function update(SaveRouteRequest $request, Route $route): Response
     {
+        $this->authorize(Abilities::UPDATE, $route);
+
         $this->routeService->update($route, $request->getRouteData());
 
         return $this->response->item($route, $this->transformer);
@@ -108,6 +118,8 @@ class RoutesApiController extends BaseApiController
      */
     public function destroy(Route $route): Response
     {
+        $this->authorize(Abilities::DELETE, $route);
+
         $this->routeService->destroy($route);
 
         return $this->response->noContent();

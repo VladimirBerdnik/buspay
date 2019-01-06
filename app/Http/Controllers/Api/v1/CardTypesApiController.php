@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\EntitiesServices\CardTypeEntityService;
+use App\Domain\Enums\Abilities;
 use App\Models\CardType;
 use Dingo\Api\Http\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\Transformers\IDataTransformer;
@@ -39,9 +41,12 @@ class CardTypesApiController extends BaseApiController
      * @return Response
      *
      * @throws InvalidEnumValueException In case of invalid order direction usage
+     * @throws AuthorizationException
      */
     public function index(): Response
     {
+        $this->authorize(Abilities::GET, new CardType());
+
         return $this->response->collection(
             $this->cardTypeService->getWith([], ['cards'], [], new SortOptions(CardType::ID)),
             $this->transformer

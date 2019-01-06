@@ -3,6 +3,7 @@
 namespace App\Domain\EntitiesServices;
 
 use App\Domain\Dto\DriverData;
+use App\Domain\Dto\DriverFullData;
 use App\Domain\Enums\CardTypesIdentifiers;
 use App\Domain\Exceptions\Constraint\DriverDeletionException;
 use App\Domain\Exceptions\Constraint\DriverReassignException;
@@ -106,15 +107,14 @@ class DriverEntityService extends EntityService
     /**
      * Stores new driver.
      *
-     * @param DriverData $driverData Driver details to create
+     * @param DriverFullData $driverData Driver details to create
      *
      * @return Driver
      *
-     * @throws RepositoryException
      * @throws ValidationException
      * @throws Throwable
      */
-    public function store(DriverData $driverData): Driver
+    public function store(DriverFullData $driverData): Driver
     {
         Log::debug("Create driver with name [{$driverData->full_name}] attempt");
 
@@ -143,7 +143,6 @@ class DriverEntityService extends EntityService
      *
      * @return Driver
      *
-     * @throws RepositoryException
      * @throws ValidationException
      * @throws Throwable
      */
@@ -151,7 +150,7 @@ class DriverEntityService extends EntityService
     {
         Log::debug("Update driver [{$driver->id}] attempt");
 
-        if ($driver->company_id !== $driverData->company_id) {
+        if ($driverData instanceof DriverFullData && $driver->company_id !== $driverData->company_id) {
             throw new DriverReassignException($driver);
         }
 
@@ -161,7 +160,7 @@ class DriverEntityService extends EntityService
 
         $driver->fill($driverData->toArray());
 
-        Validator::validate($driverData->toArray(), $this->getDriverValidationRules($driver));
+        Validator::validate($driver->toArray(), $this->getDriverValidationRules($driver));
 
         $this->handleTransaction(function () use (
             $previouslyAssignedCard,

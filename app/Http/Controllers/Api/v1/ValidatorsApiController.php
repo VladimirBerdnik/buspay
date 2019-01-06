@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\EntitiesServices\ValidatorEntityService;
+use App\Domain\Enums\Abilities;
 use App\Http\Requests\Api\SaveValidatorRequest;
 use App\Models\Validator;
 use Dingo\Api\Http\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\ValidationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
@@ -42,9 +44,12 @@ class ValidatorsApiController extends BaseApiController
      * @return Response
      *
      * @throws InvalidEnumValueException In case of invalid order direction usage
+     * @throws AuthorizationException
      */
     public function index(): Response
     {
+        $this->authorize(Abilities::GET, new Validator());
+
         return $this->response->collection(
             $this->validatorService->getWith(
                 ['bus'],
@@ -69,6 +74,8 @@ class ValidatorsApiController extends BaseApiController
      */
     public function update(SaveValidatorRequest $request, Validator $validator): Response
     {
+        $this->authorize(Abilities::UPDATE, $validator);
+
         $this->validatorService->assignBus($validator, $request->getValidatorBusData()->bus_id);
 
         return $this->response->item($validator, $this->transformer);

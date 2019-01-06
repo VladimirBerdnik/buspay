@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\EntitiesServices\BusEntityService;
+use App\Domain\Enums\Abilities;
 use App\Http\Requests\Api\SaveBusRequest;
 use App\Models\Bus;
 use Dingo\Api\Http\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\ValidationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
@@ -43,9 +45,12 @@ class BusesApiController extends BaseApiController
      * @return Response
      *
      * @throws InvalidEnumValueException
+     * @throws AuthorizationException
      */
     public function index(): Response
     {
+        $this->authorize(Abilities::GET, new Bus());
+
         return $this->response->collection(
             $this->busService->getWith(
                 ['company', 'route'],
@@ -70,7 +75,9 @@ class BusesApiController extends BaseApiController
      */
     public function store(SaveBusRequest $request): Response
     {
-        $bus = $this->busService->store($request->getBusData());
+        $this->authorize(Abilities::CREATE, new Bus());
+
+        $bus = $this->busService->store($request->getBusFullData());
 
         return $this->response->item($bus, $this->transformer);
     }
@@ -89,7 +96,16 @@ class BusesApiController extends BaseApiController
      */
     public function update(SaveBusRequest $request, Bus $bus): Response
     {
-        $this->busService->update($bus, $request->getBusData());
+        if (!$this->user->can(Abilities::UPDATE, $bus)) {
+            if (!$this->user->can(Abilities::CHANGE_BUS_ROUTE, $bus)) {
+                $this->deny();
+            }
+            $busData = $request->getBusRouteData();
+        } else {
+            $busData = $request->getBusFullData();
+        }
+
+        $this->busService->update($bus, $busData);
 
         return $this->response->item($bus, $this->transformer);
     }
@@ -106,6 +122,8 @@ class BusesApiController extends BaseApiController
      */
     public function destroy(Bus $bus): Response
     {
+        $this->authorize(Abilities::DELETE, $bus);
+
         $this->busService->destroy($bus);
 
         return $this->response->noContent();

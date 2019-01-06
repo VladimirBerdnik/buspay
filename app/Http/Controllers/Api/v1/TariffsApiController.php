@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\EntitiesServices\TariffEntityService;
+use App\Domain\Enums\Abilities;
 use App\Models\Tariff;
 use App\Models\TariffFare;
 use App\Models\TariffPeriod;
 use Dingo\Api\Http\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\Transformers\IDataTransformer;
@@ -43,9 +45,11 @@ class TariffsApiController extends BaseApiController
      * @return Response
      *
      * @throws InvalidEnumValueException In case of invalid order direction usage
+     * @throws AuthorizationException
      */
     public function index(TariffPeriod $tariffPeriod): Response
     {
+        $this->authorize(Abilities::GET, new Tariff());
         return $this->response->collection(
             $this->tariffService->getWith(
                 ['tariffFares' => [TariffFare::TARIFF_PERIOD_ID => $tariffPeriod->getKey()]],

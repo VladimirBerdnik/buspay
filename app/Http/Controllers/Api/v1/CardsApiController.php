@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\EntitiesServices\CardService;
+use App\Domain\Enums\Abilities;
 use App\Domain\Enums\CardTypesIdentifiers;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
 use App\Models\Card;
 use Dingo\Api\Http\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\Exceptions\NotImplementedException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
@@ -46,9 +48,12 @@ class CardsApiController extends BaseApiController
      *
      * @throws NotImplementedException
      * @throws InvalidEnumValueException
+     * @throws AuthorizationException
      */
     public function index(PaginatedSortedFilteredListRequest $request): Response
     {
+        $this->authorize(Abilities::GET, new Card());
+
         $filters = $request->getFilters([Card::CARD_TYPE_ID]);
         $searchString = $request->getSearchString();
         if ($searchString) {
@@ -78,9 +83,11 @@ class CardsApiController extends BaseApiController
      * @return Response
      *
      * @throws InvalidEnumValueException In case of invalid order direction usage
+     * @throws AuthorizationException
      */
     public function driverCards(): Response
     {
+        $this->authorize(Abilities::GET_DRIVERS_CARDS, new Card());
         $this->transformer->setDefaultIncludes([]);
 
         return $this->response->collection(

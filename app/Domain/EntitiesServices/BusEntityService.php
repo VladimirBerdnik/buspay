@@ -3,6 +3,7 @@
 namespace App\Domain\EntitiesServices;
 
 use App\Domain\Dto\BusData;
+use App\Domain\Dto\BusFullData;
 use App\Domain\Exceptions\Constraint\BusDeletionException;
 use App\Domain\Exceptions\Constraint\BusReassignException;
 use App\Extensions\EntityService;
@@ -59,14 +60,14 @@ class BusEntityService extends EntityService
     /**
      * Stores new bus.
      *
-     * @param BusData $busData Bus details to create
+     * @param BusFullData $busData Bus details to create
      *
      * @return Bus
      *
      * @throws RepositoryException
      * @throws ValidationException
      */
-    public function store(BusData $busData): Bus
+    public function store(BusFullData $busData): Bus
     {
         Log::debug("Create bus with state number [{$busData->state_number}] attempt");
 
@@ -96,13 +97,13 @@ class BusEntityService extends EntityService
     {
         Log::debug("Update bus [{$bus->id}] attempt");
 
-        if ($bus->company_id !== $busData->company_id) {
+        if ($busData instanceof BusFullData && $bus->company_id !== $busData->company_id) {
             throw new BusReassignException($bus);
         }
 
         $bus->fill($busData->toArray());
 
-        Validator::validate($busData->toArray(), $this->getBusValidationRules($bus));
+        Validator::validate($bus->toArray(), $this->getBusValidationRules($bus));
 
         $this->getRepository()->save($bus);
 

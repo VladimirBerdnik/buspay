@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\EntitiesServices\CompanyEntityService;
+use App\Domain\Enums\Abilities;
 use App\Http\Requests\Api\SaveCompanyRequest;
 use App\Models\Company;
 use Dingo\Api\Http\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
@@ -41,9 +43,12 @@ class CompaniesApiController extends BaseApiController
      * @return Response
      *
      * @throws InvalidEnumValueException In case of invalid order direction usage
+     * @throws AuthorizationException
      */
     public function index(): Response
     {
+        $this->authorize(Abilities::GET, new Company());
+
         return $this->response->collection(
             $this->companyService->getWith(
                 [],
@@ -63,9 +68,12 @@ class CompaniesApiController extends BaseApiController
      * @return Response
      *
      * @throws RepositoryException
+     * @throws AuthorizationException
      */
     public function store(SaveCompanyRequest $request): Response
     {
+        $this->authorize(Abilities::CREATE, new Company());
+
         $company = $this->companyService->store($request->getCompanyData());
 
         return $this->response->item($company, $this->transformer);
@@ -80,9 +88,12 @@ class CompaniesApiController extends BaseApiController
      * @return Response
      *
      * @throws RepositoryException
+     * @throws AuthorizationException
      */
     public function update(SaveCompanyRequest $request, Company $company): Response
     {
+        $this->authorize(Abilities::UPDATE, $company);
+
         $this->companyService->update($company, $request->getCompanyData());
 
         return $this->response->item($company, $this->transformer);
@@ -96,9 +107,12 @@ class CompaniesApiController extends BaseApiController
      * @return Response
      *
      * @throws RepositoryException
+     * @throws AuthorizationException
      */
     public function destroy(Company $company): Response
     {
+        $this->authorize(Abilities::DELETE, $company);
+
         $this->companyService->destroy($company);
 
         return $this->response->noContent();

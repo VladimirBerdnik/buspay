@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\EntitiesServices\UserEntityService;
+use App\Domain\Enums\Abilities;
 use App\Http\Requests\Api\SaveUserRequest;
 use App\Models\User;
 use Dingo\Api\Http\Response;
@@ -43,9 +44,12 @@ class UsersApiController extends BaseApiController
      * @return Response
      *
      * @throws InvalidEnumValueException In case of invalid order direction usage
+     * @throws AuthorizationException
      */
     public function index(): Response
     {
+        $this->authorize(Abilities::GET, new User());
+
         return $this->response->collection(
             $this->userService->getWith(
                 ['role', 'company'],
@@ -66,9 +70,12 @@ class UsersApiController extends BaseApiController
      *
      * @throws RepositoryException
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function store(SaveUserRequest $request): Response
     {
+        $this->authorize(Abilities::CREATE, new User());
+
         $user = $this->userService->store($request->getUserData());
 
         return $this->response->item($user, $this->transformer);
@@ -84,9 +91,12 @@ class UsersApiController extends BaseApiController
      *
      * @throws RepositoryException
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function update(SaveUserRequest $request, User $user): Response
     {
+        $this->authorize(Abilities::UPDATE, $user);
+
         $this->userService->update($user, $request->getUserData());
 
         return $this->response->item($user, $this->transformer);
@@ -104,6 +114,8 @@ class UsersApiController extends BaseApiController
      */
     public function destroy(User $user): Response
     {
+        $this->authorize(Abilities::DELETE, $user);
+
         if ($this->user->getKey() === $user->getKey()) {
             $this->deny();
         }

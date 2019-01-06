@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\EntitiesServices\DriverEntityService;
+use App\Domain\Enums\Abilities;
 use App\Http\Requests\Api\SaveDriverRequest;
 use App\Models\Driver;
 use Dingo\Api\Http\Response;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\ValidationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
@@ -43,9 +45,12 @@ class DriversApiController extends BaseApiController
      * @return Response
      *
      * @throws InvalidEnumValueException In case of invalid order direction usage
+     * @throws AuthorizationException
      */
     public function index(): Response
     {
+        $this->authorize(Abilities::GET, new Driver());
+
         return $this->response->collection(
             $this->driverService->getWith(
                 ['company', 'bus', 'card'],
@@ -64,13 +69,14 @@ class DriversApiController extends BaseApiController
      *
      * @return Response
      *
-     * @throws RepositoryException
      * @throws ValidationException
      * @throws Throwable
      */
     public function store(SaveDriverRequest $request): Response
     {
-        $driver = $this->driverService->store($request->getDriverData());
+        $this->authorize(Abilities::CREATE, new Driver());
+
+        $driver = $this->driverService->store($request->getDriverFullData());
 
         return $this->response->item($driver, $this->transformer);
     }
@@ -83,13 +89,21 @@ class DriversApiController extends BaseApiController
      *
      * @return Response
      *
-     * @throws RepositoryException
      * @throws Throwable
      * @throws ValidationException
      */
     public function update(SaveDriverRequest $request, Driver $driver): Response
     {
-        $this->driverService->update($driver, $request->getDriverData());
+        if (!$this->user->can(Abilities::UPDATE, $driver)) {
+            if (!$this->user->can(Abilities::CHANGE_DRIVER_BUS, $driver)) {
+                $this->deny();
+            }
+            $driverData = $request->getDriverBusData();
+        } else {
+            $driverData = $request->getDriverFullData();
+        }
+
+        $this->driverService->update($driver, $driverData);
 
         return $this->response->item($driver, $this->transformer);
     }
@@ -103,10 +117,11 @@ class DriversApiController extends BaseApiController
      *
      * @throws RepositoryException
      * @throws Throwable
-     * @throws ValidationException
      */
     public function destroy(Driver $driver): Response
     {
+        $this->authorize(Abilities::DELETE, $driver);
+
         $this->driverService->destroy($driver);
 
         return $this->response->noContent();
