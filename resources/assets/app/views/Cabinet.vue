@@ -71,6 +71,7 @@ import ValidatorsService from '../services/ValidatorsService';
 import AlertsService from '../services/AlertsService';
 import TheSplashScreen from '../components/TheSplashScreen';
 import PoliciesService from '../services/PoliciesService';
+import ProfileService from '../services/ProfileService';
 
 const cabinetPreparationSteps = {
   [itemsTypes.roles]:        { text: i18n.t('layout.drawer.role'), ready: false, service: RolesService },
@@ -126,28 +127,37 @@ export default {
       this.validateAuth();
     },
   },
-  async mounted() {
+  mounted() {
     if (!this.validateAuth()) {
       return;
     }
-
-    await PoliciesService.read();
-
-    Object.keys(cabinetPreparationSteps).forEach(async step => {
-      // Workaround for drivers card entity pseudo type
-      if (step === itemsTypes.driversCards) {
-        // Drivers cards entity type list retrieving should be checked by cards intention
-        if (!this.policies.can(itemsTypes.cards, this.policies.intentions.getDriversCards)) {
-          return;
-        }
-      } else if (!this.policies.canSeeList(step)) {
-        return;
-      }
-      this.$set(this.steps, step, cabinetPreparationSteps[step]);
-      await this.steps[step].service.read().then(() => { this.steps[step].ready = true; });
-    });
+    this.initCabinet();
   },
   methods: {
+    /**
+     * Initializes cabinet required details retrieving.
+     */
+    async initCabinet() {
+      await ProfileService.read();
+      await PoliciesService.read();
+      this.$nextTick(() => {
+        Object.keys(cabinetPreparationSteps).forEach(async step => {
+        // Workaround for drivers card entity pseudo type
+          if (step === itemsTypes.driversCards) {
+          // Drivers cards entity type list retrieving should be checked by cards intention
+            if (!this.policies.can(itemsTypes.cards, this.policies.intentions.getDriversCards)) {
+              return;
+            }
+          } else if (!this.policies.canSeeList(step)) {
+            return;
+          }
+          this.$set(this.steps, step, cabinetPreparationSteps[step]);
+          await this.steps[step].service.read().then(() => {
+            this.steps[step].ready = true;
+          });
+        });
+      });
+    },
     /**
      * Check user authentication and redirect to homepage when user is not authenticated.
      *

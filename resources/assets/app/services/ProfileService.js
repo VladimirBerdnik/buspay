@@ -1,10 +1,8 @@
 import { mapMutations, mapGetters } from 'vuex';
-import UserInteractionService from './UserInteractionService';
 import axios from '../config/axios';
 import store from '../store/index';
 import { PROFILE_MUTATION } from '../store/mutations';
 import { PROFILE_GETTER } from '../store/getters';
-import AuthService from './AuthService';
 
 export default {
   $store: store,
@@ -29,13 +27,11 @@ export default {
    * @throws Error
    */
   async read() {
-    UserInteractionService.withAuth(async () => {
-      const response = await axios.get('/me/');
+    const response = await axios.get('/me/');
 
-      this.profileMutation(response.data || {});
+    this.profileMutation(response.data || {});
 
-      return response.data;
-    }, AuthService.logout);
+    return response.data;
   },
 
   /**
