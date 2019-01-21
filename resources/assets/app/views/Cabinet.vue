@@ -1,5 +1,5 @@
 <template>
-  <div v-if="authenticated">
+  <div v-if="cabinetReady">
     <the-splash-screen v-if="!dataReady"
                        :steps="steps"
     />
@@ -111,6 +111,15 @@ export default {
      * @return {boolean}
      */
     authenticated: () => AuthService.isAuthenticated(),
+
+    /**
+     * Determines whether all requred data are ready to init personal cabinet or not.
+     *
+     * @return {boolean}
+     */
+    cabinetReady: () => AuthService.isAuthenticated()
+      && PoliciesService.policies
+      && ProfileService.get(),
 
     /**
      * Whether data for personal cabinet ready or not.

@@ -10,7 +10,7 @@ export default {
   itemsTypes,
   intentions,
 
-  policies: {},
+  policies: null,
 
   /**
    * Reads policies configuration.
@@ -23,6 +23,8 @@ export default {
     const response = await axios.get('/policies/');
 
     this.policies = (response.data || {});
+
+    console.log('policies');
 
     return response.data;
   },
@@ -75,6 +77,8 @@ export default {
    * @return {boolean}
    */
   canSeeList(itemType) {
+    console.log(itemType);
+
     return this.can(itemType, intentions.get);
   },
   /**
