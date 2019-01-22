@@ -10,6 +10,7 @@ use App\Domain\EntitiesServices\CompaniesRouteEntityService;
 use App\Domain\EntitiesServices\CompanyEntityService;
 use App\Domain\EntitiesServices\DriverEntityService;
 use App\Domain\EntitiesServices\DriversCardEntityService;
+use App\Domain\EntitiesServices\ReplenishmentEntityService;
 use App\Domain\EntitiesServices\RoleEntityService;
 use App\Domain\EntitiesServices\RouteEntityService;
 use App\Domain\EntitiesServices\RouteSheetEntityService;
@@ -54,6 +55,7 @@ use App\Repositories\CompaniesRouteRepository;
 use App\Repositories\CompanyRepository;
 use App\Repositories\DriverRepository;
 use App\Repositories\DriversCardRepository;
+use App\Repositories\ReplenishmentRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\RouteRepository;
 use App\Repositories\RouteSheetRepository;
@@ -137,6 +139,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(TariffFareEntityService::class)->needs(IRepository::class)->give(TariffFareRepository::class);
         $this->app->when(UserEntityService::class)->needs(IRepository::class)->give(UserRepository::class);
         $this->app->when(ValidatorEntityService::class)->needs(IRepository::class)->give(ValidatorRepository::class);
+        $this->app->when(ReplenishmentEntityService::class)
+            ->needs(IRepository::class)
+            ->give(ReplenishmentRepository::class);
 
         // Register transformers bindings
         $this->app->when(ProfileApiController::class)->needs(IDataTransformer::class)->give(ProfileTransformer::class);
