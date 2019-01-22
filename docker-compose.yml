@@ -42,6 +42,8 @@ services:
       MYSQL_PASSWORD: secret
     labels:
       SERVICE_NAME: buspay-db
+      SERVICE_3306_NAME: buspay-db
+      SERVICE_33060_NAME: buspay-db
     healthcheck:
       test: "/usr/bin/mysql --user=user --password=secret --execute \"SHOW DATABASES;\""
       interval: 3s
