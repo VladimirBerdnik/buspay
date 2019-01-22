@@ -8,6 +8,7 @@ use App\Models\CompaniesRoute;
 use App\Models\Company;
 use App\Models\Driver;
 use App\Models\DriversCard;
+use App\Models\Replenishment;
 use App\Models\Route;
 use App\Models\RouteSheet;
 use App\Models\User;
@@ -144,5 +145,14 @@ $factory->define(Validator::class, function (Generator $faker, array $parameters
         Validator::EXTERNAL_ID => $faker->unique()->randomNumber(8, true),
         // Have to be filled outside with valid business-logic value
         Validator::BUS_ID => $parameters[Validator::BUS_ID] ?? null,
+    ];
+});
+
+$factory->define(Replenishment::class, function (Generator $faker, array $parameters) {
+    return [
+        // Have to be filled outside with valid business-logic value
+        Replenishment::CARD_ID => $parameters[Replenishment::CARD_ID],
+        Replenishment::REPLENISHED_AT => $parameters[Replenishment::REPLENISHED_AT],
+        Replenishment::AMOUNT => $parameters[Replenishment::AMOUNT] ?? round(random_int(100, 5000), -2),
     ];
 });
