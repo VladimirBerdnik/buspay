@@ -10,14 +10,14 @@ class TooManyValidatorsWithExternalIdException extends BusinessLogicIntegrityExc
     /**
      * External identifier for which multiple validators found.
      *
-     * @var int
+     * @var integer
      */
     private $externalId;
 
     /**
      * Thrown when multiple validators with same external identifier detected.
      *
-     * @param int $externalId External identifier for which multiple validators found
+     * @param integer $externalId External identifier for which multiple validators found
      */
     public function __construct(int $externalId)
     {
