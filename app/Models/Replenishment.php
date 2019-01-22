@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id Replenishment unique identifier
  * @property int $card_id Identifier of card that was replenished
  * @property float $amount Amount of card replenishment
+ * @property int $external_id Identifier of replenishment in external storage
  * @property Carbon $replenished_at Date when card was replenished
  * @property Carbon $created_at When record was created
  * @property Carbon $updated_at When record was updated
@@ -24,6 +25,7 @@ class Replenishment extends Model
     public const CARD_ID = 'card_id';
     public const AMOUNT = 'amount';
     public const REPLENISHED_AT = 'replenished_at';
+    public const EXTERNAL_ID = 'external_id';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
 
@@ -43,6 +45,7 @@ class Replenishment extends Model
         self::ID => 'int',
         self::CARD_ID => 'int',
         self::AMOUNT => 'float',
+        self::EXTERNAL_ID => 'int',
     ];
 
     /**
@@ -65,6 +68,7 @@ class Replenishment extends Model
         self::CARD_ID,
         self::AMOUNT,
         self::REPLENISHED_AT,
+        self::EXTERNAL_ID,
     ];
 
     /**
