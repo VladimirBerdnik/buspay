@@ -22,7 +22,7 @@ use Throwable;
 /**
  * Card entity service.
  */
-class CardService extends EntityService
+class CardEntityService extends EntityService
 {
     /**
      * Drivers entity service.

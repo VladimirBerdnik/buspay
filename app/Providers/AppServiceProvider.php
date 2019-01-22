@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Domain\EntitiesServices\BusEntityService;
 use App\Domain\EntitiesServices\BusesValidatorEntityService;
-use App\Domain\EntitiesServices\CardService;
+use App\Domain\EntitiesServices\CardEntityService;
 use App\Domain\EntitiesServices\CardTypeEntityService;
 use App\Domain\EntitiesServices\CompaniesRouteEntityService;
 use App\Domain\EntitiesServices\CompanyEntityService;
@@ -121,7 +121,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(CompaniesRouteEntityService::class)
             ->needs(IRepository::class)
             ->give(CompaniesRouteRepository::class);
-        $this->app->when(CardService::class)->needs(IRepository::class)->give(CardRepository::class);
+        $this->app->when(CardEntityService::class)->needs(IRepository::class)->give(CardRepository::class);
         $this->app->when(CardTypeEntityService::class)->needs(IRepository::class)->give(CardTypeRepository::class);
         $this->app->when(BusEntityService::class)->needs(IRepository::class)->give(BusRepository::class);
         $this->app->when(CompanyEntityService::class)->needs(IRepository::class)->give(CompanyRepository::class);

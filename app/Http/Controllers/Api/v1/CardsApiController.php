@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Domain\EntitiesServices\CardService;
+use App\Domain\EntitiesServices\CardEntityService;
 use App\Domain\Enums\Abilities;
 use App\Domain\Enums\CardTypesIdentifiers;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
@@ -22,7 +22,7 @@ class CardsApiController extends BaseApiController
     /**
      * Cards entity service.
      *
-     * @var CardService
+     * @var CardEntityService
      */
     private $cardService;
 
@@ -30,9 +30,9 @@ class CardsApiController extends BaseApiController
      * Cards requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param CardService $cardService Cards entity service
+     * @param CardEntityService $cardService Cards entity service
      */
-    public function __construct(IDataTransformer $transformer, CardService $cardService)
+    public function __construct(IDataTransformer $transformer, CardEntityService $cardService)
     {
         parent::__construct($transformer);
         $this->cardService = $cardService;

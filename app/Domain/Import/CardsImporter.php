@@ -3,7 +3,7 @@
 namespace App\Domain\Import;
 
 use App\Domain\Dto\CardData;
-use App\Domain\EntitiesServices\CardService;
+use App\Domain\EntitiesServices\CardEntityService;
 use App\Domain\Exceptions\Integrity\TooManyCardsWithNumberException;
 use App\Domain\Import\Dto\ExternalCardData;
 use App\Models\Card;
@@ -29,7 +29,7 @@ class CardsImporter extends ExternalEntitiesImportService
     /**
      * Card entity service.
      *
-     * @var CardService
+     * @var CardEntityService
      */
     private $cardService;
 
@@ -37,9 +37,9 @@ class CardsImporter extends ExternalEntitiesImportService
      * Cards importer. Allows to import cards records from external storage.
      *
      * @param ConnectionInterface $connection External storage connection
-     * @param CardService $cardService Card entity service
+     * @param CardEntityService $cardService Card entity service
      */
-    public function __construct(ConnectionInterface $connection, CardService $cardService)
+    public function __construct(ConnectionInterface $connection, CardEntityService $cardService)
     {
         parent::__construct($connection);
         $this->cardService = $cardService;
