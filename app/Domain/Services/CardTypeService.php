@@ -78,7 +78,7 @@ class CardTypeService
     public function getPassengersCardTypes(): Collection
     {
         $passengersCardTypesIdentifiers = $this->configurationRepository
-                ->get('buspay.passengers.card_types_ids') ?? [];
+                ->get('buspay.passenger.card_types_ids') ?? [];
 
         if (!$passengersCardTypesIdentifiers) {
             throw new ConfigurationException('No passengers card types configured');
@@ -108,7 +108,7 @@ class CardTypeService
      */
     public function getBasePassengerCardType(): CardType
     {
-        $basePassengerCardTypeId = $this->configurationRepository->get('buspay.passengers.base_card_type_id');
+        $basePassengerCardTypeId = $this->configurationRepository->get('buspay.passenger.base_card_type_id');
 
         if (!$basePassengerCardTypeId) {
             throw new ConfigurationException('No base passenger card type configured');
