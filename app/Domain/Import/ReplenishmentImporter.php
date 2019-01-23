@@ -48,6 +48,13 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
     private $cardService;
 
     /**
+     * Format of stored date in external storage.
+     *
+     * @var string
+     */
+    private $externalStorageDateFormat = 'YmdHis';
+
+    /**
      * Replenishment importer. Allows to import replenishment records from external storage.
      *
      * @param ConnectionInterface $connection External storage connection
@@ -100,17 +107,19 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
     /**
      * Performs replenishment import from external replenishment storage.
      *
-     * @throws Throwable
+     * @param Carbon|null $importFrom When passed then starts import from given date
      */
-    public function import(): void
+    public function import(?Carbon $importFrom): void
     {
         $startTime = time();
 
-        $this->verifyReplenishment();
+        $importFrom = $importFrom ?? Carbon::today()->subDays($this->getVerifyingDaysInterval());
+
+        $this->verifyReplenishment($importFrom);
 
         $verifyDuration = time() - $startTime;
 
-        $this->importData();
+        $this->importData($importFrom);
 
         $importDuration = time() - $startTime - $verifyDuration;
 
@@ -121,13 +130,16 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
 
     /**
      * Import data from external storage.
+     *
+     * @param Carbon $importFrom Start import from given date
      */
-    private function importData(): void
+    private function importData(Carbon $importFrom): void
     {
         Log::debug("Replenishment details import process started");
 
         $this->getConnection()
             ->table('payments')
+            ->where(ExternalReplenishmentData::TXN_DATE, '>=', $importFrom->format($this->externalStorageDateFormat))
             ->orderBy(ExternalReplenishmentData::ID)
             ->chunk($this->getChunkSize(), function (Collection $items, int $pageNumber): void {
                 Log::debug("Replenishment chunk #{$pageNumber} retrieved. Chunk size: " . $items->count());
@@ -139,17 +151,18 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
 
     /**
      * Verifies existing replenishment that they are exists in external storage.
+     *
+     * @param Carbon $verifyFrom Date from which need to verify replenishment records
      */
-    private function verifyReplenishment(): void
+    private function verifyReplenishment(Carbon $verifyFrom): void
     {
         Log::debug('Verify existing replenishment import process started.');
 
         try {
-            $synchronizationStartDate = Carbon::today()->subDays($this->getVerifyingDaysInterval());
-            $synchronizationEndDate = Carbon::today();
+            $verifyTo = Carbon::today();
             $where = [
-                [Replenishment::REPLENISHED_AT, '>=', $synchronizationStartDate],
-                [Replenishment::REPLENISHED_AT, '<=', $synchronizationEndDate],
+                [Replenishment::REPLENISHED_AT, '>=', $verifyFrom->format($this->externalStorageDateFormat)],
+                [Replenishment::REPLENISHED_AT, '<=', $verifyTo->format($this->externalStorageDateFormat)],
             ];
             $this->replenishmentService->chunkWith(
                 [],
