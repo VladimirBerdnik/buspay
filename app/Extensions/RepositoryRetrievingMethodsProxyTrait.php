@@ -38,7 +38,7 @@ trait RepositoryRetrievingMethodsProxyTrait
      *
      * @return Model|null
      */
-    public function findWhere(array $fieldValues): Model
+    public function findWhere(array $fieldValues): ?Model
     {
         return $this->getRepository()->findWhere($fieldValues);
     }
