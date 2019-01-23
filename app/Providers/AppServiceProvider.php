@@ -20,6 +20,7 @@ use App\Domain\EntitiesServices\TariffPeriodEntityService;
 use App\Domain\EntitiesServices\UserEntityService;
 use App\Domain\EntitiesServices\ValidatorEntityService;
 use App\Domain\Import\CardsImporter;
+use App\Domain\Import\ReplenishmentImporter;
 use App\Domain\Import\ValidatorsImporter;
 use App\Exceptions\ApiExceptionHandler;
 use App\Http\Controllers\Api\v1\BusesApiController;
@@ -107,6 +108,9 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerBindings(): void
     {
+        $this->app->when(ReplenishmentImporter::class)->needs(ConnectionInterface::class)->give(function () {
+            return DB::connection('external');
+        });
         $this->app->when(CardsImporter::class)->needs(ConnectionInterface::class)->give(function () {
             return DB::connection('external');
         });

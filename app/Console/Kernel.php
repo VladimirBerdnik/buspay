@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\CloseRouteSheets;
 use App\Console\Commands\ImportCardsCommand;
+use App\Console\Commands\ImportReplenishmentsCommand;
 use App\Console\Commands\ImportValidatorsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -22,6 +23,7 @@ class Kernel extends ConsoleKernel
         ImportCardsCommand::class,
         ImportValidatorsCommand::class,
         CloseRouteSheets::class,
+        ImportReplenishmentsCommand::class,
     ];
 
     /**
@@ -33,6 +35,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->command(ImportReplenishmentsCommand::class)
+            ->hourly()
+            ->withoutOverlapping()
+            ->onOneServer();
         $schedule->command(ImportCardsCommand::class)
             ->hourly()
             ->withoutOverlapping()
