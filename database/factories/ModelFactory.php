@@ -151,6 +151,7 @@ $factory->define(Validator::class, function (Generator $faker, array $parameters
 $factory->define(Replenishment::class, function (Generator $faker, array $parameters) {
     return [
         // Have to be filled outside with valid business-logic value
+        Replenishment::EXTERNAL_ID => $parameters[Replenishment::EXTERNAL_ID],
         Replenishment::CARD_ID => $parameters[Replenishment::CARD_ID],
         Replenishment::REPLENISHED_AT => $parameters[Replenishment::REPLENISHED_AT],
         Replenishment::AMOUNT => $parameters[Replenishment::AMOUNT] ?? round(random_int(100, 5000), -2),

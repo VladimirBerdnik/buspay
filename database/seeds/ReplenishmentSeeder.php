@@ -21,18 +21,20 @@ class ReplenishmentSeeder extends Seeder
             CardTypesIdentifiers::CHILD,
             CardTypesIdentifiers::RETIRE,
         ];
+        $maxExternalId = Replenishment::query()->max(Replenishment::EXTERNAL_ID);
         CardType::query()
             ->whereIn(CardType::ID, $replenisheableCardTypesIdentifiers)
             ->get()
-            ->each(function (CardType $cardType): void {
+            ->each(function (CardType $cardType) use (&$maxExternalId): void {
                 Card::query()
                     ->where(Card::CARD_TYPE_ID, $cardType->id)
                     ->each(
-                        function (Card $card): void {
+                        function (Card $card) use (&$maxExternalId): void {
                             for ($i = 0; $i < 4; $i++) {
                                 factory(Replenishment::class)
                                     ->make([
                                         Replenishment::CARD_ID => $card->id,
+                                        Replenishment::EXTERNAL_ID => ++$maxExternalId,
                                         Replenishment::REPLENISHED_AT => Carbon::now()->subDay(random_int(1, 7) * $i),
                                     ])
                                     ->save();
