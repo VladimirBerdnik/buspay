@@ -9,7 +9,6 @@ use App\Domain\Exceptions\Integrity\NoCardForReplenishmentException;
 use App\Domain\Exceptions\Integrity\ReplenishmentMismatchException;
 use App\Domain\Exceptions\Integrity\TooManyReplenishmentWithExternalIdException;
 use App\Domain\Import\Dto\ExternalReplenishmentData;
-use App\Domain\Services\CardService;
 use App\Models\Card;
 use App\Models\Replenishment;
 use Carbon\Carbon;
@@ -41,13 +40,6 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
     private $cardEntityService;
 
     /**
-     * Cards business logic service.
-     *
-     * @var CardService
-     */
-    private $cardService;
-
-    /**
      * Format of stored date in external storage.
      *
      * @var string
@@ -60,18 +52,15 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
      * @param ConnectionInterface $connection External storage connection
      * @param ReplenishmentEntityService $replenishmentService Replenishment entity service
      * @param CardEntityService $cardEntityService Card entities service
-     * @param CardService $cardService Cards business logic service
      */
     public function __construct(
         ConnectionInterface $connection,
         ReplenishmentEntityService $replenishmentService,
-        CardEntityService $cardEntityService,
-        CardService $cardService
+        CardEntityService $cardEntityService
     ) {
         parent::__construct($connection);
         $this->replenishmentService = $replenishmentService;
         $this->cardEntityService = $cardEntityService;
-        $this->cardService = $cardService;
     }
 
     /**
@@ -253,17 +242,6 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
     {
         Log::debug("Search replenished card with number {$externalReplenishmentData->account}");
 
-        $suspiciousAmountLimit = $this->getSuspiciousAmountLimit();
-
-        if ($externalReplenishmentData->sum <= 0 ||
-            ($suspiciousAmountLimit && $externalReplenishmentData->sum > $suspiciousAmountLimit)
-        ) {
-            Log::notice(
-                "Suspicious payment amount [$externalReplenishmentData->sum] detected " .
-                "in external payment [$externalReplenishmentData->id]. Still trying to import"
-            );
-        }
-
         /**
          * Card that was replenished.
          *
@@ -279,11 +257,23 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
 
         Log::debug("Found replenished card with ID {$replenishedCard->id}");
 
-        if (!$this->cardService->isPassengerCard($replenishedCard)) {
+        if ($externalReplenishmentData->sum <= 0) {
             Log::notice(
-                "Not a passenger card with number [$replenishedCard->card_number] replenishment found " .
-                "in external payment [$externalReplenishmentData->id]. Still trying to import"
+                "Negative or zero payment amount [{$externalReplenishmentData->sum}] detected " .
+                "in external payment [{$externalReplenishmentData->id}]. Still trying to import"
             );
+        }
+
+        $suspiciousAmountLimit = $this->getSuspiciousAmountLimit();
+        if ($suspiciousAmountLimit && $externalReplenishmentData->sum > $suspiciousAmountLimit) {
+            Log::notice(
+                "Big payment amount [{$externalReplenishmentData->sum}] detected " .
+                "in external payment [{$externalReplenishmentData->id}]. Still trying to import"
+            );
+        }
+
+        if (!$replenishedCard->active) {
+            Log::notice("Card [{$replenishedCard->id}] disabled. Still trying to import");
         }
 
         $replenishmentData = new ReplenishmentData([
@@ -301,7 +291,9 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
 
         if ($matchedItems->count() > 1) {
             throw new TooManyReplenishmentWithExternalIdException($replenishmentData->external_id);
-        } elseif ($matchedItems->count() === 1) {
+        }
+
+        if ($matchedItems->count() === 1) {
             /**
              * Found replenishment to update.
              *
