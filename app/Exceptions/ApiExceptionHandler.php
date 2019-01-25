@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
 use App\Domain\Exceptions\Integrity\BusinessLogicIntegrityException;
+use Dingo\Api\Exception\RateLimitExceededException;
 use Dingo\Api\Facade\API;
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -20,6 +21,15 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class ApiExceptionHandler extends DingoApiExceptionHandler
 {
+    /**
+     * List of exception classes that should be handled with simple message replacement or translate.
+     *
+     * @var string[]
+     */
+    protected $generalApplicationExceptions = [
+        RateLimitExceededException::class,
+    ];
+
     /**
      * Handles app exceptions and converts into dingo api response format.
      *
@@ -53,6 +63,9 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
         API::error(function (BusinessLogicIntegrityException $exception) {
             return $this->genericResponse($exception);
         });
+        API::error(function (RateLimitExceededException $exception) {
+            return $this->genericResponse($exception);
+        });
     }
 
     /**
@@ -64,16 +77,18 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
      */
     private function getExceptionMessage(Exception $exception): string
     {
-        $message = '';
         $exceptionClass = get_class($exception);
 
         if ($exception instanceof BusinessLogicConstraintException) {
-            $message = trans("exceptions.constraint.{$exceptionClass}");
+            $translationKey = "exceptions.constraint.{$exceptionClass}";
         } elseif ($exception instanceof BusinessLogicIntegrityException) {
-            $message = trans("exceptions.integrity.{$exceptionClass}");
+            $translationKey = "exceptions.integrity.{$exceptionClass}";
+        } else {
+            $translationKey = "exceptions.general.{$exceptionClass}";
         }
 
-        if (!$message) {
+        $message = trans($translationKey);
+        if (!$message || $message === $translationKey) {
             Log::notice("No translate for exception class [{$exceptionClass}] found");
             $message = $exception->getMessage() ?? $exception->__toString() ?? $exceptionClass;
         }
@@ -98,6 +113,11 @@ class ApiExceptionHandler extends DingoApiExceptionHandler
 
             return response()->make(new ErrorMessage($message), Response::HTTP_BAD_REQUEST);
         } elseif ($exception instanceof BusinessLogicIntegrityException) {
+            // All breaks of application entity exceptions that was detected
+            $message = $this->getExceptionMessage($exception);
+
+            return response()->make(new ErrorMessage($message), Response::HTTP_INTERNAL_SERVER_ERROR);
+        } elseif (in_array(get_class($exception), $this->generalApplicationExceptions)) {
             // All breaks of application entity exceptions that was detected
             $message = $this->getExceptionMessage($exception);
 

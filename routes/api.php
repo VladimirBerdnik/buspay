@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\Api\v1\BusesApiController;
+use App\Http\Controllers\Api\v1\CardBalanceApiController;
 use App\Http\Controllers\Api\v1\CardsApiController;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
@@ -52,6 +53,13 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
     $registrar->put('auth', JWTAuthApiController::class, 'refreshToken');
     $registrar->post('auth/password/reset', ForgotPasswordApiController::class, 'sendResetLinkEmail');
     $registrar->put('auth/password/reset', ResetPasswordApiController::class, 'reset');
+
+    // Card balance requests
+    $api->group(['middleware' => 'api.throttle', 'limit' => 60, 'expires' => 10], function (Router $api): void {
+        $registrar = new ApiResourceRegistrar($api);
+
+        $registrar->get('/cardBalance/{card_number}/total', CardBalanceApiController::class, 'total');
+    });
 
     // Group of routes that require authentication
     $api->group(['middleware' => ['jwt.auth']], function (Router $api): void {

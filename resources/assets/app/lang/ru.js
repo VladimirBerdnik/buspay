@@ -263,4 +263,11 @@ export default {
       },
     },
   },
+  pages: {
+    cardBalance: {
+      cardNumberLabel: 'Номер карты',
+      totalsLabel:     'Баланс',
+      recentDetails:   'Последние операции',
+    },
+  },
 };

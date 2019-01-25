@@ -28,6 +28,7 @@ use App\Domain\Exceptions\Integrity\TooManyTariffFaresForDateException;
 use App\Domain\Exceptions\Integrity\TooManyTariffPeriodsForDateException;
 use App\Domain\Exceptions\Integrity\UnexpectedCardForDriverException;
 use App\Domain\Exceptions\Integrity\UnexpectedCompanyForRouteException;
+use Dingo\Api\Exception\RateLimitExceededException;
 
 return [
     'constraint' => [
@@ -63,5 +64,8 @@ return [
         NoTariffFareForDateException::class => 'Не указана сумма платежа для тарифа и типа карты на дату',
         TooManyCardDriversException::class => 'Обнаружено несколько исторических записей назначения карты водителю',
         TooManyTariffFaresForDateException::class => 'Обнаружено несколько записей с указанием суммы проезда для тарифа на дату',
+    ],
+    'general' => [
+        RateLimitExceededException::class => 'Вы превысили допустимое число запросов. Пожалуйста, повторите попытку позднее',
     ],
 ];
