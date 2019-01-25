@@ -14,9 +14,6 @@
                       clearable
                       class="mr-3"
         />
-        <CardTypesSelect v-model="filters.cardTypeId"
-                         @input="updateQueryParameters"
-        />
       </v-layout>
     </v-flex>
     <v-data-table :headers="headers"
@@ -55,11 +52,11 @@
                 slot-scope="props"
       >
         <td>{{ props.item.id }}</td>
-        <td>{{ props.item.cardType.name }}</td>
-        <td>{{ props.item.card_number }}</td>
-        <td>{{ props.item.uin }}</td>
-        <td><v-icon>{{ props.item.active ? 'check_box' : 'check_box_outline_blank' }}</v-icon></td>
-        <td>{{ props.item.synchronized_at | timeStamp }}</td>
+        <td>{{ props.item.card.card_number }}</td>
+        <td>{{ props.item.amount }}</td>
+        <td>{{ props.item.replenished_at | timeStamp }}</td>
+        <td>{{ props.item.external_id }}</td>
+        <td>{{ props.item.created_at | timeStamp }}</td>
         <td/>
       </template>
 
@@ -77,24 +74,23 @@
 
 <script>
 import i18n from '../../lang/i18n';
-import CardsService from '../../services/CardsService';
+import ReplenishmentsService from '../../services/ReplenishmentsService';
 import PaginatedTableMixin from '../../mixins/PaginatedTableMixin';
-import CardTypesSelect from '../dropdowns/CardTypeSelect';
 import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
 
 // Table headers
 const headers = [
   { value: 'id' },
-  { value: 'card_type_id' },
-  { value: 'card_number' },
-  { value: 'uin' },
-  { value: 'active' },
-  { value: 'synchronized_at' },
+  { value: 'card.card_number' },
+  { value: 'amount' },
+  { value: 'replenished_at' },
+  { value: 'external_id' },
+  { value: 'created_at' },
 ];
 
 // Table headers translates
 Object.values(headers).forEach((header, key) => {
-  headers[key].text = i18n.t(`card.fields.${header.value}`);
+  headers[key].text = i18n.t(`replenishment.fields.${header.value}`);
 });
 
 headers.push({
@@ -105,17 +101,13 @@ headers.push({
 });
 
 export default {
-  name:       'Cards',
-  components: { CardTypesSelect },
-  mixins:     [ PaginatedTableMixin, WithUrlQueryFilterMixin ],
+  name:   'Replenishments',
+  mixins: [ PaginatedTableMixin, WithUrlQueryFilterMixin ],
   data() {
     return {
       headers,
-      service: CardsService,
+      service: ReplenishmentsService,
       search:  null,
-      filters: {
-        cardTypeId: null,
-      },
     };
   },
 };

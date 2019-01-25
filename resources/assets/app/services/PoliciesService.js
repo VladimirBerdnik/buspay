@@ -24,8 +24,6 @@ export default {
 
     this.policies = (response.data || {});
 
-    console.log('policies');
-
     return response.data;
   },
 
@@ -77,8 +75,6 @@ export default {
    * @return {boolean}
    */
   canSeeList(itemType) {
-    console.log(itemType);
-
     return this.can(itemType, intentions.get);
   },
   /**

@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\DriversApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
+use App\Http\Controllers\Api\v1\ReplenishmentsApiController;
 use App\Http\Controllers\Api\v1\RolesApiController;
 use App\Http\Controllers\Api\v1\RoutesApiController;
 use App\Http\Controllers\Api\v1\RouteSheetsApiController;
@@ -44,6 +45,7 @@ use App\Http\Transformers\Api\CardTypeTransformer;
 use App\Http\Transformers\Api\CompanyTransformer;
 use App\Http\Transformers\Api\DriverTransformer;
 use App\Http\Transformers\Api\ProfileTransformer;
+use App\Http\Transformers\Api\ReplenishmentTransformer;
 use App\Http\Transformers\Api\RoleTransformer;
 use App\Http\Transformers\Api\RouteSheetTransformer;
 use App\Http\Transformers\Api\RouteTransformer;
@@ -176,5 +178,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(CardBalanceApiController::class)
             ->needs(IDataTransformer::class)
             ->give(CardBalanceTransactionTransformer::class);
+        $this->app->when(ReplenishmentsApiController::class)
+            ->needs(IDataTransformer::class)
+            ->give(ReplenishmentTransformer::class);
     }
 }

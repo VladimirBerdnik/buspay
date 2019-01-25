@@ -16,4 +16,5 @@ export default {
   tariffsPeriods: 'tariffPeriod',
   users:          'user',
   validators:     'validator',
+  replenishments: 'replenishment',
 };

@@ -22,4 +22,5 @@ class EntitiesTypes extends Enum
     public const TARIFF_PERIOD = 'tariffPeriod';
     public const USER = 'user';
     public const VALIDATOR = 'validator';
+    public const REPLENISHMENT = 'replenishment';
 }

@@ -152,6 +152,19 @@
  * @property {Driver|null} driver_id Driver that is on bus on route.
  */
 
+
+/**
+ * Transport card balance replenishment (increasing amount of money).
+ *
+ * @typedef {Object} Replenishment
+ * @property {number} id Replenishment unique identifier.
+ * @property {number} card_id Identifier of replenished card.
+ * @property {number} amount Replenishment amount.
+ * @property {number} external_id Identifier of replenishment in external storage.
+ * @property {string} replenished_at Date when card was replenished.
+ * @property {Card} card Card that was replenished.
+ */
+
 /**
  * Paginated list details.
  *

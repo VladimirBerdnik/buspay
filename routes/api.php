@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\DriversApiController;
 use App\Http\Controllers\Api\v1\PoliciesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
+use App\Http\Controllers\Api\v1\ReplenishmentsApiController;
 use App\Http\Controllers\Api\v1\RolesApiController;
 use App\Http\Controllers\Api\v1\RoutesApiController;
 use App\Http\Controllers\Api\v1\RouteSheetsApiController;
@@ -148,6 +149,9 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         // Card related routes
         $registrar->get('cards/drivers', CardsApiController::class, 'driverCards');
         $registrar->get('cards', CardsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
+
+        // Replenishment related routes
+        $registrar->get('replenishments', ReplenishmentsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
         // Route sheets related routes
         $registrar->resource('route_sheets', RouteSheetsApiController::class, [

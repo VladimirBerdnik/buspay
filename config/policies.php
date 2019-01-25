@@ -86,4 +86,7 @@ return [
         Abilities::SHOW => [RolesIdentifiers::SUPPORT],
         Abilities::UPDATE => [RolesIdentifiers::SUPPORT],
     ],
+    EntitiesTypes::REPLENISHMENT => [
+        Abilities::GET => [RolesIdentifiers::SUPPORT],
+    ],
 ];

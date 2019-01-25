@@ -11,6 +11,7 @@ use App\Models\Card;
 use App\Models\CardType;
 use App\Models\Company;
 use App\Models\Driver;
+use App\Models\Replenishment;
 use App\Models\Role;
 use App\Models\Route;
 use App\Models\RouteSheet;
@@ -77,6 +78,7 @@ class EntityTypePolicy
             TariffPeriod::class => EntitiesTypes::TARIFF_PERIOD,
             User::class => EntitiesTypes::USER,
             Validator::class => EntitiesTypes::VALIDATOR,
+            Replenishment::class => EntitiesTypes::REPLENISHMENT,
         ];
 
         $entityType = $entityClassToTypeMap[$entityClass];

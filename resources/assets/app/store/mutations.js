@@ -28,6 +28,8 @@ export const CARDS_MUTATION = 'cards';
 export const CARDS_PAGINATION_MUTATION = 'cardsPagination';
 export const ROUTE_SHEETS_MUTATION = 'routeSheets';
 export const ROUTE_SHEETS_PAGINATION_MUTATION = 'routeSheetsPagination';
+export const REPLENISHMENTS_MUTATION = 'replenishments';
+export const REPLENISHMENTS_PAGINATION_MUTATION = 'replenishmentsPagination';
 
 const mutations = {
   /************************************
@@ -227,6 +229,8 @@ const simpleMutations = [
   VALIDATORS_MUTATION,
   ROUTE_SHEETS_MUTATION,
   ROUTE_SHEETS_PAGINATION_MUTATION,
+  REPLENISHMENTS_MUTATION,
+  REPLENISHMENTS_PAGINATION_MUTATION,
 ];
 
 simpleMutations.forEach(mutationType => {

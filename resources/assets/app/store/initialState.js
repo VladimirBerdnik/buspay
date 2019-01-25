@@ -53,5 +53,13 @@ export default function getInitialState() {
       current_page: null,
       total_pages:  null,
     },
+    replenishments:           [],
+    replenishmentsPagination: {
+      total:        null,
+      count:        null,
+      per_page:     null,
+      current_page: null,
+      total_pages:  null,
+    },
   };
 }

@@ -91,16 +91,17 @@ export default {
   data:       () => ({
     mini:      true,
     menuItems: {
-      [itemsTypes.companies]:   { icon: 'business', to: { name: routes.ROUTE_COMPANIES } },
-      [itemsTypes.users]:       { icon: 'supervisor_account', to: { name: routes.ROUTE_USERS } },
-      [itemsTypes.routes]:      { icon: 'map', to: { name: routes.ROUTE_ROUTES } },
-      [itemsTypes.buses]:       { icon: 'directions_bus', to: { name: routes.ROUTE_BUSES } },
-      [itemsTypes.drivers]:     { icon: 'recent_actors', to: { name: routes.ROUTE_DRIVERS } },
-      [itemsTypes.validators]:  { icon: 'nfc', to: { name: routes.ROUTE_VALIDATORS } },
-      [itemsTypes.tariffs]:     { icon: 'attach_money', to: { name: routes.ROUTE_TARIFFS } },
-      [itemsTypes.cardTypes]:   { icon: 'style', to: { name: routes.ROUTE_CARD_TYPES } },
-      [itemsTypes.cards]:       { icon: 'credit_card', to: { name: routes.ROUTE_CARDS } },
-      [itemsTypes.routeSheets]: { icon: 'today', to: { name: routes.ROUTE_ROUTE_SHEETS } },
+      [itemsTypes.companies]:      { icon: 'business', to: { name: routes.ROUTE_COMPANIES } },
+      [itemsTypes.users]:          { icon: 'supervisor_account', to: { name: routes.ROUTE_USERS } },
+      [itemsTypes.routes]:         { icon: 'map', to: { name: routes.ROUTE_ROUTES } },
+      [itemsTypes.buses]:          { icon: 'directions_bus', to: { name: routes.ROUTE_BUSES } },
+      [itemsTypes.drivers]:        { icon: 'recent_actors', to: { name: routes.ROUTE_DRIVERS } },
+      [itemsTypes.validators]:     { icon: 'nfc', to: { name: routes.ROUTE_VALIDATORS } },
+      [itemsTypes.tariffs]:        { icon: 'attach_money', to: { name: routes.ROUTE_TARIFFS } },
+      [itemsTypes.cardTypes]:      { icon: 'style', to: { name: routes.ROUTE_CARD_TYPES } },
+      [itemsTypes.cards]:          { icon: 'credit_card', to: { name: routes.ROUTE_CARDS } },
+      [itemsTypes.routeSheets]:    { icon: 'today', to: { name: routes.ROUTE_ROUTE_SHEETS } },
+      [itemsTypes.replenishments]: { icon: 'assignment_returned', to: { name: routes.ROUTE_REPLENISHMENTS } },
     },
     steps: {},
   }),
@@ -174,6 +175,7 @@ export default {
      */
     validateAuth() {
       if (!this.authenticated) {
+        // TODO lang resource
         AlertsService.warning('Выполните вход, пожалуйста');
         this.$router.push({ name: routes.ROUTE_HOME });
       }

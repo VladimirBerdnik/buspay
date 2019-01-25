@@ -20,6 +20,8 @@ export const CARDS_GETTER = 'cards';
 export const CARDS_PAGINATION_GETTER = 'cardsPagination';
 export const ROUTE_SHEETS_GETTER = 'routeSheets';
 export const ROUTE_SHEETS_PAGINATION_GETTER = 'routeSheetsPagination';
+export const REPLENISHMENTS_GETTER = 'replenishments';
+export const REPLENISHMENTS_PAGINATION_GETTER = 'replenishmentsPagination';
 
 const getters = {
   /**
@@ -75,6 +77,8 @@ const simpleGetters = [
   VALIDATORS_GETTER,
   ROUTE_SHEETS_GETTER,
   ROUTE_SHEETS_PAGINATION_GETTER,
+  REPLENISHMENTS_GETTER,
+  REPLENISHMENTS_PAGINATION_GETTER,
 ];
 
 simpleGetters.forEach(getterType => {
