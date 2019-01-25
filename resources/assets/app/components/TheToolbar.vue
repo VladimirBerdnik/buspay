@@ -18,14 +18,24 @@
       </v-btn>
     </v-toolbar-items>
     <v-spacer/>
-    <v-text-field
-      :label="$t('layout.toolbar.menu.card.placeholder')"
-      flat
-      solo-inverted
-      hide-details
-      prepend-inner-icon="credit_card"
-      append-outer-icon="search"
-    />
+    <v-flex>
+      <v-tooltip bottom>
+        <v-text-field
+          slot="activator"
+          :label="$t('layout.toolbar.menu.card.placeholder')"
+          v-model="cardNumber"
+          mask="########"
+          flat
+          solo-inverted
+          hide-details
+          prepend-inner-icon="credit_card"
+          append-outer-icon="search"
+          @click:append-outer="goToCardDetails"
+          @change="goToCardDetails"
+        />
+        <span>{{ $t('pages.cardBalance.whatIsCardNumber') }}</span>
+      </v-tooltip>
+    </v-flex>
     <v-spacer/>
     <v-toolbar-items>
       <TheLoginMenu v-if="!authenticated"
@@ -48,6 +58,10 @@ export default {
     TheLoginMenu,
     TheProfileMenu,
   },
+  data: () => ({
+    cardNumber:               null,
+    cardNumberTooltipVisible: false,
+  }),
   computed: {
     authenticated: () => AuthService.isAuthenticated(),
   },
@@ -64,6 +78,20 @@ export default {
      */
     goToCabinet() {
       this.$router.push({ name: router.ROUTE_CABINET });
+    },
+    /**
+     * Navigates user to card details page.
+     */
+    goToCardDetails() {
+      this.cardNumberTooltipVisible = false;
+
+      if (!this.cardNumber) {
+        return;
+      }
+      this.$router.push({
+        name:   router.ROUTE_CARD_DETAILS,
+        params: { cardNumber: this.cardNumber },
+      });
     },
   },
 };

@@ -265,9 +265,10 @@ export default {
   },
   pages: {
     cardBalance: {
-      cardNumberLabel: 'Номер карты',
-      totalsLabel:     'Баланс',
-      recentDetails:   'Последние операции',
+      cardNumberLabel:  'Номер карты',
+      totalsLabel:      'Баланс',
+      recentDetails:    'Последние операции',
+      whatIsCardNumber: 'Номер карты это 8 цифр, которые Вы можете увидеть на лицевой стороне карты',
     },
   },
 };

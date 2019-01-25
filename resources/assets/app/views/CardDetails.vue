@@ -68,11 +68,29 @@ export default {
     cardNumber:       null,
     recentOperations: null,
   }),
+  watch: {
+    /**
+     * Get card number from route when it is changed.
+     *
+     * @param {Object} to New route value
+     */
+    $route(to) {
+      this.setCardNumber(to.params.cardNumber.trim());
+    },
+  },
   mounted() {
-    this.cardNumber = this.$route.params.cardNumber.trim();
-    this.getCardTotals(this.cardNumber);
+    this.setCardNumber(this.$route.params.cardNumber.trim());
   },
   methods: {
+    /**
+     * Set card number that should be handled on the page.
+     *
+     * @param {Number} cardNumber New card number to handle on page
+     */
+    setCardNumber(cardNumber) {
+      this.cardNumber = cardNumber;
+      this.getCardTotals(this.cardNumber);
+    },
     /**
      * Retrieves given card balance totals.
      *

@@ -4,7 +4,7 @@ export default {
   /**
    * Reads card balance total.
    *
-   * @param {string} cardNumber Card number to retrieve balance totals for
+   * @param {Number} cardNumber Card number to retrieve balance totals for
    *
    * @return {Number}
    *
