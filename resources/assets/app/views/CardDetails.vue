@@ -88,12 +88,12 @@ export default {
      *
      * @param {Number} cardNumber New card number to handle on page
      */
-    setCardNumber(cardNumber) {
+    async setCardNumber(cardNumber) {
       this.cardNumber = cardNumber;
       this.totals = null;
       this.recentOperations = null;
-      this.loadCardTotals(this.cardNumber);
-      this.loadCardTransactions(this.cardNumber);
+      await this.loadCardTotals(this.cardNumber);
+      await this.loadCardTransactions(this.cardNumber);
     },
     /**
      * Retrieves given card balance totals.
