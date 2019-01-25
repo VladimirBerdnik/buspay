@@ -2,7 +2,8 @@ import roles from '../policies/roles';
 
 export default {
   app: {
-    title: 'AutoToleu',
+    title:    'AutoToleu',
+    currency: '₸',
   },
   common: {
     buttons: {

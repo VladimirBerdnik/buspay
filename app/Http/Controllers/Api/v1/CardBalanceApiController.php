@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\v1;
 use App\Domain\EntitiesServices\CardEntityService;
 use App\Domain\Services\CardBalanceService;
 use App\Models\Card;
+use Dingo\Api\Http\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\Transformers\IDataTransformer;
 
 /**
@@ -47,6 +49,29 @@ class CardBalanceApiController extends BaseApiController
     }
 
     /**
+     * Retrieves card by card number.
+     *
+     * @param string $cardNumber Card number by which need to retrieve card
+     *
+     * @return Card
+     */
+    private function getCard(string $cardNumber): Card
+    {
+        /**
+         * Requested card for which need to retrieve totals.
+         *
+         * @var Card $card
+         */
+        $card = $this->cardEntityService->findWhere([Card::CARD_NUMBER => $cardNumber]);
+
+        if (!$card) {
+            throw new ModelNotFoundException(trans('errors.cardByNumberNotFound'));
+        }
+
+        return $card;
+    }
+
+    /**
      * Returns card replenishment and write-off totals.
      *
      * @param string $cardNumber Card number for which need to retrieve totals
@@ -55,16 +80,26 @@ class CardBalanceApiController extends BaseApiController
      */
     public function total(string $cardNumber): JsonResponse
     {
-        /**
-         * Requested card for which need to retrieve totals.
-         *
-         * @var Card $card
-         */
-        $card = $this->cardEntityService->findWhere([Card::CARD_NUMBER => $cardNumber]);
-        if (!$card) {
-            throw (new ModelNotFoundException())->setModel(Card::class, $cardNumber);
-        }
+        $card = $this->getCard($cardNumber);
 
         return response()->json(['total' => $this->cardBalanceService->getTotal($card)]);
+    }
+
+    /**
+     * Returns transactions for card with given card number.
+     *
+     * @param string $cardNumber Card number for which need to retrieve transactions
+     *
+     * @return Response
+     *
+     * @throws InvalidEnumValueException
+     */
+    public function transactions(string $cardNumber): Response
+    {
+        $card = $this->getCard($cardNumber);
+
+        $transactions = $this->cardBalanceService->getTransactions($card);
+
+        return $this->response->collection($transactions, $this->transformer);
     }
 }

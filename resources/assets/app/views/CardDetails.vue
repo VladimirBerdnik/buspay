@@ -19,7 +19,9 @@
             <v-spacer/>
             <span class="headline">
               {{ $t('pages.cardBalance.totalsLabel') }} :
-              <span class="green--text">{{ totals === null ? '-' : totals }} ₸</span>
+              <span class="green--text">
+                {{ totals === null ? '-' : totals }} {{ $t('app.currency') }}
+              </span>
             </span>
           </v-layout>
         </v-card-title>
@@ -34,21 +36,18 @@
           </v-layout>
           <v-timeline>
             <v-timeline-item
-              v-for="(year, i) in years"
-              :color="green"
-              :key="i"
+              v-for="(transaction, index) in recentOperations"
+              :color="transaction.type === CardTransactionsTypes.replenishment ? 'green' : 'red'"
+              :key="index"
               right
               small
             >
-              <span
-                slot="opposite"
-                :class="`headline font-weight-bold red--text`"
-                v-text="year.year"
-              />
-              <span
-                :class="`headline font-weight-bold green--text`"
-                v-text="year.year"
-              />
+              <span slot="opposite">
+                {{ transaction.date | timeStamp }}
+              </span>
+              <span :class="`headline font-weight-bold`">
+                {{ transaction.amount }} {{ $t('app.currency') }}
+              </span>
             </v-timeline-item>
           </v-timeline>
         </template>
@@ -59,6 +58,7 @@
 
 <script>
 import CardBalanceService from '../services/CardBalanceService';
+import CardTransactionsTypes from '../enums/CardTransactionsTypes';
 
 export default {
   name: 'CardDetails',
@@ -67,6 +67,7 @@ export default {
     totals:           null,
     cardNumber:       null,
     recentOperations: null,
+    CardTransactionsTypes,
   }),
   watch: {
     /**
@@ -89,17 +90,26 @@ export default {
      */
     setCardNumber(cardNumber) {
       this.cardNumber = cardNumber;
-      this.getCardTotals(this.cardNumber);
+      this.totals = null;
+      this.recentOperations = null;
+      this.loadCardTotals(this.cardNumber);
+      this.loadCardTransactions(this.cardNumber);
     },
     /**
      * Retrieves given card balance totals.
      *
      * @param {Number} cardNumber Card number for which need to retrieve card totals
      */
-    async getCardTotals(cardNumber) {
-      this.totals = null;
-      this.recentOperations = null;
+    async loadCardTotals(cardNumber) {
       this.totals = await CardBalanceService.totals(cardNumber);
+    },
+    /**
+     * Retrieves given card transactions.
+     *
+     * @param {Number} cardNumber Card number for which need to retrieve card transactions
+     */
+    async loadCardTransactions(cardNumber) {
+      this.recentOperations = await CardBalanceService.transactions(cardNumber);
     },
   },
 };

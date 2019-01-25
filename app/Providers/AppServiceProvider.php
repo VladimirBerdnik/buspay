@@ -24,6 +24,7 @@ use App\Domain\Import\ReplenishmentImporter;
 use App\Domain\Import\ValidatorsImporter;
 use App\Exceptions\ApiExceptionHandler;
 use App\Http\Controllers\Api\v1\BusesApiController;
+use App\Http\Controllers\Api\v1\CardBalanceApiController;
 use App\Http\Controllers\Api\v1\CardsApiController;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
@@ -37,6 +38,7 @@ use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
 use App\Http\Controllers\Api\v1\ValidatorsApiController;
 use App\Http\Transformers\Api\BusTransformer;
+use App\Http\Transformers\Api\CardBalanceTransactionTransformer;
 use App\Http\Transformers\Api\CardTransformer;
 use App\Http\Transformers\Api\CardTypeTransformer;
 use App\Http\Transformers\Api\CompanyTransformer;
@@ -171,5 +173,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(RouteSheetsApiController::class)
             ->needs(IDataTransformer::class)
             ->give(RouteSheetTransformer::class);
+        $this->app->when(CardBalanceApiController::class)
+            ->needs(IDataTransformer::class)
+            ->give(CardBalanceTransactionTransformer::class);
     }
 }

@@ -54,11 +54,12 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
     $registrar->post('auth/password/reset', ForgotPasswordApiController::class, 'sendResetLinkEmail');
     $registrar->put('auth/password/reset', ResetPasswordApiController::class, 'reset');
 
-    // Card balance requests
+    // Card balance requests. Only 60 requests in 10 minutes allowed
     $api->group(['middleware' => 'api.throttle', 'limit' => 60, 'expires' => 10], function (Router $api): void {
         $registrar = new ApiResourceRegistrar($api);
 
         $registrar->get('/cardBalance/{card_number}/total', CardBalanceApiController::class, 'total');
+        $registrar->get('/cardBalance/{card_number}/transactions', CardBalanceApiController::class, 'transactions');
     });
 
     // Group of routes that require authentication

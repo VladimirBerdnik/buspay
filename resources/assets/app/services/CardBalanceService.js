@@ -17,11 +17,17 @@ export default {
   },
 
   /**
-   * Returns list of cards.
+   * Reads card balance transactions.
    *
-   * @return {Card[]}
+   * @param {Number} cardNumber Card number to retrieve balance totals for
+   *
+   * @return {CardBalanceTransactionData[]}
+   *
+   * @throws Error
    */
-  get() {
-    return this.items();
+  async transactions(cardNumber) {
+    const response = await axios.get(`/cardBalance/${cardNumber}/transactions`);
+
+    return response.data.results;
   },
 };
