@@ -25,6 +25,10 @@ export default {
      * @return {boolean}
      */
     intentionAllowed() {
+      if (!this.intention) {
+        return true;
+      }
+
       return this.policies.can(this.itemType, this.intention);
     },
     /**
