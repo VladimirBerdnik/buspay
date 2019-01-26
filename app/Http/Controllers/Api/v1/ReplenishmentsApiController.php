@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Domain\EntitiesServices\CardEntityService;
 use App\Domain\EntitiesServices\ReplenishmentEntityService;
 use App\Domain\Enums\Abilities;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
+use App\Models\Card;
 use App\Models\Replenishment;
 use Dingo\Api\Http\Response;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -18,22 +20,34 @@ use Saritasa\Transformers\IDataTransformer;
 class ReplenishmentsApiController extends BaseApiController
 {
     /**
-     * Replenishments entity service.
+     * Replenishment entities business logic service.
      *
      * @var ReplenishmentEntityService
      */
-    private $replenishmentService;
+    private $replenishmentEntityService;
+
+    /**
+     * Card entities service.
+     *
+     * @var CardEntityService
+     */
+    private $cardEntityService;
 
     /**
      * Replenishments requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
-     * @param ReplenishmentEntityService $replenishmentService Replenishments entity service
+     * @param ReplenishmentEntityService $replenishmentEntityService Replenishment entities business logic service
+     * @param CardEntityService $cardEntityService Card entities service
      */
-    public function __construct(IDataTransformer $transformer, ReplenishmentEntityService $replenishmentService)
-    {
+    public function __construct(
+        IDataTransformer $transformer,
+        ReplenishmentEntityService $replenishmentEntityService,
+        CardEntityService $cardEntityService
+    ) {
         parent::__construct($transformer);
-        $this->replenishmentService = $replenishmentService;
+        $this->replenishmentEntityService = $replenishmentEntityService;
+        $this->cardEntityService = $cardEntityService;
     }
 
     /**
@@ -53,18 +67,33 @@ class ReplenishmentsApiController extends BaseApiController
         $this->authorize(Abilities::GET, new Replenishment());
 
         $filters = $request->getFilters([]);
+
         $searchString = $request->getSearchString();
         if ($searchString) {
-            $filters[] = [
-                [
-                    [Replenishment::EXTERNAL_ID, '=', $searchString, 'or'],
-                    [Replenishment::AMOUNT, '=', $searchString, 'or'],
-                ],
+            $textSearchConditions = [
+                [Replenishment::EXTERNAL_ID, '=', $searchString, 'or'],
+                [Replenishment::AMOUNT, '=', $searchString, 'or'],
             ];
+            /**
+             * Card found by number that equals search string.
+             *
+             * @var Card $card
+             */
+            $card = $this->cardEntityService->findWhere([Card::CARD_NUMBER => $searchString]);
+            if ($card) {
+                $textSearchConditions[] = [Replenishment::CARD_ID, '=', $card->id, 'or'];
+            }
+            $filters[] = [$textSearchConditions];
+        }
+        if ($request->activeFrom()) {
+            $filters[] = [Replenishment::REPLENISHED_AT, '>=', $request->activeFrom()];
+        }
+        if ($request->activeTo()) {
+            $filters[] = [Replenishment::REPLENISHED_AT, '<=', $request->activeTo()];
         }
 
         return $this->response->paginator(
-            $this->replenishmentService->getPageWith(
+            $this->replenishmentEntityService->getPageWith(
                 $request->getPagingInfo(),
                 ['card'],
                 [],

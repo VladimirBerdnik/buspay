@@ -278,6 +278,8 @@ export default {
         card_number: 'Номер карты',
       },
     },
+    active_from: 'Пополнения с',
+    active_to:   'Пополнения по',
   },
   pages: {
     cardBalance: {

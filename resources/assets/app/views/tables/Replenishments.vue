@@ -14,6 +14,22 @@
                       clearable
                       class="mr-3"
         />
+        <DateSelect v-model="activeFrom"
+                    :label="$t('replenishment.active_from')"
+                    :default-hours="0"
+                    :default-minutes="0"
+                    :default-seconds="0"
+                    time-as-hint
+                    class="mr-3 v-input"
+        />
+        <DateSelect v-model="activeTo"
+                    :label="$t('replenishment.active_to')"
+                    :default-hours="23"
+                    :default-minutes="59"
+                    :default-seconds="59"
+                    time-as-hint
+                    class="v-input"
+        />
       </v-layout>
     </v-flex>
     <v-data-table :headers="headers"
@@ -52,7 +68,9 @@
                 slot-scope="props"
       >
         <td>{{ props.item.id }}</td>
-        <td>{{ props.item.card.card_number }}</td>
+        <ActionCell @activate="goToCardDetails(props.item.card.card_number)">
+          {{ props.item.card.card_number }}
+        </ActionCell>
         <td>{{ props.item.amount }}</td>
         <td>{{ props.item.replenished_at | timeStamp }}</td>
         <td>{{ props.item.external_id }}</td>
@@ -74,14 +92,17 @@
 
 <script>
 import i18n from '../../lang/i18n';
+import * as router from '../../router/index';
 import ReplenishmentsService from '../../services/ReplenishmentsService';
 import PaginatedTableMixin from '../../mixins/PaginatedTableMixin';
 import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
+import ActionCell from './components/ActionCell';
+import DateSelect from '../dropdowns/DateSelect';
 
 // Table headers
 const headers = [
   { value: 'id' },
-  { value: 'card.card_number' },
+  { value: 'card.card_number', sortable: false },
   { value: 'amount' },
   { value: 'replenished_at' },
   { value: 'external_id' },
@@ -101,14 +122,26 @@ headers.push({
 });
 
 export default {
-  name:   'Replenishments',
-  mixins: [ PaginatedTableMixin, WithUrlQueryFilterMixin ],
+  name:       'Replenishments',
+  components: { DateSelect, ActionCell },
+  mixins:     [ PaginatedTableMixin, WithUrlQueryFilterMixin ],
   data() {
     return {
       headers,
-      service: ReplenishmentsService,
-      search:  null,
+      service:    ReplenishmentsService,
+      pagination: {
+        sortBy:     'replenished_at',
+        descending: true,
+      },
     };
+  },
+  methods: {
+    goToCardDetails(cardNumber) {
+      this.$router.push({
+        name:   router.ROUTE_CARD_DETAILS,
+        params: { cardNumber },
+      });
+    },
   },
 };
 </script>
