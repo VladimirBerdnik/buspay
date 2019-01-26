@@ -112,7 +112,6 @@ export default {
     return {
       headers,
       service: CardsService,
-      search:  null,
       filters: {
         cardTypeId: null,
       },
