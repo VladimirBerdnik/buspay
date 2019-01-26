@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import * as router from '../router';
 import CardBalanceService from '../services/CardBalanceService';
 import CardTransactionsTypes from '../enums/CardTransactionsTypes';
 
@@ -76,17 +77,28 @@ export default {
      * @param {Object} to New route value
      */
     $route(to) {
-      this.setCardNumber(to.params.cardNumber.trim());
+      this.handleRoute(to);
     },
   },
   mounted() {
-    this.setCardNumber(this.$route.params.cardNumber.trim());
+    this.handleRoute(this.$route);
   },
   methods: {
     /**
+     * Reacts to route changing. WHen card number changed, for example.
+     *
+     * @param {Object} route Route to handle
+     */
+    handleRoute(route) {
+      if (route.name !== router.ROUTE_CARD_DETAILS) {
+        return;
+      }
+      this.setCardNumber(String(route.params.cardNumber).trim());
+    },
+    /**
      * Set card number that should be handled on the page.
      *
-     * @param {Number} cardNumber New card number to handle on page
+     * @param {Number|String} cardNumber New card number to handle on page
      */
     async setCardNumber(cardNumber) {
       this.cardNumber = cardNumber;
