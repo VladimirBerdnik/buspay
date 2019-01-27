@@ -17,6 +17,7 @@ use App\Domain\EntitiesServices\RouteSheetEntityService;
 use App\Domain\EntitiesServices\TariffEntityService;
 use App\Domain\EntitiesServices\TariffFareEntityService;
 use App\Domain\EntitiesServices\TariffPeriodEntityService;
+use App\Domain\EntitiesServices\TransactionEntityService;
 use App\Domain\EntitiesServices\UserEntityService;
 use App\Domain\EntitiesServices\ValidatorEntityService;
 use App\Domain\Import\CardsImporter;
@@ -67,6 +68,7 @@ use App\Repositories\RouteSheetRepository;
 use App\Repositories\TariffFareRepository;
 use App\Repositories\TariffPeriodRepository;
 use App\Repositories\TariffRepository;
+use App\Repositories\TransactionRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\ValidatorRepository;
 use Dingo\Api\Transformer\Adapter\Fractal;
@@ -150,6 +152,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(ReplenishmentEntityService::class)
             ->needs(IRepository::class)
             ->give(ReplenishmentRepository::class);
+        $this->app->when(TransactionEntityService::class)
+            ->needs(IRepository::class)
+            ->give(TransactionRepository::class);
 
         // Register transformers bindings
         $this->app->when(ProfileApiController::class)->needs(IDataTransformer::class)->give(ProfileTransformer::class);
