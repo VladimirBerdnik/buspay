@@ -17,9 +17,9 @@ use App\Domain\Exceptions\Integrity\TooManyCardDriversException;
 use App\Domain\Exceptions\Integrity\TooManyDriverRouteSheetsForDateException;
 use App\Domain\Exceptions\Integrity\TooManyTariffFaresForDateException;
 use App\Domain\Exceptions\Integrity\TooManyTariffPeriodsForDateException;
-use App\Domain\ICardAuthorization;
 use App\Models\Bus;
 use App\Models\Driver;
+use App\Models\Transaction;
 use Illuminate\Validation\ValidationException;
 use Log;
 use Saritasa\Exceptions\ConfigurationException;
@@ -92,23 +92,23 @@ class CardAuthorizationService
     /**
      * Returns bus where card authorization was performed.
      *
-     * @param ICardAuthorization $cardAuthorization Card on bus authorization details
+     * @param Transaction $cardTransaction Card on bus authorization details
      *
      * @return Bus
      *
      * @throws TooManyBusValidatorsException
      */
-    protected function getValidBus(ICardAuthorization $cardAuthorization): Bus
+    protected function getValidBus(Transaction $cardTransaction): Bus
     {
         $busValidator = $this->busesValidatorEntityService->getForValidator(
-            $cardAuthorization->getValidator(),
-            $cardAuthorization->getDate()
+            $cardTransaction->validator,
+            $cardTransaction->authorized_at
         );
 
         if (!$busValidator) {
             throw new UnassignedValidatorCardAuthorizationException(
-                $cardAuthorization->getValidator(),
-                $cardAuthorization->getDate()
+                $cardTransaction->validator,
+                $cardTransaction->authorized_at
             );
         }
 
@@ -118,23 +118,23 @@ class CardAuthorizationService
     /**
      * Returns driver that owned authorized card.
      *
-     * @param ICardAuthorization $cardAuthorization Card on bus authorization details
+     * @param Transaction $cardTransaction Card on bus authorization details
      *
      * @return Driver
      *
      * @throws TooManyCardDriversException
      */
-    protected function getValidDriver(ICardAuthorization $cardAuthorization): Driver
+    protected function getValidDriver(Transaction $cardTransaction): Driver
     {
         $driverCard = $this->driversCardEntityService->getForCard(
-            $cardAuthorization->getCard(),
-            $cardAuthorization->getDate()
+            $cardTransaction->card,
+            $cardTransaction->authorized_at
         );
 
         if (!$driverCard) {
             throw new CardWithoutDriverAuthorizationException(
-                $cardAuthorization->getCard(),
-                $cardAuthorization->getDate()
+                $cardTransaction->card,
+                $cardTransaction->authorized_at
             );
         }
 
@@ -144,7 +144,7 @@ class CardAuthorizationService
     /**
      * Process card authorization.
      *
-     * @param ICardAuthorization $cardAuthorization Card on validator authorization record
+     * @param Transaction $cardTransaction Card on validator authorization record
      *
      * @throws ConfigurationException
      * @throws InconsistentRouteSheetStateException
@@ -160,25 +160,25 @@ class CardAuthorizationService
      * @throws ValidationException
      * @throws InvalidEnumValueException
      */
-    public function processCardAuthorization(ICardAuthorization $cardAuthorization): void
+    public function processCardAuthorization(Transaction $cardTransaction): void
     {
-        $bus = $this->getValidBus($cardAuthorization);
-        $card = $cardAuthorization->getCard();
-        $authorizationDate = $cardAuthorization->getDate();
+        $bus = $this->getValidBus($cardTransaction);
+        $card = $cardTransaction->card;
+        $authorizationDate = $cardTransaction->authorized_at;
 
         $this->paymentValidationService->validatePaymentAmount(
             $card,
-            $cardAuthorization->getTariff(),
-            $cardAuthorization->getPaymentAmount(),
+            $cardTransaction->tariff,
+            $cardTransaction->amount,
             $authorizationDate
         );
 
         if ($this->cardService->isIgnorableCard($card)) {
-            Log::debug('Ignorable card type authorization skipped', $cardAuthorization->toArray());
+            Log::debug('Ignorable card type authorization skipped', $cardTransaction->toArray());
 
             return;
         } elseif ($this->cardService->isDriverCard($card)) {
-            $driver = $this->getValidDriver($cardAuthorization);
+            $driver = $this->getValidDriver($cardTransaction);
 
             $this->routeSheetService->openForBusAndDriver($bus, $driver, $authorizationDate);
         } elseif ($this->cardService->isPassengerCard($card)) {
