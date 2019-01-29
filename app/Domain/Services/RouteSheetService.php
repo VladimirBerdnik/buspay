@@ -240,6 +240,7 @@ class RouteSheetService
         $date = $date ?? Carbon::now();
 
         if ($driver) {
+            // When bus driver provided need to check on which route sheet he is authorized at this moment
             $this->validateDriverOnBusAuthorization($driver, $bus);
             $driverRouteSheet = $this->getForDriver($driver, $date);
         } else {
@@ -249,24 +250,32 @@ class RouteSheetService
         $safetyMinutesInterval = $this->getRepeatedAuthenticationSafetyMinutesInterval();
         $safeRepeatedAuthorizationTime = Carbon::now()->subMinutes($safetyMinutesInterval);
 
+        // If provided driver authorized on some route sheet
         if ($driverRouteSheet) {
+            // Authorized on another bus
             $anotherBusAuthorization = $driverRouteSheet->bus_id !== $bus->id;
             $safetyRepeatedIntervalExceeded = $driverRouteSheet->active_from->lt($safeRepeatedAuthorizationTime);
             if ($anotherBusAuthorization) {
+                // If driver authorized on another bus then need to close his current route sheet and open another
                 Log::debug("Driver [{$driver->id}] authorized on new bus [{$bus->id}]. Closing current route sheet");
                 $this->closeRouteSheet($driverRouteSheet, $date->copy()->subSecond());
                 $driverRouteSheet = null;
             } elseif ($safetyRepeatedIntervalExceeded) {
+                // If driver authorized on same bus but after long time after previous authorization
+                // need to close old and open new route sheet
                 Log::debug("Driver [{$driver->id}] authorized on bus [{$bus->id}] again. Recreating route sheet");
                 $this->closeRouteSheet($driverRouteSheet, $date->copy()->subSecond());
                 $driverRouteSheet = null;
             } else {
+                // Driver authorized on the bus that is requested
                 Log::debug("Driver [{$driver->id}] authorized on bus [{$bus->id}] again in safety interval. Ignoring");
             }
             // If driver route sheet still exists it means that allowed repeated authorization on same bus was performed
         }
 
         $busRouteSheet = $this->getForBus($bus, $date);
+
+        // If route sheet for requested bus exists
         if ($busRouteSheet) {
             $anotherDriverAuthorization = $driver && $busRouteSheet->driver_id !== $driver->id;
             $safetyRepeatedIntervalExceeded = $busRouteSheet->active_from->lt($safeRepeatedAuthorizationTime);
@@ -291,12 +300,15 @@ class RouteSheetService
         }
 
         if ($busRouteSheet && $driverRouteSheet && $busRouteSheet->id !== $driverRouteSheet->id) {
-            Log::error("One of route sheets [{$busRouteSheet->id}, {$driverRouteSheet->id}] should be closed");
+            Log::error(
+                "One of route sheets [{$busRouteSheet->id}, {$driverRouteSheet->id}] should be closed at this moment"
+            );
 
             throw new InconsistentRouteSheetStateException();
         }
 
-        if ($busRouteSheet || !$driverRouteSheet) {
+        if ($busRouteSheet) {
+            // No need to create when already exists
             return;
         }
 

@@ -295,7 +295,7 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
 
         if ($matchedItems->count() === 1) {
             /**
-             * Found replenishment to update.
+             * Found replenishment to check.
              *
              * @var Replenishment $replenishment
              */
