@@ -18,4 +18,9 @@ return [
         // Suspicious replenishment amount. If replenishment will be greater than given value then notice will be logged
         'suspiciousAmountLimit' => 10000,
     ],
+    'transaction' => [
+        'importChunkSize' => 50,
+        // Transactions records within given days interval will be checked for presence in local and external storage
+        'synchronisationDaysInterval' => 14,
+    ],
 ];
