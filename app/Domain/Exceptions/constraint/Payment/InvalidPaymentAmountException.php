@@ -59,7 +59,7 @@ class InvalidPaymentAmountException extends BusinessLogicConstraintException
      */
     public function __construct(Card $card, Tariff $tariff, int $amount, TariffFare $tariffFare, Carbon $date)
     {
-        parent::__construct('No payment by card');
+        parent::__construct('Invalid payment amount');
         $this->card = $card;
         $this->date = $date;
         $this->tariff = $tariff;

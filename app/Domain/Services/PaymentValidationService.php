@@ -89,13 +89,13 @@ class PaymentValidationService
     public function validatePaymentAmount(Card $card, ?Tariff $tariff, ?int $amount, Carbon $date): void
     {
         $shouldPay = $this->shouldPay($card);
-        $paymentProvided = $tariff || !is_null($amount);
+        $paymentInformationProvided = $tariff || !is_null($amount);
 
-        if (!$shouldPay && $paymentProvided) {
+        if (!$shouldPay && $paymentInformationProvided) {
             throw new UnneededPaymentException($card, $date);
         }
 
-        if (!$shouldPay && !$paymentProvided) {
+        if (!$shouldPay && !$paymentInformationProvided) {
             return;
         }
 

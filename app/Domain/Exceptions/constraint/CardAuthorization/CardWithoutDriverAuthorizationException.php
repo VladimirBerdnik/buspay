@@ -22,19 +22,19 @@ class CardWithoutDriverAuthorizationException extends CardAuthorizationException
      *
      * @var Carbon
      */
-    private $carbon;
+    private $authorizedAt;
 
     /**
      * Thrown when authorization by card without assigned driver performed.
      *
      * @param Card $card Authorized card without driver
-     * @param Carbon $carbon Authorization date
+     * @param Carbon $authorizedAt Authorization date
      */
-    public function __construct(Card $card, Carbon $carbon)
+    public function __construct(Card $card, Carbon $authorizedAt)
     {
-        parent::__construct('Unsupported card authorization');
         $this->card = $card;
-        $this->carbon = $carbon;
+        $this->authorizedAt = $authorizedAt;
+        parent::__construct('Unsupported card authorization');
     }
 
     /**
@@ -52,8 +52,8 @@ class CardWithoutDriverAuthorizationException extends CardAuthorizationException
      *
      * @return Carbon
      */
-    public function getCarbon(): Carbon
+    public function getAuthorizedAt(): Carbon
     {
-        return $this->carbon;
+        return $this->authorizedAt;
     }
 }
