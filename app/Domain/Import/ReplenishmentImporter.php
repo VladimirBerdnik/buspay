@@ -150,8 +150,8 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
         try {
             $verifyTo = Carbon::today();
             $where = [
-                [Replenishment::REPLENISHED_AT, '>=', $verifyFrom->format($this->externalStorageDateFormat)],
-                [Replenishment::REPLENISHED_AT, '<=', $verifyTo->format($this->externalStorageDateFormat)],
+                [Replenishment::REPLENISHED_AT, '>=', $verifyFrom],
+                [Replenishment::REPLENISHED_AT, '<=', $verifyTo],
             ];
             $this->replenishmentService->chunkWith(
                 [],
