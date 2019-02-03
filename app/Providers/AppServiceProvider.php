@@ -125,6 +125,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(ValidatorsImporter::class)->needs(ConnectionInterface::class)->give(function () {
             return DB::connection('external');
         });
+        $this->app->when(TransactionsImporter::class)->needs(ConnectionInterface::class)->give(function () {
+            return DB::connection('external');
+        });
 
         // Register repositories bindings
         $this->app->when(BusesValidatorEntityService::class)
