@@ -8,6 +8,11 @@ use App\Domain\EntitiesServices\TariffEntityService;
 use App\Domain\EntitiesServices\TransactionEntityService;
 use App\Domain\EntitiesServices\ValidatorEntityService;
 use App\Domain\Import\Dto\ExternalTransactionData;
+use App\Domain\Import\Exceptions\Integrity\NoCardForTransactionException;
+use App\Domain\Import\Exceptions\Integrity\NoTariffForTransactionException;
+use App\Domain\Import\Exceptions\Integrity\NoValidatorForTransactionException;
+use App\Domain\Import\Exceptions\Integrity\TooManyTransactionWithExternalIdException;
+use App\Domain\Import\Exceptions\Integrity\TransactionMismatchException;
 use App\Domain\Services\CardAuthorizationService;
 use App\Models\Card;
 use App\Models\Tariff;
@@ -143,7 +148,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
         Log::debug("Transactions details import process started");
 
         $this->getConnection()
-            ->table('transactions')
+            ->table('transaction')
             ->where(ExternalTransactionData::DATE, '>=', $importFrom)
             ->orderBy(ExternalTransactionData::ID)
             ->chunk($this->getChunkSize(), function (Collection $items, int $pageNumber): void {
@@ -185,7 +190,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
 
                     // Let's retrieve list ov transaction with same identifiers from external storage
                     $externalStorageTransactionsIdentifiers = $this->getConnection()
-                        ->table('transactions')
+                        ->table('transaction')
                         ->whereIn(ExternalTransactionData::ID, $localStorageTransactionsIdentifiers)
                         ->get()
                         ->pluck(ExternalTransactionData::ID);
@@ -288,7 +293,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
 
         Log::debug("Found authorized validator with ID {$validator->id}");
 
-        if (false === true) {
+        if ($externalTransactionData->tariff_id) {
             /**
              * Tariff on which card was authorized.
              *
@@ -299,7 +304,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
             ]);
 
             if (!$tariff) {
-                throw new NoTariffForTransactionException($externalTransactionData->validators_id);
+                throw new NoTariffForTransactionException($externalTransactionData->tariff_id);
             }
 
             Log::debug("Found tariff on which card was authorized {$tariff->id}");

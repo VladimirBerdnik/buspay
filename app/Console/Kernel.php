@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\CloseRouteSheets;
 use App\Console\Commands\ImportCardsCommand;
 use App\Console\Commands\ImportReplenishmentsCommand;
+use App\Console\Commands\ImportTransactionsCommand;
 use App\Console\Commands\ImportValidatorsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -24,6 +25,7 @@ class Kernel extends ConsoleKernel
         ImportValidatorsCommand::class,
         CloseRouteSheets::class,
         ImportReplenishmentsCommand::class,
+        ImportTransactionsCommand::class,
     ];
 
     /**
