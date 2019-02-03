@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddValidatorsTable extends Migration
+class AddValidatorsTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('validators', function (Blueprint $table) {
+        Schema::create('validators', function (Blueprint $table): void {
             $table->increments('id')->comment('Validator unique identifier');
             $table->string('serial_number', 32)->comment('Validator serial number');
             $table->string('model', 32)->comment('Validator model or manufacturer');
@@ -28,7 +28,7 @@ class AddValidatorsTable extends Migration
             $table->unique(['external_id', 'deleted_at'], 'validators_second_unique');
         });
 
-        DB::statement("ALTER TABLE `validators` comment 'Smart devices that can authorize payment cards'");
+        $this->commentTable('validators', 'Smart devices that can authorize payment cards');
     }
 
     /**
@@ -36,7 +36,7 @@ class AddValidatorsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('validators');
     }

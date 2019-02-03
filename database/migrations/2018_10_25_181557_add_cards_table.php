@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddCardsTable extends Migration
+class AddCardsTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('cards', function (Blueprint $table) {
+        Schema::create('cards', function (Blueprint $table): void {
             $table->increments('id')->comment('Card unique identifier');
             $table->unsignedInteger('card_number')->comment('Short card number, written on card case');
             $table->unsignedTinyInteger('card_type_id')->nullable()->comment('Card type');
@@ -30,7 +30,7 @@ class AddCardsTable extends Migration
             $table->unique(['uin', 'deleted_at'], 'cards_second_unique');
         });
 
-        DB::statement("ALTER TABLE `cards` comment 'Authentication cards that can be recognized by validators'");
+        $this->commentTable('cards', 'Authentication cards that can be recognized by validators');
     }
 
     /**
@@ -38,7 +38,7 @@ class AddCardsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('cards');
     }

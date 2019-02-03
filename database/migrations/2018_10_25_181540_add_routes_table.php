@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddRoutesTable extends Migration
+class AddRoutesTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('routes', function (Blueprint $table) {
+        Schema::create('routes', function (Blueprint $table): void {
             $table->increments('id')->comment('Route unique identifier');
             $table->string('name', 16)->comment('Route name AKA "bus number"');
             $table->unsignedInteger('company_id')
@@ -26,7 +26,7 @@ class AddRoutesTable extends Migration
             $table->unique(['name', 'deleted_at'], 'routes_main_unique');
         });
 
-        DB::statement("ALTER TABLE `routes` comment 'Regular bus routes'");
+        $this->commentTable('routes', 'Regular bus routes');
     }
 
     /**
@@ -34,7 +34,7 @@ class AddRoutesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('routes');
     }

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddDriversCardsTable extends Migration
+class AddDriversCardsTable extends CommentsTablesMigration
 {
     use ActivityPeriodMigrationHelper;
 
@@ -13,9 +13,9 @@ class AddDriversCardsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('drivers_cards', function (Blueprint $table) {
+        Schema::create('drivers_cards', function (Blueprint $table): void {
             $table->increments('id')->comment('Card to driver link unique identifier');
             $table->unsignedInteger('driver_id')->comment('Linked to card driver identifier');
             $table->unsignedInteger('card_id')->comment('Linked to driver card identifier');
@@ -27,7 +27,7 @@ class AddDriversCardsTable extends Migration
             $table->index(['driver_id', 'card_id', 'active_from', 'active_to'], 'drivers_cards_main_index');
         });
 
-        DB::statement("ALTER TABLE `drivers_cards` comment 'Historical information about cards to drivers assignments'");
+        $this->commentTable('drivers_cards', 'Historical information about cards to drivers assignments');
     }
 
     /**
@@ -35,7 +35,7 @@ class AddDriversCardsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('drivers_cards');
     }

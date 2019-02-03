@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class LinkBusesValidatorsWithTables extends Migration
+class LinkBusesValidatorsWithTables extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('buses_validators', function (Blueprint $table) {
+        Schema::table('buses_validators', function (Blueprint $table): void {
             $table->foreign(['bus_id'])->on('buses')->references('id')->onDelete('RESTRICT');
             $table->foreign(['validator_id'])->on('validators')->references('id')->onDelete('RESTRICT');
         });
@@ -24,9 +24,9 @@ class LinkBusesValidatorsWithTables extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('buses_validators', function (Blueprint $table) {
+        Schema::table('buses_validators', function (Blueprint $table): void {
             $table->dropForeign(['bus_id']);
             $table->dropForeign(['validator_id']);
         });

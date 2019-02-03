@@ -1,24 +1,24 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddRolesTable extends Migration
+class AddRolesTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table): void {
             $table->increments('id')->comment('Role unique identifier');
             $table->string('slug', 16)->comment('Role machine-readable text identifier');
         });
 
-        DB::statement("ALTER TABLE `roles` comment 'User role in application'");
+        $this->commentTable('roles', 'User role in application');
     }
 
     /**
@@ -26,7 +26,7 @@ class AddRolesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('roles');
     }

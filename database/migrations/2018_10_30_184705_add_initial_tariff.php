@@ -1,9 +1,9 @@
 <?php
 
 use Carbon\Carbon;
-use Illuminate\Database\Migrations\Migration;
+use Utils\CommentsTablesMigration;
 
-class AddInitialTariff extends Migration
+class AddInitialTariff extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class AddInitialTariff extends Migration
      *
      * @throws Throwable
      */
-    public function up()
+    public function up(): void
     {
-        DB::transaction(function () {
+        DB::transaction(function (): void {
             $now = Carbon::now();
 
             // Fill tariffs table
@@ -82,7 +82,7 @@ class AddInitialTariff extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         DB::table('tariff_fares')->delete();
         DB::table('tariff_periods')->delete();

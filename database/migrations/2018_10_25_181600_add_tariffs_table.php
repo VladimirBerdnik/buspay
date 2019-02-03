@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddTariffsTable extends Migration
+class AddTariffsTable extends CommentsTablesMigration
 {
     use ActivityPeriodMigrationHelper;
 
@@ -13,9 +13,9 @@ class AddTariffsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('tariffs', function (Blueprint $table) {
+        Schema::create('tariffs', function (Blueprint $table): void {
             $table->unsignedSmallInteger('id', true)->comment('Tariff unique identifier');
             $table->string('name')->comment('Tariff name');
 
@@ -23,7 +23,7 @@ class AddTariffsTable extends Migration
             $table->softDeletes();
         });
 
-        DB::statement("ALTER TABLE `tariffs` comment 'Payment tariffs information'");
+        $this->commentTable('tariffs', 'Payment tariffs information');
     }
 
     /**
@@ -31,7 +31,7 @@ class AddTariffsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('tariffs');
     }

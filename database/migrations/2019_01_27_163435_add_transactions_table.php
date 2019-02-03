@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddTransactionsTable extends Migration
+class AddTransactionsTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
@@ -28,6 +28,11 @@ class AddTransactionsTable extends Migration
             $table->foreign(['validator_id'])->references('id')->on('validators');
             $table->foreign(['tariff_id'])->references('id')->on('tariffs');
         });
+
+        $this->commentTable(
+            'transactions',
+            'Transport card authorization on validator device with write-off amount from  balance'
+        );
     }
 
     /**

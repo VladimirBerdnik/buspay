@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddRouteSheetsTable extends Migration
+class AddRouteSheetsTable extends CommentsTablesMigration
 {
     use ActivityPeriodMigrationHelper;
 
@@ -13,9 +13,9 @@ class AddRouteSheetsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('route_sheets', function (Blueprint $table) {
+        Schema::create('route_sheets', function (Blueprint $table): void {
             $table->increments('id')->comment('Route sheet unique identifier');
             $table->unsignedInteger('company_id')->comment('Company identifier to which this route sheet belongs to');
             $table->unsignedInteger('route_id')
@@ -41,7 +41,10 @@ class AddRouteSheetsTable extends Migration
             );
         });
 
-        DB::statement("ALTER TABLE `route_sheets` comment 'Route sheet with driver to bus and route assignment historical information'");
+        $this->commentTable(
+            'route_sheets',
+            'Route sheet with driver to bus and route assignment historical information'
+        );
     }
 
     /**
@@ -49,7 +52,7 @@ class AddRouteSheetsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('route_sheets');
     }

@@ -1,13 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
 /**
  * Creates table for storing failed jobs.
  */
-class CreateFailedJobsTable extends Migration
+class CreateFailedJobsTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class CreateFailedJobsTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('failed_queue_jobs', function (Blueprint $table) {
+        Schema::create('failed_queue_jobs', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->text('connection');
             $table->text('queue');

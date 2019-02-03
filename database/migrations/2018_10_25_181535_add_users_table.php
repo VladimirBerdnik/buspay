@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddUsersTable extends Migration
+class AddUsersTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table): void {
             $table->increments('id')->comment('User unique identifier');
             $table->unsignedInteger('role_id')->comment('User role identifier');
             $table->unsignedInteger('company_id')->nullable()->comment('Company identifier in which user works');
@@ -29,7 +29,7 @@ class AddUsersTable extends Migration
             $table->unique(['email', 'deleted_at'], 'users_main_unique');
         });
 
-        DB::statement("ALTER TABLE `users` comment 'User of application'");
+        $this->commentTable('users', 'User of application');
     }
 
     /**
@@ -37,7 +37,7 @@ class AddUsersTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('users');
     }

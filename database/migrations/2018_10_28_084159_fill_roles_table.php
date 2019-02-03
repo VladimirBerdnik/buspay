@@ -1,15 +1,15 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Utils\CommentsTablesMigration;
 
-class FillRolesTable extends Migration
+class FillRolesTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         $roles = [
             1 => 'admin',
@@ -27,7 +27,7 @@ class FillRolesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         DB::table('roles')->delete();
     }

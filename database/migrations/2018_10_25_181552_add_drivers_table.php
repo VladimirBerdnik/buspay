@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddDriversTable extends Migration
+class AddDriversTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('drivers', function (Blueprint $table) {
+        Schema::create('drivers', function (Blueprint $table): void {
             $table->increments('id')->comment('Driver unique identifier');
             $table->unsignedInteger('company_id')->comment('Company identifier in which this driver works');
             $table->string('full_name', 96)->comment('Driver full name');
@@ -33,7 +33,7 @@ class AddDriversTable extends Migration
             $table->unique(['full_name', 'company_id', 'deleted_at'], 'drivers_main_unique');
         });
 
-        DB::statement("ALTER TABLE `drivers` comment 'Driver that can drive buses. Works in transport companies'");
+        $this->commentTable('drivers', 'Driver that can drive buses. Works in transport companies');
     }
 
     /**
@@ -41,7 +41,7 @@ class AddDriversTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('drivers');
     }

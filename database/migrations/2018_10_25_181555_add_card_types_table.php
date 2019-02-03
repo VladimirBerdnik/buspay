@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddCardTypesTable extends Migration
+class AddCardTypesTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('card_types', function (Blueprint $table) {
+        Schema::create('card_types', function (Blueprint $table): void {
             $table->unsignedTinyInteger('id', true)->comment('Type unique identifier');
             $table->string('slug', 32)->comment('Type machine-readable text identifier');
 
@@ -22,7 +22,7 @@ class AddCardTypesTable extends Migration
             $table->unique(['slug', 'deleted_at'], 'card_types_main_unique');
         });
 
-        DB::statement("ALTER TABLE `card_types` comment 'Possible authenticated card types'");
+        $this->commentTable('card_types', 'Possible authenticated card types');
     }
 
     /**
@@ -30,7 +30,7 @@ class AddCardTypesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('card_types');
     }

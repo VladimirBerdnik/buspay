@@ -1,16 +1,16 @@
 <?php
 
 use Carbon\Carbon;
-use Illuminate\Database\Migrations\Migration;
+use Utils\CommentsTablesMigration;
 
-class AddSuperadminUser extends Migration
+class AddSuperadminUser extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         $userDetails = [
             'role_id' => DB::table('roles')->where('slug', 'admin')->first()->id,
@@ -30,7 +30,7 @@ class AddSuperadminUser extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         DB::table('users')->where('email', env('INITIAL_ADMIN_EMAIL'))->delete();
     }

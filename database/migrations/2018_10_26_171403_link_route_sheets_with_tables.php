@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class LinkRouteSheetsWithTables extends Migration
+class LinkRouteSheetsWithTables extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('route_sheets', function (Blueprint $table) {
+        Schema::table('route_sheets', function (Blueprint $table): void {
             $table->foreign(['bus_id'])->on('buses')->references('id')->onDelete('RESTRICT');
             $table->foreign(['driver_id'])->on('drivers')->references('id')->onDelete('RESTRICT');
             $table->foreign(['route_id'])->on('routes')->references('id')->onDelete('RESTRICT');
@@ -26,9 +26,9 @@ class LinkRouteSheetsWithTables extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('route_sheets', function (Blueprint $table) {
+        Schema::table('route_sheets', function (Blueprint $table): void {
             $table->dropForeign(['bus_id']);
             $table->dropForeign(['driver_id']);
             $table->dropForeign(['route_id']);

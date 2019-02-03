@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class LinkCardsWithTables extends Migration
+class LinkCardsWithTables extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('cards', function (Blueprint $table) {
+        Schema::table('cards', function (Blueprint $table): void {
             $table->foreign(['card_type_id'])->on('card_types')->references('id')->onDelete('RESTRICT');
         });
     }
@@ -23,9 +23,9 @@ class LinkCardsWithTables extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('cards', function (Blueprint $table) {
+        Schema::table('cards', function (Blueprint $table): void {
             $table->dropForeign(['card_type_id']);
         });
     }

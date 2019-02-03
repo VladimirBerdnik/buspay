@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddBusesValidatorsTable extends Migration
+class AddBusesValidatorsTable extends CommentsTablesMigration
 {
     use ActivityPeriodMigrationHelper;
 
@@ -13,9 +13,9 @@ class AddBusesValidatorsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('buses_validators', function (Blueprint $table) {
+        Schema::create('buses_validators', function (Blueprint $table): void {
             $table->increments('id')->comment('Validator to bus link unique identifier');
             $table->unsignedInteger('bus_id')->comment('Linked to validator bus identifier');
             $table->unsignedInteger('validator_id')->comment('Linked to bus validator identifier');
@@ -27,7 +27,7 @@ class AddBusesValidatorsTable extends Migration
             $table->index(['bus_id', 'validator_id', 'active_from', 'active_to'], 'buses_validators_main_index');
         });
 
-        DB::statement("ALTER TABLE `buses_validators` comment 'Historical bus to validator assignment information'");
+        $this->commentTable('buses_validators', 'Historical bus to validator assignment information');
     }
 
     /**
@@ -35,7 +35,7 @@ class AddBusesValidatorsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('buses_validators');
     }

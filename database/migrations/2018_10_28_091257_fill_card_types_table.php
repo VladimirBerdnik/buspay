@@ -1,15 +1,15 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Utils\CommentsTablesMigration;
 
-class FillCardTypesTable extends Migration
+class FillCardTypesTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         $cardTypes = [
             1 => 'service',
@@ -30,7 +30,7 @@ class FillCardTypesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         DB::table('card_types')->delete();
     }

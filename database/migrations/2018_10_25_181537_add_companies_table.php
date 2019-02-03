@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddCompaniesTable extends Migration
+class AddCompaniesTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table): void {
             $table->increments('id')->comment('Company unique identifier');
             $table->string('name', 64)->comment('Company name');
             $table->string('bin', 16)->comment('Business identification number');
@@ -24,7 +24,7 @@ class AddCompaniesTable extends Migration
             $table->softDeletes();
         });
 
-        DB::statement("ALTER TABLE `companies` comment 'Transport companies with buses'");
+        $this->commentTable('companies', 'Transport companies with buses');
     }
 
     /**
@@ -32,7 +32,7 @@ class AddCompaniesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('companies');
     }

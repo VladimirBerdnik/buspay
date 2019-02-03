@@ -1,19 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class CreateLarametricsLogsTable extends Migration
+class CreateLarametricsLogsTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('larametrics_logs', function (Blueprint $table) {
+        Schema::create('larametrics_logs', function (Blueprint $table): void {
             $table->increments('id');
             $table->string('level');
             $table->text('message');
@@ -29,7 +29,7 @@ class CreateLarametricsLogsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('larametrics_logs');
     }

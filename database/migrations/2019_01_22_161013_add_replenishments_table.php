@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddReplenishmentsTable extends Migration
+class AddReplenishmentsTable extends CommentsTablesMigration
 {
     /**
      * Run the migrations.
@@ -24,6 +24,8 @@ class AddReplenishmentsTable extends Migration
 
             $table->foreign(['card_id'])->references('id')->on('cards');
         });
+
+        $this->commentTable('replenishments', 'Filling of card balance with some amount of money');
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Utils\CommentsTablesMigration;
 
-class AddCompaniesRoutesTable extends Migration
+class AddCompaniesRoutesTable extends CommentsTablesMigration
 {
     use ActivityPeriodMigrationHelper;
 
@@ -13,9 +13,9 @@ class AddCompaniesRoutesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('companies_routes', function (Blueprint $table) {
+        Schema::create('companies_routes', function (Blueprint $table): void {
             $table->increments('id')->comment('Route to company link unique identifier');
             $table->unsignedInteger('company_id')->comment('Linked to route company identifier');
             $table->unsignedInteger('route_id')->comment('Linked to company route identifier');
@@ -27,7 +27,10 @@ class AddCompaniesRoutesTable extends Migration
             $table->index(['company_id', 'route_id', 'active_from', 'active_to'], 'companies_routes_main_index');
         });
 
-        DB::statement("ALTER TABLE `companies_routes` comment 'Historical information about transport companies to routes assignments'");
+        $this->commentTable(
+            'companies_routes',
+            'Historical information about transport companies to routes assignments'
+        );
     }
 
     /**
@@ -35,7 +38,7 @@ class AddCompaniesRoutesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('companies_routes');
     }
