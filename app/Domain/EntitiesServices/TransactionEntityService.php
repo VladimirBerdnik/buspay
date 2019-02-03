@@ -32,11 +32,11 @@ class TransactionEntityService extends EntityService
         return [
             Transaction::CARD_ID => Rule::required()->exists('cards', Card::ID),
             Transaction::VALIDATOR_ID => Rule::required()->exists('validators', Validator::ID),
-            Transaction::TARIFF_ID => Rule::required()->exists('tariffs', Tariff::ID),
+            Transaction::TARIFF_ID => Rule::present()->nullable()->exists('tariffs', Tariff::ID),
             Transaction::EXTERNAL_ID => Rule::required()
                 // Transaction should have unique external identifier to avoid double storing attempt
                 ->unique('transactions', Transaction::EXTERNAL_ID),
-            Transaction::AMOUNT => Rule::required()->nullable()->min(0),
+            Transaction::AMOUNT => Rule::present()->nullable()->min(0),
             Transaction::AUTHORIZED_AT => Rule::required()->date()->beforeOrEqual(Carbon::today()->endOfDay()),
         ];
     }
