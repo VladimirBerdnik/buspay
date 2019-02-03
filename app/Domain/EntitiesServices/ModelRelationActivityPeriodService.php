@@ -218,7 +218,7 @@ abstract class ModelRelationActivityPeriodService extends EntityService
             [],
             [],
             [
-                [$filteringAttribute, $model->getKey()],
+                [$filteringAttribute, '=', $model->getKey()],
                 [ActivityPeriodAssistant::ACTIVE_FROM, '<=', $date],
                 [
                     [
