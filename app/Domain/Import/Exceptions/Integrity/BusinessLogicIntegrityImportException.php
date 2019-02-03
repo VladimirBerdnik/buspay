@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Import\Exceptions;
+namespace App\Domain\Import\Exceptions\Integrity;
 
 use App\Domain\Exceptions\Integrity\BusinessLogicIntegrityException;
 

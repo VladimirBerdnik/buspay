@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Exceptions\Integrity;
+namespace App\Domain\Import\Exceptions\Integrity;
 
 /**
  * Thrown when multiple cards with same number detected.
  */
-class TooManyCardsWithNumberException extends BusinessLogicIntegrityException
+class TooManyCardsWithNumberException extends BusinessLogicIntegrityImportException
 {
     /**
      * Card number with which multiple cards found.

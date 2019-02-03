@@ -4,8 +4,8 @@ namespace App\Domain\Import;
 
 use App\Domain\Dto\ValidatorData;
 use App\Domain\EntitiesServices\ValidatorEntityService;
-use App\Domain\Exceptions\Integrity\TooManyValidatorsWithExternalIdException;
 use App\Domain\Import\Dto\ExternalValidatorData;
+use App\Domain\Import\Exceptions\Integrity\TooManyValidatorsWithExternalIdException;
 use App\Models\Validator;
 use Exception;
 use Illuminate\Database\ConnectionInterface;

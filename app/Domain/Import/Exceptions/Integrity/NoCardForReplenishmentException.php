@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Exceptions\Integrity;
+namespace App\Domain\Import\Exceptions\Integrity;
 
 /**
  * Thrown when mentioned in replenishment card number wasn't found.
  */
-class NoCardForReplenishmentException extends BusinessLogicIntegrityException
+class NoCardForReplenishmentException extends BusinessLogicIntegrityImportException
 {
     /**
      * Card number that wasn't found.

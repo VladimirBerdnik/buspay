@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Exceptions\Integrity;
+namespace App\Domain\Import\Exceptions\Integrity;
 
 /**
  * Thrown when multiple validators with same external identifier detected.
  */
-class TooManyValidatorsWithExternalIdException extends BusinessLogicIntegrityException
+class TooManyValidatorsWithExternalIdException extends BusinessLogicIntegrityImportException
 {
     /**
      * External identifier for which multiple validators found.

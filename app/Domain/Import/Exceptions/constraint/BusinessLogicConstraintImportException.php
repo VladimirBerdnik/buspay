@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Import\Exceptions;
+namespace App\Domain\Import\Exceptions\Constraint;
 
 use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Exceptions\Integrity;
+namespace App\Domain\Import\Exceptions\Integrity;
 
 /**
  * Thrown when replenishment in external storage doesn't match imported data.
  */
-class ReplenishmentMismatchException extends BusinessLogicIntegrityException
+class ReplenishmentMismatchException extends BusinessLogicIntegrityImportException
 {
     /**
      * External identifier of replenishment that doesn't match imported data.

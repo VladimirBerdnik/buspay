@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domain\Exceptions\Integrity;
+namespace App\Domain\Import\Exceptions\Integrity;
 
 /**
  * Thrown when multiple replenishment with same external identifier detected.
  */
-class TooManyReplenishmentWithExternalIdException extends BusinessLogicIntegrityException
+class TooManyReplenishmentWithExternalIdException extends BusinessLogicIntegrityImportException
 {
     /**
      * External identifier for which multiple replenishment found.
