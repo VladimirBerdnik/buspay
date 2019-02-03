@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
-use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -11,6 +10,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -32,6 +32,7 @@ class Handler extends ExceptionHandler
         TokenMismatchException::class,
         ValidationException::class,
         BusinessLogicConstraintException::class,
+        CommandNotFoundException::class,
     ];
 
     /**
@@ -49,17 +50,5 @@ class Handler extends ExceptionHandler
         }
 
         return redirect()->guest('login');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function report(Exception $exception)
-    {
-        if (config('sentry.enabled') && app()->bound('sentry') && $this->shouldReport($exception)) {
-            app('sentry')->captureException($exception);
-        }
-
-        parent::report($exception);
     }
 }

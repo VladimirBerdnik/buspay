@@ -22,6 +22,7 @@ use App\Domain\EntitiesServices\UserEntityService;
 use App\Domain\EntitiesServices\ValidatorEntityService;
 use App\Domain\Import\CardsImporter;
 use App\Domain\Import\ReplenishmentImporter;
+use App\Domain\Import\TransactionsImporter;
 use App\Domain\Import\ValidatorsImporter;
 use App\Exceptions\ApiExceptionHandler;
 use App\Http\Controllers\Api\v1\BusesApiController;
@@ -73,11 +74,9 @@ use App\Repositories\UserRepository;
 use App\Repositories\ValidatorRepository;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Database\ConnectionInterface;
-use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Log;
 use Saritasa\LaravelRepositories\Contracts\IRepository;
 use Saritasa\Transformers\IDataTransformer;
 
@@ -108,14 +107,6 @@ class AppServiceProvider extends ServiceProvider
         $dingoApiTransformerFactory = $this->app['api.transformer'];
         // Disable automatic eager loading model relations for requested includes in response transformer
         $dingoApiTransformerFactory->disableEagerLoading();
-
-        Log::listen(function (MessageLogged $message): void {
-            $levelLoggable = in_array($message->level, config('sentry.capturable_log_levels'), true);
-            if ($levelLoggable && config('sentry.enabled')) {
-                $message->context['level'] = $message->level;
-                app('sentry')->captureMessage($message->message, [], $message->context);
-            }
-        });
     }
 
     /**
