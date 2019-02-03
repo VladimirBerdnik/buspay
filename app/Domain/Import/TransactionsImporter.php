@@ -284,7 +284,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
          * @var Validator $validator
          */
         $validator = $this->validatorEntityService->findWhere([
-            Validator::SERIAL_NUMBER => $externalTransactionData->validators_id,
+            Validator::EXTERNAL_ID => $externalTransactionData->validators_id,
         ]);
 
         if (!$validator) {
