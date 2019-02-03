@@ -256,7 +256,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
      */
     private function importExternalTransaction(ExternalTransactionData $externalTransactionData): ?Transaction
     {
-        Log::debug("Search authorized card with number {$externalTransactionData->account}");
+        Log::debug("Search authorized card with number {$externalTransactionData->card_number_id}");
 
         /**
          * Card that was authorized.
@@ -299,7 +299,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
             ]);
 
             if (!$tariff) {
-                throw new NoValidatorForTransactionException($externalTransactionData->validators_id);
+                throw new NoTariffForTransactionException($externalTransactionData->validators_id);
             }
 
             Log::debug("Found tariff on which card was authorized {$tariff->id}");
