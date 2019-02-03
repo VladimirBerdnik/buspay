@@ -41,6 +41,10 @@ class Kernel extends ConsoleKernel
             ->hourly()
             ->withoutOverlapping()
             ->onOneServer();
+        $schedule->command(ImportTransactionsCommand::class)
+            ->hourly()
+            ->withoutOverlapping()
+            ->onOneServer();
         $schedule->command(ImportCardsCommand::class)
             ->hourly()
             ->withoutOverlapping()
