@@ -14,8 +14,8 @@ services:
     ports:
       - "80:80"
     depends_on:
-      db:
-        condition: service_healthy
+      postgres-db:
+        condition: service_started
       redis:
         condition: service_started
     environment:
@@ -30,7 +30,7 @@ services:
     - .:/home/www/app
     - ~/.composer:/home/www/.composer
 
-  db:
+  mysql-db:
     image: mysql:5.7
     hostname: buspay-db
     container_name: buspay-db
@@ -49,6 +49,17 @@ services:
       interval: 3s
       timeout: 3s
       retries: 10
+
+  postgres-db:
+    image: postgres
+    hostname: buspay-db
+    container_name: buspay-db
+    labels:
+      SERVICE_NAME: buspay-db
+    environment:
+      POSTGRES_DB: buspay
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
 
   redis:
     image: redis:alpine

@@ -9,7 +9,7 @@ build:
 start: run
 
 run:
-	docker-compose -p buspay up -d web
+	docker-compose -p buspay up -d  --remove-orphans web
 
 stop:
 	docker-compose -p buspay kill
