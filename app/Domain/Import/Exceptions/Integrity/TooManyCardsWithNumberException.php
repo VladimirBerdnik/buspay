@@ -42,6 +42,6 @@ class TooManyCardsWithNumberException extends BusinessLogicIntegrityImportExcept
      */
     public function __toString(): string
     {
-        return "For card number {$this->getCardNumber()} few cards found";
+        return "For card number [{$this->getCardNumber()}] few cards found";
     }
 }

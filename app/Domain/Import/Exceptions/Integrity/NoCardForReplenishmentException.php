@@ -42,6 +42,6 @@ class NoCardForReplenishmentException extends BusinessLogicIntegrityImportExcept
      */
     public function __toString(): string
     {
-        return "Card with number {$this->getCardNumber()} for replenishment not found";
+        return "Card with number [{$this->getCardNumber()}] for replenishment not found";
     }
 }

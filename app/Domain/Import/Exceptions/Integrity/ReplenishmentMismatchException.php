@@ -42,6 +42,6 @@ class ReplenishmentMismatchException extends BusinessLogicIntegrityImportExcepti
      */
     public function __toString(): string
     {
-        return "Replenishment data with external ID {$this->getExternalId()} does not match data in external storage";
+        return "Replenishment data with external ID [{$this->getExternalId()}] does not match data in external storage";
     }
 }

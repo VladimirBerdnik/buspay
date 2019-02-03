@@ -42,6 +42,6 @@ class TooManyReplenishmentWithExternalIdException extends BusinessLogicIntegrity
      */
     public function __toString(): string
     {
-        return "For external id {$this->getExternalId()} few replenishment found";
+        return "For external id [{$this->getExternalId()}] few replenishment found";
     }
 }

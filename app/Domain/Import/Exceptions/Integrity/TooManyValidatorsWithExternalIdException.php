@@ -42,6 +42,6 @@ class TooManyValidatorsWithExternalIdException extends BusinessLogicIntegrityImp
      */
     public function __toString(): string
     {
-        return "For external id {$this->getExternalId()} few validators found";
+        return "For external id [{$this->getExternalId()}] few validators found";
     }
 }
