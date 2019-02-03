@@ -73,9 +73,11 @@ use App\Repositories\UserRepository;
 use App\Repositories\ValidatorRepository;
 use Dingo\Api\Transformer\Adapter\Fractal;
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Log;
 use Saritasa\LaravelRepositories\Contracts\IRepository;
 use Saritasa\Transformers\IDataTransformer;
 
@@ -92,6 +94,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->singleton('app.api.exception', ApiExceptionHandler::class);
+
         // Fix for MySQL 5.6. See https://github.com/laravel/framework/issues/17508
         Schema::defaultStringLength(191);
 
@@ -105,6 +108,14 @@ class AppServiceProvider extends ServiceProvider
         $dingoApiTransformerFactory = $this->app['api.transformer'];
         // Disable automatic eager loading model relations for requested includes in response transformer
         $dingoApiTransformerFactory->disableEagerLoading();
+
+        Log::listen(function (MessageLogged $message): void {
+            $levelLoggable = in_array($message->level, config('sentry.capturable_log_levels'), true);
+            if ($levelLoggable && config('sentry.enabled')) {
+                $message->context['level'] = $message->level;
+                app('sentry')->captureMessage($message->message, [], $message->context);
+            }
+        });
     }
 
     /**

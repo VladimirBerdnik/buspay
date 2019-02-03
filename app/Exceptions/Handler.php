@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -48,5 +49,17 @@ class Handler extends ExceptionHandler
         }
 
         return redirect()->guest('login');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function report(Exception $exception)
+    {
+        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+            app('sentry')->captureException($exception);
+        }
+
+        parent::report($exception);
     }
 }
