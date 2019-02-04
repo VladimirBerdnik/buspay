@@ -6,6 +6,7 @@ use App\Domain\Dto\CardData;
 use App\Domain\EntitiesServices\CardEntityService;
 use App\Domain\Import\Dto\ExternalCardData;
 use App\Domain\Import\Exceptions\Integrity\TooManyCardsWithNumberException;
+use App\Extensions\ErrorsReporter;
 use App\Models\Card;
 use Carbon\Carbon;
 use DateTime;
@@ -37,11 +38,15 @@ class CardsImporter extends ExternalEntitiesImportService
      * Cards importer. Allows to import cards records from external storage.
      *
      * @param ConnectionInterface $connection External storage connection
+     * @param ErrorsReporter $errorsReporter Errors and messages reporter
      * @param CardEntityService $cardService Card entity service
      */
-    public function __construct(ConnectionInterface $connection, CardEntityService $cardService)
-    {
-        parent::__construct($connection);
+    public function __construct(
+        ConnectionInterface $connection,
+        ErrorsReporter $errorsReporter,
+        CardEntityService $cardService
+    ) {
+        parent::__construct($connection, $errorsReporter);
         $this->cardService = $cardService;
     }
 
@@ -206,7 +211,9 @@ class CardsImporter extends ExternalEntitiesImportService
                     "Card with number [{$externalCardData->card_number}] synchronized as [ID={$card->id}]"
                 );
             } catch (Exception $e) {
-                Log::error("Import card error occurred: {$e->getMessage()}", $e->getTrace());
+                $this->getErrorsReporter()->reportException($e, (array)$item);
+
+                Log::error("Import card error occurred: {$e->getMessage()}");
             }
         }
     }
@@ -272,9 +279,11 @@ class CardsImporter extends ExternalEntitiesImportService
         try {
             $card = $this->cardService->store($cardData);
         } catch (Exception $e) {
-            $payload = [$e->getTrace()];
+            $this->getErrorsReporter()->reportException($e, $cardData->toArray());
+
+            $payload = [];
             if ($e instanceof ValidationException) {
-                array_unshift($payload, $e->errors());
+                $payload = $e->errors();
             }
 
             Log::error("Create imported card error: {$e->getMessage()}", $payload);
@@ -303,9 +312,11 @@ class CardsImporter extends ExternalEntitiesImportService
         try {
             $this->cardService->update($card, $cardData);
         } catch (Exception $e) {
-            $payload = [$e->getTrace()];
+            $this->getErrorsReporter()->reportException($e, $cardData->toArray());
+
+            $payload = [];
             if ($e instanceof ValidationException) {
-                array_unshift($payload, $e->errors());
+                $payload = $e->errors();
             }
 
             Log::error("Update imported card error: {$e->getMessage()}", $payload);

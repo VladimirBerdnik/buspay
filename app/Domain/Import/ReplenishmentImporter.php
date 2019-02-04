@@ -9,6 +9,7 @@ use App\Domain\Import\Dto\ExternalReplenishmentData;
 use App\Domain\Import\Exceptions\Integrity\NoCardForReplenishmentException;
 use App\Domain\Import\Exceptions\Integrity\ReplenishmentMismatchException;
 use App\Domain\Import\Exceptions\Integrity\TooManyReplenishmentWithExternalIdException;
+use App\Extensions\ErrorsReporter;
 use App\Models\Card;
 use App\Models\Replenishment;
 use Carbon\Carbon;
@@ -50,15 +51,17 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
      * Replenishment importer. Allows to import replenishment records from external storage.
      *
      * @param ConnectionInterface $connection External storage connection
+     * @param ErrorsReporter $errorsReporter Errors and messages reporter
      * @param ReplenishmentEntityService $replenishmentService Replenishment entity service
      * @param CardEntityService $cardEntityService Card entities service
      */
     public function __construct(
         ConnectionInterface $connection,
+        ErrorsReporter $errorsReporter,
         ReplenishmentEntityService $replenishmentService,
         CardEntityService $cardEntityService
     ) {
-        parent::__construct($connection);
+        parent::__construct($connection, $errorsReporter);
         $this->replenishmentService = $replenishmentService;
         $this->cardEntityService = $cardEntityService;
     }
@@ -189,10 +192,7 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
                 }
             );
         } catch (Exception $exception) {
-            Log::error(
-                "Error occurred during verify existing replenishment attempt: {$exception->getMessage()}",
-                $exception->getTrace()
-            );
+            Log::error("Error occurred during verify existing replenishment attempt: {$exception->getMessage()}");
         }
 
         Log::debug('Verify existing replenishment import process finished.');
@@ -224,7 +224,7 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
                     Log::debug("Replenishment with external id [{$externalReplenishmentData->id}] wasn't synchronized");
                 }
             } catch (Exception $e) {
-                Log::error("Import replenishment error occurred: {$e->getMessage()}", $e->getTrace());
+                Log::error("Import replenishment error occurred: {$e->getMessage()}");
             }
         }
     }
@@ -332,9 +332,11 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
         try {
             return $this->replenishmentService->store($replenishmentData);
         } catch (Exception $e) {
-            $payload = [$e->getTrace()];
+            $this->getErrorsReporter()->reportException($e, $replenishmentData->toArray());
+
+            $payload = [];
             if ($e instanceof ValidationException) {
-                array_unshift($payload, $e->errors());
+                $payload = $e->errors();
             }
 
             Log::error("Create imported replenishment error: {$e->getMessage()}", $payload);

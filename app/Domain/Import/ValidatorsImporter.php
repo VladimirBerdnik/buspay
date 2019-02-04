@@ -6,6 +6,7 @@ use App\Domain\Dto\ValidatorData;
 use App\Domain\EntitiesServices\ValidatorEntityService;
 use App\Domain\Import\Dto\ExternalValidatorData;
 use App\Domain\Import\Exceptions\Integrity\TooManyValidatorsWithExternalIdException;
+use App\Extensions\ErrorsReporter;
 use App\Models\Validator;
 use Exception;
 use Illuminate\Database\ConnectionInterface;
@@ -13,7 +14,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Log;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
-use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Throwable;
 
 /**
@@ -32,11 +32,15 @@ class ValidatorsImporter extends ExternalEntitiesImportService
      * Validators importer. Allows to import validators records from external storage.
      *
      * @param ConnectionInterface $connection External storage connection
+     * @param ErrorsReporter $errorsReporter Errors and messages reporter
      * @param ValidatorEntityService $validatorService Validator entity service
      */
-    public function __construct(ConnectionInterface $connection, ValidatorEntityService $validatorService)
-    {
-        parent::__construct($connection);
+    public function __construct(
+        ConnectionInterface $connection,
+        ErrorsReporter $errorsReporter,
+        ValidatorEntityService $validatorService
+    ) {
+        parent::__construct($connection, $errorsReporter);
         $this->validatorService = $validatorService;
     }
 
@@ -130,10 +134,7 @@ class ValidatorsImporter extends ExternalEntitiesImportService
                 }
             );
         } catch (Exception $exception) {
-            Log::error(
-                "Error occurred during verify existing validators attempt: {$exception->getMessage()}",
-                $exception->getTrace()
-            );
+            Log::error("Error occurred during verify existing validators attempt: {$exception->getMessage()}");
         }
 
         Log::debug('Verify existing validators import process finished.');
@@ -164,7 +165,7 @@ class ValidatorsImporter extends ExternalEntitiesImportService
                     Log::debug("Validator with external id [{$externalValidatorData->id}] wasn't synchronized");
                 }
             } catch (Exception $e) {
-                Log::error("Import validator error occurred: {$e->getMessage()}", $e->getTrace());
+                Log::error("Import validator error occurred: {$e->getMessage()}");
             }
         }
     }
@@ -176,7 +177,6 @@ class ValidatorsImporter extends ExternalEntitiesImportService
      *
      * @return Validator|null
      *
-     * @throws RepositoryException
      * @throws Throwable
      */
     private function importExternalValidator(ExternalValidatorData $externalValidatorData): ?Validator
@@ -227,9 +227,11 @@ class ValidatorsImporter extends ExternalEntitiesImportService
         try {
             return $this->validatorService->store($validatorData);
         } catch (Exception $e) {
-            $payload = [$e->getTrace()];
+            $this->getErrorsReporter()->reportException($e, $validatorData->toArray());
+
+            $payload = [];
             if ($e instanceof ValidationException) {
-                array_unshift($payload, $e->errors());
+                $payload = $e->errors();
             }
 
             Log::error("Create imported validator error: {$e->getMessage()}", $payload);
@@ -253,9 +255,11 @@ class ValidatorsImporter extends ExternalEntitiesImportService
         try {
             $this->validatorService->update($validator, $validatorData);
         } catch (Exception $e) {
-            $payload = [$e->getTrace()];
+            $this->getErrorsReporter()->reportException($e, $validatorData->toArray());
+
+            $payload = [];
             if ($e instanceof ValidationException) {
-                array_unshift($payload, $e->errors());
+                $payload = $e->errors();
             }
 
             Log::error("Update imported validator error: {$e->getMessage()}", $payload);

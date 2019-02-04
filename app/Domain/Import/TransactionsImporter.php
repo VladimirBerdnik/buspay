@@ -14,6 +14,7 @@ use App\Domain\Import\Exceptions\Integrity\NoValidatorForTransactionException;
 use App\Domain\Import\Exceptions\Integrity\TooManyTransactionWithExternalIdException;
 use App\Domain\Import\Exceptions\Integrity\TransactionMismatchException;
 use App\Domain\Services\CardAuthorizationService;
+use App\Extensions\ErrorsReporter;
 use App\Models\Card;
 use App\Models\Tariff;
 use App\Models\Transaction;
@@ -72,6 +73,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
      * Transaction importer. Allows to import transaction records from external storage.
      *
      * @param ConnectionInterface $connection External storage connection
+     * @param ErrorsReporter $errorsReporter Errors and messages reporter
      * @param TransactionEntityService $transactionEntityService Transaction entity service
      * @param CardEntityService $cardEntityService Card entities service
      * @param ValidatorEntityService $validatorEntityService Validator entity service
@@ -80,13 +82,14 @@ class TransactionsImporter extends ExternalEntitiesImportService
      */
     public function __construct(
         ConnectionInterface $connection,
+        ErrorsReporter $errorsReporter,
         TransactionEntityService $transactionEntityService,
         CardEntityService $cardEntityService,
         ValidatorEntityService $validatorEntityService,
         TariffEntityService $tariffEntityService,
         CardAuthorizationService $cardAuthorizationService
     ) {
-        parent::__construct($connection);
+        parent::__construct($connection, $errorsReporter);
         $this->transactionEntityService = $transactionEntityService;
         $this->cardEntityService = $cardEntityService;
         $this->validatorEntityService = $validatorEntityService;
@@ -210,10 +213,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
                 }
             );
         } catch (Exception $exception) {
-            Log::error(
-                "Error occurred during verify existing transactions attempt: {$exception->getMessage()}",
-                $exception->getTrace()
-            );
+            Log::error("Error occurred during verify existing transactions attempt: {$exception->getMessage()}");
         }
 
         Log::debug('Verify existing transactions import process finished.');
@@ -245,7 +245,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
                     Log::debug("Transaction with external id [{$externalTransactionData->id}] wasn't synchronized");
                 }
             } catch (Exception $e) {
-                Log::error("Import transaction error occurred: {$e->getMessage()}", $e->getTrace());
+                Log::error("Import transaction error occurred: {$e->getMessage()}");
             }
         }
     }
@@ -378,9 +378,11 @@ class TransactionsImporter extends ExternalEntitiesImportService
                 return $transaction;
             });
         } catch (Exception $e) {
-            $payload = [$e->getTrace()];
+            $this->getErrorsReporter()->reportException($e, $transactionData->toArray());
+
+            $payload = [];
             if ($e instanceof ValidationException) {
-                array_unshift($payload, $e->errors());
+                $payload = $e->errors();
             }
 
             Log::error("Create imported transaction error: {$e->getMessage()}", $payload);
