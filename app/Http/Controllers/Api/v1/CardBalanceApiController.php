@@ -9,6 +9,7 @@ use Dingo\Api\Http\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Saritasa\Exceptions\InvalidEnumValueException;
+use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Saritasa\Transformers\IDataTransformer;
 
 /**
@@ -93,6 +94,7 @@ class CardBalanceApiController extends BaseApiController
      * @return Response
      *
      * @throws InvalidEnumValueException
+     * @throws RepositoryException
      */
     public function transactions(string $cardNumber): Response
     {
