@@ -13,7 +13,6 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Log;
-use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Throwable;
 
 /**
@@ -63,15 +62,11 @@ class ValidatorsImporter extends ExternalEntitiesImportService
     {
         $startTime = time();
 
-        $this->verifyValidators();
-
-        $verifyDuration = time() - $startTime;
-
         $this->importData();
 
-        $importDuration = time() - $startTime - $verifyDuration;
+        $importDuration = time() - $startTime;
 
-        Log::info("Validators verifying took ~{$verifyDuration} second(s), import took ~{$importDuration} second(s)");
+        Log::info("Validators import took ~{$importDuration} second(s)");
     }
 
     /**
@@ -90,54 +85,6 @@ class ValidatorsImporter extends ExternalEntitiesImportService
             });
 
         Log::debug('Updated validator details import process finished.');
-    }
-
-    /**
-     * Verifies existing validators that they are exists in external storage.
-     */
-    private function verifyValidators(): void
-    {
-        Log::debug('Verify existing validator import process started.');
-
-        try {
-            $this->validatorService->chunkWith(
-                [],
-                [],
-                [],
-                new SortOptions(Validator::EXTERNAL_ID),
-                $this->getChunkSize(),
-                function (Collection $items, int $pageNumber) use (&$localStorageValidatorsIdentifiers): void {
-                    Log::debug("Validators to verify chunk #{$pageNumber} retrieved. Chunk size: " . $items->count());
-
-                    // This list of identifiers are exists in our storage
-                    $localStorageValidatorsIdentifiers = $items->pluck(Validator::EXTERNAL_ID);
-
-                    // Let's retrieve list ov validators with same identifiers from external storage
-                    $externalStorageValidatorsIdentifiers = $this->getConnection()
-                        ->table('validators')
-                        ->whereIn(ExternalValidatorData::ID, $localStorageValidatorsIdentifiers)
-                        ->get()
-                        ->pluck(ExternalValidatorData::ID);
-
-                    // Now let's see difference between local and external validators
-                    $notExistingIdentifiers = $localStorageValidatorsIdentifiers
-                        ->diff($externalStorageValidatorsIdentifiers);
-
-                    if ($notExistingIdentifiers->isNotEmpty()) {
-                        foreach ($notExistingIdentifiers as $notExistingIdentifier) {
-                            Log::error(
-                                "Validator with external identifier [{$notExistingIdentifier}] " .
-                                "not presented in external storage"
-                            );
-                        }
-                    }
-                }
-            );
-        } catch (Exception $exception) {
-            Log::error("Error occurred during verify existing validators attempt: {$exception->getMessage()}");
-        }
-
-        Log::debug('Verify existing validators import process finished.');
     }
 
     /**

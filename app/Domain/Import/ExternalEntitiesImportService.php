@@ -4,6 +4,7 @@ namespace App\Domain\Import;
 
 use App\Extensions\ErrorsReporter;
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Database\Query\Builder;
 
 /**
  * Parent class for different records from external storage importers.
@@ -23,6 +24,13 @@ abstract class ExternalEntitiesImportService
      * @var ErrorsReporter
      */
     private $errorsReporter;
+
+    /**
+     * External items storage name.
+     *
+     * @var string
+     */
+    protected $externalStorageName;
 
     /**
      * Parent class for different records from external storage importers.
@@ -54,5 +62,15 @@ abstract class ExternalEntitiesImportService
     protected function getConnection(): ConnectionInterface
     {
         return $this->connection;
+    }
+
+    /**
+     * Returns external storage items query builder.
+     *
+     * @return Builder
+     */
+    protected function getStorage(): Builder
+    {
+        return $this->getConnection()->table($this->externalStorageName);
     }
 }

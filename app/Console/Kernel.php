@@ -7,6 +7,9 @@ use App\Console\Commands\ImportCardsCommand;
 use App\Console\Commands\ImportReplenishmentsCommand;
 use App\Console\Commands\ImportTransactionsCommand;
 use App\Console\Commands\ImportValidatorsCommand;
+use App\Console\Commands\VerifyReplenishmentsCommand;
+use App\Console\Commands\VerifyTransactionsCommand;
+use App\Console\Commands\VerifyValidatorsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,6 +29,9 @@ class Kernel extends ConsoleKernel
         CloseRouteSheets::class,
         ImportReplenishmentsCommand::class,
         ImportTransactionsCommand::class,
+        VerifyReplenishmentsCommand::class,
+        VerifyTransactionsCommand::class,
+        VerifyValidatorsCommand::class,
     ];
 
     /**
@@ -37,25 +43,32 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(ImportReplenishmentsCommand::class)
+        // Import entities
+        $schedule->command(ImportReplenishmentsCommand::class, ['--D' => 1])
             ->hourly()
             ->withoutOverlapping()
             ->onOneServer();
-        $schedule->command(ImportTransactionsCommand::class)
+        $schedule->command(ImportTransactionsCommand::class, ['--D' => 1])
             ->hourly()
             ->withoutOverlapping()
             ->onOneServer();
-        $schedule->command(ImportCardsCommand::class)
+        $schedule->command(ImportCardsCommand::class, ['--D' => 1])
             ->hourly()
             ->withoutOverlapping()
             ->onOneServer();
         $schedule->command(ImportValidatorsCommand::class)
-            ->hourly()
+            ->twiceDaily(6, 12)
             ->withoutOverlapping()
             ->onOneServer();
+
+        // Once per day verify previously imported records
+        $schedule->command(VerifyReplenishmentsCommand::class)->dailyAt('0200');
+        $schedule->command(VerifyTransactionsCommand::class)->dailyAt('0200');
+        $schedule->command(VerifyValidatorsCommand::class)->dailyAt('0200');
+
+        // Close all opened route sheets
         $schedule->command(CloseRouteSheets::class)
             ->dailyAt(config('buspay.driver.shift_cancel_hour'))
-            ->withoutOverlapping()
             ->onOneServer();
     }
 

@@ -18,7 +18,6 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Log;
-use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Throwable;
 
 /**
@@ -107,17 +106,11 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
 
         $importFrom = $importFrom ?? Carbon::today()->subDays($this->getVerifyingDaysInterval());
 
-        $this->verifyReplenishment($importFrom);
-
-        $verifyDuration = time() - $startTime;
-
         $this->importData($importFrom);
 
-        $importDuration = time() - $startTime - $verifyDuration;
+        $importDuration = time() - $startTime;
 
-        Log::info(
-            "Replenishment verifying took ~{$verifyDuration} second(s), import took ~{$importDuration} second(s)"
-        );
+        Log::info("Replenishment import took ~{$importDuration} second(s)");
     }
 
     /**
@@ -139,63 +132,6 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
             });
 
         Log::debug('Updated replenishment details import process finished.');
-    }
-
-    /**
-     * Verifies existing replenishment that they are exists in external storage.
-     *
-     * @param Carbon $verifyFrom Date from which need to verify replenishment records
-     */
-    private function verifyReplenishment(Carbon $verifyFrom): void
-    {
-        Log::debug('Verify existing replenishment import process started.');
-
-        try {
-            $verifyTo = Carbon::today();
-            $where = [
-                [Replenishment::REPLENISHED_AT, '>=', $verifyFrom],
-                [Replenishment::REPLENISHED_AT, '<=', $verifyTo],
-            ];
-            $this->replenishmentService->chunkWith(
-                [],
-                [],
-                $where,
-                new SortOptions(Replenishment::REPLENISHED_AT),
-                $this->getChunkSize(),
-                function (Collection $items, int $pageNumber) use (&$localStorageReplenishmentIdentifiers): void {
-                    Log::debug(
-                        "Replenishment to verify chunk #{$pageNumber} retrieved. Chunk size: " . $items->count()
-                    );
-
-                    // This list of identifiers are exists in our storage
-                    $localStorageReplenishmentIdentifiers = $items->pluck(Replenishment::EXTERNAL_ID);
-
-                    // Let's retrieve list ov replenishment with same identifiers from external storage
-                    $externalStorageReplenishmentIdentifiers = $this->getConnection()
-                        ->table('payments')
-                        ->whereIn(ExternalReplenishmentData::ID, $localStorageReplenishmentIdentifiers)
-                        ->get()
-                        ->pluck(ExternalReplenishmentData::ID);
-
-                    // Now let's see difference between local and external replenishment
-                    $notExistingIdentifiers = $localStorageReplenishmentIdentifiers
-                        ->diff($externalStorageReplenishmentIdentifiers);
-
-                    if ($notExistingIdentifiers->isNotEmpty()) {
-                        foreach ($notExistingIdentifiers as $notExistingIdentifier) {
-                            Log::error(
-                                "Replenishment with external identifier [{$notExistingIdentifier}] " .
-                                "not presented in external storage"
-                            );
-                        }
-                    }
-                }
-            );
-        } catch (Exception $exception) {
-            Log::error("Error occurred during verify existing replenishment attempt: {$exception->getMessage()}");
-        }
-
-        Log::debug('Verify existing replenishment import process finished.');
     }
 
     /**

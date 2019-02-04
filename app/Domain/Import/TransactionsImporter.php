@@ -26,7 +26,6 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Log;
-use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Throwable;
 
 /**
@@ -128,17 +127,11 @@ class TransactionsImporter extends ExternalEntitiesImportService
 
         $importFrom = $importFrom ?? Carbon::today()->subDays($this->getVerifyingDaysInterval());
 
-        $this->verifyTransactions($importFrom);
-
-        $verifyDuration = time() - $startTime;
-
         $this->importData($importFrom);
 
-        $importDuration = time() - $startTime - $verifyDuration;
+        $importDuration = time() - $startTime;
 
-        Log::info(
-            "Transactions verifying took ~{$verifyDuration} second(s), import took ~{$importDuration} second(s)"
-        );
+        Log::info("Transactions import took ~{$importDuration} second(s)");
     }
 
     /**
@@ -160,63 +153,6 @@ class TransactionsImporter extends ExternalEntitiesImportService
             });
 
         Log::debug('Updated transactions details import process finished.');
-    }
-
-    /**
-     * Verifies existing transactions that they are exists in external storage.
-     *
-     * @param Carbon $verifyFrom Date from which need to verify transaction records
-     */
-    private function verifyTransactions(Carbon $verifyFrom): void
-    {
-        Log::debug('Verify existing transactions import process started.');
-
-        try {
-            $verifyTo = Carbon::today();
-            $where = [
-                [Transaction::AUTHORIZED_AT, '>=', $verifyFrom],
-                [Transaction::AUTHORIZED_AT, '<=', $verifyTo],
-            ];
-            $this->transactionEntityService->chunkWith(
-                [],
-                [],
-                $where,
-                new SortOptions(Transaction::AUTHORIZED_AT),
-                $this->getChunkSize(),
-                function (Collection $items, int $pageNumber) use (&$localStorageTransactionsIdentifiers): void {
-                    Log::debug(
-                        "Transactions to verify chunk #{$pageNumber} retrieved. Chunk size: " . $items->count()
-                    );
-
-                    // This list of identifiers are exists in our storage
-                    $localStorageTransactionsIdentifiers = $items->pluck(Transaction::EXTERNAL_ID);
-
-                    // Let's retrieve list ov transaction with same identifiers from external storage
-                    $externalStorageTransactionsIdentifiers = $this->getConnection()
-                        ->table('transaction')
-                        ->whereIn(ExternalTransactionData::ID, $localStorageTransactionsIdentifiers)
-                        ->get()
-                        ->pluck(ExternalTransactionData::ID);
-
-                    // Now let's see difference between local and external transaction
-                    $notExistingIdentifiers = $localStorageTransactionsIdentifiers
-                        ->diff($externalStorageTransactionsIdentifiers);
-
-                    if ($notExistingIdentifiers->isNotEmpty()) {
-                        foreach ($notExistingIdentifiers as $notExistingIdentifier) {
-                            Log::error(
-                                "Transaction with external identifier [{$notExistingIdentifier}] " .
-                                "not presented in external storage"
-                            );
-                        }
-                    }
-                }
-            );
-        } catch (Exception $exception) {
-            Log::error("Error occurred during verify existing transactions attempt: {$exception->getMessage()}");
-        }
-
-        Log::debug('Verify existing transactions import process finished.');
     }
 
     /**
