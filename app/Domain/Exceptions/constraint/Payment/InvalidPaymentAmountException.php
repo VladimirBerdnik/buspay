@@ -2,7 +2,7 @@
 
 namespace App\Domain\Exceptions\Constraint\Payment;
 
-use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
+use App\Domain\Exceptions\Integrity\BusinessLogicIntegrityException;
 use App\Models\Card;
 use App\Models\Tariff;
 use App\Models\TariffFare;
@@ -11,7 +11,7 @@ use Carbon\Carbon;
 /**
  * Thrown when payment by card was performed with invalid payment amount.
  */
-class InvalidPaymentAmountException extends BusinessLogicConstraintException
+class InvalidPaymentAmountException extends BusinessLogicIntegrityException
 {
     /**
      * Card that should pay.

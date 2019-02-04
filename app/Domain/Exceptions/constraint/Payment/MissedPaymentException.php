@@ -2,14 +2,14 @@
 
 namespace App\Domain\Exceptions\Constraint\Payment;
 
-use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
+use App\Domain\Exceptions\Integrity\BusinessLogicIntegrityException;
 use App\Models\Card;
 use Carbon\Carbon;
 
 /**
  * Thrown when payment by card expected but not performed.
  */
-class MissedPaymentException extends BusinessLogicConstraintException
+class MissedPaymentException extends BusinessLogicIntegrityException
 {
     /**
      * Card that should pay.
@@ -33,7 +33,7 @@ class MissedPaymentException extends BusinessLogicConstraintException
      */
     public function __construct(Card $card, Carbon $date)
     {
-        parent::__construct('No payment by card');
+        parent::__construct('No payment by card when expected');
         $this->card = $card;
         $this->date = $date;
     }

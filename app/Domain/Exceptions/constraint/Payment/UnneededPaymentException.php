@@ -2,14 +2,14 @@
 
 namespace App\Domain\Exceptions\Constraint\Payment;
 
-use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
+use App\Domain\Exceptions\Integrity\BusinessLogicIntegrityException;
 use App\Models\Card;
 use Carbon\Carbon;
 
 /**
  * Thrown when payment for not paymentable card found.
  */
-class UnneededPaymentException extends BusinessLogicConstraintException
+class UnneededPaymentException extends BusinessLogicIntegrityException
 {
     /**
      * Card that shouldn't pay.
