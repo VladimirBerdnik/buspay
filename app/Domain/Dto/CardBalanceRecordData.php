@@ -17,7 +17,7 @@ use Saritasa\Dto;
  *
  * @see CardTransactionsTypes for available transaction types
  */
-class CardBalanceTransactionData extends Dto implements Arrayable
+class CardBalanceRecordData extends Dto implements Arrayable
 {
     public const DATE = 'date';
     public const AMOUNT = 'amount';
