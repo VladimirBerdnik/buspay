@@ -7,7 +7,6 @@ use App\Domain\Exceptions\Integrity\BusinessLogicIntegrityException;
 use Illuminate\Validation\ValidationException;
 use Log;
 use Psr\Log\LogLevel;
-use ReflectionException;
 use Throwable;
 
 /**
@@ -20,8 +19,6 @@ class ErrorsReporter
      *
      * @param Throwable $exception Exception that should be reported
      * @param mixed[] $context Additional context of exception
-     *
-     * @throws ReflectionException
      */
     public function reportException(Throwable $exception, array $context = []): void
     {
@@ -31,24 +28,28 @@ class ErrorsReporter
 
         $message = $exception->getMessage();
         $severity = LogLevel::ERROR;
-        switch (true) {
-            case $exception instanceof ValidationException:
-                $data = $exception->errors();
-                $severity = LogLevel::DEBUG;
-                break;
-            case $exception instanceof BusinessLogicConstraintException:
-                $data = $exception->getContext();
-                $message = $exception->__toString();
-                break;
-            case $exception instanceof BusinessLogicIntegrityException:
-                $data = $exception->getContext();
-                $message = $exception->__toString();
-                $severity = LogLevel::CRITICAL;
-                break;
-            default:
-                $data = [
-                    "{$exception->getFile()}:{$exception->getLine()}",
-                ];
+        try {
+            switch (true) {
+                case $exception instanceof ValidationException:
+                    $data = $exception->errors();
+                    $severity = LogLevel::DEBUG;
+                    break;
+                case $exception instanceof BusinessLogicConstraintException:
+                    $data = $exception->getContext();
+                    $message = $exception->__toString();
+                    break;
+                case $exception instanceof BusinessLogicIntegrityException:
+                    $data = $exception->getContext();
+                    $message = $exception->__toString();
+                    $severity = LogLevel::CRITICAL;
+                    break;
+                default:
+                    $data = [
+                        "{$exception->getFile()}:{$exception->getLine()}",
+                    ];
+            }
+        } catch (Throwable $e) {
+            $data = [get_class($e)];
         }
 
         Log::log($severity, $message, array_merge($context, $data));
