@@ -14,7 +14,7 @@ class BusReassignException extends BusinessLogicConstraintException
      *
      * @var Bus
      */
-    private $bus;
+    protected $bus;
 
     /**
      * Thrown when bus cannot be reassigned to another company due to related records restrictions.
@@ -25,15 +25,5 @@ class BusReassignException extends BusinessLogicConstraintException
     {
         parent::__construct('Bus cannot be reassigned to another company');
         $this->bus = $bus;
-    }
-
-    /**
-     * Returns bus that can't be reassigned.
-     *
-     * @return Bus
-     */
-    public function getBus(): Bus
-    {
-        return $this->bus;
     }
 }

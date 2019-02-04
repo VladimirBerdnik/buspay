@@ -23,10 +23,10 @@ trait ContextRetrievingTrait
         $result = [];
 
         $class = new ReflectionClass(__CLASS__);
-        $privateProperties = $class->getProperties(ReflectionProperty::IS_PRIVATE);
+        $protectedProperties = $class->getProperties(ReflectionProperty::IS_PROTECTED);
 
-        foreach ($privateProperties as $privateProperty) {
-            $propertyName = $privateProperty->name;
+        foreach ($protectedProperties as $protectedProperty) {
+            $propertyName = $protectedProperty->name;
             $result[$propertyName] = $this->{$propertyName};
         }
 

@@ -12,7 +12,7 @@ class TransactionMismatchException extends BusinessLogicIntegrityImportException
      *
      * @var integer
      */
-    private $externalId;
+    protected $externalId;
 
     /**
      * Thrown when transaction in external storage doesn't match imported data.
@@ -26,22 +26,12 @@ class TransactionMismatchException extends BusinessLogicIntegrityImportException
     }
 
     /**
-     * External identifier of transaction that doesn't match imported data.
-     *
-     * @return integer
-     */
-    public function getExternalId(): int
-    {
-        return $this->externalId;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return "Transaction data with external ID [{$this->getExternalId()}] does not match data in external storage";
+        return "Transaction data with external ID [{$this->externalId}] does not match data in external storage";
     }
 }

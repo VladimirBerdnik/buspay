@@ -14,7 +14,7 @@ class NoCompanyForRouteException extends BusinessLogicIntegrityException
      *
      * @var Route
      */
-    private $route;
+    protected $route;
 
     /**
      * Thrown when company to route assignment not found, but expected.
@@ -28,23 +28,13 @@ class NoCompanyForRouteException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Route for which company not found.
-     *
-     * @return Route
-     */
-    public function getRoute(): Route
-    {
-        return $this->route;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $route = $this->getRoute();
+        $route = $this->route;
 
         return "No route [{$route->id}] to company [{$route->company_id}] historical assignment found but expected";
     }

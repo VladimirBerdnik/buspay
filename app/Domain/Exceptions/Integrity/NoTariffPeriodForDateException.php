@@ -14,7 +14,7 @@ class NoTariffPeriodForDateException extends BusinessLogicIntegrityException
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * Thrown when no tariff period for date exist.
@@ -28,22 +28,12 @@ class NoTariffPeriodForDateException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Returns Date for which tariff period missed.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return "No tariff period for date {$this->getDate()->toIso8601String()}";
+        return "No tariff period for date {$this->date->toIso8601String()}";
     }
 }

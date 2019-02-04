@@ -14,7 +14,7 @@ class BusDeletionException extends BusinessLogicConstraintException
      *
      * @var Bus
      */
-    private $bus;
+    protected $bus;
 
     /**
      * Thrown when bus cannot be deleted due to related records restrictions.
@@ -25,15 +25,5 @@ class BusDeletionException extends BusinessLogicConstraintException
     {
         parent::__construct('Bus with related records cannot be deleted');
         $this->bus = $bus;
-    }
-
-    /**
-     * Returns bus that can't be deleted.
-     *
-     * @return Bus
-     */
-    public function getBus(): Bus
-    {
-        return $this->bus;
     }
 }

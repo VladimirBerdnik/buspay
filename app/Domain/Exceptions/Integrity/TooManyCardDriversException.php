@@ -17,21 +17,21 @@ class TooManyCardDriversException extends BusinessLogicIntegrityException
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * List of drivers to card assignments for date.
      *
      * @var Collection|DriversCard[]
      */
-    private $cardDrivers;
+    protected $cardDrivers;
 
     /**
      * Card for which few assignments exists.
      *
      * @var Card
      */
-    private $card;
+    protected $card;
 
     /**
      * Thrown when multiple drivers to card assignments for date are exists.
@@ -49,46 +49,16 @@ class TooManyCardDriversException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Returns Date for which many drivers to card assignments exists.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
-    }
-
-    /**
-     * Card for which few assignments exists.
-     *
-     * @return Card
-     */
-    public function getCard(): Card
-    {
-        return $this->card;
-    }
-
-    /**
-     * Returns List of drivers to card assignments for date.
-     *
-     * @return Collection|DriversCard[]
-     */
-    public function getCardDrivers()
-    {
-        return $this->cardDrivers;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $periodsIdentifiers = $this->getCardDrivers()->pluck(Card::ID)->toArray();
-        $date = $this->getDate()->toIso8601String();
+        $periodsIdentifiers = $this->cardDrivers->pluck(Card::ID)->toArray();
+        $date = $this->date->toIso8601String();
 
-        return "For date {$date} few drivers to card [{$this->getCard()->id}] " .
+        return "For date {$date} few drivers to card [{$this->card->id}] " .
             "assignments exists: " . implode(', ', $periodsIdentifiers);
     }
 }

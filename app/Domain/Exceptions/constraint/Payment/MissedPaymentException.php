@@ -16,14 +16,14 @@ class MissedPaymentException extends BusinessLogicConstraintException
      *
      * @var Card
      */
-    private $card;
+    protected $card;
 
     /**
      * Date of expected payment.
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * Thrown when payment by card expected but not performed.
@@ -36,25 +36,5 @@ class MissedPaymentException extends BusinessLogicConstraintException
         parent::__construct('No payment by card');
         $this->card = $card;
         $this->date = $date;
-    }
-
-    /**
-     * Card that should pay.
-     *
-     * @return Card
-     */
-    public function getCard(): Card
-    {
-        return $this->card;
-    }
-
-    /**
-     * Date of expected payment.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
     }
 }

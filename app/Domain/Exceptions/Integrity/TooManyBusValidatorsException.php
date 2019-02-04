@@ -17,21 +17,21 @@ class TooManyBusValidatorsException extends BusinessLogicIntegrityException
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * List of bus to validator assignments for date.
      *
      * @var Collection|BusesValidator[]
      */
-    private $busValidators;
+    protected $busValidators;
 
     /**
      * Validator for which few assignments exists.
      *
      * @var Validator
      */
-    private $validator;
+    protected $validator;
 
     /**
      * Thrown when multiple bus to validator assignments for date are exists.
@@ -49,46 +49,16 @@ class TooManyBusValidatorsException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Returns Date for which many bus to validator assignments exists.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
-    }
-
-    /**
-     * Validator for which few assignments exists.
-     *
-     * @return Validator
-     */
-    public function getValidator(): Validator
-    {
-        return $this->validator;
-    }
-
-    /**
-     * Returns List of bus to validator assignments for date.
-     *
-     * @return Collection|BusesValidator[]
-     */
-    public function getBusValidators()
-    {
-        return $this->busValidators;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $periodsIdentifiers = $this->getBusValidators()->pluck(BusesValidator::ID)->toArray();
-        $date = $this->getDate()->toIso8601String();
+        $periodsIdentifiers = $this->busValidators->pluck(BusesValidator::ID)->toArray();
+        $date = $this->date->toIso8601String();
 
-        return "For date {$date} few buses to validator [{$this->getValidator()->id}] " .
+        return "For date {$date} few buses to validator [{$this->validator->id}] " .
             "assignments exists: " . implode(', ', $periodsIdentifiers);
     }
 }

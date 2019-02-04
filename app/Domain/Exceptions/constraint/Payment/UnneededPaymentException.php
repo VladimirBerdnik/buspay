@@ -16,14 +16,14 @@ class UnneededPaymentException extends BusinessLogicConstraintException
      *
      * @var Card
      */
-    private $card;
+    protected $card;
 
     /**
      * Date of unexpected payment.
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * Thrown when payment for not paymentable card found.
@@ -36,25 +36,5 @@ class UnneededPaymentException extends BusinessLogicConstraintException
         parent::__construct('Unpaymentable card payment');
         $this->card = $card;
         $this->date = $date;
-    }
-
-    /**
-     * Card that shouldn't pay.
-     *
-     * @return Card
-     */
-    public function getCard(): Card
-    {
-        return $this->card;
-    }
-
-    /**
-     * Date of unexpected payment.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
     }
 }

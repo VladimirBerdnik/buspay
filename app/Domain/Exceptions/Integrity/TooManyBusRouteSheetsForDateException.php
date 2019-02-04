@@ -17,7 +17,7 @@ class TooManyBusRouteSheetsForDateException extends TooManyRouteSheetsForDateExc
      *
      * @var Bus
      */
-    private $bus;
+    protected $bus;
 
     /**
      * Thrown when multiple route sheets for date are exists.
@@ -33,26 +33,16 @@ class TooManyBusRouteSheetsForDateException extends TooManyRouteSheetsForDateExc
     }
 
     /**
-     * Bus for which few route sheets for date exists.
-     *
-     * @return Bus
-     */
-    public function getBus(): Bus
-    {
-        return $this->bus;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $periodsIdentifiers = $this->getRouteSheets()->pluck(RouteSheet::ID)->toArray();
-        $date = $this->getDate()->toIso8601String();
+        $periodsIdentifiers = $this->routeSheets->pluck(RouteSheet::ID)->toArray();
+        $date = $this->date->toIso8601String();
 
-        return "For date {$date} few route sheets of bus [{$this->getBus()->id}] exists: " .
+        return "For date {$date} few route sheets of bus [{$this->bus->id}] exists: " .
             implode(', ', $periodsIdentifiers);
     }
 }

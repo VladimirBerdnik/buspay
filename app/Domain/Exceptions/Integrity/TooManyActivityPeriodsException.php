@@ -16,14 +16,14 @@ class TooManyActivityPeriodsException extends BusinessLogicIntegrityException
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * Existing activity periods.
      *
      * @var IActivityPeriod|Collection
      */
-    private $activityPeriods;
+    protected $activityPeriods;
 
     /**
      * Thrown when multiple master to related records assignments for date are exists.
@@ -36,25 +36,5 @@ class TooManyActivityPeriodsException extends BusinessLogicIntegrityException
         parent::__construct('Few master to related records assignments for date are exists');
         $this->date = $date;
         $this->activityPeriods = $activityPeriods;
-    }
-
-    /**
-     * Returns Date for which many assignments exists.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
-    }
-
-    /**
-     * Existing activity periods.
-     *
-     * @return IActivityPeriod|Collection
-     */
-    public function getActivityPeriods()
-    {
-        return $this->activityPeriods;
     }
 }

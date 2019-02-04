@@ -15,14 +15,14 @@ class UnexpectedBusForValidatorException extends BusinessLogicIntegrityException
      *
      * @var BusesValidator
      */
-    private $busesValidator;
+    protected $busesValidator;
 
     /**
      * Expected bus.
      *
      * @var Bus
      */
-    private $bus;
+    protected $bus;
 
     /**
      * Thrown when bus to validator assignment has unexpected bus value.
@@ -38,35 +38,15 @@ class UnexpectedBusForValidatorException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Bus to validator assignment where unexpected bus found.
-     *
-     * @return BusesValidator
-     */
-    public function getBusesValidator(): BusesValidator
-    {
-        return $this->busesValidator;
-    }
-
-    /**
-     * Expected bus.
-     *
-     * @return Bus
-     */
-    public function getBus(): Bus
-    {
-        return $this->bus;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $busesValidator = $this->getBusesValidator();
+        $busesValidator = $this->busesValidator;
 
         return "Unexpected bus [{$busesValidator->bus_id}] for validator [{$busesValidator->validator_id}] found " .
-            "in bus to validator assignment [{$busesValidator->id}]. Expected bus is [{$this->getBus()->id}]";
+            "in bus to validator assignment [{$busesValidator->id}]. Expected bus is [{$this->bus->id}]";
     }
 }

@@ -12,7 +12,7 @@ class NoValidatorForTransactionException extends BusinessLogicIntegrityImportExc
      *
      * @var string
      */
-    private $validatorSerial;
+    protected $validatorSerial;
 
     /**
      * Thrown when authorized card validator not found during import transactions attempt.
@@ -26,22 +26,12 @@ class NoValidatorForTransactionException extends BusinessLogicIntegrityImportExc
     }
 
     /**
-     * Serial number of validator that wasn't found.
-     *
-     * @return string
-     */
-    public function getValidatorSerial(): string
-    {
-        return $this->validatorSerial;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return "No validators with serial number [{$this->getValidatorSerial()}] found";
+        return "No validators with serial number [{$this->validatorSerial}] found";
     }
 }

@@ -16,21 +16,21 @@ class NoTariffFareForDateException extends BusinessLogicIntegrityException
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * Card type for which tariff fare missed.
      *
      * @var CardType
      */
-    private $cardType;
+    protected $cardType;
 
     /**
      * Tariff for which tariff fare missed.
      *
      * @var Tariff
      */
-    private $tariff;
+    protected $tariff;
 
     /**
      * Thrown when no tariff fare for date, tariff and card type exist.
@@ -48,44 +48,14 @@ class NoTariffFareForDateException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Returns Date for which tariff fare missed.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
-    }
-
-    /**
-     * Card type for which tariff fare missed.
-     *
-     * @return CardType
-     */
-    public function getCardType(): CardType
-    {
-        return $this->cardType;
-    }
-
-    /**
-     * Tariff for which tariff fare missed.
-     *
-     * @return Tariff
-     */
-    public function getTariff(): Tariff
-    {
-        return $this->tariff;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return "No tariff fare for date {$this->getDate()->toIso8601String()} " .
-            "for tariff [{$this->getTariff()->getKey()} " .
-            "for card type [{$this->getCardType()->getKey()}]";
+        return "No tariff fare for date {$this->date->toIso8601String()} " .
+            "for tariff [{$this->tariff->getKey()} " .
+            "for card type [{$this->cardType->getKey()}]";
     }
 }

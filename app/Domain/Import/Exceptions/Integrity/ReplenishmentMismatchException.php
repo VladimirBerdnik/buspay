@@ -12,7 +12,7 @@ class ReplenishmentMismatchException extends BusinessLogicIntegrityImportExcepti
      *
      * @var integer
      */
-    private $externalId;
+    protected $externalId;
 
     /**
      * Thrown when replenishment in external storage doesn't match imported data.
@@ -26,22 +26,12 @@ class ReplenishmentMismatchException extends BusinessLogicIntegrityImportExcepti
     }
 
     /**
-     * External identifier of replenishment that doesn't match imported data.
-     *
-     * @return integer
-     */
-    public function getExternalId(): int
-    {
-        return $this->externalId;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return "Replenishment data with external ID [{$this->getExternalId()}] does not match data in external storage";
+        return "Replenishment data with external ID [{$this->externalId}] does not match data in external storage";
     }
 }

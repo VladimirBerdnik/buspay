@@ -14,7 +14,7 @@ class DriverReassignException extends BusinessLogicConstraintException
      *
      * @var Driver
      */
-    private $driver;
+    protected $driver;
 
     /**
      * Thrown when driver cannot be reassigned to another company due to possible payment calculation issues.
@@ -25,15 +25,5 @@ class DriverReassignException extends BusinessLogicConstraintException
     {
         parent::__construct('Driver cannot be reassigned to another company');
         $this->driver = $driver;
-    }
-
-    /**
-     * Returns driver that can't be reassigned.
-     *
-     * @return Driver
-     */
-    public function getDriver(): Driver
-    {
-        return $this->driver;
     }
 }

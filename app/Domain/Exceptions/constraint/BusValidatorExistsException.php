@@ -15,7 +15,7 @@ class BusValidatorExistsException extends BusinessLogicConstraintException
      *
      * @var BusesValidator
      */
-    private $busesValidator;
+    protected $busesValidator;
 
     /**
      * Thrown when bus to validator assignment already exists.
@@ -27,15 +27,5 @@ class BusValidatorExistsException extends BusinessLogicConstraintException
     {
         parent::__construct('Bus activity period already exists exception');
         $this->busesValidator = $busesValidator;
-    }
-
-    /**
-     * Validator to bus assignment for which activity period exists.
-     *
-     * @return BusesValidator
-     */
-    public function getBusesValidator(): BusesValidator
-    {
-        return $this->busesValidator;
     }
 }

@@ -12,7 +12,7 @@ class TooManyReplenishmentWithExternalIdException extends BusinessLogicIntegrity
      *
      * @var integer
      */
-    private $externalId;
+    protected $externalId;
 
     /**
      * Thrown when multiple replenishment with same external identifier detected.
@@ -26,22 +26,12 @@ class TooManyReplenishmentWithExternalIdException extends BusinessLogicIntegrity
     }
 
     /**
-     * External identifier for which multiple replenishment found.
-     *
-     * @return integer
-     */
-    public function getExternalId(): int
-    {
-        return $this->externalId;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return "For external id [{$this->getExternalId()}] few replenishment found";
+        return "For external id [{$this->externalId}] few replenishment found";
     }
 }

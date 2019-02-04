@@ -14,7 +14,7 @@ class CompanyDeletionException extends BusinessLogicConstraintException
      *
      * @var Company
      */
-    private $company;
+    protected $company;
 
     /**
      * Thrown when company cannot be deleted due to related records restrictions.
@@ -25,15 +25,5 @@ class CompanyDeletionException extends BusinessLogicConstraintException
     {
         parent::__construct('Company with related records can not be deleted');
         $this->company = $company;
-    }
-
-    /**
-     * Returns company that can't be deleted.
-     *
-     * @return Company
-     */
-    public function getCompany(): Company
-    {
-        return $this->company;
     }
 }

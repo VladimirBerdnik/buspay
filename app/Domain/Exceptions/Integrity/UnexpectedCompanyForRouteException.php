@@ -15,14 +15,14 @@ class UnexpectedCompanyForRouteException extends BusinessLogicIntegrityException
      *
      * @var CompaniesRoute
      */
-    private $companiesRoute;
+    protected $companiesRoute;
 
     /**
      * Expected company.
      *
      * @var Company
      */
-    private $company;
+    protected $company;
 
     /**
      * Thrown when company to route assignment has unexpected company value.
@@ -38,35 +38,15 @@ class UnexpectedCompanyForRouteException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Company to route assignment where unexpected company found.
-     *
-     * @return CompaniesRoute
-     */
-    public function getCompaniesRoute(): CompaniesRoute
-    {
-        return $this->companiesRoute;
-    }
-
-    /**
-     * Expected company.
-     *
-     * @return Company
-     */
-    public function getCompany(): Company
-    {
-        return $this->company;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $companiesRoute = $this->getCompaniesRoute();
+        $companiesRoute = $this->companiesRoute;
 
         return "Unexpected company [{$companiesRoute->company_id}] for route [{$companiesRoute->route_id}] found " .
-            "in company to route assignment [{$companiesRoute->id}]. Expected company is [{$this->getCompany()->id}]";
+            "in company to route assignment [{$companiesRoute->id}]. Expected company is [{$this->company->id}]";
     }
 }

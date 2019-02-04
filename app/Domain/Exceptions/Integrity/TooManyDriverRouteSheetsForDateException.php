@@ -17,7 +17,7 @@ class TooManyDriverRouteSheetsForDateException extends TooManyRouteSheetsForDate
      *
      * @var Driver
      */
-    private $driver;
+    protected $driver;
 
     /**
      * Thrown when multiple route sheets for date are exists.
@@ -33,26 +33,16 @@ class TooManyDriverRouteSheetsForDateException extends TooManyRouteSheetsForDate
     }
 
     /**
-     * Driver for which few route sheets for date exists.
-     *
-     * @return Driver
-     */
-    public function getDriver(): Driver
-    {
-        return $this->driver;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $periodsIdentifiers = $this->getRouteSheets()->pluck(RouteSheet::ID)->toArray();
-        $date = $this->getDate()->toIso8601String();
+        $periodsIdentifiers = $this->routeSheets->pluck(RouteSheet::ID)->toArray();
+        $date = $this->date->toIso8601String();
 
-        return "For date {$date} few route sheets of driver [{$this->getDriver()->id}] exists: " .
+        return "For date {$date} few route sheets of driver [{$this->driver->id}] exists: " .
             implode(', ', $periodsIdentifiers);
     }
 }

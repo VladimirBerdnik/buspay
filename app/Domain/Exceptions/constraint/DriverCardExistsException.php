@@ -15,7 +15,7 @@ class DriverCardExistsException extends BusinessLogicConstraintException
      *
      * @var DriversCard
      */
-    private $driversCard;
+    protected $driversCard;
 
     /**
      * Thrown when card to driver assignment already exists.
@@ -26,15 +26,5 @@ class DriverCardExistsException extends BusinessLogicConstraintException
     {
         parent::__construct('Driver activity period already exists exception');
         $this->driversCard = $driversCard;
-    }
-
-    /**
-     * Card to driver assignment for which activity period exists.
-     *
-     * @return DriversCard
-     */
-    public function getDriversCard(): DriversCard
-    {
-        return $this->driversCard;
     }
 }

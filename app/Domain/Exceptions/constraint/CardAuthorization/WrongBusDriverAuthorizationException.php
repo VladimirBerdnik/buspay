@@ -15,14 +15,14 @@ class WrongBusDriverAuthorizationException extends CardAuthorizationException
      *
      * @var Driver
      */
-    private $driver;
+    protected $driver;
 
     /**
      * Bus where driver was authorized.
      *
      * @var Bus
      */
-    private $bus;
+    protected $bus;
 
     /**
      * Thrown when driver authorized in bus that belongs to another company.
@@ -35,25 +35,5 @@ class WrongBusDriverAuthorizationException extends CardAuthorizationException
         parent::__construct('Unsupported card authorization');
         $this->driver = $driver;
         $this->bus = $bus;
-    }
-
-    /**
-     * Authorized driver.
-     *
-     * @return Driver
-     */
-    public function getDriver(): Driver
-    {
-        return $this->driver;
-    }
-
-    /**
-     * Bus where driver was authorized.
-     *
-     * @return Bus
-     */
-    public function getBus(): Bus
-    {
-        return $this->bus;
     }
 }

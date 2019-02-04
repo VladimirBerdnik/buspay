@@ -12,7 +12,7 @@ class NoTariffForTransactionException extends BusinessLogicIntegrityImportExcept
      *
      * @var integer
      */
-    private $tariffId;
+    protected $tariffId;
 
     /**
      * Thrown when tariff where card was authorized not found
@@ -26,22 +26,12 @@ class NoTariffForTransactionException extends BusinessLogicIntegrityImportExcept
     }
 
     /**
-     * Tariff identifier that wasn't found.
-     *
-     * @return integer
-     */
-    public function getTariffId(): int
-    {
-        return $this->tariffId;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return "No validators with serial number [{$this->getTariffId()}] found";
+        return "No validators with serial number [{$this->tariffId}] found";
     }
 }

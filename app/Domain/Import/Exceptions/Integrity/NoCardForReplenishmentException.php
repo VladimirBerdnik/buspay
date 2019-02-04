@@ -12,7 +12,7 @@ class NoCardForReplenishmentException extends BusinessLogicIntegrityImportExcept
      *
      * @var integer
      */
-    private $cardNumber;
+    protected $cardNumber;
 
     /**
      * Thrown when mentioned in replenishment card number wasn't found.
@@ -26,22 +26,12 @@ class NoCardForReplenishmentException extends BusinessLogicIntegrityImportExcept
     }
 
     /**
-     * Card number that wasn't found.
-     *
-     * @return integer
-     */
-    public function getCardNumber(): int
-    {
-        return $this->cardNumber;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return "Card with number [{$this->getCardNumber()}] for replenishment not found";
+        return "Card with number [{$this->cardNumber}] for replenishment not found";
     }
 }

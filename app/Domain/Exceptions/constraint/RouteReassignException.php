@@ -14,7 +14,7 @@ class RouteReassignException extends BusinessLogicConstraintException
      *
      * @var Route
      */
-    private $route;
+    protected $route;
 
     /**
      * Thrown when route cannot be reassigned to another company due to related records restrictions.
@@ -25,15 +25,5 @@ class RouteReassignException extends BusinessLogicConstraintException
     {
         parent::__construct('Route with related to company records cannot be reassigned');
         $this->route = $route;
-    }
-
-    /**
-     * Returns route that can't be reassigned.
-     *
-     * @return Route
-     */
-    public function getRoute(): Route
-    {
-        return $this->route;
     }
 }

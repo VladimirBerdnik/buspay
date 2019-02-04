@@ -14,7 +14,7 @@ class UnexpectedCardAuthorizationException extends CardAuthorizationException
      *
      * @var Card
      */
-    private $card;
+    protected $card;
 
     /**
      * Thrown when authorization by unsupported card performed.
@@ -25,15 +25,5 @@ class UnexpectedCardAuthorizationException extends CardAuthorizationException
     {
         parent::__construct('Unsupported card authorization');
         $this->card = $card;
-    }
-
-    /**
-     * Authorized unexpected card.
-     *
-     * @return Card
-     */
-    public function getCard(): Card
-    {
-        return $this->card;
     }
 }

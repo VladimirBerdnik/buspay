@@ -15,7 +15,7 @@ class CompanyRouteExistsException extends BusinessLogicConstraintException
      *
      * @var CompaniesRoute
      */
-    private $companiesRoute;
+    protected $companiesRoute;
 
     /**
      * Thrown when company to route assignment already exists.
@@ -27,15 +27,5 @@ class CompanyRouteExistsException extends BusinessLogicConstraintException
     {
         parent::__construct('Route activity period already exists exception');
         $this->companiesRoute = $companiesRoute;
-    }
-
-    /**
-     * Company to route assignment for which activity period exists.
-     *
-     * @return CompaniesRoute
-     */
-    public function getCompaniesRoute(): CompaniesRoute
-    {
-        return $this->companiesRoute;
     }
 }

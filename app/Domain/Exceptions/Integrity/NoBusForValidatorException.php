@@ -14,7 +14,7 @@ class NoBusForValidatorException extends BusinessLogicIntegrityException
      *
      * @var Validator
      */
-    private $validator;
+    protected $validator;
 
     /**
      * Thrown when bus to validator assignment not found, but expected.
@@ -28,23 +28,13 @@ class NoBusForValidatorException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Validator for which bus not found.
-     *
-     * @return Validator
-     */
-    public function getValidator(): Validator
-    {
-        return $this->validator;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $validator = $this->getValidator();
+        $validator = $this->validator;
 
         return "No validator [{$validator->id}] to bus [{$validator->bus_id}] historical assignment found but expected";
     }

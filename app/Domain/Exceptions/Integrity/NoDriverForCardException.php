@@ -14,7 +14,7 @@ class NoDriverForCardException extends BusinessLogicIntegrityException
      *
      * @var Driver
      */
-    private $driver;
+    protected $driver;
 
     /**
      * Thrown when card to driver assignment not found, but expected.
@@ -28,23 +28,13 @@ class NoDriverForCardException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Driver for which driver card not found.
-     *
-     * @return Driver
-     */
-    public function getDriver(): Driver
-    {
-        return $this->driver;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $driver = $this->getDriver();
+        $driver = $this->driver;
 
         return "No driver [{$driver->id}] to card [{$driver->card_id}] historical assignment found but expected";
     }

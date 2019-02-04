@@ -16,14 +16,14 @@ abstract class TooManyRouteSheetsForDateException extends BusinessLogicIntegrity
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * List of route sheets for date.
      *
      * @var Collection|RouteSheet[]
      */
-    private $routeSheets;
+    protected $routeSheets;
 
     /**
      * Thrown when multiple route sheets for date are exists.
@@ -36,25 +36,5 @@ abstract class TooManyRouteSheetsForDateException extends BusinessLogicIntegrity
         parent::__construct('Few route sheets for date');
         $this->date = $date;
         $this->routeSheets = $routeSheets;
-    }
-
-    /**
-     * Returns Date for which many route sheets exists.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
-    }
-
-    /**
-     * Returns List of route sheets for date.
-     *
-     * @return RouteSheet[]|Collection
-     */
-    public function getRouteSheets()
-    {
-        return $this->routeSheets;
     }
 }

@@ -17,21 +17,21 @@ class TooManyCompanyRoutesException extends BusinessLogicIntegrityException
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * List of company to route assignments for date.
      *
      * @var Collection|CompaniesRoute[]
      */
-    private $companyRoutes;
+    protected $companyRoutes;
 
     /**
      * Route for which few assignments exists.
      *
      * @var Route
      */
-    private $route;
+    protected $route;
 
     /**
      * Thrown when multiple company to route assignments for date are exists.
@@ -49,46 +49,16 @@ class TooManyCompanyRoutesException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Returns Date for which many company to route assignments exists.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
-    }
-
-    /**
-     * Route for which few assignments exists.
-     *
-     * @return Route
-     */
-    public function getRoute(): Route
-    {
-        return $this->route;
-    }
-
-    /**
-     * Returns List of company to route assignments for date.
-     *
-     * @return Collection|CompaniesRoute[]
-     */
-    public function getCompanyRoutes()
-    {
-        return $this->companyRoutes;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $periodsIdentifiers = $this->getCompanyRoutes()->pluck(CompaniesRoute::ID)->toArray();
-        $date = $this->getDate()->toIso8601String();
+        $periodsIdentifiers = $this->companyRoutes->pluck(CompaniesRoute::ID)->toArray();
+        $date = $this->date->toIso8601String();
 
-        return "For date {$date} few companies to route [{$this->getRoute()->id}] " .
+        return "For date {$date} few companies to route [{$this->route->id}] " .
             "assignments exists: " . implode(', ', $periodsIdentifiers);
     }
 }

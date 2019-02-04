@@ -12,7 +12,7 @@ class TooManyTransactionWithExternalIdException extends BusinessLogicIntegrityIm
      *
      * @var integer
      */
-    private $externalId;
+    protected $externalId;
 
     /**
      * Thrown when multiple transactions with same external identifier detected.
@@ -26,22 +26,12 @@ class TooManyTransactionWithExternalIdException extends BusinessLogicIntegrityIm
     }
 
     /**
-     * External identifier for which multiple transactions found.
-     *
-     * @return integer
-     */
-    public function getExternalId(): int
-    {
-        return $this->externalId;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return "For external id [{$this->getExternalId()}] few transactions found";
+        return "For external id [{$this->externalId}] few transactions found";
     }
 }

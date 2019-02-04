@@ -15,14 +15,14 @@ class UnassignedValidatorCardAuthorizationException extends CardAuthorizationExc
      *
      * @var Validator
      */
-    private $validator;
+    protected $validator;
 
     /**
      * Date at which authorization was detected.
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * Thrown when authorization on unassigned to bus validator detected.
@@ -35,25 +35,5 @@ class UnassignedValidatorCardAuthorizationException extends CardAuthorizationExc
         parent::__construct('Authorization on unassigned validator');
         $this->validator = $validator;
         $this->date = $date;
-    }
-
-    /**
-     * Validator on which authorization was detected.
-     *
-     * @return Validator
-     */
-    public function getValidator(): Validator
-    {
-        return $this->validator;
-    }
-
-    /**
-     * Date at which authorization was detected.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
     }
 }

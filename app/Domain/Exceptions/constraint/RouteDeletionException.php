@@ -14,7 +14,7 @@ class RouteDeletionException extends BusinessLogicConstraintException
      *
      * @var Route
      */
-    private $route;
+    protected $route;
 
     /**
      * Thrown when route cannot be deleted due to related records restrictions.
@@ -25,15 +25,5 @@ class RouteDeletionException extends BusinessLogicConstraintException
     {
         parent::__construct('Route with related records cannot be deleted');
         $this->route = $route;
-    }
-
-    /**
-     * Returns route that can't be deleted.
-     *
-     * @return Route
-     */
-    public function getRoute(): Route
-    {
-        return $this->route;
     }
 }

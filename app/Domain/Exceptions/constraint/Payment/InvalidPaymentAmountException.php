@@ -18,35 +18,35 @@ class InvalidPaymentAmountException extends BusinessLogicConstraintException
      *
      * @var Card
      */
-    private $card;
+    protected $card;
 
     /**
      * Date of expected payment.
      *
      * @var Carbon
      */
-    private $date;
+    protected $date;
 
     /**
      * Tariff that should be payed.
      *
      * @var Tariff
      */
-    private $tariff;
+    protected $tariff;
 
     /**
      * Payed amount.
      *
      * @var int
      */
-    private $amount;
+    protected $amount;
 
     /**
      * Expected tariff fare.
      *
      * @var TariffFare
      */
-    private $tariffFare;
+    protected $tariffFare;
 
     /**
      * Thrown when payment by card was performed with invalid payment amount.
@@ -65,55 +65,5 @@ class InvalidPaymentAmountException extends BusinessLogicConstraintException
         $this->tariff = $tariff;
         $this->amount = $amount;
         $this->tariffFare = $tariffFare;
-    }
-
-    /**
-     * Card that should pay.
-     *
-     * @return Card
-     */
-    public function getCard(): Card
-    {
-        return $this->card;
-    }
-
-    /**
-     * Date of expected payment.
-     *
-     * @return Carbon
-     */
-    public function getDate(): Carbon
-    {
-        return $this->date;
-    }
-
-    /**
-     * Tariff that should be payed.
-     *
-     * @return Tariff
-     */
-    public function getTariff(): Tariff
-    {
-        return $this->tariff;
-    }
-
-    /**
-     * Payed amount.
-     *
-     * @return integer
-     */
-    public function getAmount(): int
-    {
-        return $this->amount;
-    }
-
-    /**
-     * Expected tariff fare.
-     *
-     * @return TariffFare
-     */
-    public function getTariffFare(): TariffFare
-    {
-        return $this->tariffFare;
     }
 }

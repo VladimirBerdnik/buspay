@@ -14,7 +14,7 @@ class DriverDeletionException extends BusinessLogicConstraintException
      *
      * @var Driver
      */
-    private $driver;
+    protected $driver;
 
     /**
      * Thrown when driver cannot be deleted due to related records restrictions.
@@ -25,15 +25,5 @@ class DriverDeletionException extends BusinessLogicConstraintException
     {
         parent::__construct('Driver with related records cannot be deleted');
         $this->driver = $driver;
-    }
-
-    /**
-     * Returns driver that can't be deleted.
-     *
-     * @return Driver
-     */
-    public function getDriver(): Driver
-    {
-        return $this->driver;
     }
 }

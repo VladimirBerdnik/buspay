@@ -14,7 +14,7 @@ class ActivityPeriodExistsException extends BusinessLogicConstraintException
      *
      * @var IActivityPeriod
      */
-    private $activityPeriod;
+    protected $activityPeriod;
 
     /**
      * Thrown when master to parent assignment already exists.
@@ -25,15 +25,5 @@ class ActivityPeriodExistsException extends BusinessLogicConstraintException
     {
         parent::__construct('Activity period already exists exception');
         $this->activityPeriod = $activityPeriod;
-    }
-
-    /**
-     * Existing activity period.
-     *
-     * @return IActivityPeriod
-     */
-    public function getActivityPeriod(): IActivityPeriod
-    {
-        return $this->activityPeriod;
     }
 }

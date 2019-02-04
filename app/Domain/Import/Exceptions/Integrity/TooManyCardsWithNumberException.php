@@ -12,7 +12,7 @@ class TooManyCardsWithNumberException extends BusinessLogicIntegrityImportExcept
      *
      * @var int
      */
-    private $cardNumber;
+    protected $cardNumber;
 
     /**
      * Thrown when multiple cards with same number detected.
@@ -26,22 +26,12 @@ class TooManyCardsWithNumberException extends BusinessLogicIntegrityImportExcept
     }
 
     /**
-     * Card number with which multiple cards found.
-     *
-     * @return integer
-     */
-    public function getCardNumber(): int
-    {
-        return $this->cardNumber;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        return "For card number [{$this->getCardNumber()}] few cards found";
+        return "For card number [{$this->cardNumber}] few cards found";
     }
 }

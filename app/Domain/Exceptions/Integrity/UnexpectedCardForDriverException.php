@@ -15,14 +15,14 @@ class UnexpectedCardForDriverException extends BusinessLogicIntegrityException
      *
      * @var DriversCard
      */
-    private $driversCard;
+    protected $driversCard;
 
     /**
      * Expected card.
      *
      * @var Card
      */
-    private $card;
+    protected $card;
 
     /**
      * Thrown when card to driver assignment has unexpected card value.
@@ -38,35 +38,15 @@ class UnexpectedCardForDriverException extends BusinessLogicIntegrityException
     }
 
     /**
-     * Card to driver assignment where unexpected card found.
-     *
-     * @return DriversCard
-     */
-    public function getDriversCard(): DriversCard
-    {
-        return $this->driversCard;
-    }
-
-    /**
-     * Expected card.
-     *
-     * @return Card
-     */
-    public function getCard(): Card
-    {
-        return $this->card;
-    }
-
-    /**
      * Text representation of exception.
      *
      * @return string
      */
     public function __toString(): string
     {
-        $driversCard = $this->getDriversCard();
+        $driversCard = $this->driversCard;
 
         return "Unexpected card [{$driversCard->card_id}] for driver [{$driversCard->driver_id}] found " .
-            "in card to driver assignment [{$driversCard->id}]. Expected card is [{$this->getCard()->id}]";
+            "in card to driver assignment [{$driversCard->id}]. Expected card is [{$this->card->id}]";
     }
 }

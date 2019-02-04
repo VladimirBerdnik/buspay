@@ -15,7 +15,7 @@ class CardReassignException extends BusinessLogicIntegrityException
      *
      * @var Card
      */
-    private $card;
+    protected $card;
 
     /**
      * Thrown when card attributes cannot be changed during update attempt.
@@ -26,15 +26,5 @@ class CardReassignException extends BusinessLogicIntegrityException
     {
         parent::__construct('Card details cannot be changed');
         $this->card = $card;
-    }
-
-    /**
-     * Returns card that can't be reassigned.
-     *
-     * @return Card
-     */
-    public function getCard(): Card
-    {
-        return $this->card;
     }
 }
