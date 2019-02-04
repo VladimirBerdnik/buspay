@@ -23,4 +23,7 @@ return [
         // Transactions records within given days interval will be checked for presence in local and external storage
         'synchronisationDaysInterval' => 14,
     ],
+    'verify' => [
+        'verifiedItemsChunkSize' => 50,
+    ],
 ];
