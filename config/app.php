@@ -155,6 +155,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\LangServiceProvider::class,
+        App\Providers\LogsServiceProvider::class,
     ],
 
     /*
