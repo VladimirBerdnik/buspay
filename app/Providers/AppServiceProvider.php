@@ -22,9 +22,13 @@ use App\Domain\EntitiesServices\UserEntityService;
 use App\Domain\EntitiesServices\ValidatorEntityService;
 use App\Domain\Import\CardsImporter;
 use App\Domain\Import\ReplenishmentImporter;
+use App\Domain\Import\ReplenishmentsVerifier;
 use App\Domain\Import\TransactionsImporter;
+use App\Domain\Import\TransactionsVerifier;
 use App\Domain\Import\ValidatorsImporter;
+use App\Domain\Import\ValidatorsVerifier;
 use App\Exceptions\ApiExceptionHandler;
+use App\Extensions\EntityService;
 use App\Http\Controllers\Api\v1\BusesApiController;
 use App\Http\Controllers\Api\v1\CardBalanceApiController;
 use App\Http\Controllers\Api\v1\CardsApiController;
@@ -41,7 +45,7 @@ use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
 use App\Http\Controllers\Api\v1\ValidatorsApiController;
 use App\Http\Transformers\Api\BusTransformer;
-use App\Http\Transformers\Api\CardBalanceTransactionTransformer;
+use App\Http\Transformers\Api\CardBalanceRecordTransformer;
 use App\Http\Transformers\Api\CardTransformer;
 use App\Http\Transformers\Api\CardTypeTransformer;
 use App\Http\Transformers\Api\CompanyTransformer;
@@ -116,6 +120,18 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerBindings(): void
     {
+        $this->registerImporterBindings();
+
+        $this->registerTransformersBindings();
+
+        $this->registerRepositoriesBindings();
+    }
+
+    /**
+     * Registers bindings that are involved into import entities process.
+     */
+    private function registerImporterBindings(): void
+    {
         $this->app->when(ReplenishmentImporter::class)->needs(ConnectionInterface::class)->give(function () {
             return DB::connection('external');
         });
@@ -129,67 +145,78 @@ class AppServiceProvider extends ServiceProvider
             return DB::connection('external');
         });
 
-        // Register repositories bindings
-        $this->app->when(BusesValidatorEntityService::class)
-            ->needs(IRepository::class)
-            ->give(BusesValidatorRepository::class);
-        $this->app->when(CompaniesRouteEntityService::class)
-            ->needs(IRepository::class)
-            ->give(CompaniesRouteRepository::class);
-        $this->app->when(CardEntityService::class)->needs(IRepository::class)->give(CardRepository::class);
-        $this->app->when(CardTypeEntityService::class)->needs(IRepository::class)->give(CardTypeRepository::class);
-        $this->app->when(BusEntityService::class)->needs(IRepository::class)->give(BusRepository::class);
-        $this->app->when(CompanyEntityService::class)->needs(IRepository::class)->give(CompanyRepository::class);
-        $this->app->when(DriverEntityService::class)->needs(IRepository::class)->give(DriverRepository::class);
-        $this->app->when(DriversCardEntityService::class)
-            ->needs(IRepository::class)
-            ->give(DriversCardRepository::class);
-        $this->app->when(RoleEntityService::class)->needs(IRepository::class)->give(RoleRepository::class);
-        $this->app->when(RouteEntityService::class)->needs(IRepository::class)->give(RouteRepository::class);
-        $this->app->when(RouteSheetEntityService::class)->needs(IRepository::class)->give(RouteSheetRepository::class);
-        $this->app->when(TariffEntityService::class)->needs(IRepository::class)->give(TariffRepository::class);
-        $this->app->when(TariffPeriodEntityService::class)
-            ->needs(IRepository::class)
-            ->give(TariffPeriodRepository::class);
-        $this->app->when(TariffFareEntityService::class)->needs(IRepository::class)->give(TariffFareRepository::class);
-        $this->app->when(UserEntityService::class)->needs(IRepository::class)->give(UserRepository::class);
-        $this->app->when(ValidatorEntityService::class)->needs(IRepository::class)->give(ValidatorRepository::class);
-        $this->app->when(ReplenishmentEntityService::class)
-            ->needs(IRepository::class)
-            ->give(ReplenishmentRepository::class);
-        $this->app->when(TransactionEntityService::class)
-            ->needs(IRepository::class)
-            ->give(TransactionRepository::class);
+        $this->app->when(ValidatorsVerifier::class)->needs(ConnectionInterface::class)->give(function () {
+            return DB::connection('external');
+        });
+        $this->app->when(ValidatorsVerifier::class)->needs(EntityService::class)->give(function () {
+            return $this->app->make(ValidatorEntityService::class);
+        });
 
-        // Register transformers bindings
-        $this->app->when(ProfileApiController::class)->needs(IDataTransformer::class)->give(ProfileTransformer::class);
-        $this->app->when(UsersApiController::class)->needs(IDataTransformer::class)->give(ProfileTransformer::class);
-        $this->app->when(CardTypesApiController::class)
-            ->needs(IDataTransformer::class)
-            ->give(CardTypeTransformer::class);
-        $this->app->when(TariffsApiController::class)->needs(IDataTransformer::class)->give(TariffTransformer::class);
-        $this->app->when(TariffPeriodsApiController::class)
-            ->needs(IDataTransformer::class)
-            ->give(TariffPeriodTransformer::class);
-        $this->app->when(CompaniesApiController::class)
-            ->needs(IDataTransformer::class)
-            ->give(CompanyTransformer::class);
-        $this->app->when(RolesApiController::class)->needs(IDataTransformer::class)->give(RoleTransformer::class);
-        $this->app->when(RoutesApiController::class)->needs(IDataTransformer::class)->give(RouteTransformer::class);
-        $this->app->when(BusesApiController::class)->needs(IDataTransformer::class)->give(BusTransformer::class);
-        $this->app->when(DriversApiController::class)->needs(IDataTransformer::class)->give(DriverTransformer::class);
-        $this->app->when(CardsApiController::class)->needs(IDataTransformer::class)->give(CardTransformer::class);
-        $this->app->when(ValidatorsApiController::class)
-            ->needs(IDataTransformer::class)
-            ->give(ValidatorTransformer::class);
-        $this->app->when(RouteSheetsApiController::class)
-            ->needs(IDataTransformer::class)
-            ->give(RouteSheetTransformer::class);
-        $this->app->when(CardBalanceApiController::class)
-            ->needs(IDataTransformer::class)
-            ->give(CardBalanceTransactionTransformer::class);
-        $this->app->when(ReplenishmentsApiController::class)
-            ->needs(IDataTransformer::class)
-            ->give(ReplenishmentTransformer::class);
+        $this->app->when(TransactionsVerifier::class)->needs(ConnectionInterface::class)->give(function () {
+            return DB::connection('external');
+        });
+        $this->app->when(TransactionsVerifier::class)->needs(EntityService::class)->give(function () {
+            return $this->app->make(TransactionEntityService::class);
+        });
+
+        $this->app->when(ReplenishmentsVerifier::class)->needs(ConnectionInterface::class)->give(function () {
+            return DB::connection('external');
+        });
+        $this->app->when(ReplenishmentsVerifier::class)->needs(EntityService::class)->give(function () {
+            return $this->app->make(ReplenishmentEntityService::class);
+        });
+    }
+
+    /**
+     * Registers transformers bindings.
+     */
+    private function registerTransformersBindings(): void
+    {
+        $transformer = IDataTransformer::class;
+        $app = $this->app;
+
+        $app->when(BusesApiController::class)->needs($transformer)->give(BusTransformer::class);
+        $app->when(CardBalanceApiController::class)->needs($transformer)->give(CardBalanceRecordTransformer::class);
+        $app->when(CardTypesApiController::class)->needs($transformer)->give(CardTypeTransformer::class);
+        $app->when(CardsApiController::class)->needs($transformer)->give(CardTransformer::class);
+        $app->when(CompaniesApiController::class)->needs($transformer)->give(CompanyTransformer::class);
+        $app->when(DriversApiController::class)->needs($transformer)->give(DriverTransformer::class);
+        $app->when(ProfileApiController::class)->needs($transformer)->give(ProfileTransformer::class);
+        $app->when(ReplenishmentsApiController::class)->needs($transformer)->give(ReplenishmentTransformer::class);
+        $app->when(RolesApiController::class)->needs($transformer)->give(RoleTransformer::class);
+        $app->when(RouteSheetsApiController::class)->needs($transformer)->give(RouteSheetTransformer::class);
+        $app->when(RoutesApiController::class)->needs($transformer)->give(RouteTransformer::class);
+        $app->when(TariffPeriodsApiController::class)->needs($transformer)->give(TariffPeriodTransformer::class);
+        $app->when(TariffsApiController::class)->needs($transformer)->give(TariffTransformer::class);
+        $app->when(UsersApiController::class)->needs($transformer)->give(ProfileTransformer::class);
+        $app->when(ValidatorsApiController::class)->needs($transformer)->give(ValidatorTransformer::class);
+    }
+
+    /**
+     * Registers repositories bindings.
+     */
+    private function registerRepositoriesBindings(): void
+    {
+        $repository = IRepository::class;
+        $app = $this->app;
+
+        $app->when(BusEntityService::class)->needs($repository)->give(BusRepository::class);
+        $app->when(BusesValidatorEntityService::class)->needs($repository)->give(BusesValidatorRepository::class);
+        $app->when(CardEntityService::class)->needs($repository)->give(CardRepository::class);
+        $app->when(CardTypeEntityService::class)->needs($repository)->give(CardTypeRepository::class);
+        $app->when(CompaniesRouteEntityService::class)->needs($repository)->give(CompaniesRouteRepository::class);
+        $app->when(CompanyEntityService::class)->needs($repository)->give(CompanyRepository::class);
+        $app->when(DriverEntityService::class)->needs($repository)->give(DriverRepository::class);
+        $app->when(DriversCardEntityService::class)->needs($repository)->give(DriversCardRepository::class);
+        $app->when(ReplenishmentEntityService::class)->needs($repository)->give(ReplenishmentRepository::class);
+        $app->when(RoleEntityService::class)->needs($repository)->give(RoleRepository::class);
+        $app->when(RouteEntityService::class)->needs($repository)->give(RouteRepository::class);
+        $app->when(RouteSheetEntityService::class)->needs($repository)->give(RouteSheetRepository::class);
+        $app->when(TariffEntityService::class)->needs($repository)->give(TariffRepository::class);
+        $app->when(TariffFareEntityService::class)->needs($repository)->give(TariffFareRepository::class);
+        $app->when(TariffPeriodEntityService::class)->needs($repository)->give(TariffPeriodRepository::class);
+        $app->when(TransactionEntityService::class)->needs($repository)->give(TransactionRepository::class);
+        $app->when(UserEntityService::class)->needs($repository)->give(UserRepository::class);
+        $app->when(ValidatorEntityService::class)->needs($repository)->give(ValidatorRepository::class);
     }
 }
