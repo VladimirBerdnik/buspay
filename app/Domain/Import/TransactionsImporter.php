@@ -152,7 +152,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
                 $this->importChunk($items);
             });
 
-        Log::debug('Updated transactions details import process finished.');
+        Log::debug('Transactions details import process finished.');
     }
 
     /**

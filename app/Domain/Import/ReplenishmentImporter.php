@@ -131,7 +131,7 @@ class ReplenishmentImporter extends ExternalEntitiesImportService
                 $this->importChunk($items);
             });
 
-        Log::debug('Updated replenishment details import process finished.');
+        Log::debug('Replenishment details import process finished.');
     }
 
     /**

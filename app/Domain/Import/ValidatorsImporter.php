@@ -84,7 +84,7 @@ class ValidatorsImporter extends ExternalEntitiesImportService
                 $this->importChunk($items);
             });
 
-        Log::debug('Updated validator details import process finished.');
+        Log::debug('Validator details import process finished.');
     }
 
     /**
