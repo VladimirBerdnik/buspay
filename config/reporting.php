@@ -19,4 +19,10 @@ return [
     'errors' => [
         'enabled' => true,
     ],
+    'services' => [
+        'slack' => [
+            'url' => env('SLACK_REPORTING_WEBHOOK_URL'),
+            'channel' => env('SLACK_REPORTING_CHANNEL'),
+        ],
+    ],
 ];

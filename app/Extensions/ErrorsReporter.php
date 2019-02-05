@@ -4,6 +4,7 @@ namespace App\Extensions;
 
 use App\Domain\Exceptions\Constraint\BusinessLogicConstraintException;
 use App\Domain\Exceptions\Integrity\BusinessLogicIntegrityException;
+use App\Notifications\LogNotification;
 use Illuminate\Validation\ValidationException;
 use Log;
 use Psr\Log\LogLevel;
@@ -14,6 +15,23 @@ use Throwable;
  */
 class ErrorsReporter
 {
+    /**
+     * Notifiable slack reporting channel.
+     *
+     * @var SlackReportingChannel
+     */
+    private $slackReportingChannel;
+
+    /**
+     * Reports about exceptions and logged messages.
+     *
+     * @param SlackReportingChannel $slackReportingChannel Notifiable slack reporting channel
+     */
+    public function __construct(SlackReportingChannel $slackReportingChannel)
+    {
+        $this->slackReportingChannel = $slackReportingChannel;
+    }
+
     /**
      * Reports about passed exception.
      *
@@ -75,9 +93,17 @@ class ErrorsReporter
             return;
         }
 
-        if ($message || $data) {
-            // Select reporting channel and report message
-            return;
+        $sanitizedData = [];
+
+        foreach ($data ?? [] as $key => $value) {
+            try {
+                $value = is_scalar($value) ? $value : json_encode($value);
+            } catch (Throwable $exception) {
+                $value = gettype($value);
+            }
+            $sanitizedData[$key] = $value;
         }
+
+        $this->slackReportingChannel->notify(new LogNotification($message, $severity, $data));
     }
 }
