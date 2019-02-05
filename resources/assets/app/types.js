@@ -153,7 +153,6 @@
  * @property {Driver|null} driver_id Driver that is on bus on route.
  */
 
-
 /**
  * Transport card balance replenishment (increasing amount of money).
  *
@@ -164,6 +163,22 @@
  * @property {number} external_id Identifier of replenishment in external storage.
  * @property {string} replenished_at Date when card was replenished.
  * @property {Card} card Card that was replenished.
+ */
+
+/**
+ * Transport card authorization on validator.
+ *
+ * @typedef {Object} Transaction
+ * @property {number} id Transaction unique identifier.
+ * @property {number} card_id Identifier of authorized card.
+ * @property {number} validator_id Identifier of validator where card was authorized.
+ * @property {number|null} tariff_id Identifier of tariff that was used to calculate payment amount.
+ * @property {number|null} amount Payed during authorization amount.
+ * @property {number} external_id Identifier of transaction in external storage.
+ * @property {string} authorized_at Date when card was authorized.
+ * @property {Card} card Card that was authorized.
+ * @property {Validator} validator Validator where card was authorized.
+ * @property {Tariff|null} tariff Tariff that was used to calculate payment amount.
  */
 
 /**

@@ -102,6 +102,7 @@ export default {
       role:          'Роли пользователей',
       driverCard:    'Водительские карты',
       replenishment: 'Пополнения карт',
+      transaction:   'Транзакции',
     },
   },
   periods: {
@@ -280,6 +281,38 @@ export default {
     },
     active_from: 'Пополнения с',
     active_to:   'Пополнения по',
+  },
+  transaction: {
+    name:   'Транзакция',
+    fields: {
+      id:            'ID',
+      amount:        'Сумма',
+      external_id:   'Внешний ID',
+      authorized_at: 'Дата транзакции',
+      card:          {
+        card_number: 'Номер карты',
+        cardType:    {
+          name: 'Тип карты',
+        },
+      },
+      validator: {
+        serial_number: 'Валидатор',
+        bus:           {
+          state_number: 'Автобус',
+          company:      {
+            name: 'Компания',
+          },
+          route: {
+            name: 'Маршрут',
+          },
+        },
+      },
+      tariff: {
+        name: 'Тариф',
+      },
+    },
+    active_from: 'Авторизованы с',
+    active_to:   'Авторизованы по',
   },
   pages: {
     cardBalance: {

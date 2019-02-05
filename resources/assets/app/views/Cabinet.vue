@@ -102,6 +102,7 @@ export default {
       [itemsTypes.cards]:          { icon: 'credit_card', to: { name: routes.ROUTE_CARDS } },
       [itemsTypes.routeSheets]:    { icon: 'today', to: { name: routes.ROUTE_ROUTE_SHEETS } },
       [itemsTypes.replenishments]: { icon: 'assignment_returned', to: { name: routes.ROUTE_REPLENISHMENTS } },
+      [itemsTypes.transactions]:   { icon: 'camera_rear', to: { name: routes.ROUTE_TRANSACTIONS } },
     },
     steps: {},
   }),

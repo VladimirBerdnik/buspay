@@ -14,6 +14,7 @@ import Validators from '../views/tables/Validators';
 import RouteSheets from '../views/tables/RouteSheets';
 import Replenishments from '../views/tables/Replenishments';
 import CardDetails from '../views/CardDetails';
+import Transactions from '../views/tables/Transactions';
 
 export const ROUTE_HOME = 'home';
 export const ROUTE_CABINET = 'cabinet';
@@ -29,6 +30,7 @@ export const ROUTE_VALIDATORS = 'validators';
 export const ROUTE_ROUTE_SHEETS = 'routeSheets';
 export const ROUTE_CARD_DETAILS = 'cardDetails';
 export const ROUTE_REPLENISHMENTS = 'replenishments';
+export const ROUTE_TRANSACTIONS = 'transactions';
 
 Vue.use(Router);
 
@@ -55,6 +57,7 @@ export default new Router({
       { path: 'validators', component: Validators, name: ROUTE_VALIDATORS },
       { path: 'routeSheets', component: RouteSheets, name: ROUTE_ROUTE_SHEETS },
       { path: 'replenishments', component: Replenishments, name: ROUTE_REPLENISHMENTS },
+      { path: 'transactions', component: Transactions, name: ROUTE_TRANSACTIONS },
     ],
   }, {
     path:      '/info/:cardNumber',

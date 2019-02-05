@@ -30,6 +30,8 @@ export const ROUTE_SHEETS_MUTATION = 'routeSheets';
 export const ROUTE_SHEETS_PAGINATION_MUTATION = 'routeSheetsPagination';
 export const REPLENISHMENTS_MUTATION = 'replenishments';
 export const REPLENISHMENTS_PAGINATION_MUTATION = 'replenishmentsPagination';
+export const TRANSACTIONS_MUTATION = 'transactions';
+export const TRANSACTIONS_PAGINATION_MUTATION = 'transactionsPagination';
 
 const mutations = {
   /************************************
@@ -231,6 +233,8 @@ const simpleMutations = [
   ROUTE_SHEETS_PAGINATION_MUTATION,
   REPLENISHMENTS_MUTATION,
   REPLENISHMENTS_PAGINATION_MUTATION,
+  TRANSACTIONS_MUTATION,
+  TRANSACTIONS_PAGINATION_MUTATION,
 ];
 
 simpleMutations.forEach(mutationType => {

@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\v1\RoutesApiController;
 use App\Http\Controllers\Api\v1\RouteSheetsApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
+use App\Http\Controllers\Api\v1\TransactionsApiController;
 use App\Http\Controllers\Api\v1\UsersApiController;
 use App\Http\Controllers\Api\v1\ValidatorsApiController;
 use App\Models\Bus;
@@ -152,6 +153,9 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
 
         // Replenishment related routes
         $registrar->get('replenishments', ReplenishmentsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
+
+        // Transactions related routes
+        $registrar->get('transactions', TransactionsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
         // Route sheets related routes
         $registrar->resource('route_sheets', RouteSheetsApiController::class, [
