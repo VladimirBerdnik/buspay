@@ -23,7 +23,7 @@ export default {
   mixins: [FilterableDropdownMixin],
   data() {
     return {
-      itemText: 'serial_number',
+      itemText: 'name',
       service:  TariffsService,
     };
   },
