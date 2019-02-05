@@ -44,15 +44,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // Import entities
-        $schedule->command(ImportReplenishmentsCommand::class, ['--D' => 1])
+        $schedule->command(ImportReplenishmentsCommand::class, ['--days' => 1])
             ->hourly()
             ->withoutOverlapping()
             ->onOneServer();
-        $schedule->command(ImportTransactionsCommand::class, ['--D' => 1])
+        $schedule->command(ImportTransactionsCommand::class, ['--days' => 1])
             ->hourly()
             ->withoutOverlapping()
             ->onOneServer();
-        $schedule->command(ImportCardsCommand::class, ['--D' => 1])
+        $schedule->command(ImportCardsCommand::class, ['--days' => 1])
             ->hourly()
             ->withoutOverlapping()
             ->onOneServer();
@@ -62,9 +62,9 @@ class Kernel extends ConsoleKernel
             ->onOneServer();
 
         // Once per day verify previously imported records
-        $schedule->command(VerifyReplenishmentsCommand::class)->dailyAt('0200');
-        $schedule->command(VerifyTransactionsCommand::class)->dailyAt('0200');
-        $schedule->command(VerifyValidatorsCommand::class)->dailyAt('0200');
+        $schedule->command(VerifyReplenishmentsCommand::class)->dailyAt('02:00');
+        $schedule->command(VerifyTransactionsCommand::class)->dailyAt('02:00');
+        $schedule->command(VerifyValidatorsCommand::class)->dailyAt('02:00');
 
         // Close all opened route sheets
         $schedule->command(CloseRouteSheets::class)
