@@ -6,6 +6,7 @@ use App\Domain\Dto\Filters\TransactionsFilterData;
 use App\Extensions\PredefinedModelClassRepository as Repository;
 use App\Models\Card;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Saritasa\DingoApi\Paging\PagingInfo;
@@ -22,6 +23,28 @@ class TransactionRepository extends Repository
      * @var string
      */
     protected $modelClass = Transaction::class;
+
+    /**
+     * Returns payed during authorization on validators sum for card within given period.
+     *
+     * @param Card $card Card for which need to retrieve payed during authorization on validators sum
+     * @param Carbon|null $from Start of period of sum calculation
+     * @param Carbon|null $to End of period of sum calculation
+     *
+     * @return float|null
+     */
+    public function getSumForPeriod(Card $card, ?Carbon $from = null, ?Carbon $to = null): ?float
+    {
+        return $this->query()
+            ->where(Transaction::CARD_ID, $card->id)
+            ->when($from, function (Builder $builder) use ($from) {
+                return $builder->whereDate(Transaction::AUTHORIZED_AT, '>=', $from);
+            })
+            ->when($to, function (Builder $builder) use ($to) {
+                return $builder->whereDate(Transaction::AUTHORIZED_AT, '<=', $to);
+            })
+            ->sum(Transaction::AMOUNT);
+    }
 
     /**
      * Returns paginated sorted list of optionally filtered items.
