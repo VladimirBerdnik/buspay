@@ -89,7 +89,7 @@ export default {
   name:       'Cabinet',
   components: { TheSplashScreen },
   data:       () => ({
-    mini:      true,
+    mini:      false,
     menuItems: {
       [itemsTypes.companies]:      { icon: 'business', to: { name: routes.ROUTE_COMPANIES } },
       [itemsTypes.users]:          { icon: 'supervisor_account', to: { name: routes.ROUTE_USERS } },
