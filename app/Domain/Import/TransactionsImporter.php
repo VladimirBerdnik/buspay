@@ -144,7 +144,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
         Log::debug("Transactions details import process started");
 
         $this->getConnection()
-            ->table('transaction')
+            ->table('transactions')
             ->where(ExternalTransactionData::DATE, '>=', $importFrom)
             ->orderBy(ExternalTransactionData::ID)
             ->chunk($this->getChunkSize(), function (Collection $items, int $pageNumber): void {
@@ -197,7 +197,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
      */
     private function importExternalTransaction(ExternalTransactionData $externalTransactionData): ?Transaction
     {
-        Log::debug("Search authorized card with number {$externalTransactionData->card_number_id}");
+        Log::debug("Search authorized card with number {$externalTransactionData->card_number}");
 
         /**
          * Card that was authorized.
@@ -205,11 +205,11 @@ class TransactionsImporter extends ExternalEntitiesImportService
          * @var Card $authorizedCard
          */
         $authorizedCard = $this->cardEntityService->findWhere([
-            Card::CARD_NUMBER => $externalTransactionData->card_number_id,
+            Card::CARD_NUMBER => $externalTransactionData->card_number,
         ]);
 
         if (!$authorizedCard) {
-            throw new NoCardForTransactionException($externalTransactionData->card_number_id);
+            throw new NoCardForTransactionException($externalTransactionData->card_number);
         }
 
         Log::debug("Found authorized card with ID {$authorizedCard->id}");
@@ -220,11 +220,11 @@ class TransactionsImporter extends ExternalEntitiesImportService
          * @var Validator $validator
          */
         $validator = $this->validatorEntityService->findWhere([
-            Validator::EXTERNAL_ID => $externalTransactionData->validators_id,
+            Validator::EXTERNAL_ID => $externalTransactionData->validator_serial,
         ]);
 
         if (!$validator) {
-            throw new NoValidatorForTransactionException($externalTransactionData->validators_id);
+            throw new NoValidatorForTransactionException($externalTransactionData->validator_serial);
         }
 
         Log::debug("Found authorized validator with ID {$validator->id}");
