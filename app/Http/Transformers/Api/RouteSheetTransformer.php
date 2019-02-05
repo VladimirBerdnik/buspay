@@ -73,16 +73,54 @@ class RouteSheetTransformer extends BaseTransformer
         RouteTransformer $routeTransformer
     ) {
         $this->companyTransformer = $companyTransformer;
-        $this->companyTransformer->setDefaultIncludes([]);
-
         $this->busTransformer = $busTransformer;
-        $this->busTransformer->setDefaultIncludes([]);
-
         $this->driverTransformer = $driverTransformer;
-        $this->driverTransformer->setDefaultIncludes([]);
-
         $this->routeTransformer = $routeTransformer;
+
+        $this->companyTransformer->setDefaultIncludes([]);
+        $this->busTransformer->setDefaultIncludes([]);
+        $this->driverTransformer->setDefaultIncludes([]);
         $this->routeTransformer->setDefaultIncludes([]);
+    }
+
+    /**
+     * Transforms company to display as driver relation.
+     *
+     * @return CompanyTransformer
+     */
+    public function getCompanyTransformer(): CompanyTransformer
+    {
+        return $this->companyTransformer;
+    }
+
+    /**
+     * Transforms bus to display details.
+     *
+     * @return BusTransformer
+     */
+    public function getBusTransformer(): BusTransformer
+    {
+        return $this->busTransformer;
+    }
+
+    /**
+     * Transforms driver to display details.
+     *
+     * @return DriverTransformer
+     */
+    public function getDriverTransformer(): DriverTransformer
+    {
+        return $this->driverTransformer;
+    }
+
+    /**
+     * Transforms route to display details.
+     *
+     * @return RouteTransformer
+     */
+    public function getRouteTransformer(): RouteTransformer
+    {
+        return $this->routeTransformer;
     }
 
     /**

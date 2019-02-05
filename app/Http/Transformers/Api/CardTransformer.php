@@ -81,6 +81,16 @@ class CardTransformer extends BaseTransformer
     }
 
     /**
+     * Transforms card type to display details.
+     *
+     * @return CardTypeTransformer
+     */
+    public function getCardTypeTransformer(): CardTypeTransformer
+    {
+        return $this->cardTypeTransformer;
+    }
+
+    /**
      * Includes card type into transformed response.
      *
      * @param Card $card Card to retrieve card type details

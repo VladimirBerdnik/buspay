@@ -78,6 +78,16 @@ class ValidatorTransformer extends BaseTransformer
     }
 
     /**
+     * Transforms bus to display details.
+     *
+     * @return BusTransformer
+     */
+    public function getBusTransformer(): BusTransformer
+    {
+        return $this->busTransformer;
+    }
+
+    /**
      * Includes bus into transformed response.
      *
      * @param Validator $validator Validator to retrieve bus details

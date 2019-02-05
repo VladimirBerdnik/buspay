@@ -39,6 +39,7 @@ class ReplenishmentTransformer extends BaseTransformer
     public function __construct(CardTransformer $cardTransformer)
     {
         $this->cardTransformer = $cardTransformer;
+
         $this->cardTransformer->setDefaultIncludes([]);
     }
 
@@ -75,8 +76,17 @@ class ReplenishmentTransformer extends BaseTransformer
             Replenishment::EXTERNAL_ID => $replenishment->external_id,
             Replenishment::CARD_ID => $replenishment->card_id,
             Replenishment::REPLENISHED_AT => $replenishment->replenished_at->toIso8601String(),
-            Replenishment::CREATED_AT => $replenishment->created_at->toIso8601String(),
         ];
+    }
+
+    /**
+     * Transforms card to display details.
+     *
+     * @return CardTransformer
+     */
+    public function getCardTransformer(): CardTransformer
+    {
+        return $this->cardTransformer;
     }
 
     /**

@@ -62,13 +62,42 @@ class DriverTransformer extends BaseTransformer
         BusTransformer $busTransformer
     ) {
         $this->companyTransformer = $companyTransformer;
-        $this->companyTransformer->setDefaultIncludes([]);
-
         $this->cardTransformer = $cardTransformer;
-        $this->cardTransformer->setDefaultIncludes([]);
-
         $this->busTransformer = $busTransformer;
+
+        $this->companyTransformer->setDefaultIncludes([]);
+        $this->cardTransformer->setDefaultIncludes([]);
         $this->busTransformer->setDefaultIncludes([]);
+    }
+
+    /**
+     * Transforms company to display as driver relation.
+     *
+     * @return CompanyTransformer
+     */
+    public function getCompanyTransformer(): CompanyTransformer
+    {
+        return $this->companyTransformer;
+    }
+
+    /**
+     * Transforms card to display details.
+     *
+     * @return CardTransformer
+     */
+    public function getCardTransformer(): CardTransformer
+    {
+        return $this->cardTransformer;
+    }
+
+    /**
+     * Transforms bus to display details.
+     *
+     * @return BusTransformer
+     */
+    public function getBusTransformer(): BusTransformer
+    {
+        return $this->busTransformer;
     }
 
     /**

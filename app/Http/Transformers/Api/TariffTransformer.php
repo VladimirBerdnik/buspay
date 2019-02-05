@@ -78,6 +78,16 @@ class TariffTransformer extends BaseTransformer
     }
 
     /**
+     * Transforms tariff fares to display as tariff relation.
+     *
+     * @return TariffFareTransformer
+     */
+    public function getTariffFareTransformer(): TariffFareTransformer
+    {
+        return $this->tariffFareTransformer;
+    }
+
+    /**
      * Includes role into transformed response.
      *
      * @param Tariff $tariff Tariff to retrieve tariff fares details

@@ -56,6 +56,26 @@ class ProfileTransformer extends BaseTransformer
     }
 
     /**
+     * Transforms user role to display as profile relation.
+     *
+     * @return RoleTransformer
+     */
+    public function getRoleTransformer(): RoleTransformer
+    {
+        return $this->roleTransformer;
+    }
+
+    /**
+     * Transforms user company to display as profile relation.
+     *
+     * @return CompanyTransformer
+     */
+    public function getCompanyTransformer(): CompanyTransformer
+    {
+        return $this->companyTransformer;
+    }
+
+    /**
      * Transforms user profile to display on profile page.
      *
      * @param Arrayable $model Model to transform

@@ -56,6 +56,26 @@ class BusTransformer extends BaseTransformer
     }
 
     /**
+     * Transforms route to display as bus relation.
+     *
+     * @return RouteTransformer
+     */
+    public function getRouteTransformer(): RouteTransformer
+    {
+        return $this->routeTransformer;
+    }
+
+    /**
+     * Transforms company to display as bus relation.
+     *
+     * @return CompanyTransformer
+     */
+    public function getCompanyTransformer(): CompanyTransformer
+    {
+        return $this->companyTransformer;
+    }
+
+    /**
      * Transforms bus to display on buses page.
      *
      * @param Arrayable $model Model to transform

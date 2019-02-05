@@ -80,6 +80,16 @@ class RouteTransformer extends BaseTransformer
     }
 
     /**
+     * Company transformer to display as route relation.
+     *
+     * @return CompanyTransformer
+     */
+    public function getCompanyTransformer(): CompanyTransformer
+    {
+        return $this->companyTransformer;
+    }
+
+    /**
      * Includes company into transformed response.
      *
      * @param Route $route Route to retrieve company details
