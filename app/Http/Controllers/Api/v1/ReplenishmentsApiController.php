@@ -70,10 +70,6 @@ class ReplenishmentsApiController extends BaseApiController
 
         $searchString = $request->getSearchString();
         if ($searchString) {
-            $textSearchConditions = [
-                [Replenishment::EXTERNAL_ID, '=', $searchString, 'or'],
-                [Replenishment::AMOUNT, '=', $searchString, 'or'],
-            ];
             /**
              * Card found by number that equals search string.
              *
@@ -81,9 +77,11 @@ class ReplenishmentsApiController extends BaseApiController
              */
             $card = $this->cardEntityService->findWhere([Card::CARD_NUMBER => $searchString]);
             if ($card) {
-                $textSearchConditions[] = [Replenishment::CARD_ID, '=', $card->id, 'or'];
+                $filters[] = [Replenishment::CARD_ID, '=', $card->id];
+            } else {
+                // Dirty hack that allows to retrieve empty results
+                $filters[] = [Replenishment::ID, '=', -1];
             }
-            $filters[] = [$textSearchConditions];
         }
         if ($request->activeFrom()) {
             $filters[] = [Replenishment::REPLENISHED_AT, '>=', $request->activeFrom()];
