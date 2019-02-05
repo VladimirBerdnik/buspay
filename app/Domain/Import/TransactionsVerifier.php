@@ -34,6 +34,13 @@ class TransactionsVerifier extends ExternalEntitiesVerifierService
     protected $foreignItemsKey = ExternalTransactionData::ID;
 
     /**
+     * External items storage name.
+     *
+     * @var string
+     */
+    protected $externalStorageName = 'transactions';
+
+    /**
      * Performs items verification in local and external storage.
      *
      * @param Carbon|null $verifyFrom Date from which transactions should be verified

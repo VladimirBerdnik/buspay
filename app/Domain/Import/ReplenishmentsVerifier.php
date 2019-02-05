@@ -34,6 +34,13 @@ class ReplenishmentsVerifier extends ExternalEntitiesVerifierService
     protected $foreignItemsKey = ExternalReplenishmentData::ID;
 
     /**
+     * External items storage name.
+     *
+     * @var string
+     */
+    protected $externalStorageName = 'payments';
+
+    /**
      * Performs items verification in local and external storage.
      *
      * @param Carbon|null $verifyFrom Date from which replenishments should be verified

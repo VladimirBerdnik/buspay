@@ -33,6 +33,13 @@ class ValidatorsVerifier extends ExternalEntitiesVerifierService
     protected $foreignItemsKey = ExternalValidatorData::ID;
 
     /**
+     * External items storage name.
+     *
+     * @var string
+     */
+    protected $externalStorageName = 'validators';
+
+    /**
      * Performs items verification in local and external storage.
      *
      * @throws Throwable
