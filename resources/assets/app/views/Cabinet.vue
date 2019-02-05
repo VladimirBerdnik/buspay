@@ -175,8 +175,7 @@ export default {
      */
     validateAuth() {
       if (!this.authenticated) {
-        // TODO lang resource
-        AlertsService.warning('Выполните вход, пожалуйста');
+        AlertsService.warning(this.$i18n.t('common.notifications.notAuthorized'));
         this.$router.push({ name: routes.ROUTE_HOME });
       }
 
