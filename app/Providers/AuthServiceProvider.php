@@ -13,6 +13,7 @@ use App\Models\Route;
 use App\Models\RouteSheet;
 use App\Models\Tariff;
 use App\Models\TariffPeriod;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Validator;
 use App\Policies\BusEntityPolicy;
@@ -45,14 +46,13 @@ class AuthServiceProvider extends ServiceProvider
         User::class => EntityTypePolicy::class,
         Validator::class => EntityTypePolicy::class,
         Replenishment::class => EntityTypePolicy::class,
+        Transaction::class => EntityTypePolicy::class,
     ];
 
     /**
      * Register any application authentication / authorization services.
      *
      * @return void
-     *
-     * @internal param GateContract $gate
      */
     public function boot(): void
     {

@@ -43,6 +43,9 @@ return [
         Abilities::SHOW => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
         Abilities::UPDATE => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
     ],
+    EntitiesTypes::REPLENISHMENT => [
+        Abilities::GET => [RolesIdentifiers::SUPPORT],
+    ],
     EntitiesTypes::ROLE => [
         Abilities::GET => [RolesIdentifiers::SUPPORT],
     ],
@@ -74,6 +77,9 @@ return [
         Abilities::UPDATE => [],
         Abilities::DELETE => [],
     ],
+    EntitiesTypes::TRANSACTION => [
+        Abilities::GET => [RolesIdentifiers::SUPPORT],
+    ],
     EntitiesTypes::USER => [
         Abilities::GET => [RolesIdentifiers::SUPPORT],
         Abilities::SHOW => [RolesIdentifiers::SUPPORT],
@@ -85,8 +91,5 @@ return [
         Abilities::GET => [RolesIdentifiers::SUPPORT],
         Abilities::SHOW => [RolesIdentifiers::SUPPORT],
         Abilities::UPDATE => [RolesIdentifiers::SUPPORT],
-    ],
-    EntitiesTypes::REPLENISHMENT => [
-        Abilities::GET => [RolesIdentifiers::SUPPORT],
     ],
 ];
