@@ -59,8 +59,8 @@ class CardsApiController extends BaseApiController
         if ($searchString) {
             $filters[] = [
                 [
-                    [Card::UIN, 'like', "%{$searchString}%", 'or'],
-                    [Card::CARD_NUMBER, 'like', "%{$searchString}%", 'or'],
+                    [Card::UIN, '=', $searchString, 'or'],
+                    [Card::CARD_NUMBER, '=', $searchString, 'or'],
                 ],
             ];
         }
