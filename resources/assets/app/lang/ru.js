@@ -270,11 +270,9 @@ export default {
     name:   'Пополнение карты',
     fields: {
       id:             'ID',
-      card_id:        'Код карты',
       amount:         'Сумма',
       external_id:    'Внешний ID',
       replenished_at: 'Дата пополнения',
-      created_at:     'Дата импорта',
       card:           {
         card_number: 'Номер карты',
       },

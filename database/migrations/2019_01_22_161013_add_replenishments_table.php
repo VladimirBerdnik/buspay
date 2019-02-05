@@ -20,8 +20,6 @@ class AddReplenishmentsTable extends CommentsTablesMigration
             $table->unsignedInteger('external_id')->comment('Identifier of replenishment in external storage');
             $table->timestamp('replenished_at')->comment('Date when card was replenished');
 
-            $table->timestamps();
-
             $table->foreign(['card_id'])->references('id')->on('cards');
         });
 

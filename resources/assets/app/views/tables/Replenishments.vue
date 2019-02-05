@@ -74,7 +74,6 @@
         <td>{{ props.item.amount }}</td>
         <td>{{ props.item.replenished_at | timeStamp }}</td>
         <td>{{ props.item.external_id }}</td>
-        <td>{{ props.item.created_at | timeStamp }}</td>
         <td/>
       </template>
 
@@ -106,7 +105,6 @@ const headers = [
   { value: 'amount' },
   { value: 'replenished_at' },
   { value: 'external_id' },
-  { value: 'created_at' },
 ];
 
 // Table headers translates

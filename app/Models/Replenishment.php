@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $amount Amount of card replenishment
  * @property int $external_id Identifier of replenishment in external storage
  * @property Carbon $replenished_at Date when card was replenished
- * @property Carbon $created_at When record was created
- * @property Carbon $updated_at When record was updated
  *
  * @property Card $card Card that was replenished
  */
@@ -26,8 +24,13 @@ class Replenishment extends Model
     public const AMOUNT = 'amount';
     public const REPLENISHED_AT = 'replenished_at';
     public const EXTERNAL_ID = 'external_id';
-    public const CREATED_AT = 'created_at';
-    public const UPDATED_AT = 'updated_at';
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var boolean
+     */
+    public $timestamps = false;
 
     /**
      * Name of table where this model is stored.
@@ -55,8 +58,6 @@ class Replenishment extends Model
      */
     protected $dates = [
         self::REPLENISHED_AT,
-        self::CREATED_AT,
-        self::UPDATED_AT,
     ];
 
     /**
