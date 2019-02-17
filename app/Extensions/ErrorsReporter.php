@@ -104,6 +104,6 @@ class ErrorsReporter
             $sanitizedData[$key] = $value;
         }
 
-        $this->slackReportingChannel->notify(new LogNotification($message, $severity, $data));
+        $this->slackReportingChannel->notify(new LogNotification($message, $severity, $sanitizedData));
     }
 }
