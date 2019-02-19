@@ -211,6 +211,8 @@ class RouteSheetService
      *
      * @param Driver $driver Authorized driver
      * @param Bus $bus Bur where authorization was performed
+     *
+     * @throws WrongBusDriverAuthorizationException
      */
     protected function validateDriverOnBusAuthorization(Driver $driver, Bus $bus): void
     {
@@ -228,12 +230,13 @@ class RouteSheetService
      *
      * @return RouteSheet|null
      *
-     * @throws RepositoryException
-     * @throws TooManyBusRouteSheetsForDateException
-     * @throws ValidationException
      * @throws InconsistentRouteSheetStateException
      * @throws InvalidEnumValueException
+     * @throws RepositoryException
+     * @throws TooManyBusRouteSheetsForDateException
      * @throws TooManyDriverRouteSheetsForDateException
+     * @throws ValidationException
+     * @throws WrongBusDriverAuthorizationException
      */
     public function openForBusAndDriver(Bus $bus, ?Driver $driver, ?Carbon $date = null): ?RouteSheet
     {

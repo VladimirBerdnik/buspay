@@ -97,6 +97,7 @@ class CardAuthorizationService
      * @return Bus
      *
      * @throws TooManyBusValidatorsException
+     * @throws UnassignedValidatorCardAuthorizationException
      */
     protected function getValidBus(Transaction $cardTransaction): Bus
     {
@@ -123,6 +124,7 @@ class CardAuthorizationService
      * @return Driver
      *
      * @throws TooManyCardDriversException
+     * @throws CardWithoutDriverAuthorizationException
      */
     protected function getValidDriver(Transaction $cardTransaction): Driver
     {
@@ -151,6 +153,7 @@ class CardAuthorizationService
      * @throws CardWithoutDriverAuthorizationException
      * @throws ConfigurationException
      * @throws InconsistentRouteSheetStateException
+     * @throws InvalidEnumValueException
      * @throws NoTariffFareForDateException
      * @throws NoTariffPeriodForDateException
      * @throws RepositoryException
@@ -160,8 +163,13 @@ class CardAuthorizationService
      * @throws TooManyDriverRouteSheetsForDateException
      * @throws TooManyTariffFaresForDateException
      * @throws TooManyTariffPeriodsForDateException
+     * @throws UnassignedValidatorCardAuthorizationException
+     * @throws UnexpectedCardAuthorizationException
      * @throws ValidationException
-     * @throws InvalidEnumValueException
+     * @throws WrongBusDriverAuthorizationException
+     * @throws InvalidPaymentAmountException
+     * @throws MissedPaymentException
+     * @throws UnneededPaymentException
      */
     public function processCardAuthorization(Transaction $cardTransaction): ?RouteSheet
     {

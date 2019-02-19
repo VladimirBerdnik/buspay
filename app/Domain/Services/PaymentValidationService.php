@@ -81,10 +81,13 @@ class PaymentValidationService
      * @param Carbon $date Date of payment
      *
      * @throws ConfigurationException
+     * @throws InvalidPaymentAmountException
+     * @throws MissedPaymentException
      * @throws NoTariffFareForDateException
      * @throws NoTariffPeriodForDateException
      * @throws TooManyTariffFaresForDateException
      * @throws TooManyTariffPeriodsForDateException
+     * @throws UnneededPaymentException
      */
     public function validatePaymentAmount(Card $card, ?Tariff $tariff, ?int $amount, Carbon $date): void
     {
