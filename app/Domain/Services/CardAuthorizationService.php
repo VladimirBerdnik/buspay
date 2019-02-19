@@ -146,6 +146,9 @@ class CardAuthorizationService
      *
      * @param Transaction $cardTransaction Card on validator authorization record
      *
+     * @return RouteSheet|null
+     *
+     * @throws CardWithoutDriverAuthorizationException
      * @throws ConfigurationException
      * @throws InconsistentRouteSheetStateException
      * @throws NoTariffFareForDateException
@@ -160,7 +163,7 @@ class CardAuthorizationService
      * @throws ValidationException
      * @throws InvalidEnumValueException
      */
-    public function processCardAuthorization(Transaction $cardTransaction): void
+    public function processCardAuthorization(Transaction $cardTransaction): ?RouteSheet
     {
         $bus = $this->getValidBus($cardTransaction);
         $card = $cardTransaction->card;
@@ -176,16 +179,18 @@ class CardAuthorizationService
         if ($this->cardService->isIgnorableCard($card)) {
             Log::debug('Ignorable card type authorization skipped', $cardTransaction->toArray());
 
-            return;
+            return null;
         } elseif ($this->cardService->isDriverCard($card)) {
             $driver = $this->getValidDriver($cardTransaction);
 
-            $this->routeSheetService->openForBusAndDriver($bus, $driver, $authorizationDate);
+            return $this->routeSheetService->openForBusAndDriver($bus, $driver, $authorizationDate);
         } elseif ($this->cardService->isPassengerCard($card)) {
             Log::debug('Passenger card authentication');
-            $this->routeSheetService->openForBusAndDriver($bus, null, $authorizationDate);
+
+            return $this->routeSheetService->openForBusAndDriver($bus, null, $authorizationDate);
         } else {
             Log::notice('Unknown card authentication', $card->toArray());
+
             throw new UnexpectedCardAuthorizationException($card);
         }
     }

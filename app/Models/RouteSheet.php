@@ -7,7 +7,9 @@ use App\Extensions\ActivityPeriod\ActivityPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * Route sheet with driver to bus and route assignment historical information.
@@ -24,10 +26,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
  *
- * @property Company $company Company to which this route sheet belongs to
- * @property Bus $bus Bus that is on route
- * @property Driver $driver Driver that is on bus on route
- * @property Route $route Bus route, which served the driver on the bus
+ * @property-read Company $company Company to which this route sheet belongs to
+ * @property-read Bus $bus Bus that is on route
+ * @property-read Driver $driver Driver that is on bus on route
+ * @property-read Route $route Bus route, which served the driver on the bus
+ * @property-read Transaction[]|Collection $transactions Transactions performed during this route sheet period activity.
  */
 class RouteSheet extends Model implements IBelongsToCompany
 {
@@ -131,5 +134,15 @@ class RouteSheet extends Model implements IBelongsToCompany
     public function route(): BelongsTo
     {
         return $this->belongsTo(Route::class);
+    }
+
+    /**
+     * Transactions performed during this route sheet period activity.
+     *
+     * @return HasMany
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 }

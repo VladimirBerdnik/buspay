@@ -14,12 +14,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $authorized_at Date when card was authorized
  * @property integer $card_id Authorized card identifier
  * @property integer $validator_id Validator on which card was authorized
- * @property integer $tariff_id Tariff identifier with which card was authorized
- * @property integer $amount Tariff amount that was written-off from card
+ * @property integer|null $tariff_id Tariff identifier with which card was authorized
+ * @property integer|null $route_sheet_id Identifier of related route sheet that contains this transaction
+ * @property integer|null $amount Tariff amount that was written-off from card
  * @property integer $external_id Identifier of transaction in external storage
  *
  * @property Card $card Authorized card identifier
  * @property Tariff|null $tariff Tariff identifier with which card was authorized
+ * @property RouteSheet|null $routeSheet Related route sheet that contains this transaction
  * @property Validator $validator Validator on which card was authorized
  */
 class Transaction extends Model
@@ -29,6 +31,7 @@ class Transaction extends Model
     public const CARD_ID = 'card_id';
     public const VALIDATOR_ID = 'validator_id';
     public const TARIFF_ID = 'tariff_id';
+    public const ROUTE_SHEET_ID = 'route_sheet_id';
     public const AMOUNT = 'amount';
     public const EXTERNAL_ID = 'external_id';
 
@@ -111,5 +114,15 @@ class Transaction extends Model
     public function validator(): BelongsTo
     {
         return $this->belongsTo(Validator::class);
+    }
+
+    /**
+     * Related route sheet that contains this transaction.
+     *
+     * @return BelongsTo
+     */
+    public function routeSheet(): BelongsTo
+    {
+        return $this->belongsTo(RouteSheet::class);
     }
 }

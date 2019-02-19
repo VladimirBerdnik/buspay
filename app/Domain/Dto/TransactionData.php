@@ -12,6 +12,7 @@ use Saritasa\Dto;
  * @property-read integer $card_id Authorized card identifier
  * @property-read integer $validator_id Validator on which card was authorized
  * @property-read integer|null $tariff_id Tariff identifier with which card was authorized
+ * @property-read integer|null $route_sheet_id Identifier of related route sheet that contains this transaction
  * @property-read Carbon $authorized_at Date when card was authorized
  * @property-read integer|null $amount Tariff amount that was written-off from card
  * @property-read integer $external_id Identifier of transaction in external storage
@@ -21,6 +22,7 @@ class TransactionData extends Dto
     public const CARD_ID = 'card_id';
     public const VALIDATOR_ID = 'validator_id';
     public const TARIFF_ID = 'tariff_id';
+    public const ROUTE_SHEET_ID = 'route_sheet_id';
     public const AUTHORIZED_AT = 'authorized_at';
     public const AMOUNT = 'amount';
     public const EXTERNAL_ID = 'external_id';
@@ -45,6 +47,13 @@ class TransactionData extends Dto
      * @var integer|null
      */
     protected $tariff_id;
+
+    /**
+     * Identifier of related route sheet that contains this transaction.
+     *
+     * @var integer|null
+     */
+    protected $route_sheet_id;
 
     /**
      * Date when card was authorized.

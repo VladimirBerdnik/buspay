@@ -18,6 +18,9 @@ class AddTransactionsTable extends CommentsTablesMigration
             $table->timestamp('authorized_at')->comment('Date when card was authorized');
             $table->unsignedInteger('card_id')->comment('Authorized card identifier');
             $table->unsignedInteger('validator_id')->comment('Validator on which card was authorized');
+            $table->unsignedInteger('route_sheet_id')
+                ->nullable()
+                ->comment('Related route sheet that contains this transaction');
             $table->unsignedSmallInteger('tariff_id')
                 ->nullable()
                 ->comment('Tariff identifier with which card was authorized');
@@ -27,6 +30,7 @@ class AddTransactionsTable extends CommentsTablesMigration
             $table->foreign(['card_id'])->references('id')->on('cards');
             $table->foreign(['validator_id'])->references('id')->on('validators');
             $table->foreign(['tariff_id'])->references('id')->on('tariffs');
+            $table->foreign(['route_sheet_id'])->references('id')->on('route_sheets');
         });
 
         $this->commentTable(

@@ -16,6 +16,7 @@ class TransactionTransformer extends BaseTransformer
     public const INCLUDE_CARD = 'card';
     public const INCLUDE_TARIFF = 'tariff';
     public const INCLUDE_VALIDATOR = 'validator';
+    public const INCLUDE_ROUTE_SHEET = 'routeSheet';
 
     /**
      * Include resources without needing it to be requested.
@@ -26,6 +27,7 @@ class TransactionTransformer extends BaseTransformer
         self::INCLUDE_CARD,
         self::INCLUDE_TARIFF,
         self::INCLUDE_VALIDATOR,
+        self::INCLUDE_ROUTE_SHEET,
     ];
 
     /**
@@ -50,27 +52,38 @@ class TransactionTransformer extends BaseTransformer
     private $validatorTransformer;
 
     /**
+     * Transforms route sheet that contains card authorization.
+     *
+     * @var RouteSheetTransformer
+     */
+    private $routeSheetTransformer;
+
+    /**
      * Transforms transaction to display on transactions page.
      *
      * @param CardTransformer $cardTransformer Transforms card to display details
      * @param TariffTransformer $tariffTransformer Transforms tariff where by which card was authorized
      * @param ValidatorTransformer $validatorTransformer Transforms validator on which card was authorized
+     * @param RouteSheetTransformer $routeSheetTransformer Transforms route sheet that contains card authorization
      */
     public function __construct(
         CardTransformer $cardTransformer,
         TariffTransformer $tariffTransformer,
-        ValidatorTransformer $validatorTransformer
+        ValidatorTransformer $validatorTransformer,
+        RouteSheetTransformer $routeSheetTransformer
     ) {
         $this->cardTransformer = $cardTransformer;
         $this->tariffTransformer = $tariffTransformer;
         $this->validatorTransformer = $validatorTransformer;
+        $this->routeSheetTransformer = $routeSheetTransformer;
 
         $this->cardTransformer->setDefaultIncludes([CardTransformer::INCLUDE_CARD_TYPE]);
         $this->tariffTransformer->setDefaultIncludes([]);
-        $this->validatorTransformer->setDefaultIncludes([ValidatorTransformer::INCLUDE_BUS]);
-        $this->validatorTransformer->getBusTransformer()->setDefaultIncludes([
-            BusTransformer::INCLUDE_COMPANY,
-            BusTransformer::INCLUDE_ROUTE,
+        $this->validatorTransformer->setDefaultIncludes([]);
+        $this->routeSheetTransformer->setDefaultIncludes([
+            RouteSheetTransformer::INCLUDE_ROUTE,
+            RouteSheetTransformer::INCLUDE_BUS,
+            RouteSheetTransformer::INCLUDE_COMPANY,
         ]);
     }
 
@@ -108,6 +121,7 @@ class TransactionTransformer extends BaseTransformer
             Transaction::CARD_ID => $transaction->card_id,
             Transaction::VALIDATOR_ID => $transaction->validator_id,
             Transaction::TARIFF_ID => $transaction->tariff_id,
+            Transaction::ROUTE_SHEET_ID => $transaction->route_sheet_id,
             Transaction::AUTHORIZED_AT => $transaction->authorized_at->toIso8601String(),
         ];
     }
@@ -140,6 +154,16 @@ class TransactionTransformer extends BaseTransformer
     public function getValidatorTransformer(): ValidatorTransformer
     {
         return $this->validatorTransformer;
+    }
+
+    /**
+     * Transforms route sheet that contains card authorization.
+     *
+     * @return RouteSheetTransformer
+     */
+    public function getRouteSheetTransformer(): RouteSheetTransformer
+    {
+        return $this->routeSheetTransformer;
     }
 
     /**
@@ -188,5 +212,21 @@ class TransactionTransformer extends BaseTransformer
         }
 
         return $this->item($transaction->tariff, $this->tariffTransformer);
+    }
+
+    /**
+     * Includes route sheet into transformed response.
+     *
+     * @param Transaction $transaction Transaction to retrieve tariff details
+     *
+     * @return ResourceInterface
+     */
+    protected function includeRouteSheet(Transaction $transaction): ResourceInterface
+    {
+        if (!$transaction->routeSheet) {
+            return $this->null();
+        }
+
+        return $this->item($transaction->routeSheet, $this->routeSheetTransformer);
     }
 }

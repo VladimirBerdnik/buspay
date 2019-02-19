@@ -179,6 +179,7 @@
  * @property {Card} card Card that was authorized.
  * @property {Validator} validator Validator where card was authorized.
  * @property {Tariff|null} tariff Tariff that was used to calculate payment amount.
+ * @property {RouteSheet|null} routeSheet Related route sheet that contains this transaction.
  */
 
 /**

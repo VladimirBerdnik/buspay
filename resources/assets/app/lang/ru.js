@@ -297,14 +297,16 @@ export default {
       },
       validator: {
         serial_number: 'Валидатор',
-        bus:           {
+      },
+      routeSheet: {
+        bus: {
           state_number: 'Автобус',
-          company:      {
-            name: 'Компания',
-          },
-          route: {
-            name: 'Маршрут',
-          },
+        },
+        company: {
+          name: 'Компания',
+        },
+        route: {
+          name: 'Маршрут',
         },
       },
       tariff: {
