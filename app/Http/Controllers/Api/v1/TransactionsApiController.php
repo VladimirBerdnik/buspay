@@ -69,8 +69,6 @@ class TransactionsApiController extends BaseApiController
             TransactionsFilterData::DRIVER_ID => $filters[TransactionsFilterData::DRIVER_ID] ?? null,
         ]);
 
-        // TODO 'validator.bus.route' and 'validator.bus.company' can't be loaded so easy. Need to get by dates
-
         return $this->response->paginator(
             $this->transactionRepository->getFilteredPageWith(
                 $request->getPagingInfo(),
