@@ -78,7 +78,7 @@ class RouteSheetsApiController extends BaseApiController
             $this->routeSheetService->getPageWith(
                 $request->getPagingInfo(),
                 ['company', 'route', 'driver', 'bus'],
-                [],
+                ['transactions'],
                 $filters,
                 $request->getSortOptions()
             ),
