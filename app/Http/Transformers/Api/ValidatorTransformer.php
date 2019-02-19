@@ -73,6 +73,7 @@ class ValidatorTransformer extends BaseTransformer
             Validator::ID => $validator->id,
             Validator::SERIAL_NUMBER => $validator->serial_number,
             Validator::MODEL => $validator->model,
+            Validator::EXTERNAL_ID => $validator->external_id,
             Validator::BUS_ID => $validator->bus_id,
         ];
     }

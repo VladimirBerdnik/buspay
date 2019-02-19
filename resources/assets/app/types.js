@@ -131,6 +131,7 @@
  * @property {number} id - Validator identifier.
  * @property {string} serial_number - Validator serial number.
  * @property {string} model - Validator manufacturer or model.
+ * @property {number} external_id - Identifier of validator in external storage.
  * @property {number|null} bus_id - Bus identifier where this validator now installed.
  * @property {Bus|null} bus - Bus where this validator now installed.
  */

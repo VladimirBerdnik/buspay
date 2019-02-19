@@ -264,6 +264,7 @@ export default {
       id:            'ID',
       serial_number: 'Серийный номер',
       model:         'Модель',
+      external_id:   'Внешний ID',
       bus:           {
         state_number: 'Автобус',
       },

@@ -59,6 +59,7 @@
             {{ props.item.serial_number }}
           </td>
           <td>{{ props.item.model }}</td>
+          <td>{{ props.item.external_id }}</td>
           <td>{{ props.item.bus.state_number }}</td>
           <td class="px-0">
             <div class="cell-buttons">
@@ -98,6 +99,7 @@ const headers = [
   { value: 'id' },
   { value: 'serial_number' },
   { value: 'model' },
+  { value: 'external_id' },
   { value: 'bus.state_number' },
 ];
 
