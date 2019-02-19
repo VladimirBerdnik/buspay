@@ -53,7 +53,7 @@ class CardService
      */
     public function isDriverCard(Card $card): bool
     {
-        return $this->cardTypeService->getDriverCardType() === $card->card_type_id;
+        return $this->cardTypeService->getDriverCardType()->id === $card->card_type_id;
     }
 
     /**
