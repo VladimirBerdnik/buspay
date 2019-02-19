@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Domain\Dto\Filters\TransactionsFilterData;
 use App\Extensions\PredefinedModelClassRepository as Repository;
 use App\Models\Card;
+use App\Models\RouteSheet;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -92,19 +93,26 @@ class TransactionRepository extends Repository
                     $builder->where(Card::CARD_NUMBER, '=', $filterData->search_string);
                 }
 
-                if ($filterData->driver_id) {
-                    // TODO Driver should be filtered by period also
-                }
-
                 return $builder;
             });
         }
 
         // Filter by authorized validator parameters
-        if ($filterData->bus_id || $filterData->route_id || $filterData->company_id) {
-            // TODO Bus should be filtered by validator and validator to bus period
-            // TODO Route should be filtered by bus and bus to route period
-            // TODO Company should be filtered by bus and bus to company period
+        if ($filterData->bus_id || $filterData->route_id || $filterData->company_id || $filterData->driver_id) {
+            $query->whereHas('routeSheet', function (Builder $builder) use ($filterData): void {
+                if ($filterData->bus_id) {
+                    $builder->where(RouteSheet::BUS_ID, '=', $filterData->bus_id);
+                }
+                if ($filterData->route_id) {
+                    $builder->where(RouteSheet::ROUTE_ID, '=', $filterData->route_id);
+                }
+                if ($filterData->driver_id) {
+                    $builder->where(RouteSheet::DRIVER_ID, '=', $filterData->driver_id);
+                }
+                if ($filterData->company_id) {
+                    $builder->where(RouteSheet::COMPANY_ID, '=', $filterData->company_id);
+                }
+            });
         }
 
         return $query->paginate($paging->pageSize, ['*'], 'page', $paging->page);

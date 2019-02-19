@@ -100,9 +100,9 @@
         <td>{{ props.item.amount }}</td>
         <td>{{ props.item.card.cardType.name }}</td>
         <td>{{ props.item.validator.serial_number }}</td>
-        <td>{{ props.item.validator.bus.state_number }}</td>
-        <td>{{ props.item.validator.bus.company.name }}</td>
-        <td>{{ props.item.validator.bus.route.name }}</td>
+        <td>{{ props.item.routeSheet.bus.state_number }}</td>
+        <td>{{ props.item.routeSheet.company.name }}</td>
+        <td>{{ props.item.routeSheet.route.name }}</td>
         <td>{{ props.item.tariff.name }}</td>
         <td>{{ props.item.authorized_at | timeStamp }}</td>
         <td>{{ props.item.external_id }}</td>
@@ -143,9 +143,9 @@ const headers = [
   { value: 'amount' },
   { value: 'card.cardType.name', sortable: false },
   { value: 'validator.serial_number', sortable: false },
-  { value: 'validator.bus.state_number', sortable: false },
-  { value: 'validator.bus.company.name', sortable: false },
-  { value: 'validator.bus.route.name', sortable: false },
+  { value: 'routeSheet.bus.state_number', sortable: false },
+  { value: 'routeSheet.company.name', sortable: false },
+  { value: 'routeSheet.route.name', sortable: false },
   { value: 'tariff.name', sortable: false },
   { value: 'authorized_at' },
   { value: 'external_id' },

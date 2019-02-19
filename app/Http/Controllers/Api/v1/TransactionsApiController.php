@@ -74,7 +74,14 @@ class TransactionsApiController extends BaseApiController
         return $this->response->paginator(
             $this->transactionRepository->getFilteredPageWith(
                 $request->getPagingInfo(),
-                ['card.cardType', 'validator.bus.route', 'validator.bus.company', 'tariff'],
+                [
+                    'card.cardType',
+                    'tariff',
+                    'validator',
+                    'routeSheet.company',
+                    'routeSheet.route',
+                    'routeSheet.bus',
+                ],
                 [],
                 $transactionsFilter,
                 $request->getSortOptions()
