@@ -220,11 +220,11 @@ class TransactionsImporter extends ExternalEntitiesImportService
          * @var Validator $validator
          */
         $validator = $this->validatorEntityService->findWhere([
-            Validator::EXTERNAL_ID => $externalTransactionData->validator_serial,
+            Validator::EXTERNAL_ID => $externalTransactionData->validator_id,
         ]);
 
         if (!$validator) {
-            throw new NoValidatorForTransactionException($externalTransactionData->validator_serial);
+            throw new NoValidatorForTransactionException($externalTransactionData->validator_id);
         }
 
         Log::debug("Found authorized validator with ID {$validator->id}");

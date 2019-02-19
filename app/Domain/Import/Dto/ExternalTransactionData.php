@@ -11,7 +11,7 @@ use Saritasa\Dto;
  * @property-read integer $date Transaction date timestamp
  * @property-read integer $card_number Authorized card number (not card identifier)
  * @property-read integer|null $sum Payed during authorization amount
- * @property-read integer $validator_serial Serial number of validator that authorized card
+ * @property-read integer $validator_id Serial number of validator that authorized card
  * @property-read integer|null $tariff_id Tariff identifier where card was authorized
  */
 class ExternalTransactionData extends Dto
@@ -20,7 +20,7 @@ class ExternalTransactionData extends Dto
     public const DATE = 'date';
     public const CARD_NUMBER = 'card_number';
     public const SUM = 'sum';
-    public const VALIDATOR_SERIAL = 'validator_serial';
+    public const VALIDATOR_ID = 'validator_id';
     public const TARIFF_ID = 'tariff_id';
 
     /**
@@ -56,7 +56,7 @@ class ExternalTransactionData extends Dto
      *
      * @var integer
      */
-    protected $validator_serial;
+    protected $validator_id;
 
     /**
      * Tariff identifier where card was authorized.
