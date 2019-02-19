@@ -7,6 +7,22 @@
                 class="elevation-1"
                 hide-actions
   >
+    <template slot="headerCell"
+              slot-scope="props"
+    >
+      <v-btn v-if="props.header.actionsColumn"
+             :title="$t('common.buttons.refresh')"
+             flat
+             icon
+             @click="reloadTable"
+      >
+        <v-icon>cached</v-icon>
+      </v-btn>
+      <template v-else>
+        {{ props.header.text }}
+      </template>
+    </template>
+
     <v-progress-linear slot="progress"
                        color="blue"
                        indeterminate
@@ -25,6 +41,7 @@
       >
         {{ props.item.cards_count }}
       </ActionCell>
+      <td/>
     </template>
 
   </v-data-table>
@@ -47,6 +64,13 @@ const headers = [
 // Table headers translates
 Object.values(headers).forEach((header, key) => {
   headers[key].text = i18n.t(`cardType.fields.${header.value}`);
+});
+
+headers.push({
+  text:          '',
+  sortable:      false,
+  actionsColumn: true,
+  width:         '1%',
 });
 
 export default {
