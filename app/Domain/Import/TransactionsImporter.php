@@ -279,7 +279,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
 
             if ($transaction->card_id !== $transactionData->card_id ||
                 $transaction->amount !== $transactionData->amount ||
-                $transaction->authorized_at !== $transactionData->authorized_at ||
+                !$transaction->authorized_at->eq(Carbon::parse($transactionData->authorized_at)) ||
                 $transaction->tariff_id !== $transactionData->tariff_id ||
                 $transaction->validator_id !== $transactionData->validator_id ||
                 $transaction->external_id !== $transactionData->external_id
