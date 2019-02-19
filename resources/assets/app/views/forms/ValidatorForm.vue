@@ -33,6 +33,13 @@
                 type="text"
                 readonly
               />
+              <v-text-field
+                v-model="item.external_id"
+                :label="$t('validator.fields.external_id')"
+                name="external_id"
+                type="text"
+                readonly
+              />
               <BusSelect v-validate="''"
                          v-model="item.bus_id"
                          :error-messages="errors.collect('bus_id')"
@@ -92,6 +99,7 @@ export default {
         id:            null,
         serial_number: null,
         model:         null,
+        external_id:   null,
         bus_id:        null,
       },
       service:  ValidatorsService,
