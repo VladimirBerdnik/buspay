@@ -95,7 +95,6 @@
         <ActionCell :item-type="itemType"
                     :intention="policies.intentions.show"
                     @activate="openModalForm(props.item)"
-
         >
           {{ props.item.id }}
         </ActionCell>
