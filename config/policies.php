@@ -78,7 +78,8 @@ return [
         Abilities::DELETE => [],
     ],
     EntitiesTypes::TRANSACTION => [
-        Abilities::GET => [RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
+        Abilities::SHOW_TRANSACTION_CARD => [RolesIdentifiers::SUPPORT],
     ],
     EntitiesTypes::USER => [
         Abilities::GET => [RolesIdentifiers::SUPPORT],

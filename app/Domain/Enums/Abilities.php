@@ -17,4 +17,5 @@ class Abilities extends Enum
     public const CHANGE_BUS_ROUTE = 'changeBusRoute';
     public const CHANGE_DRIVER_BUS = 'changeDriverBus';
     public const GET_DRIVERS_CARDS = 'getDriversCards';
+    public const SHOW_TRANSACTION_CARD = 'showTransactionCard';
 }

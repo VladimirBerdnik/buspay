@@ -20,6 +20,7 @@ use App\Policies\BusEntityPolicy;
 use App\Policies\CardEntityPolicy;
 use App\Policies\DriverEntityPolicy;
 use App\Policies\EntityTypePolicy;
+use App\Policies\TransactionEntityPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 /**
@@ -46,7 +47,7 @@ class AuthServiceProvider extends ServiceProvider
         User::class => EntityTypePolicy::class,
         Validator::class => EntityTypePolicy::class,
         Replenishment::class => EntityTypePolicy::class,
-        Transaction::class => EntityTypePolicy::class,
+        Transaction::class => TransactionEntityPolicy::class,
     ];
 
     /**

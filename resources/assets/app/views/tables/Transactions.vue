@@ -94,16 +94,19 @@
                 slot-scope="props"
       >
         <td>{{ props.item.id }}</td>
-        <ActionCell @activate="goToCardDetails(props.item.card.card_number)">
+        <ActionCell :item-type="itemType"
+                    :intention="policies.intentions.showTransactionCard"
+                    @activate="goToCardDetails(props.item.card.card_number)"
+        >
           {{ props.item.card.card_number }}
         </ActionCell>
-        <td>{{ props.item.amount }}</td>
         <td>{{ props.item.card.cardType.name }}</td>
-        <td>{{ props.item.validator.serial_number }}</td>
-        <td>{{ props.item.routeSheet.bus.state_number }}</td>
-        <td>{{ props.item.routeSheet.company.name }}</td>
-        <td>{{ props.item.routeSheet.route.name }}</td>
         <td>{{ props.item.tariff.name }}</td>
+        <td>{{ props.item.amount }}</td>
+        <td>{{ props.item.routeSheet.bus.state_number }}</td>
+        <td>{{ props.item.routeSheet.route.name }}</td>
+        <td>{{ props.item.validator.serial_number }}</td>
+        <td>{{ props.item.routeSheet.company.name }}</td>
         <td>{{ props.item.authorized_at | timeStamp }}</td>
         <td>{{ props.item.external_id }}</td>
         <td/>
@@ -135,18 +138,18 @@ import CardTypesSelect from '../dropdowns/CardTypeSelect';
 import ValidatorSelect from '../dropdowns/ValidatorSelect';
 import TariffSelect from '../dropdowns/TariffSelect';
 import DriverSelect from '../dropdowns/DriverSelect';
+import PoliciesService from '../../services/PoliciesService';
 
-// Table headers
 const headers = [
   { value: 'id' },
   { value: 'card.card_number', sortable: false },
-  { value: 'amount' },
   { value: 'card.cardType.name', sortable: false },
-  { value: 'validator.serial_number', sortable: false },
-  { value: 'routeSheet.bus.state_number', sortable: false },
-  { value: 'routeSheet.company.name', sortable: false },
-  { value: 'routeSheet.route.name', sortable: false },
   { value: 'tariff.name', sortable: false },
+  { value: 'amount' },
+  { value: 'routeSheet.bus.state_number', sortable: false },
+  { value: 'routeSheet.route.name', sortable: false },
+  { value: 'validator.serial_number', sortable: false },
+  { value: 'routeSheet.company.name', sortable: false },
   { value: 'authorized_at' },
   { value: 'external_id' },
 ];
@@ -192,6 +195,7 @@ export default {
         tariffId:    null,
         driverId:    null,
       },
+      itemType: PoliciesService.itemsTypes.transactions,
     };
   },
   methods: {

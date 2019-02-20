@@ -118,7 +118,6 @@ class TransactionTransformer extends BaseTransformer
             Transaction::ID => $transaction->id,
             Transaction::AMOUNT => $transaction->amount,
             Transaction::EXTERNAL_ID => $transaction->external_id,
-            Transaction::CARD_ID => $transaction->card_id,
             Transaction::VALIDATOR_ID => $transaction->validator_id,
             Transaction::TARIFF_ID => $transaction->tariff_id,
             Transaction::ROUTE_SHEET_ID => $transaction->route_sheet_id,
@@ -127,7 +126,7 @@ class TransactionTransformer extends BaseTransformer
     }
 
     /**
-     * * Transforms card to display details.
+     * Transforms card to display details.
      *
      * @return CardTransformer
      */
@@ -137,7 +136,17 @@ class TransactionTransformer extends BaseTransformer
     }
 
     /**
-     * * Transforms tariff where by which card was authorized.
+     * Set transformer of card details.
+     *
+     * @param CardTransformer $cardTransformer Transforms card to display details
+     */
+    public function setCardTransformer(CardTransformer $cardTransformer): void
+    {
+        $this->cardTransformer = $cardTransformer;
+    }
+
+    /**
+     * Transforms tariff where by which card was authorized.
      *
      * @return TariffTransformer
      */
@@ -147,7 +156,7 @@ class TransactionTransformer extends BaseTransformer
     }
 
     /**
-     * * Transforms validator on which card was authorized.
+     * Transforms validator on which card was authorized.
      *
      * @return ValidatorTransformer
      */

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\v1;
 use App\Domain\Dto\Filters\TransactionsFilterData;
 use App\Domain\Enums\Abilities;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
+use App\Http\Transformers\Api\ImpersonalCardTransformer;
+use App\Http\Transformers\Api\TransactionTransformer;
 use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
 use Dingo\Api\Http\Response;
@@ -25,15 +27,34 @@ class TransactionsApiController extends BaseApiController
     private $transactionRepository;
 
     /**
+     * Transforms card to display impersonated card details.
+     *
+     * @var ImpersonalCardTransformer
+     */
+    private $impersonalCardTransformer;
+
+    /**
+     * Handled by controller entities default transformer.
+     *
+     * @var IDataTransformer|TransactionTransformer
+     */
+    protected $transformer;
+
+    /**
      * Transactions requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
+     * @param ImpersonalCardTransformer $impersonalCardTransformer Transforms card to display impersonated card details
      * @param TransactionRepository $transactionRepository Transactions records storage
      */
-    public function __construct(IDataTransformer $transformer, TransactionRepository $transactionRepository)
-    {
+    public function __construct(
+        IDataTransformer $transformer,
+        ImpersonalCardTransformer $impersonalCardTransformer,
+        TransactionRepository $transactionRepository
+    ) {
         parent::__construct($transformer);
         $this->transactionRepository = $transactionRepository;
+        $this->impersonalCardTransformer = $impersonalCardTransformer;
     }
 
     /**
@@ -69,6 +90,10 @@ class TransactionsApiController extends BaseApiController
             TransactionsFilterData::DRIVER_ID => $filters[TransactionsFilterData::DRIVER_ID] ?? null,
         ]);
 
+        if (!$this->canSeeCardDetails()) {
+            $this->transformer->setCardTransformer($this->impersonalCardTransformer);
+        }
+
         return $this->response->paginator(
             $this->transactionRepository->getFilteredPageWith(
                 $request->getPagingInfo(),
@@ -86,5 +111,21 @@ class TransactionsApiController extends BaseApiController
             ),
             $this->transformer
         );
+    }
+
+    /**
+     * Determines whether user can see transactions card details or not.
+     *
+     * @return boolean
+     */
+    private function canSeeCardDetails(): bool
+    {
+        try {
+            $this->authorize(Abilities::SHOW_TRANSACTION_CARD, new Transaction());
+        } catch (AuthorizationException $e) {
+            return false;
+        }
+
+        return true;
     }
 }

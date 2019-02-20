@@ -17,6 +17,7 @@ use App\Models\Route;
 use App\Models\RouteSheet;
 use App\Models\Tariff;
 use App\Models\TariffPeriod;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Validator;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -79,6 +80,7 @@ class EntityTypePolicy
             User::class => EntitiesTypes::USER,
             Validator::class => EntitiesTypes::VALIDATOR,
             Replenishment::class => EntitiesTypes::REPLENISHMENT,
+            Transaction::class => EntitiesTypes::TRANSACTION,
         ];
 
         $entityType = $entityClassToTypeMap[$entityClass];

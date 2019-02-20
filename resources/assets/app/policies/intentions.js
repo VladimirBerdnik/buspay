@@ -19,9 +19,11 @@ export default {
   // Entity specific intentions
 
   /** Update assigned to bus default route */
-  changeBusRoute:  'changeBusRoute',
+  changeBusRoute:      'changeBusRoute',
   /** Update assigned to driver default bus */
-  changeDriverBus: 'changeDriverBus',
+  changeDriverBus:     'changeDriverBus',
   /** Retrieve only cards that can be assigned to driver */
-  getDriversCards: 'getDriversCards',
+  getDriversCards:     'getDriversCards',
+  /** Display card details in transactions list */
+  showTransactionCard: 'showTransactionCard',
 };
