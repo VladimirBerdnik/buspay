@@ -59,8 +59,7 @@
       </v-layout>
       <v-layout row>
         <v-spacer/>
-        <v-btn v-show="policies.canCreate(itemType)"
-               color="primary"
+        <v-btn color="primary"
                @click="exportRecords"
         >
           <v-icon>file_download</v-icon>

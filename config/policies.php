@@ -10,7 +10,7 @@ use App\Domain\Enums\RolesIdentifiers;
  */
 return [
     EntitiesTypes::BUS => [
-        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
         Abilities::SHOW => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
         Abilities::CREATE => [RolesIdentifiers::SUPPORT],
         Abilities::UPDATE => [RolesIdentifiers::SUPPORT],
@@ -18,21 +18,21 @@ return [
         Abilities::DELETE => [],
     ],
     EntitiesTypes::CARD_TYPE => [
-        Abilities::GET => [RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
     ],
     EntitiesTypes::CARD => [
         Abilities::GET => [RolesIdentifiers::SUPPORT],
         Abilities::GET_DRIVERS_CARDS => [RolesIdentifiers::SUPPORT],
     ],
     EntitiesTypes::COMPANY => [
-        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
         Abilities::SHOW => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
         Abilities::CREATE => [],
         Abilities::UPDATE => [],
         Abilities::DELETE => [],
     ],
     EntitiesTypes::DRIVER => [
-        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
         Abilities::SHOW => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
         Abilities::CREATE => [RolesIdentifiers::SUPPORT],
         Abilities::UPDATE => [RolesIdentifiers::SUPPORT],
@@ -40,8 +40,8 @@ return [
         Abilities::DELETE => [],
     ],
     EntitiesTypes::PROFILE => [
-        Abilities::SHOW => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
-        Abilities::UPDATE => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
+        Abilities::SHOW => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
+        Abilities::UPDATE => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
     ],
     EntitiesTypes::REPLENISHMENT => [
         Abilities::GET => [RolesIdentifiers::SUPPORT],
@@ -57,28 +57,28 @@ return [
         Abilities::DELETE => [RolesIdentifiers::OPERATOR],
     ],
     EntitiesTypes::ROUTE => [
-        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
-        Abilities::SHOW => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
+        Abilities::SHOW => [RolesIdentifiers::SUPPORT],
         Abilities::CREATE => [],
         Abilities::UPDATE => [],
         Abilities::DELETE => [],
     ],
     EntitiesTypes::TARIFF => [
-        Abilities::GET => [RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
         Abilities::SHOW => [RolesIdentifiers::SUPPORT],
         Abilities::CREATE => [],
         Abilities::UPDATE => [],
         Abilities::DELETE => [],
     ],
     EntitiesTypes::TARIFF_PERIOD => [
-        Abilities::GET => [RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
         Abilities::SHOW => [RolesIdentifiers::SUPPORT],
         Abilities::CREATE => [],
         Abilities::UPDATE => [],
         Abilities::DELETE => [],
     ],
     EntitiesTypes::TRANSACTION => [
-        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
         Abilities::SHOW_TRANSACTION_CARD => [RolesIdentifiers::SUPPORT],
     ],
     EntitiesTypes::USER => [
@@ -89,7 +89,7 @@ return [
         Abilities::DELETE => [],
     ],
     EntitiesTypes::VALIDATOR => [
-        Abilities::GET => [RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
         Abilities::SHOW => [RolesIdentifiers::SUPPORT],
         Abilities::UPDATE => [RolesIdentifiers::SUPPORT],
     ],

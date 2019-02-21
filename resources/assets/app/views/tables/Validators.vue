@@ -53,11 +53,12 @@
           slot-scope="props"
         >
           <td>{{ props.item.id }}</td>
-          <td class="action-cell"
-              @click.stop="openModalForm(props.item)"
+          <ActionCell :item-type="itemType"
+                      :intention="policies.intentions.show"
+                      @activate="openModalForm(props.item)"
           >
             {{ props.item.serial_number }}
-          </td>
+          </ActionCell>
           <td>{{ props.item.model }}</td>
           <td>{{ props.item.external_id }}</td>
           <td>{{ props.item.bus.state_number }}</td>
@@ -93,6 +94,7 @@ import ValidatorForm from '../../views/forms/ValidatorForm';
 import CRUDTableMixin from '../../mixins/CRUDTableMixin';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 import PoliciesService from '../../services/PoliciesService';
+import ActionCell from './components/ActionCell';
 
 // Table headers
 const headers = [
@@ -119,6 +121,7 @@ headers.push({
 export default {
   name:       'Validators',
   components: {
+    ActionCell,
     ValidatorForm,
   },
   mixins: [ CRUDTableMixin, SimpleTableMixin ],
