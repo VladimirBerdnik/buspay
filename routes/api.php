@@ -156,6 +156,7 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
 
         // Transactions related routes
         $registrar->get('transactions', TransactionsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
+        $registrar->get('transactions/export', TransactionsApiController::class, 'export');
 
         // Route sheets related routes
         $registrar->resource('route_sheets', RouteSheetsApiController::class, [

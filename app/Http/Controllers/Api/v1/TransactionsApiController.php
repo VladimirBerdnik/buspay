@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\Dto\Filters\TransactionsFilterData;
 use App\Domain\Enums\Abilities;
+use App\Domain\Export\TransactionsExporter;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
 use App\Http\Transformers\Api\ImpersonalCardTransformer;
 use App\Http\Transformers\Api\TransactionTransformer;
@@ -13,12 +14,20 @@ use Dingo\Api\Http\Response;
 use Illuminate\Auth\Access\AuthorizationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\Transformers\IDataTransformer;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * Transactions requests API controller.
  */
 class TransactionsApiController extends BaseApiController
 {
+    /**
+     * Handled by controller entities default transformer.
+     *
+     * @var IDataTransformer|TransactionTransformer
+     */
+    protected $transformer;
+
     /**
      * Transactions records storage.
      *
@@ -34,11 +43,25 @@ class TransactionsApiController extends BaseApiController
     private $impersonalCardTransformer;
 
     /**
-     * Handled by controller entities default transformer.
+     * Transactions entities exporter.
      *
-     * @var IDataTransformer|TransactionTransformer
+     * @var TransactionsExporter
      */
-    protected $transformer;
+    private $transactionsExporter;
+
+    /**
+     * Relations that should be automatically loaded with list of transactions.
+     *
+     * @var string[]
+     */
+    private $preloadedRelations = [
+        'card.cardType',
+        'tariff',
+        'validator',
+        'routeSheet.company',
+        'routeSheet.route',
+        'routeSheet.bus',
+    ];
 
     /**
      * Transactions requests API controller.
@@ -46,32 +69,29 @@ class TransactionsApiController extends BaseApiController
      * @param IDataTransformer $transformer Handled by controller entities default transformer
      * @param ImpersonalCardTransformer $impersonalCardTransformer Transforms card to display impersonated card details
      * @param TransactionRepository $transactionRepository Transactions records storage
+     * @param TransactionsExporter $transactionsExporter Transactions entities exporter
      */
     public function __construct(
         IDataTransformer $transformer,
         ImpersonalCardTransformer $impersonalCardTransformer,
-        TransactionRepository $transactionRepository
+        TransactionRepository $transactionRepository,
+        TransactionsExporter $transactionsExporter
     ) {
         parent::__construct($transformer);
         $this->transactionRepository = $transactionRepository;
         $this->impersonalCardTransformer = $impersonalCardTransformer;
+        $this->transactionsExporter = $transactionsExporter;
     }
 
     /**
-     * Returns transactions list.
+     * Returns transactions filter data that should be applied against list of transactions.
      *
-     * @param PaginatedSortedFilteredListRequest $request Request with parameters to retrieve paginated sorted filtered
-     *     list of items
+     * @param PaginatedSortedFilteredListRequest $request Transactions list request with filtering details
      *
-     * @return Response
-     *
-     * @throws InvalidEnumValueException
-     * @throws AuthorizationException
+     * @return TransactionsFilterData
      */
-    public function index(PaginatedSortedFilteredListRequest $request): Response
+    private function getTransactionsFilterData(PaginatedSortedFilteredListRequest $request): TransactionsFilterData
     {
-        $this->authorize(Abilities::GET, new Transaction());
-
         $filters = $request->getFilters([]);
         $companyId = $this->singleCompanyUser()
             ? $this->user->company_id
@@ -90,27 +110,7 @@ class TransactionsApiController extends BaseApiController
             TransactionsFilterData::DRIVER_ID => $filters[TransactionsFilterData::DRIVER_ID] ?? null,
         ]);
 
-        if (!$this->canSeeCardDetails()) {
-            $this->transformer->setCardTransformer($this->impersonalCardTransformer);
-        }
-
-        return $this->response->paginator(
-            $this->transactionRepository->getFilteredPageWith(
-                $request->getPagingInfo(),
-                [
-                    'card.cardType',
-                    'tariff',
-                    'validator',
-                    'routeSheet.company',
-                    'routeSheet.route',
-                    'routeSheet.bus',
-                ],
-                [],
-                $transactionsFilter,
-                $request->getSortOptions()
-            ),
-            $this->transformer
-        );
+        return $transactionsFilter;
     }
 
     /**
@@ -127,5 +127,79 @@ class TransactionsApiController extends BaseApiController
         }
 
         return true;
+    }
+
+    /**
+     * Sets card transformer according to card details access policy. Not all users can see full card data.
+     */
+    private function setAppropriateTransactionCardTransformer(): void
+    {
+        if ($this->canSeeCardDetails()) {
+            return;
+        }
+
+        $this->transformer->setCardTransformer($this->impersonalCardTransformer);
+        $this->impersonalCardTransformer->setDefaultIncludes([ImpersonalCardTransformer::INCLUDE_CARD_TYPE]);
+    }
+
+    /**
+     * Returns transactions list.
+     *
+     * @param PaginatedSortedFilteredListRequest $request Request with parameters to retrieve paginated sorted filtered
+     *     list of items
+     *
+     * @return Response
+     *
+     * @throws InvalidEnumValueException
+     * @throws AuthorizationException
+     */
+    public function index(PaginatedSortedFilteredListRequest $request): Response
+    {
+        $this->authorize(Abilities::GET, new Transaction());
+
+        $this->setAppropriateTransactionCardTransformer();
+
+        $transactionsFilter = $this->getTransactionsFilterData($request);
+
+        return $this->response->paginator(
+            $this->transactionRepository->getFilteredPageWith(
+                $request->getPagingInfo(),
+                $this->preloadedRelations,
+                [],
+                $transactionsFilter,
+                $request->getSortOptions()
+            ),
+            $this->transformer
+        );
+    }
+
+    /**
+     * Returns transactions list.
+     *
+     * @param PaginatedSortedFilteredListRequest $request Request with parameters to retrieve paginated sorted filtered
+     *     list of items
+     *
+     * @return BinaryFileResponse
+     *
+     * @throws InvalidEnumValueException
+     * @throws AuthorizationException
+     */
+    public function export(PaginatedSortedFilteredListRequest $request): BinaryFileResponse
+    {
+        $this->authorize(Abilities::GET, new Transaction());
+
+        $this->setAppropriateTransactionCardTransformer();
+
+        $transactionsFilter = $this->getTransactionsFilterData($request);
+
+        $onlyDriverCardsNumbersVisible = $this->canSeeCardDetails();
+
+        $exportedFileName = $this->transactionsExporter->export(
+            $transactionsFilter,
+            $request->getSortOptions(),
+            !$onlyDriverCardsNumbersVisible
+        );
+
+        return new BinaryFileResponse($exportedFileName);
     }
 }

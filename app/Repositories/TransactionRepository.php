@@ -48,23 +48,21 @@ class TransactionRepository extends Repository
     }
 
     /**
-     * Returns paginated sorted list of optionally filtered items.
+     * Returns query builder for provided filter data and requested relations.
      *
-     * @param PagingInfo $paging Page size and limits information
      * @param string[] $with Which relations should be preloaded
      * @param string[]|null $withCounts Which related entities should be counted
      * @param TransactionsFilterData|null $filterData Items parametrized filter details
-     * @param SortOptions $sortOptions How list of item should be sorted
+     * @param SortOptions|null $sortOptions How list of item should be sorted
      *
-     * @return LengthAwarePaginator
+     * @return Builder
      */
-    public function getFilteredPageWith(
-        PagingInfo $paging,
+    private function getQueryForFilterData(
         array $with,
-        ?array $withCounts = null,
-        ?TransactionsFilterData $filterData = null,
-        ?SortOptions $sortOptions = null
-    ): LengthAwarePaginator {
+        ?array $withCounts,
+        ?TransactionsFilterData $filterData,
+        ?SortOptions $sortOptions
+    ): Builder {
         $query = $this->getWithBuilder($with, $withCounts, null, $sortOptions);
 
         if ($filterData->authorized_from) {
@@ -115,6 +113,53 @@ class TransactionRepository extends Repository
             });
         }
 
+        return $query;
+    }
+
+    /**
+     * Returns paginated sorted list of optionally filtered items.
+     *
+     * @param PagingInfo $paging Page size and limits information
+     * @param string[] $with Which relations should be preloaded
+     * @param string[]|null $withCounts Which related entities should be counted
+     * @param TransactionsFilterData|null $filterData Items parametrized filter details
+     * @param SortOptions|null $sortOptions How list of item should be sorted
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getFilteredPageWith(
+        PagingInfo $paging,
+        array $with,
+        ?array $withCounts = null,
+        ?TransactionsFilterData $filterData = null,
+        ?SortOptions $sortOptions = null
+    ): LengthAwarePaginator {
+        $query = $this->getQueryForFilterData($with, $withCounts, $filterData, $sortOptions);
+
         return $query->paginate($paging->pageSize, ['*'], 'page', $paging->page);
+    }
+
+    /**
+     * Returns paginated sorted list of optionally filtered items.
+     *
+     * @param string[] $with Which relations should be preloaded
+     * @param string[]|null $withCounts Which related entities should be counted
+     * @param TransactionsFilterData|null $filterData Items parametrized filter details
+     * @param SortOptions $sortOptions How list of item should be sorted
+     * @param int $chunkSize Count of items that should be passed in collection of items into callback
+     * @param callable $callback Callback that should be executed for every collection of items with given size
+     *
+     * @return void
+     */
+    public function getFilteredChunkWith(
+        array $with,
+        ?array $withCounts,
+        TransactionsFilterData $filterData,
+        SortOptions $sortOptions,
+        int $chunkSize,
+        callable $callback
+    ): void {
+        $this->getQueryForFilterData($with, $withCounts, $filterData, $sortOptions)
+            ->chunk($chunkSize, $callback);
     }
 }

@@ -105,5 +105,24 @@ export default {
         this.loadingInProgress = false;
       }
     },
+    /**
+     * Exports table data.
+     */
+    async exportRecords() {
+      try {
+        const params = Object.assign(
+          {},
+          this.pagination,
+          { filters: this.filters },
+          { search: this.search },
+          { active_from: this.activeFrom },
+          { active_to: this.activeTo }
+        );
+
+        await this.service.export(params);
+      } catch (exception) {
+        // no action required
+      }
+    },
   },
 };

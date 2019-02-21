@@ -13,6 +13,7 @@ export default {
       add:     'Добавить',
       delete:  'Удалить',
       refresh: 'Обновить',
+      export:  'Выгрузить',
     },
     notifications: {
       savingError:   'Ошибка сохранения',

@@ -44,6 +44,25 @@ export default {
   },
 
   /**
+   * Initiates transactions list downloading.
+   *
+   * @param {Object} params Request parameters such as filters and sorting details
+   *
+   * @throws Error
+   */
+  async export(params) {
+    const response = await axios.get('/transactions/export', { params, responseType: 'blob' });
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.setAttribute('download', 'transactions.csv');
+    document.body.appendChild(link);
+    link.click();
+  },
+
+  /**
    * Returns list of transactions.
    *
    * @return {Transaction[]}
