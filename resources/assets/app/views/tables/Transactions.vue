@@ -14,28 +14,34 @@
                       clearable
                       class="mr-3"
         />
-        <CardTypesSelect v-model="filters.cardTypeId"
+        <CardTypesSelect v-if="policies.canSeeList(policies.itemsTypes.cardTypes)"
+                         v-model="filters.cardTypeId"
                          class="mr-3"
                          @input="updateQueryParameters"
         />
-        <ValidatorSelect v-model="filters.validatorId"
+        <ValidatorSelect v-if="policies.canSeeList(policies.itemsTypes.validators)"
+                         v-model="filters.validatorId"
                          class="mr-3"
                          @input="updateQueryParameters"
         />
-        <TariffSelect v-model="filters.tariffId"
+        <TariffSelect v-if="policies.canSeeList(policies.itemsTypes.tariffs)"
+                      v-model="filters.tariffId"
                       class="mr-3"
                       @input="updateQueryParameters"
         />
-        <CompanySelect v-model="filters.companyId"
+        <CompanySelect v-if="policies.canSeeList(policies.itemsTypes.companies)"
+                       v-model="filters.companyId"
                        class="mr-3"
                        @input="updateQueryParameters"
         />
-        <DriverSelect v-model="filters.driverId"
+        <DriverSelect v-if="policies.canSeeList(policies.itemsTypes.drivers)"
+                      v-model="filters.driverId"
                       :company-id="filters.companyId"
                       class="mr-3"
                       @input="updateQueryParameters"
         />
-        <BusSelect v-model="filters.busId"
+        <BusSelect v-if="policies.canSeeList(policies.itemsTypes.buses)"
+                   v-model="filters.busId"
                    :company-id="filters.companyId"
                    class="mr-3"
                    @input="updateQueryParameters"

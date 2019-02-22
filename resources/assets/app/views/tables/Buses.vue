@@ -17,11 +17,13 @@
           clearable
           class="mr-3"
         />
-        <CompanySelect v-model="filters.companyId"
+        <CompanySelect v-if="policies.canSeeList(policies.itemsTypes.companies)"
+                       v-model="filters.companyId"
                        class="mr-3"
                        @input="updateQueryParameters"
         />
-        <RouteSelect v-model="filters.routeId"
+        <RouteSelect v-if="policies.canSeeList(policies.itemsTypes.routes)"
+                     v-model="filters.routeId"
                      :company-id="filters.companyId"
                      @input="updateQueryParameters"
         />

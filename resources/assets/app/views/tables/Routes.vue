@@ -17,7 +17,8 @@
           clearable
           class="mr-3"
         />
-        <CompanySelect v-model="filters.companyId"
+        <CompanySelect v-if="policies.canSeeList(policies.itemsTypes.companies)"
+                       v-model="filters.companyId"
                        @input="updateQueryParameters"
         />
         <v-btn v-show="policies.canCreate(itemType)"

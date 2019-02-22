@@ -6,21 +6,25 @@
       <v-layout row
                 wrap
       >
-        <CompanySelect v-model="filters.companyId"
+        <CompanySelect v-if="policies.canSeeList(policies.itemsTypes.companies)"
+                       v-model="filters.companyId"
                        class="mr-3"
                        @input="updateQueryParameters"
         />
-        <RouteSelect v-model="filters.routeId"
+        <RouteSelect v-if="policies.canSeeList(policies.itemsTypes.routeSheets)"
+                     v-model="filters.routeId"
                      :company-id="filters.companyId"
                      class="mr-3"
                      @input="updateQueryParameters"
         />
-        <BusSelect v-model="filters.busId"
+        <BusSelect v-if="policies.canSeeList(policies.itemsTypes.buses)"
+                   v-model="filters.busId"
                    :company-id="filters.companyId"
                    class="mr-3"
                    @input="updateQueryParameters"
         />
-        <DriverSelect v-model="filters.driverId"
+        <DriverSelect v-if="policies.canSeeList(policies.itemsTypes.drivers)"
+                      v-model="filters.driverId"
                       :company-id="filters.companyId"
                       class="mr-3"
                       @input="updateQueryParameters"

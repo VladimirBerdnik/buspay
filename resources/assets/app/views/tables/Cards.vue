@@ -14,7 +14,8 @@
                       clearable
                       class="mr-3"
         />
-        <CardTypesSelect v-model="filters.cardTypeId"
+        <CardTypesSelect v-if="policies.canSeeList(policies.itemsTypes.cardTypes)"
+                         v-model="filters.cardTypeId"
                          @input="updateQueryParameters"
         />
       </v-layout>
