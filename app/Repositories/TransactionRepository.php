@@ -82,7 +82,7 @@ class TransactionRepository extends Repository
         }
 
         // Filter by authorized card parameters
-        if ($filterData->card_type_id || $filterData->driver_id || $filterData->search_string) {
+        if ($filterData->card_type_id || $filterData->search_string) {
             $query->whereHas('card', function (Builder $builder) use ($filterData): Builder {
                 if ($filterData->card_type_id) {
                     $builder->where(Card::CARD_TYPE_ID, '=', $filterData->card_type_id);
@@ -96,16 +96,13 @@ class TransactionRepository extends Repository
         }
 
         // Filter by authorized validator parameters
-        if ($filterData->bus_id || $filterData->route_id || $filterData->company_id || $filterData->driver_id) {
+        if ($filterData->bus_id || $filterData->route_id || $filterData->company_id) {
             $query->whereHas('routeSheet', function (Builder $builder) use ($filterData): void {
                 if ($filterData->bus_id) {
                     $builder->where(RouteSheet::BUS_ID, '=', $filterData->bus_id);
                 }
                 if ($filterData->route_id) {
                     $builder->where(RouteSheet::ROUTE_ID, '=', $filterData->route_id);
-                }
-                if ($filterData->driver_id) {
-                    $builder->where(RouteSheet::DRIVER_ID, '=', $filterData->driver_id);
                 }
                 if ($filterData->company_id) {
                     $builder->where(RouteSheet::COMPANY_ID, '=', $filterData->company_id);

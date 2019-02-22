@@ -17,7 +17,6 @@ use Saritasa\Dto;
  * @property-read integer|null $validator_id Identifier of validator where transactions was authorized
  * @property-read integer|null $route_id Identifier of route where transaction was authorized
  * @property-read integer|null $bus_id Identifier of bus where transaction was authorized
- * @property-read integer|null $driver_id Identifier of driver that was authorized
  */
 class TransactionsFilterData extends Dto
 {
@@ -30,7 +29,6 @@ class TransactionsFilterData extends Dto
     public const VALIDATOR_ID = 'validator_id';
     public const ROUTE_ID = 'route_id';
     public const BUS_ID = 'bus_id';
-    public const DRIVER_ID = 'driver_id';
 
     /**
      * Search string to perform custom filtering.
@@ -94,11 +92,4 @@ class TransactionsFilterData extends Dto
      * @var integer|null
      */
     protected $bus_id;
-
-    /**
-     * Identifier of driver that was authorized.
-     *
-     * @var integer|null
-     */
-    protected $driver_id;
 }

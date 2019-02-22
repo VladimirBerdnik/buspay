@@ -107,7 +107,6 @@ class TransactionsApiController extends BaseApiController
             TransactionsFilterData::VALIDATOR_ID => $filters[TransactionsFilterData::VALIDATOR_ID] ?? null,
             TransactionsFilterData::ROUTE_ID => $filters[TransactionsFilterData::ROUTE_ID] ?? null,
             TransactionsFilterData::BUS_ID => $filters[TransactionsFilterData::BUS_ID] ?? null,
-            TransactionsFilterData::DRIVER_ID => $filters[TransactionsFilterData::DRIVER_ID] ?? null,
         ]);
 
         return $transactionsFilter;

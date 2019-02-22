@@ -31,14 +31,8 @@
         />
         <CompanySelect v-if="policies.canSeeList(policies.itemsTypes.companies)"
                        v-model="filters.companyId"
-                       class="mr-3"
+                       class="pr-3 flex xs6 sm4 md3"
                        @input="updateQueryParameters"
-        />
-        <DriverSelect v-if="policies.canSeeList(policies.itemsTypes.drivers)"
-                      v-model="filters.driverId"
-                      :company-id="filters.companyId"
-                      class="mr-3"
-                      @input="updateQueryParameters"
         />
         <BusSelect v-if="policies.canSeeList(policies.itemsTypes.buses)"
                    v-model="filters.busId"
@@ -152,7 +146,6 @@ import BusSelect from '../dropdowns/BusSelect';
 import CardTypesSelect from '../dropdowns/CardTypeSelect';
 import ValidatorSelect from '../dropdowns/ValidatorSelect';
 import TariffSelect from '../dropdowns/TariffSelect';
-import DriverSelect from '../dropdowns/DriverSelect';
 import PoliciesService from '../../services/PoliciesService';
 
 const headers = [
@@ -184,7 +177,6 @@ headers.push({
 export default {
   name:       'Transactions',
   components: {
-    DriverSelect,
     TariffSelect,
     ValidatorSelect,
     CardTypesSelect,
@@ -208,7 +200,6 @@ export default {
         cardTypeId:  null,
         validatorId: null,
         tariffId:    null,
-        driverId:    null,
       },
       itemType: PoliciesService.itemsTypes.transactions,
     };
