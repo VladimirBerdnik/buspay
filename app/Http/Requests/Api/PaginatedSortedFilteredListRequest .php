@@ -94,7 +94,10 @@ class PaginatedSortedFilteredListRequest extends ApiRequest
         $validFilters = [];
         foreach ($filters as $key => $value) {
             $filterParameter = Str::snake($key);
-            if (!$value || is_array($value) || ($allowedFilters && !in_array($filterParameter, $allowedFilters))) {
+            if ($value === null ||
+                is_array($value) ||
+                ($allowedFilters && !in_array($filterParameter, $allowedFilters))
+            ) {
                 continue;
             }
 
