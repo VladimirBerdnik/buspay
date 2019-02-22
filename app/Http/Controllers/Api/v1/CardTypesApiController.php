@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\EntitiesServices\CardTypeEntityService;
 use App\Domain\Enums\Abilities;
+use App\Models\Card;
 use App\Models\CardType;
 use Dingo\Api\Http\Response;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -48,7 +49,12 @@ class CardTypesApiController extends BaseApiController
         $this->authorize(Abilities::GET, new CardType());
 
         return $this->response->collection(
-            $this->cardTypeService->getWith([], ['cards'], [], new SortOptions(CardType::ID)),
+            $this->cardTypeService->getWith(
+                [],
+                $this->can(Abilities::GET, new Card()) ? ['cards'] : [],
+                [],
+                new SortOptions(CardType::ID)
+            ),
             $this->transformer
         );
     }
