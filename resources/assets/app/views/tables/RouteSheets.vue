@@ -124,6 +124,7 @@
         <td class="px-0">
           <div class="cell-buttons">
             <v-btn v-show="policies.canUpdate(policies.itemsTypes.routeSheets)"
+                   :disabled="!props.item.editable"
                    flat
                    icon
                    class="mx-0"
@@ -132,6 +133,7 @@
               <v-icon>edit</v-icon>
             </v-btn>
             <v-btn v-show="policies.canDelete(policies.itemsTypes.routeSheets)"
+                   :disabled="!props.item.editable"
                    flat
                    icon
                    class="mx-0"

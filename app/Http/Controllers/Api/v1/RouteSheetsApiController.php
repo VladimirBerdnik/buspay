@@ -125,6 +125,10 @@ class RouteSheetsApiController extends BaseApiController
     {
         $this->authorize(Abilities::UPDATE, $routeSheet);
 
+        if (!$routeSheet->editable()) {
+            $this->deny(trans('errors.routSheetNotEditable'));
+        }
+
         $this->routeSheetService->update($routeSheet, $request->getRouteSheetData());
 
         return $this->response->item($routeSheet, $this->transformer);
@@ -143,6 +147,10 @@ class RouteSheetsApiController extends BaseApiController
     public function destroy(RouteSheet $routeSheet): Response
     {
         $this->authorize(Abilities::DELETE, $routeSheet);
+
+        if (!$routeSheet->editable()) {
+            $this->deny(trans('errors.routSheetNotEditable'));
+        }
 
         $this->routeSheetService->destroy($routeSheet);
 

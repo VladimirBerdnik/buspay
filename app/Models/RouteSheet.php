@@ -145,4 +145,14 @@ class RouteSheet extends Model implements IBelongsToCompany
     {
         return $this->hasMany(Transaction::class);
     }
+
+    /**
+     * Returns whether this route sheet can be deleted or edited or not.
+     *
+     * @return boolean
+     */
+    public function editable(): bool
+    {
+        return Carbon::today()->startOfMonth()->subMonth()->lte($this->active_from);
+    }
 }
