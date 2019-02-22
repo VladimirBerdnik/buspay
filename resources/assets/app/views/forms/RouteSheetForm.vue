@@ -248,8 +248,20 @@ export default {
         .minutes(Number.parseInt(minutes, 10))
         .hour(Number.parseInt(hours, 10))
         .second(Number.parseInt(seconds, 10))
-        .utc(false)
         .format();
+    },
+    /**
+     * Returns form item data. Overrides mixin's method due to timezone conversion needs.
+     *
+     * @return {Object}
+     */
+    getItemData() {
+      const item = Object.assign({}, this.item);
+
+      item.active_from = moment(item.active_from).utc(false).toISOString();
+      item.active_to = moment(item.active_to).utc(false).toISOString();
+
+      return item;
     },
   },
 };

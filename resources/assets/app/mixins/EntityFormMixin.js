@@ -65,6 +65,14 @@ export default {
   },
   methods: {
     /**
+     * Returns form item data.
+     *
+     * @return {Object}
+     */
+    getItemData() {
+      return this.item;
+    },
+    /**
      * Performs save request.
      */
     async save() {
@@ -82,7 +90,7 @@ export default {
 
       this.inProgress = true;
 
-      this.service.save(this.item)
+      this.service.save(this.getItemData())
         .then(() => {
           this.inProgress = false;
           AlertsService.info(this.$i18n.t('common.notifications.changesSaved'));

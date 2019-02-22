@@ -38,11 +38,12 @@ class SaveRouteSheetRequest extends ApiRequest
     public function getRouteSheetData(): RouteSheetData
     {
         $parameters = $this->all();
+        $defaultTimezone = config('app.timezone');
         $parameters[RouteSheetData::ACTIVE_FROM] = $this->get(RouteSheetData::ACTIVE_FROM)
-            ? Carbon::parse($this->get(RouteSheetData::ACTIVE_FROM))
+            ? Carbon::parse($this->get(RouteSheetData::ACTIVE_FROM))->setTimezone($defaultTimezone)
             : null;
         $parameters[RouteSheetData::ACTIVE_TO] = $this->get(RouteSheetData::ACTIVE_TO)
-            ? Carbon::parse($this->get(RouteSheetData::ACTIVE_TO))
+            ? Carbon::parse($this->get(RouteSheetData::ACTIVE_TO))->setTimezone($defaultTimezone)
             : null;
 
         return new RouteSheetData($parameters);
