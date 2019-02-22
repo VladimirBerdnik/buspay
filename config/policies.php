@@ -10,7 +10,7 @@ use App\Domain\Enums\RolesIdentifiers;
  */
 return [
     EntitiesTypes::BUS => [
-        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
         Abilities::SHOW => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
         Abilities::CREATE => [RolesIdentifiers::SUPPORT],
         Abilities::UPDATE => [RolesIdentifiers::SUPPORT],
@@ -32,7 +32,7 @@ return [
         Abilities::DELETE => [],
     ],
     EntitiesTypes::DRIVER => [
-        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
         Abilities::SHOW => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
         Abilities::CREATE => [RolesIdentifiers::SUPPORT],
         Abilities::UPDATE => [RolesIdentifiers::SUPPORT],
@@ -89,7 +89,7 @@ return [
         Abilities::DELETE => [],
     ],
     EntitiesTypes::VALIDATOR => [
-        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
+        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
         Abilities::SHOW => [RolesIdentifiers::SUPPORT],
         Abilities::UPDATE => [RolesIdentifiers::SUPPORT],
     ],
