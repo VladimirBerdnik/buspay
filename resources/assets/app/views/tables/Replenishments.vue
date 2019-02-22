@@ -12,7 +12,7 @@
                       hide-details
                       single-line
                       clearable
-                      class="mr-3"
+                      class="pr-3 flex xs6 sm4 md3"
         />
         <DateSelect v-model="activeFrom"
                     :label="$t('replenishment.active_from')"
@@ -20,7 +20,7 @@
                     :default-minutes="0"
                     :default-seconds="0"
                     time-as-hint
-                    class="mr-3 v-input"
+                    class="pr-3 flex xs6 sm4 md3 v-input"
         />
         <DateSelect v-model="activeTo"
                     :label="$t('replenishment.active_to')"
@@ -28,7 +28,7 @@
                     :default-minutes="59"
                     :default-seconds="59"
                     time-as-hint
-                    class="v-input"
+                    class="pr-3 flex xs6 sm4 md3 v-input"
         />
       </v-layout>
     </v-flex>

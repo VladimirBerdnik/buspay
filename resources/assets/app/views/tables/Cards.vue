@@ -12,10 +12,11 @@
                       hide-details
                       single-line
                       clearable
-                      class="mr-3"
+                      class="pr-3 flex xs6 sm4 md3"
         />
         <CardTypesSelect v-if="policies.canSeeList(policies.itemsTypes.cardTypes)"
                          v-model="filters.cardTypeId"
+                         class="pr-3 flex xs6 sm4 md3"
                          @input="updateQueryParameters"
         />
       </v-layout>

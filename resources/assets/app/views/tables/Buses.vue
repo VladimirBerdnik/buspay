@@ -1,7 +1,5 @@
 <template>
-  <v-layout row
-            wrap
-  >
+  <div>
     <v-flex class="mb-3"
             xs12
     >
@@ -15,20 +13,23 @@
           hide-details
           single-line
           clearable
-          class="mr-3"
+          class="pr-3 flex xs6 sm4 md3"
         />
         <CompanySelect v-if="policies.canSeeList(policies.itemsTypes.companies)"
                        v-model="filters.companyId"
-                       class="mr-3"
+                       class="pr-3 flex xs6 sm4 md3"
                        @input="updateQueryParameters"
         />
         <RouteSelect v-if="policies.canSeeList(policies.itemsTypes.routes)"
                      v-model="filters.routeId"
                      :company-id="filters.companyId"
+                     class="pr-3 flex xs6 sm4 md3"
                      @input="updateQueryParameters"
         />
-        <v-btn v-show="policies.canCreate(itemType)"
-               color="primary"
+      </v-layout>
+      <v-layout v-show="policies.canCreate(itemType)">
+        <v-spacer/>
+        <v-btn color="primary"
                @click="openModalForm({company_id: filters.companyId, route_id: filters.routeId})"
         >
           {{ $t('common.buttons.add') }}
@@ -120,7 +121,7 @@
                @saved="reloadTable"
       />
     </v-flex>
-  </v-layout>
+  </div>
 </template>
 
 <script>

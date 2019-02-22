@@ -1,7 +1,5 @@
 <template>
-  <v-layout row
-            wrap
-  >
+  <div>
     <v-flex class="mb-3"
             xs12
     >
@@ -15,6 +13,7 @@
           hide-details
           single-line
           clearable
+          class="pr-3 flex xs6 sm4 md3"
         />
       </v-layout>
     </v-flex>
@@ -85,7 +84,7 @@
                      @saved="reloadTable"
       />
     </v-flex>
-  </v-layout>
+  </div>
 </template>
 
 <script>

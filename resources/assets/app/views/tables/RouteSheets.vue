@@ -8,25 +8,25 @@
       >
         <CompanySelect v-if="policies.canSeeList(policies.itemsTypes.companies)"
                        v-model="filters.companyId"
-                       class="mr-3"
+                       class="pr-3 flex xs6 sm4 md3"
                        @input="updateQueryParameters"
         />
         <RouteSelect v-if="policies.canSeeList(policies.itemsTypes.routeSheets)"
                      v-model="filters.routeId"
                      :company-id="filters.companyId"
-                     class="mr-3"
+                     class="pr-3 flex xs6 sm4 md3"
                      @input="updateQueryParameters"
         />
         <BusSelect v-if="policies.canSeeList(policies.itemsTypes.buses)"
                    v-model="filters.busId"
                    :company-id="filters.companyId"
-                   class="mr-3"
+                   class="pr-3 flex xs6 sm4 md3"
                    @input="updateQueryParameters"
         />
         <DriverSelect v-if="policies.canSeeList(policies.itemsTypes.drivers)"
                       v-model="filters.driverId"
                       :company-id="filters.companyId"
-                      class="mr-3"
+                      class="pr-3 flex xs6 sm4 md3"
                       @input="updateQueryParameters"
         />
         <DateSelect v-model="activeFrom"
@@ -35,7 +35,7 @@
                     :default-minutes="0"
                     :default-seconds="0"
                     time-as-hint
-                    class="mr-3 v-input"
+                    class="pr-3 flex xs6 sm4 md3 v-input"
         />
         <DateSelect v-model="activeTo"
                     :label="$t('routeSheet.fields.active_to')"
@@ -43,13 +43,12 @@
                     :default-minutes="59"
                     :default-seconds="59"
                     time-as-hint
-                    class="v-input"
+                    class="pr-3 flex xs6 sm4 md3 v-input"
         />
       </v-layout>
-      <v-layout row>
+      <v-layout v-if="policies.canCreate(itemType)">
         <v-spacer/>
-        <v-btn v-if="policies.canCreate(itemType)"
-               color="primary"
+        <v-btn color="primary"
                @click="openModalForm({
                  company_id: filters.companyId,
                  route_id: filters.routeId,

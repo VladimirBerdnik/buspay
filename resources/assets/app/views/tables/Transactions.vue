@@ -7,26 +7,28 @@
                 wrap
       >
         <v-text-field v-model="search"
-                      :label="$t('common.placeholders.search')"
+                      :label="
+                        `${$t('common.placeholders.search')}: ${$t('card.fields.card_number')}`
+                      "
                       append-icon="search"
                       hide-details
                       single-line
                       clearable
-                      class="mr-3"
+                      class="pr-3 flex xs6 sm4 md3"
         />
         <CardTypesSelect v-if="policies.canSeeList(policies.itemsTypes.cardTypes)"
                          v-model="filters.cardTypeId"
-                         class="mr-3"
+                         class="pr-3 flex xs6 sm4 md3"
                          @input="updateQueryParameters"
         />
         <ValidatorSelect v-if="policies.canSeeList(policies.itemsTypes.validators)"
                          v-model="filters.validatorId"
-                         class="mr-3"
+                         class="pr-3 flex xs6 sm4 md3"
                          @input="updateQueryParameters"
         />
         <TariffSelect v-if="policies.canSeeList(policies.itemsTypes.tariffs)"
                       v-model="filters.tariffId"
-                      class="mr-3"
+                      class="pr-3 flex xs6 sm4 md3"
                       @input="updateQueryParameters"
         />
         <CompanySelect v-if="policies.canSeeList(policies.itemsTypes.companies)"
@@ -37,7 +39,7 @@
         <BusSelect v-if="policies.canSeeList(policies.itemsTypes.buses)"
                    v-model="filters.busId"
                    :company-id="filters.companyId"
-                   class="mr-3"
+                   class="pr-3 flex xs6 sm4 md3"
                    @input="updateQueryParameters"
         />
         <DateSelect v-model="activeFrom"
@@ -46,7 +48,7 @@
                     :default-minutes="0"
                     :default-seconds="0"
                     time-as-hint
-                    class="mr-3 v-input"
+                    class="pr-3 flex xs6 sm4 md3 v-input"
         />
         <DateSelect v-model="activeTo"
                     :label="$t('transaction.active_to')"
@@ -54,7 +56,7 @@
                     :default-minutes="59"
                     :default-seconds="59"
                     time-as-hint
-                    class="v-input"
+                    class="pr-3 flex xs6 sm4 md3 v-input"
         />
       </v-layout>
       <v-layout row>
