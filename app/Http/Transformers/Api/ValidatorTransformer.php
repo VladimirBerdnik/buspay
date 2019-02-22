@@ -39,7 +39,8 @@ class ValidatorTransformer extends BaseTransformer
     public function __construct(BusTransformer $busTransformer)
     {
         $this->busTransformer = $busTransformer;
-        $this->busTransformer->setDefaultIncludes([]);
+        $this->busTransformer->setDefaultIncludes([BusTransformer::INCLUDE_COMPANY]);
+        $this->busTransformer->getCompanyTransformer()->setDefaultIncludes([]);
     }
 
     /**

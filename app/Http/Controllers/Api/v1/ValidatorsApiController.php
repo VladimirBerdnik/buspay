@@ -50,15 +50,18 @@ class ValidatorsApiController extends BaseApiController
     {
         $this->authorize(Abilities::GET, new Validator());
 
-        return $this->response->collection(
-            $this->validatorService->getWith(
-                ['bus'],
-                [],
-                [],
-                new SortOptions(Validator::SERIAL_NUMBER)
-            ),
-            $this->transformer
+        $validators = $this->validatorService->getWith(
+            ['bus.company'],
+            [],
+            [],
+            new SortOptions(Validator::SERIAL_NUMBER)
         );
+
+        if ($this->singleCompanyUser()) {
+            $validators = $validators->where('bus.company_id', '=', $this->user->company_id);
+        }
+
+        return $this->response->collection($validators, $this->transformer);
     }
 
     /**

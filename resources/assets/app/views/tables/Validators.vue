@@ -62,6 +62,7 @@
           <td>{{ props.item.model }}</td>
           <td>{{ props.item.external_id }}</td>
           <td>{{ props.item.bus.state_number }}</td>
+          <td>{{ props.item.bus.company ? props.item.bus.company.name : '' }}</td>
           <td class="px-0">
             <div class="cell-buttons">
               <v-btn v-show="policies.canUpdate(policies.itemsTypes.validators)"
@@ -103,6 +104,7 @@ const headers = [
   { value: 'model' },
   { value: 'external_id' },
   { value: 'bus.state_number' },
+  { value: 'bus.company.name' },
 ];
 
 // Table headers translates

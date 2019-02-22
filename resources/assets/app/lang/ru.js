@@ -268,6 +268,9 @@ export default {
       external_id:   'Внешний ID',
       bus:           {
         state_number: 'Автобус',
+        company:      {
+          name: 'Компания',
+        },
       },
     },
   },
