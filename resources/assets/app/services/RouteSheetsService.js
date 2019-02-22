@@ -72,6 +72,17 @@ export default {
   },
 
   /**
+   * Deletes route sheet.
+   *
+   * @param {RouteSheet} routeSheet Route sheet to delete
+   *
+   * @return {*}
+   */
+  delete(routeSheet) {
+    return axios.delete(`/route_sheets/${routeSheet.id}/`);
+  },
+
+  /**
    * Returns currently loaded list of route sheets pagination information.
    *
    * @return {PaginationInfo}

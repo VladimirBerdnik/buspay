@@ -167,8 +167,9 @@ export default {
     },
   },
   routeSheet: {
-    name:   'Маршуртный лист',
-    fields: {
+    name:          'Маршуртный лист',
+    deleteConfirm: 'Удалить маршрутный лист "{item}"?',
+    fields:        {
       id:      'ID',
       company: {
         name: 'Компания',
