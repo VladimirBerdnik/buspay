@@ -25,8 +25,8 @@ return [
         Abilities::GET_DRIVERS_CARDS => [RolesIdentifiers::SUPPORT],
     ],
     EntitiesTypes::COMPANY => [
-        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
-        Abilities::SHOW => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
+        Abilities::SHOW => [RolesIdentifiers::SUPPORT],
         Abilities::CREATE => [],
         Abilities::UPDATE => [],
         Abilities::DELETE => [],
@@ -89,7 +89,7 @@ return [
         Abilities::DELETE => [],
     ],
     EntitiesTypes::VALIDATOR => [
-        Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT],
+        Abilities::GET => [RolesIdentifiers::SUPPORT],
         Abilities::SHOW => [RolesIdentifiers::SUPPORT],
         Abilities::UPDATE => [RolesIdentifiers::SUPPORT],
     ],
