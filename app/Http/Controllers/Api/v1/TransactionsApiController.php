@@ -114,27 +114,11 @@ class TransactionsApiController extends BaseApiController
     }
 
     /**
-     * Determines whether user can see transactions card details or not.
-     *
-     * @return boolean
-     */
-    private function canSeeCardDetails(): bool
-    {
-        try {
-            $this->authorize(Abilities::SHOW_TRANSACTION_CARD, new Transaction());
-        } catch (AuthorizationException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Sets card transformer according to card details access policy. Not all users can see full card data.
      */
     private function setAppropriateTransactionCardTransformer(): void
     {
-        if ($this->canSeeCardDetails()) {
+        if ($this->can(Abilities::SHOW_TRANSACTION_CARD, new Transaction())) {
             return;
         }
 
@@ -192,7 +176,7 @@ class TransactionsApiController extends BaseApiController
 
         $transactionsFilter = $this->getTransactionsFilterData($request);
 
-        $onlyDriverCardsNumbersVisible = $this->canSeeCardDetails();
+        $onlyDriverCardsNumbersVisible = $this->can(Abilities::SHOW_TRANSACTION_CARD, new Transaction());
 
         $exportedFileName = $this->transactionsExporter->export(
             $transactionsFilter,
