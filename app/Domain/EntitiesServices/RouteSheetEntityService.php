@@ -11,6 +11,8 @@ use App\Models\Company;
 use App\Models\Driver;
 use App\Models\Route;
 use App\Models\RouteSheet;
+use App\Models\Transaction;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Rule as IlluminateRule;
 use Illuminate\Validation\Rules\Exists;
@@ -20,7 +22,9 @@ use Saritasa\Laravel\Validation\DateRuleSet;
 use Saritasa\Laravel\Validation\GenericRuleSet;
 use Saritasa\Laravel\Validation\Rule;
 use Saritasa\Laravel\Validation\RuleSet;
+use Saritasa\LaravelRepositories\Contracts\IRepository;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
+use Throwable;
 use Validator;
 
 /**
@@ -29,6 +33,29 @@ use Validator;
 class RouteSheetEntityService extends EntityService
 {
     use ActivityPeriodFilterer;
+
+    /**
+     * Transaction entity service.
+     *
+     * @var TransactionEntityService
+     */
+    private $transactionEntityService;
+
+    /**
+     * Route sheet entity service.
+     *
+     * @param ConnectionInterface $connection Storage connection
+     * @param IRepository $repository Handled by service entities storage
+     * @param TransactionEntityService $transactionEntityService Transaction entity service
+     */
+    public function __construct(
+        ConnectionInterface $connection,
+        IRepository $repository,
+        TransactionEntityService $transactionEntityService
+    ) {
+        parent::__construct($connection, $repository);
+        $this->transactionEntityService = $transactionEntityService;
+    }
 
     /**
      * Returns validation rule to store or update route sheet.
@@ -183,6 +210,7 @@ class RouteSheetEntityService extends EntityService
      *
      * @throws RepositoryException
      * @throws ValidationException
+     * @throws Throwable
      */
     public function update(RouteSheet $routeSheet, RouteSheetData $routeSheetData): RouteSheet
     {
@@ -196,7 +224,29 @@ class RouteSheetEntityService extends EntityService
             $this->validationMessages()
         );
 
-        $this->getRepository()->save($routeSheet);
+        $this->handleTransaction(function () use ($routeSheet): void {
+            $this->getRepository()->save($routeSheet);
+
+            // Detach transactions that are not in interval
+            $transactionsToDetach =
+                array_merge(
+                    $routeSheet->transactions
+                        ->where(Transaction::AUTHORIZED_AT, '<', $routeSheet->active_from)
+                        ->all(),
+                    $routeSheet->transactions
+                        ->where(Transaction::AUTHORIZED_AT, '>', $routeSheet->active_to)
+                        ->all()
+                );
+
+            $transactionsCount = count($transactionsToDetach);
+            if ($transactionsCount > 0) {
+                Log::notice("{$transactionsCount} transaction(s) were detached from route sheet [{$routeSheet->id}]");
+            }
+
+            foreach ($transactionsToDetach as $transaction) {
+                $this->transactionEntityService->assignRouteSheet($transaction, null);
+            }
+        });
 
         Log::debug("Route sheet [{$routeSheet->id}] updated");
 

@@ -5,6 +5,7 @@ namespace App\Domain\Services;
 use App\Domain\EntitiesServices\BusesValidatorEntityService;
 use App\Domain\EntitiesServices\DriversCardEntityService;
 use App\Domain\EntitiesServices\RouteSheetService;
+use App\Domain\EntitiesServices\TransactionEntityService;
 use App\Domain\Exceptions\Constraint\CardAuthorization\CardWithoutDriverAuthorizationException;
 use App\Domain\Exceptions\Constraint\CardAuthorization\UnassignedValidatorCardAuthorizationException;
 use App\Domain\Exceptions\Constraint\CardAuthorization\UnexpectedCardAuthorizationException;
@@ -72,6 +73,13 @@ class CardAuthorizationService
     private $driversCardEntityService;
 
     /**
+     * Transaction entity service.
+     *
+     * @var TransactionEntityService
+     */
+    private $transactionEntityService;
+
+    /**
      * Card authorization entity service.
      *
      * @param CardService $cardService Cards service
@@ -79,19 +87,22 @@ class CardAuthorizationService
      * @param BusesValidatorEntityService $busesValidatorEntityService Bus to validator assignment entity service
      * @param DriversCardEntityService $driversCardEntityService Card to driver assignment entity service
      * @param PaymentValidationService $paymentValidationService Payment validation service
+     * @param TransactionEntityService $transactionEntityService Transaction entity service
      */
     public function __construct(
         CardService $cardService,
         RouteSheetService $routeSheetService,
         BusesValidatorEntityService $busesValidatorEntityService,
         DriversCardEntityService $driversCardEntityService,
-        PaymentValidationService $paymentValidationService
+        PaymentValidationService $paymentValidationService,
+        TransactionEntityService $transactionEntityService
     ) {
         $this->routeSheetService = $routeSheetService;
         $this->cardService = $cardService;
         $this->busesValidatorEntityService = $busesValidatorEntityService;
         $this->paymentValidationService = $paymentValidationService;
         $this->driversCardEntityService = $driversCardEntityService;
+        $this->transactionEntityService = $transactionEntityService;
     }
 
     /**
@@ -151,7 +162,7 @@ class CardAuthorizationService
     /**
      * Process card authorization.
      *
-     * @param Transaction $cardTransaction Card on validator authorization record
+     * @param Transaction $transaction Card on validator authorization record
      *
      * @return RouteSheet|null
      *
@@ -176,35 +187,41 @@ class CardAuthorizationService
      * @throws MissedPaymentException
      * @throws UnneededPaymentException
      */
-    public function processCardAuthorization(Transaction $cardTransaction): ?RouteSheet
+    public function processCardAuthorization(Transaction $transaction): ?RouteSheet
     {
-        $bus = $this->getValidBus($cardTransaction);
-        $card = $cardTransaction->card;
-        $authorizationDate = $cardTransaction->authorized_at;
+        $bus = $this->getValidBus($transaction);
+        $card = $transaction->card;
+        $authorizationDate = $transaction->authorized_at;
 
         $this->paymentValidationService->validatePaymentAmount(
             $card,
-            $cardTransaction->tariff,
-            $cardTransaction->amount,
+            $transaction->tariff,
+            $transaction->amount,
             $authorizationDate
         );
 
         if ($this->cardService->isIgnorableCard($card)) {
-            Log::debug('Ignorable card type authorization skipped', $cardTransaction->toArray());
+            Log::debug('Ignorable card type authentication skipped', $transaction->toArray());
 
-            return null;
+            $routeSheet = null;
         } elseif ($this->cardService->isDriverCard($card)) {
-            $driver = $this->getValidDriver($cardTransaction);
+            Log::debug('Driver card authentication');
 
-            return $this->routeSheetService->openForBusAndDriver($bus, $driver, $authorizationDate);
+            $driver = $this->getValidDriver($transaction);
+
+            $routeSheet = $this->routeSheetService->openForBusAndDriver($bus, $driver, $authorizationDate);
         } elseif ($this->cardService->isPassengerCard($card)) {
             Log::debug('Passenger card authentication');
 
-            return $this->routeSheetService->openForBusAndDriver($bus, null, $authorizationDate);
+            $routeSheet = $this->routeSheetService->openForBusAndDriver($bus, null, $authorizationDate);
         } else {
             Log::notice('Unknown card authentication', $card->toArray());
 
             throw new UnexpectedCardAuthorizationException($card);
         }
+
+        $this->transactionEntityService->assignRouteSheet($transaction, $routeSheet);
+
+        return $routeSheet;
     }
 }

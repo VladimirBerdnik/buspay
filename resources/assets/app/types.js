@@ -177,6 +177,7 @@
  * @property {number} validator_id Identifier of validator where card was authorized.
  * @property {number|null} tariff_id Identifier of tariff that was used to calculate payment amount.
  * @property {number|null} amount Payed during authorization amount.
+ * @property {number|null} route_sheet_id Identifier of related route sheet that contains this transaction.
  * @property {number} external_id Identifier of transaction in external storage.
  * @property {string} authorized_at Date when card was authorized.
  * @property {Card} card Card that was authorized.

@@ -104,23 +104,25 @@
       <template slot="items"
                 slot-scope="props"
       >
-        <td>{{ props.item.id }}</td>
-        <ActionCell :item-type="itemType"
-                    :intention="policies.intentions.showTransactionCard"
-                    @activate="goToCardDetails(props.item.card.card_number)"
-        >
-          {{ props.item.card.card_number }}
-        </ActionCell>
-        <td>{{ props.item.card.cardType.name }}</td>
-        <td>{{ props.item.tariff.name }}</td>
-        <td>{{ props.item.amount }}</td>
-        <td>{{ props.item.routeSheet.bus.state_number }}</td>
-        <td>{{ props.item.routeSheet.route.name }}</td>
-        <td>{{ props.item.validator.serial_number }}</td>
-        <td>{{ props.item.routeSheet.company.name }}</td>
-        <td>{{ props.item.authorized_at | timeStamp }}</td>
-        <td>{{ props.item.external_id }}</td>
-        <td/>
+        <tr :class="{ warning: !props.item.route_sheet_id }">
+          <td>{{ props.item.id }}</td>
+          <ActionCell :item-type="itemType"
+                      :intention="policies.intentions.showTransactionCard"
+                      @activate="goToCardDetails(props.item.card.card_number)"
+          >
+            {{ props.item.card.card_number }}
+          </ActionCell>
+          <td>{{ props.item.card.cardType.name }}</td>
+          <td>{{ props.item.tariff.name }}</td>
+          <td>{{ props.item.amount }}</td>
+          <td>{{ props.item.route_sheet_id ? props.item.routeSheet.bus.state_number : null }}</td>
+          <td>{{ props.item.route_sheet_id ? props.item.routeSheet.route.name : null }}</td>
+          <td>{{ props.item.validator.serial_number }}</td>
+          <td>{{ props.item.route_sheet_id ? props.item.routeSheet.company.name : null }}</td>
+          <td>{{ props.item.authorized_at | timeStamp }}</td>
+          <td>{{ props.item.external_id }}</td>
+          <td/>
+        </tr>
       </template>
 
     </v-data-table>

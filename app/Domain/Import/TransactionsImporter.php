@@ -309,8 +309,7 @@ class TransactionsImporter extends ExternalEntitiesImportService
         try {
             return DB::transaction(function () use ($transactionData): Transaction {
                 $transaction = $this->transactionEntityService->store($transactionData);
-                $routeSheet = $this->cardAuthorizationService->processCardAuthorization($transaction);
-                $this->transactionEntityService->assignRouteSheet($transaction, $routeSheet);
+                $this->cardAuthorizationService->processCardAuthorization($transaction);
 
                 return $transaction;
             });
