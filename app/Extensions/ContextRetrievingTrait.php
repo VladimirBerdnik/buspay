@@ -22,7 +22,7 @@ trait ContextRetrievingTrait
     {
         $result = [];
 
-        $class = new ReflectionClass(__CLASS__);
+        $class = new ReflectionClass(static::class);
         $protectedProperties = $class->getProperties(ReflectionProperty::IS_PROTECTED);
 
         foreach ($protectedProperties as $protectedProperty) {
