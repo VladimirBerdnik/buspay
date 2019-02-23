@@ -37,7 +37,7 @@ class CompaniesRouteEntityService extends ModelRelationActivityPeriodService
         try {
             return $this->openPeriod($route, $company, $activeFrom);
         } catch (TooManyActivityPeriodsException $e) {
-            throw new TooManyCompanyRoutesException($e->getDate(), $route, $e->getActivityPeriods());
+            throw new TooManyCompanyRoutesException($activeFrom, $route, $e->getActivityPeriods());
         } catch (ActivityPeriodExistsException $e) {
             throw new CompanyRouteExistsException($e->getActivityPeriod());
         }

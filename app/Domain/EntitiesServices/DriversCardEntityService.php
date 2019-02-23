@@ -38,7 +38,7 @@ class DriversCardEntityService extends ModelRelationActivityPeriodService
         try {
             return $driversCard = $this->openPeriod($driver, $card, $activeFrom);
         } catch (TooManyActivityPeriodsException $e) {
-            throw new TooManyDriverCardsException($e->getDate(), $driver, $e->getActivityPeriods());
+            throw new TooManyDriverCardsException($activeFrom, $driver, $e->getActivityPeriods());
         } catch (ActivityPeriodExistsException $e) {
             throw new DriverCardExistsException($e->getActivityPeriod());
         }

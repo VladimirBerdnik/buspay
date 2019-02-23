@@ -115,8 +115,6 @@ class CardEntityService extends EntityService
      *
      * @return Card
      *
-     * @throws RepositoryException
-     * @throws ValidationException
      * @throws Throwable
      */
     public function update(Card $card, CardData $cardData): Card

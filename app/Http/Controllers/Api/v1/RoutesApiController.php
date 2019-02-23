@@ -11,7 +11,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\ValidationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
-use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
 use Saritasa\Transformers\IDataTransformer;
 use Throwable;
 
@@ -71,7 +70,6 @@ class RoutesApiController extends BaseApiController
      *
      * @return Response
      *
-     * @throws RepositoryException
      * @throws ValidationException
      * @throws Throwable
      */
@@ -92,7 +90,6 @@ class RoutesApiController extends BaseApiController
      *
      * @return Response
      *
-     * @throws RepositoryException
      * @throws ValidationException
      * @throws Throwable
      */
@@ -112,8 +109,6 @@ class RoutesApiController extends BaseApiController
      *
      * @return Response
      *
-     * @throws RepositoryException
-     * @throws ValidationException
      * @throws Throwable
      */
     public function destroy(Route $route): Response

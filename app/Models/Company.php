@@ -28,6 +28,7 @@ use Illuminate\Support\Collection;
  * @property Collection|Driver[] $drivers All drivers that are work in this company
  * @property Collection|Route[] $routes Currently assigned routes
  * @property Collection|User[] $users All company application users
+ * @property Collection|RouteSheet[] $routeSheets All company route sheets
  */
 class Company extends Model implements IHasActivityPeriodsHistory, IActivityPeriodRelated
 {
@@ -118,6 +119,16 @@ class Company extends Model implements IHasActivityPeriodsHistory, IActivityPeri
     public function routes(): HasMany
     {
         return $this->hasMany(Route::class);
+    }
+
+    /**
+     * All company route sheets.
+     *
+     * @return HasMany
+     */
+    public function routeSheets(): HasMany
+    {
+        return $this->hasMany(RouteSheet::class);
     }
 
     /**

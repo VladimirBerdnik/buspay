@@ -33,14 +33,14 @@ use Dingo\Api\Exception\RateLimitExceededException;
 return [
     'constraint' => [
         'type' => 'Попытка нарушения ограничений',
-        BusDeletionException::class => 'Автобус с назначенными водителями и валидаторами не может быть удален',
+        BusDeletionException::class => 'Автобус с назначенными водителями, валидаторами или маршрутными листами не может быть удален',
         BusReassignException::class => 'Автобус не может быть переназначен на другую компанию. Создайте новый',
-        CompanyDeletionException::class => 'Компания со связанными данными не может быть удалена. Проверьте список автобусов, маршрутов, водителей и пользователей',
+        CompanyDeletionException::class => 'Компания со связанными данными не может быть удалена. Проверьте список автобусов, маршрутов, водителей, пользователей и маршрутных листов',
         CompanyRouteExistsException::class => 'Этот маршрут уже назначен компании',
         DriverCardExistsException::class => 'Эта карта уже назначена водителю',
         DriverDeletionException::class => 'Водитель с назначенной картой не может быть удален',
         DriverReassignException::class => 'Водитель не может быть переназначен на другую компанию. Создайте нового',
-        RouteDeletionException::class => 'Маршурт со связанными данными не может быть удален. Проверьте список автобусов',
+        RouteDeletionException::class => 'Маршурт со связанными данными не может быть удален. Проверьте список автобусов и маршрутных листов',
         RouteReassignException::class => 'Маршурт с назначенными автобусами не может быть переназначен на другую компанию',
         CardWithoutDriverAuthorizationException::class => 'Авторизация водительской картой без водителя',
         UnassignedValidatorCardAuthorizationException::class => 'Авторизация на валидаторе, не зарегистрированном на автобусе',

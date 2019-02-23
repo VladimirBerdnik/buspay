@@ -123,7 +123,7 @@ class BusEntityService extends EntityService
     {
         Log::debug("Delete bus [{$bus->id}] attempt");
 
-        if ($bus->drivers->isNotEmpty() || $bus->validators->isNotEmpty()) {
+        if ($bus->drivers->isNotEmpty() || $bus->validators->isNotEmpty() || $bus->routeSheets->isNotEmpty()) {
             throw new BusDeletionException($bus);
         }
 

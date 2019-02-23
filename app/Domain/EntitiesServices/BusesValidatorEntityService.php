@@ -37,7 +37,7 @@ class BusesValidatorEntityService extends ModelRelationActivityPeriodService
         try {
             return $this->openPeriod($validator, $bus, $activeFrom);
         } catch (TooManyActivityPeriodsException $e) {
-            throw new TooManyBusValidatorsException($e->getDate(), $validator, $e->getActivityPeriods());
+            throw new TooManyBusValidatorsException($activeFrom, $validator, $e->getActivityPeriods());
         } catch (ActivityPeriodExistsException $e) {
             throw new BusValidatorExistsException($e->getActivityPeriod());
         }

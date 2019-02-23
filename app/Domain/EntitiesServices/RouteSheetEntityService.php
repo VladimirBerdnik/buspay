@@ -221,7 +221,7 @@ class RouteSheetEntityService extends EntityService
     /**
      * Assigns driver to route sheet.
      *
-     * @param RouteSheet $routeSheet Route sheet to assign friver to
+     * @param RouteSheet $routeSheet Route sheet to assign driver to
      * @param Driver $driver New driver to assign
      *
      * @return RouteSheet

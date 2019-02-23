@@ -81,7 +81,6 @@ class RouteEntityService extends EntityService
      *
      * @return Route
      *
-     * @throws RepositoryException
      * @throws ValidationException
      * @throws Throwable
      */
@@ -114,7 +113,6 @@ class RouteEntityService extends EntityService
      *
      * @return Route
      *
-     * @throws RepositoryException
      * @throws ValidationException
      * @throws Throwable
      */
@@ -169,15 +167,13 @@ class RouteEntityService extends EntityService
      *
      * @param Route $route Route to delete
      *
-     * @throws RepositoryException
-     * @throws ValidationException
      * @throws Throwable
      */
     public function destroy(Route $route): void
     {
         Log::debug("Delete route [{$route->id}] attempt");
 
-        if ($route->buses->isNotEmpty()) {
+        if ($route->buses->isNotEmpty() || $route->routeSheets->isNotEmpty()) {
             throw new RouteDeletionException($route);
         }
 

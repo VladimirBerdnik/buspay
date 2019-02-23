@@ -74,6 +74,7 @@ class CompanyEntityService extends EntityService
             || $company->drivers->isNotEmpty()
             || $company->buses->isNotEmpty()
             || $company->users->isNotEmpty()
+            || $company->routeSheets->isNotEmpty()
         ) {
             throw new CompanyDeletionException($company);
         }
