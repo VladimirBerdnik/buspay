@@ -16,6 +16,7 @@ use App\Domain\Exceptions\Constraint\Payment\MissedPaymentException;
 use App\Domain\Exceptions\Constraint\Payment\UnneededPaymentException;
 use App\Domain\Exceptions\Constraint\RouteDeletionException;
 use App\Domain\Exceptions\Constraint\RouteReassignException;
+use App\Domain\Exceptions\Constraint\RouteSheetDeletionException;
 use App\Domain\Exceptions\Integrity\InconsistentRouteSheetStateException;
 use App\Domain\Exceptions\Integrity\NoCompanyForRouteException;
 use App\Domain\Exceptions\Integrity\NoDriverForCardException;
@@ -41,6 +42,7 @@ return [
         DriverDeletionException::class => 'Водитель с назначенной картой не может быть удален',
         DriverReassignException::class => 'Водитель не может быть переназначен на другую компанию. Создайте нового',
         RouteDeletionException::class => 'Маршурт со связанными данными не может быть удален. Проверьте список автобусов и маршрутных листов',
+        RouteSheetDeletionException::class => 'Маршуртный лист с транзакциями не может быть удален',
         RouteReassignException::class => 'Маршурт с назначенными автобусами не может быть переназначен на другую компанию',
         CardWithoutDriverAuthorizationException::class => 'Авторизация водительской картой без водителя',
         UnassignedValidatorCardAuthorizationException::class => 'Авторизация на валидаторе, не зарегистрированном на автобусе',

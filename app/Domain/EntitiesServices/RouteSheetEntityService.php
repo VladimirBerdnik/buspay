@@ -3,6 +3,7 @@
 namespace App\Domain\EntitiesServices;
 
 use App\Domain\Dto\RouteSheetData;
+use App\Domain\Exceptions\Constraint\RouteSheetDeletionException;
 use App\Extensions\ActivityPeriod\ActivityPeriodFilterer;
 use App\Extensions\EntityService;
 use App\Models\Bus;
@@ -212,6 +213,10 @@ class RouteSheetEntityService extends EntityService
     public function destroy(RouteSheet $routeSheet): void
     {
         Log::debug("Delete route sheet [{$routeSheet->id}] attempt");
+
+        if ($routeSheet->transactions->isNotEmpty()) {
+            throw new RouteSheetDeletionException($routeSheet);
+        }
 
         $this->getRepository()->delete($routeSheet);
 
