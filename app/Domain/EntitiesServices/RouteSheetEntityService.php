@@ -3,7 +3,6 @@
 namespace App\Domain\EntitiesServices;
 
 use App\Domain\Dto\RouteSheetData;
-use App\Domain\Exceptions\Constraint\RouteSheetDeletionException;
 use App\Extensions\ActivityPeriod\ActivityPeriodFilterer;
 use App\Extensions\EntityService;
 use App\Models\Bus;
@@ -208,7 +207,6 @@ class RouteSheetEntityService extends EntityService
      *
      * @return RouteSheet
      *
-     * @throws RepositoryException
      * @throws ValidationException
      * @throws Throwable
      */
@@ -258,17 +256,25 @@ class RouteSheetEntityService extends EntityService
      *
      * @param RouteSheet $routeSheet Route sheet to delete
      *
-     * @throws RepositoryException
+     * @throws Throwable
      */
     public function destroy(RouteSheet $routeSheet): void
     {
         Log::debug("Delete route sheet [{$routeSheet->id}] attempt");
 
-        if ($routeSheet->transactions->isNotEmpty()) {
-            throw new RouteSheetDeletionException($routeSheet);
-        }
+        $this->handleTransaction(function () use ($routeSheet): void {
+            // Detach transactions that are not in interval
+            $transactionsCount = count($routeSheet->transactions);
+            if ($transactionsCount > 0) {
+                Log::notice("{$transactionsCount} transaction(s) were detached from route sheet [{$routeSheet->id}]");
+            }
 
-        $this->getRepository()->delete($routeSheet);
+            foreach ($routeSheet->transactions as $transaction) {
+                $this->transactionEntityService->assignRouteSheet($transaction, null);
+            }
+
+            $this->getRepository()->delete($routeSheet);
+        });
 
         Log::debug("Route sheet [{$routeSheet->id}] deleted");
     }
