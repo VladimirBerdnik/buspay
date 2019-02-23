@@ -92,10 +92,12 @@ class TransactionsExporter
                         $transaction->card->cardType->name,
                         $transaction->tariff ? $transaction->tariff->name : null,
                         $transaction->amount,
-                        $transaction->routeSheet->bus->state_number,
-                        $transaction->routeSheet->route ? $transaction->routeSheet->route->name : null,
+                        $transaction->routeSheet ? $transaction->routeSheet->bus->state_number : null,
+                        $transaction->routeSheet && $transaction->routeSheet->route
+                            ? $transaction->routeSheet->route->name
+                            : null,
                         $transaction->validator->serial_number,
-                        $transaction->routeSheet->company->name,
+                        $transaction->routeSheet ? $transaction->routeSheet->company->name : null,
                         $transaction->authorized_at->toIso8601String(),
                     ];
                     fputcsv($file, $requiredData);
