@@ -117,7 +117,6 @@ class RouteSheetsApiController extends BaseApiController
      *
      * @return Response
      *
-     * @throws RepositoryException
      * @throws ValidationException
      * @throws Throwable
      */
@@ -141,7 +140,6 @@ class RouteSheetsApiController extends BaseApiController
      *
      * @return Response
      *
-     * @throws RepositoryException
      * @throws Throwable
      */
     public function destroy(RouteSheet $routeSheet): Response

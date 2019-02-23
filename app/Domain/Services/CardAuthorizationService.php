@@ -31,6 +31,7 @@ use Log;
 use Saritasa\Exceptions\ConfigurationException;
 use Saritasa\Exceptions\InvalidEnumValueException;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
+use Throwable;
 
 /**
  * Card authorization entity service.
@@ -186,6 +187,7 @@ class CardAuthorizationService
      * @throws InvalidPaymentAmountException
      * @throws MissedPaymentException
      * @throws UnneededPaymentException
+     * @throws Throwable
      */
     public function processCardAuthorization(Transaction $transaction): ?RouteSheet
     {

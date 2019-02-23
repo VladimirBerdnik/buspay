@@ -21,6 +21,7 @@ use Saritasa\Exceptions\NotImplementedException;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 use Saritasa\LaravelRepositories\Enums\OrderDirections;
 use Saritasa\LaravelRepositories\Exceptions\RepositoryException;
+use Throwable;
 
 /**
  * Route sheets service.
@@ -140,7 +141,7 @@ class RouteSheetService
      * @param Carbon|null $date Date when route sheet should be closed
      *
      * @throws ValidationException
-     * @throws RepositoryException
+     * @throws Throwable
      */
     public function closeRouteSheet(RouteSheet $routeSheet, ?Carbon $date = null): void
     {
@@ -233,6 +234,7 @@ class RouteSheetService
      * @throws InconsistentRouteSheetStateException
      * @throws InvalidEnumValueException
      * @throws RepositoryException
+     * @throws Throwable
      * @throws TooManyBusRouteSheetsForDateException
      * @throws TooManyDriverRouteSheetsForDateException
      * @throws ValidationException

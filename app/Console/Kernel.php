@@ -7,6 +7,7 @@ use App\Console\Commands\ImportCardsCommand;
 use App\Console\Commands\ImportReplenishmentsCommand;
 use App\Console\Commands\ImportTransactionsCommand;
 use App\Console\Commands\ImportValidatorsCommand;
+use App\Console\Commands\ProcessUnassignedTransactions;
 use App\Console\Commands\VerifyReplenishmentsCommand;
 use App\Console\Commands\VerifyTransactionsCommand;
 use App\Console\Commands\VerifyValidatorsCommand;
@@ -32,6 +33,7 @@ class Kernel extends ConsoleKernel
         VerifyReplenishmentsCommand::class,
         VerifyTransactionsCommand::class,
         VerifyValidatorsCommand::class,
+        ProcessUnassignedTransactions::class,
     ];
 
     /**
