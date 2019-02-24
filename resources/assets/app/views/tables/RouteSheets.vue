@@ -68,6 +68,12 @@
         >
           {{ $t('common.buttons.add') }}
         </v-btn>
+        <v-btn color="success"
+               @click="exportRecords"
+        >
+          <v-icon>file_download</v-icon>
+          {{ $t('common.buttons.export') }}
+        </v-btn>
       </v-layout>
     </v-flex>
     <v-data-table :headers="headers"

@@ -167,5 +167,6 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
                 ApiResourceRegistrar::ACTION_DESTROY,
             ],
         ], RouteSheet::class);
+        $registrar->get('route_sheets/export', RouteSheetsApiController::class, 'export');
     });
 });

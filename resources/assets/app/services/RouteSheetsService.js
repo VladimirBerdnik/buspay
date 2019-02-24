@@ -3,6 +3,7 @@ import axios from '../config/axios';
 import store from '../store/index';
 import { ROUTE_SHEETS_MUTATION, ROUTE_SHEETS_PAGINATION_MUTATION } from '../store/mutations';
 import { ROUTE_SHEETS_GETTER, ROUTE_SHEETS_PAGINATION_GETTER } from '../store/getters';
+import DownloadService from './DownloadService';
 
 export default {
   $store: store,
@@ -41,6 +42,20 @@ export default {
     this.itemsPaginationMutation(response.data.pagination || {});
 
     return response.data;
+  },
+
+
+  /**
+   * Initiates route sheets list downloading.
+   *
+   * @param {Object} params Request parameters such as filters and sorting details
+   *
+   * @throws Error
+   */
+  async export(params) {
+    const response = await axios.get('/route_sheets/export', { params, responseType: 'blob' });
+
+    DownloadService.downloadAsFile(response.data, 'routeSheets.csv');
   },
 
   /**
