@@ -3,6 +3,7 @@ import axios from '../config/axios';
 import store from '../store/index';
 import { TRANSACTIONS_MUTATION, TRANSACTIONS_PAGINATION_MUTATION } from '../store/mutations';
 import { TRANSACTIONS_GETTER, TRANSACTIONS_PAGINATION_GETTER } from '../store/getters';
+import DownloadService from './DownloadService';
 
 export default {
   $store: store,
@@ -53,13 +54,7 @@ export default {
   async export(params) {
     const response = await axios.get('/transactions/export', { params, responseType: 'blob' });
 
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-
-    link.href = url;
-    link.setAttribute('download', 'transactions.csv');
-    document.body.appendChild(link);
-    link.click();
+    DownloadService.downloadAsFile(response.data, 'transactions.csv');
   },
 
   /**

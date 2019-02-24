@@ -157,7 +157,7 @@ class TransactionsApiController extends BaseApiController
     }
 
     /**
-     * Returns transactions list.
+     * Exports transactions list.
      *
      * @param PaginatedSortedFilteredListRequest $request Request with parameters to retrieve paginated sorted filtered
      *     list of items

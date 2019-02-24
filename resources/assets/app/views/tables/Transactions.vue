@@ -61,7 +61,7 @@
       </v-layout>
       <v-layout row>
         <v-spacer/>
-        <v-btn color="primary"
+        <v-btn color="success"
                @click="exportRecords"
         >
           <v-icon>file_download</v-icon>

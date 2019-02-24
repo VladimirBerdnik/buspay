@@ -7,12 +7,13 @@ use App\Domain\Enums\CardTypesIdentifiers;
 use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
 use Illuminate\Support\Collection;
+use Log;
 use Saritasa\LaravelRepositories\DTO\SortOptions;
 
 /**
  * Transactions records exporter.
  */
-class TransactionsExporter
+class TransactionsExporter extends CsvFileExporter
 {
     /**
      * Transactions records storage.
@@ -46,9 +47,10 @@ class TransactionsExporter
         SortOptions $sortOptions,
         bool $onlyDriverCardsNumbersVisible
     ): string {
-        $exportChunkSize = 100;
-        $filename = tempnam(sys_get_temp_dir(), 'buspay');
-        $file = fopen($filename, 'r+');
+        Log::debug('Transactions export process started', $transactionsFilter->toArray());
+
+        $filename = $this->getTempFileName();
+        $file = $this->openFile($filename);
 
         $headers = [
             trans('transactionsExport.id'),
@@ -62,7 +64,7 @@ class TransactionsExporter
             trans('transactionsExport.routeSheet.company.name'),
             trans('transactionsExport.authorized_at'),
         ];
-        fputcsv($file, $headers);
+        $this->putRow($file, $headers);
 
         $this->repository->getFilteredChunkWith(
             [
@@ -76,7 +78,7 @@ class TransactionsExporter
             [],
             $transactionsFilter,
             $sortOptions,
-            $exportChunkSize,
+            $this->exportChunkSize,
             function (Collection $transactions) use ($onlyDriverCardsNumbersVisible, $file): void {
                 /**
                  * Transaction to put into file.
@@ -100,12 +102,14 @@ class TransactionsExporter
                         $transaction->routeSheet ? $transaction->routeSheet->company->name : null,
                         $transaction->authorized_at->toIso8601String(),
                     ];
-                    fputcsv($file, $requiredData);
+                    $this->putRow($file, $requiredData);
                 }
             }
         );
 
-        fclose($file);
+        $this->closeFile($file);
+
+        Log::debug("Transactions export process to file {$filename} finished");
 
         return $filename;
     }
