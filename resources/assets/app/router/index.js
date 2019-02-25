@@ -15,6 +15,7 @@ import RouteSheets from '../views/tables/RouteSheets';
 import Replenishments from '../views/tables/Replenishments';
 import CardDetails from '../views/CardDetails';
 import Transactions from '../views/tables/Transactions';
+import GeneralReport from '../views/tables/GeneralReport';
 
 export const ROUTE_HOME = 'home';
 export const ROUTE_CABINET = 'cabinet';
@@ -31,6 +32,7 @@ export const ROUTE_ROUTE_SHEETS = 'routeSheets';
 export const ROUTE_CARD_DETAILS = 'cardDetails';
 export const ROUTE_REPLENISHMENTS = 'replenishments';
 export const ROUTE_TRANSACTIONS = 'transactions';
+export const ROUTE_GENERAL_REPORT = 'generalReport';
 
 Vue.use(Router);
 
@@ -58,6 +60,7 @@ export default new Router({
       { path: 'routeSheets', component: RouteSheets, name: ROUTE_ROUTE_SHEETS },
       { path: 'replenishments', component: Replenishments, name: ROUTE_REPLENISHMENTS },
       { path: 'transactions', component: Transactions, name: ROUTE_TRANSACTIONS },
+      { path: 'reports/general', component: GeneralReport, name: ROUTE_GENERAL_REPORT },
     ],
   }, {
     path:      '/info/:cardNumber',
