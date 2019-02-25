@@ -65,6 +65,13 @@ return [
     ],
     EntitiesTypes::TARIFF => [
         Abilities::GET => [RolesIdentifiers::OPERATOR, RolesIdentifiers::SUPPORT, RolesIdentifiers::GOVERNMENT],
+        Abilities::SHOW => [],
+        Abilities::CREATE => [],
+        Abilities::UPDATE => [],
+        Abilities::DELETE => [],
+    ],
+    EntitiesTypes::TARIFF_FARE => [
+        Abilities::GET => [RolesIdentifiers::SUPPORT],
         Abilities::SHOW => [RolesIdentifiers::SUPPORT],
         Abilities::CREATE => [],
         Abilities::UPDATE => [],

@@ -8,6 +8,7 @@ export const PROFILE_GETTER = 'profile';
 export const CARD_TYPES_GETTER = 'cardTypes';
 export const TARIFF_PERIODS_GETTER = 'tariffPeriods';
 export const TARIFFS_GETTER = 'tariffs';
+export const TARIFF_FARES_GETTER = 'tariffFares';
 export const COMPANIES_GETTER = 'companies';
 export const USERS_GETTER = 'users';
 export const ROLES_GETTER = 'roles';
@@ -67,6 +68,7 @@ const simpleGetters = [
   CARD_TYPES_GETTER,
   TARIFF_PERIODS_GETTER,
   TARIFFS_GETTER,
+  TARIFF_FARES_GETTER,
   COMPANIES_GETTER,
   USERS_GETTER,
   ROLES_GETTER,

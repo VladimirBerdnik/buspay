@@ -72,6 +72,7 @@ import AlertsService from '../services/AlertsService';
 import TheSplashScreen from '../components/TheSplashScreen';
 import PoliciesService from '../services/PoliciesService';
 import ProfileService from '../services/ProfileService';
+import TariffsService from '../services/TariffsService';
 
 const cabinetPreparationSteps = {
   [itemsTypes.roles]:        { text: i18n.t('layout.drawer.role'), ready: false, service: RolesService },
@@ -83,6 +84,7 @@ const cabinetPreparationSteps = {
   [itemsTypes.drivers]:      { text: i18n.t('layout.drawer.driver'), ready: false, service: DriversService },
   [itemsTypes.validators]:   { text: i18n.t('layout.drawer.validator'), ready: false, service: ValidatorsService },
   [itemsTypes.cardTypes]:    { text: i18n.t('layout.drawer.cardType'), ready: false, service: CardTypesService },
+  [itemsTypes.tariffs]:      { text: i18n.t('layout.drawer.tariff'), ready: false, service: TariffsService },
 };
 
 export default {
@@ -97,7 +99,7 @@ export default {
       [itemsTypes.buses]:          { icon: 'directions_bus', to: { name: routes.ROUTE_BUSES } },
       [itemsTypes.drivers]:        { icon: 'recent_actors', to: { name: routes.ROUTE_DRIVERS } },
       [itemsTypes.validators]:     { icon: 'nfc', to: { name: routes.ROUTE_VALIDATORS } },
-      [itemsTypes.tariffs]:        { icon: 'attach_money', to: { name: routes.ROUTE_TARIFFS } },
+      [itemsTypes.tariffFares]:    { icon: 'attach_money', to: { name: routes.ROUTE_TARIFF_FARES } },
       [itemsTypes.cardTypes]:      { icon: 'style', to: { name: routes.ROUTE_CARD_TYPES } },
       [itemsTypes.cards]:          { icon: 'credit_card', to: { name: routes.ROUTE_CARDS } },
       [itemsTypes.routeSheets]:    { icon: 'today', to: { name: routes.ROUTE_ROUTE_SHEETS } },

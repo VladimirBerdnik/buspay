@@ -3,6 +3,8 @@ import axios from '../config/axios';
 import store from '../store/index';
 import { COMPANIES_MUTATION } from '../store/mutations';
 import { COMPANIES_GETTER } from '../store/getters';
+import UsersService from './UsersService';
+import ProfileService from './ProfileService';
 
 export default {
   $store: store,
@@ -67,11 +69,17 @@ export default {
   },
 
   /**
-   * Returns list of companies.
+   * Returns list of companies. Substitutes companies list of user that is linked with company.
    *
    * @return {Company[]}
    */
   get() {
+    const user = ProfileService.get();
+
+    if (user && UsersService.roleWithCompany(user.role.id)) {
+      return [user.company];
+    }
+
     return this.companies();
   },
 };

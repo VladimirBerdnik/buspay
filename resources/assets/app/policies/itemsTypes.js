@@ -14,6 +14,7 @@ export default {
   routeSheets:    'routeSheet',
   routes:         'route',
   tariffs:        'tariff',
+  tariffFares:    'tariffFare',
   tariffsPeriods: 'tariffPeriod',
   transactions:   'transaction',
   users:          'user',

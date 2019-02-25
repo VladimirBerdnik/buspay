@@ -98,6 +98,7 @@ export default {
       validator:     'Валидаторы',
       routeSheet:    'Маршрутные листы',
       tariff:        'Тарифы',
+      tariffFare:    'Тарифы',
       cardType:      'Типы карт',
       card:          'Карты',
       role:          'Роли пользователей',

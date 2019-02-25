@@ -16,6 +16,7 @@ use App\Models\Role;
 use App\Models\Route;
 use App\Models\RouteSheet;
 use App\Models\Tariff;
+use App\Models\TariffFare;
 use App\Models\TariffPeriod;
 use App\Models\Transaction;
 use App\Models\User;
@@ -76,6 +77,7 @@ class EntityTypePolicy
             RouteSheet::class => EntitiesTypes::ROUTE_SHEET,
             Route::class => EntitiesTypes::ROUTE,
             Tariff::class => EntitiesTypes::TARIFF,
+            TariffFare::class => EntitiesTypes::TARIFF_FARE,
             TariffPeriod::class => EntitiesTypes::TARIFF_PERIOD,
             User::class => EntitiesTypes::USER,
             Validator::class => EntitiesTypes::VALIDATOR,
