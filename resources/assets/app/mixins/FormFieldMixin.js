@@ -23,5 +23,9 @@ export default {
       type:    String,
       default: null,
     },
+    disabled: {
+      type:    String,
+      default: null,
+    },
   },
 };

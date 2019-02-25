@@ -4,6 +4,7 @@
                   :label="$t('driver.name')"
                   :clearable="!readonly && clearable"
                   :readonly="readonly"
+                  :disabled="disabled"
                   :error-messages="errorMessages"
                   :item-text="itemText"
                   :item-value="itemValue"

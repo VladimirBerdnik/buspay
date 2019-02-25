@@ -15,6 +15,7 @@
       slot="activator"
       v-model="dateFormatted"
       :label="label"
+      :disabled="disabled"
       :error-messages="errorMessages"
       :clearable="!readonly && clearable"
       :readonly="readonly"
