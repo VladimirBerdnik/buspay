@@ -13,7 +13,7 @@ return [
             LogLevel::WARNING,
             LogLevel::NOTICE,
             LogLevel::INFO,
-            LogLevel::DEBUG,
+            // LogLevel::DEBUG,
         ],
     ],
     'errors' => [
