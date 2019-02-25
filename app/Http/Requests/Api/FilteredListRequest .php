@@ -84,7 +84,7 @@ class FilteredListRequest extends ApiRequest
             return null;
         }
 
-        return Carbon::parse($activeFrom);
+        return Carbon::parse($activeFrom)->setTimezone(config('app.timezone'));
     }
 
     /**
@@ -99,6 +99,6 @@ class FilteredListRequest extends ApiRequest
             return null;
         }
 
-        return Carbon::parse($activeFrom);
+        return Carbon::parse($activeFrom)->setTimezone(config('app.timezone'));
     }
 }
