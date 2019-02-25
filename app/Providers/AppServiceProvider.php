@@ -35,6 +35,7 @@ use App\Http\Controllers\Api\v1\CardsApiController;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\DriversApiController;
+use App\Http\Controllers\Api\v1\GeneralReportApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\ReplenishmentsApiController;
 use App\Http\Controllers\Api\v1\RolesApiController;
@@ -52,6 +53,7 @@ use App\Http\Transformers\Api\CardTransformer;
 use App\Http\Transformers\Api\CardTypeTransformer;
 use App\Http\Transformers\Api\CompanyTransformer;
 use App\Http\Transformers\Api\DriverTransformer;
+use App\Http\Transformers\Api\GeneralReportTransformer;
 use App\Http\Transformers\Api\ProfileTransformer;
 use App\Http\Transformers\Api\ReplenishmentTransformer;
 use App\Http\Transformers\Api\RoleTransformer;
@@ -195,6 +197,7 @@ class AppServiceProvider extends ServiceProvider
         $app->when(TransactionsApiController::class)->needs($transformer)->give(TransactionTransformer::class);
         $app->when(UsersApiController::class)->needs($transformer)->give(ProfileTransformer::class);
         $app->when(ValidatorsApiController::class)->needs($transformer)->give(ValidatorTransformer::class);
+        $app->when(GeneralReportApiController::class)->needs($transformer)->give(GeneralReportTransformer::class);
     }
 
     /**

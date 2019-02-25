@@ -33,6 +33,28 @@ export default {
       search: 'Поиск',
     },
   },
+  reports: {
+    general: {
+      fields: {
+        company:           'Компания',
+        route:             'Маршрут',
+        tariff:            'Тариф',
+        bus:               'Автобус',
+        driver:            'Водитель',
+        validator:         'Валидатор',
+        cardType:          'Тип карты',
+        date:              'Дата',
+        hour:              'Час',
+        transactionsCount: 'Количество',
+        transactionsSum:   'Сумма',
+      },
+      labels: {
+        byHour:             'Разбивка по часам',
+        byDays:             'Разбивка по дням',
+        refreshDescription: 'Отметьте флажками поля, которые хотите видеть в отчете, примените фильтры и нажмите "Обновить"',
+      },
+    },
+  },
   forms: {
     login: {
       title:  'Вход',
@@ -81,10 +103,11 @@ export default {
   layout: {
     toolbar: {
       menu: {
-        login:   'Войти',
-        logout:  'Выход',
-        cabinet: 'Панель управления',
-        card:    {
+        login:         'Войти',
+        logout:        'Выход',
+        cabinet:       'Панель управления',
+        generalReport: 'Отчет',
+        card:          {
           placeholder: 'Введите номер карты чтобы увидеть детализацию...',
         },
       },

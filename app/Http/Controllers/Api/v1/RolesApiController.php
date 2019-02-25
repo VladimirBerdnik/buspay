@@ -17,7 +17,7 @@ use Saritasa\Transformers\IDataTransformer;
 class RolesApiController extends BaseApiController
 {
     /**
-     * Roles entity service.`
+     * Roles entity service.
      *
      * @var RoleEntityService
      */

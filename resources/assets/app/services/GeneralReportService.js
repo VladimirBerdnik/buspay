@@ -4,6 +4,7 @@ import axios from '../config/axios';
  * Service that can retrieve general report data in requested format.
  */
 export default {
+  reportData: [],
 
   /**
    * Reads general report data in requested format.
@@ -12,13 +13,17 @@ export default {
    *
    * @throws Error
    */
-  async getData(params) {
-    this.itemsMutation([]);
+  async read(params) {
+    this.reportData = [];
 
     const response = await axios.get('/reports/general/', { params });
 
-    this.itemsMutation(response.data.results || []);
+    this.reportData = response.data.results || [];
 
-    return response.data;
+    return this.get();
+  },
+
+  get() {
+    return this.reportData;
   },
 };

@@ -10,12 +10,12 @@
                   class="xs6 sm4 md3 flex"
         >
           <v-checkbox v-model="selectedFields"
-                      :value="reportFields.company"
+                      :value="availableFields.company"
                       hide-details
                       class="shrink mr-2"
           />
           <CompanySelect v-model="filters.companyId"
-                         :readonly="selectedFields.indexOf(reportFields.company) === -1"
+                         :readonly="selectedFields.indexOf(availableFields.company) === -1"
                          class="pr-3 flex"
                          @input="updateQueryParameters"
           />
@@ -24,13 +24,13 @@
                   class="xs6 sm4 md3 flex"
         >
           <v-checkbox v-model="selectedFields"
-                      :value="reportFields.route"
+                      :value="availableFields.route"
                       hide-details
                       class="shrink mr-2"
           />
           <RouteSelect v-model="filters.routeId"
                        :company-id="filters.companyId"
-                       :readonly="selectedFields.indexOf(reportFields.route) === -1"
+                       :readonly="selectedFields.indexOf(availableFields.route) === -1"
                        class="pr-3 flex"
                        @input="updateQueryParameters"
           />
@@ -39,12 +39,12 @@
                   class="xs6 sm4 md3 flex"
         >
           <v-checkbox v-model="selectedFields"
-                      :value="reportFields.tariff"
+                      :value="availableFields.tariff"
                       hide-details
                       class="shrink mr-2"
           />
           <TariffSelect v-model="filters.tariffId"
-                        :readonly="selectedFields.indexOf(reportFields.tariff) === -1"
+                        :readonly="selectedFields.indexOf(availableFields.tariff) === -1"
                         class="pr-3 flex"
                         @input="updateQueryParameters"
           />
@@ -53,13 +53,13 @@
                   class="xs6 sm4 md3 flex"
         >
           <v-checkbox v-model="selectedFields"
-                      :value="reportFields.bus"
+                      :value="availableFields.bus"
                       hide-details
                       class="shrink mr-2"
           />
           <BusSelect v-model="filters.busId"
                      :company-id="filters.companyId"
-                     :readonly="selectedFields.indexOf(reportFields.bus) === -1"
+                     :readonly="selectedFields.indexOf(availableFields.bus) === -1"
                      class="pr-3 flex"
                      @input="updateQueryParameters"
           />
@@ -68,13 +68,13 @@
                   class="xs6 sm4 md3 flex"
         >
           <v-checkbox v-model="selectedFields"
-                      :value="reportFields.driver"
+                      :value="availableFields.driver"
                       hide-details
                       class="shrink mr-2"
           />
           <DriverSelect v-model="filters.driverId"
                         :company-id="filters.companyId"
-                        :readonly="selectedFields.indexOf(reportFields.driver) === -1"
+                        :readonly="selectedFields.indexOf(availableFields.driver) === -1"
                         class="pr-3 flex"
                         @input="updateQueryParameters"
           />
@@ -83,12 +83,12 @@
                   class="xs6 sm4 md3 flex"
         >
           <v-checkbox v-model="selectedFields"
-                      :value="reportFields.cardType"
+                      :value="availableFields.cardType"
                       hide-details
                       class="shrink mr-2"
           />
           <CardTypesSelect v-model="filters.cardTypeId"
-                           :readonly="selectedFields.indexOf(reportFields.cardType) === -1"
+                           :readonly="selectedFields.indexOf(availableFields.cardType) === -1"
                            class="pr-3 flex"
                            @input="updateQueryParameters"
           />
@@ -97,24 +97,33 @@
                   class="xs6 sm4 md3 flex"
         >
           <v-checkbox v-model="selectedFields"
-                      :value="reportFields.validator"
+                      :value="availableFields.validator"
                       hide-details
                       class="shrink mr-2"
           />
           <ValidatorSelect v-model="filters.validatorId"
-                           :readonly="selectedFields.indexOf(reportFields.validator) === -1"
+                           :readonly="selectedFields.indexOf(availableFields.validator) === -1"
                            class="pr-3 flex"
                            @input="updateQueryParameters"
           />
         </v-layout>
-        <v-layout class="xs12 sm8 md6 flex">
+        <v-layout class="xs6 sm4 md3 flex">
           <v-checkbox v-model="selectedFields"
-                      :value="reportFields.date"
-                      hide-details
-                      class="shrink mr-2"
+                      :label="$t('reports.general.labels.byDays')"
+                      :value="availableFields.date"
+                      class="pr-3 flex"
           />
+        </v-layout>
+        <v-layout class="xs6 sm4 md3 flex">
+          <v-checkbox v-model="selectedFields"
+                      :label="$t('reports.general.labels.byHour')"
+                      :value="availableFields.hour"
+                      class="pr-3 flex"
+          />
+        </v-layout>
+        <v-layout class="xs12 sm8 md6 flex">
           <DateSelect v-model="activeFrom"
-                      :readonly="selectedFields.indexOf(reportFields.date) === -1"
+                      :readonly="selectedFields.indexOf(availableFields.date) === -1"
                       :label="$t('transaction.active_from')"
                       :default-hours="0"
                       :default-minutes="0"
@@ -123,7 +132,7 @@
                       class="pr-3 flex v-input"
           />
           <DateSelect v-model="activeTo"
-                      :readonly="selectedFields.indexOf(reportFields.date) === -1"
+                      :readonly="selectedFields.indexOf(availableFields.date) === -1"
                       :label="$t('transaction.active_to')"
                       :default-hours="23"
                       :default-minutes="59"
@@ -134,7 +143,14 @@
         </v-layout>
       </v-layout>
       <v-layout row>
+        {{ $t('reports.general.labels.refreshDescription') }}
         <v-spacer/>
+        <v-btn color="success"
+               @click="reloadTable"
+        >
+          <v-icon>find_replace</v-icon>
+          {{ $t('common.buttons.refresh') }}
+        </v-btn>
         <v-btn color="success"
                @click="() => {}"
         >
@@ -145,29 +161,11 @@
     </v-flex>
     <v-data-table :headers="headers"
                   :rows-per-page-items="datatablesConfig.paginatorValues"
-                  :custom-sort="items => items"
-                  :custom-filter="items => items"
                   :items="items"
                   :loading="loadingInProgress"
                   item-key="id"
                   class="elevation-1"
     >
-      <template slot="headerCell"
-                slot-scope="props"
-      >
-        <v-btn v-if="props.header.actionsColumn"
-               :title="$t('common.buttons.refresh')"
-               flat
-               icon
-               @click="reloadTable"
-        >
-          <v-icon>cached</v-icon>
-        </v-btn>
-        <template v-else>
-          {{ props.header.text }}
-        </template>
-      </template>
-
       <v-progress-linear slot="progress"
                          color="blue"
                          indeterminate
@@ -176,8 +174,13 @@
       <template slot="items"
                 slot-scope="props"
       >
-        <td>{{ props.item.id }}</td>
-        <td/>
+        <td v-for="reportField in reportFields"
+            :key="reportField"
+        >
+          {{ props.item[reportField] }}
+        </td>
+        <td>{{ props.item.transactionsCount }}</td>
+        <td>{{ props.item.transactionsSum }}</td>
       </template>
 
     </v-data-table>
@@ -186,7 +189,6 @@
 
 <script>
 import i18n from '../../lang/i18n';
-import TransactionsService from '../../services/TransactionsService';
 import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
 import ActionCell from './components/ActionCell';
 import DateSelect from '../dropdowns/DateSelect';
@@ -197,18 +199,9 @@ import ValidatorSelect from '../dropdowns/ValidatorSelect';
 import TariffSelect from '../dropdowns/TariffSelect';
 import RouteSelect from '../dropdowns/RouteSelect';
 import DriverSelect from '../dropdowns/DriverSelect';
-import reportFields from '../../enums/GeneralReportFields';
-// TODO: Connect SimpleTableMixin instead:
+import availableFields from '../../enums/GeneralReportFields';
 import datatablesConfig from '../../config/datatables';
-
-const headers = [
-  { value: 'id' },
-];
-
-// Table headers translates
-Object.values(headers).forEach((header, key) => {
-  headers[key].text = i18n.t(`report.general.fields.${header.value}`);
-});
+import GeneralReportService from '../../services/GeneralReportService';
 
 export default {
   name:       'GeneralReport',
@@ -227,14 +220,13 @@ export default {
   data() {
     return {
       datatablesConfig,
-      reportFields,
-      selectedFields: [],
-      headers,
-      items:          [
-        { id: 1 },
+      availableFields,
+      selectedFields: [
+        availableFields.date,
       ],
-      service: TransactionsService,
-      filters: {
+      reportFields: [],
+      service:      GeneralReportService,
+      filters:      {
         companyId:   null,
         routeId:     null,
         busId:       null,
@@ -245,9 +237,65 @@ export default {
       },
       activeFrom:        null,
       activeTo:          null,
-      // TODO improve
       loadingInProgress: false,
     };
+  },
+  computed: {
+    headers() {
+      const headers = [];
+
+      Object.values(this.reportFields).forEach(field => {
+        headers.push({ value: field });
+      });
+
+      headers.push({ value: 'transactionsCount' });
+      headers.push({ value: 'transactionsSum' });
+
+      // Table headers translates
+      Object.values(headers).forEach((header, key) => {
+        headers[key].text = i18n.t(`reports.general.fields.${header.value}`);
+      });
+
+      return headers;
+    },
+    /**
+     * Handled items list.
+     *
+     * @return {Object[]}
+     */
+    items() {
+      return this.service.get();
+    },
+  },
+  methods: {
+    /**
+     * Reloads table data.
+     */
+    async reloadTable() {
+      if (this.loadingInProgress) {
+        return;
+      }
+
+      this.loadingInProgress = true;
+
+      this.reportFields = this.selectedFields.slice();
+
+      try {
+        const params = Object.assign(
+          {},
+          { filters: this.filters },
+          { fields: this.reportFields || [] },
+          { active_from: this.activeFrom },
+          { active_to: this.activeTo }
+        );
+
+        await this.service.read(params);
+      } catch (exception) {
+        // no action required
+      } finally {
+        this.loadingInProgress = false;
+      }
+    },
   },
 };
 </script>

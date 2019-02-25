@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\v1;
 use App\Domain\EntitiesServices\RouteSheetEntityService;
 use App\Domain\Enums\Abilities;
 use App\Domain\Export\RouteSheetsExporter;
+use App\Http\Requests\Api\FilteredListRequest;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
 use App\Http\Requests\Api\SaveRouteSheetRequest;
+use App\Http\Requests\Api\SortedFilteredListRequest;
 use App\Models\RouteSheet;
 use Dingo\Api\Http\Response;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -88,7 +90,7 @@ class RouteSheetsApiController extends BaseApiController
     /**
      * Exports route sheets list.
      *
-     * @param PaginatedSortedFilteredListRequest $request Request with parameters to retrieve paginated sorted filtered
+     * @param SortedFilteredListRequest $request Request with parameters to retrieve paginated sorted filtered
      *     list of items
      *
      * @return BinaryFileResponse
@@ -97,7 +99,7 @@ class RouteSheetsApiController extends BaseApiController
      * @throws InvalidEnumValueException
      * @throws BadCriteriaException
      */
-    public function export(PaginatedSortedFilteredListRequest $request): BinaryFileResponse
+    public function export(SortedFilteredListRequest $request): BinaryFileResponse
     {
         $this->authorize(Abilities::GET, new RouteSheet());
 
@@ -179,11 +181,11 @@ class RouteSheetsApiController extends BaseApiController
     /**
      * Retrieves route sheets filter details from request.
      *
-     * @param PaginatedSortedFilteredListRequest $request Request to retrieve filter details from
+     * @param FilteredListRequest $request Request to retrieve filter details from
      *
      * @return string[]
      */
-    private function getRouteSheetsFilter(PaginatedSortedFilteredListRequest $request): array
+    private function getRouteSheetsFilter(FilteredListRequest $request): array
     {
         $filters = $request->getFilters([
             RouteSheet::COMPANY_ID,

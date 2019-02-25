@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\v1\CardsApiController;
 use App\Http\Controllers\Api\v1\CardTypesApiController;
 use App\Http\Controllers\Api\v1\CompaniesApiController;
 use App\Http\Controllers\Api\v1\DriversApiController;
+use App\Http\Controllers\Api\v1\GeneralReportApiController;
 use App\Http\Controllers\Api\v1\PoliciesApiController;
 use App\Http\Controllers\Api\v1\ProfileApiController;
 use App\Http\Controllers\Api\v1\ReplenishmentsApiController;
@@ -170,5 +171,8 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
             ],
         ], RouteSheet::class);
         $registrar->get('route_sheets/export', RouteSheetsApiController::class, 'export');
+
+        // Reports related urls
+        $registrar->get('reports/general', GeneralReportApiController::class, ApiResourceRegistrar::ACTION_INDEX);
     });
 });

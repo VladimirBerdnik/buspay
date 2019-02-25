@@ -16,6 +16,12 @@
         </v-list-tile-action>
         <v-list-tile-title>{{ $t('layout.toolbar.menu.cabinet') }}</v-list-tile-title>
       </v-list-tile>
+      <v-list-tile @click="goToGeneralReport">
+        <v-list-tile-action>
+          <v-icon>insert_chart</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-title>{{ $t('layout.toolbar.menu.generalReport') }}</v-list-tile-title>
+      </v-list-tile>
       <v-list-tile @click="logout">
         <v-list-tile-action>
           <v-icon>exit_to_app</v-icon>
@@ -61,6 +67,12 @@ export default {
      */
     goToCabinet() {
       this.$router.push({ name: router.ROUTE_CABINET });
+    },
+    /**
+     * Navigates user to general report page.
+     */
+    goToGeneralReport() {
+      this.$router.push({ name: router.ROUTE_GENERAL_REPORT });
     },
     /**
      * Performs user logout.

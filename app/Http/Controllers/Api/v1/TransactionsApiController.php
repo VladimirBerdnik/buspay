@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\v1;
 use App\Domain\Dto\Filters\TransactionsFilterData;
 use App\Domain\Enums\Abilities;
 use App\Domain\Export\TransactionsExporter;
+use App\Http\Requests\Api\FilteredListRequest;
 use App\Http\Requests\Api\PaginatedSortedFilteredListRequest;
+use App\Http\Requests\Api\SortedFilteredListRequest;
 use App\Http\Transformers\Api\ImpersonalCardTransformer;
 use App\Http\Transformers\Api\TransactionTransformer;
 use App\Models\Transaction;
@@ -86,13 +88,13 @@ class TransactionsApiController extends BaseApiController
     /**
      * Returns transactions filter data that should be applied against list of transactions.
      *
-     * @param PaginatedSortedFilteredListRequest $request Transactions list request with filtering details
+     * @param FilteredListRequest $request Transactions list request with filtering details
      *
      * @return TransactionsFilterData
      */
-    private function getTransactionsFilterData(PaginatedSortedFilteredListRequest $request): TransactionsFilterData
+    private function getTransactionsFilterData(FilteredListRequest $request): TransactionsFilterData
     {
-        $filters = $request->getFilters([]);
+        $filters = $request->getFilters();
         $companyId = $this->singleCompanyUser()
             ? $this->user->company_id
             : $filters[TransactionsFilterData::COMPANY_ID] ?? null;
@@ -159,7 +161,7 @@ class TransactionsApiController extends BaseApiController
     /**
      * Exports transactions list.
      *
-     * @param PaginatedSortedFilteredListRequest $request Request with parameters to retrieve paginated sorted filtered
+     * @param SortedFilteredListRequest $request Request with parameters to retrieve paginated sorted filtered
      *     list of items
      *
      * @return BinaryFileResponse
@@ -167,7 +169,7 @@ class TransactionsApiController extends BaseApiController
      * @throws InvalidEnumValueException
      * @throws AuthorizationException
      */
-    public function export(PaginatedSortedFilteredListRequest $request): BinaryFileResponse
+    public function export(SortedFilteredListRequest $request): BinaryFileResponse
     {
         $this->authorize(Abilities::GET, new Transaction());
 

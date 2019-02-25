@@ -66,7 +66,7 @@ class ReplenishmentsApiController extends BaseApiController
     {
         $this->authorize(Abilities::GET, new Replenishment());
 
-        $filters = $request->getFilters([]);
+        $filters = $request->getFilters();
 
         $searchString = $request->getSearchString();
         if ($searchString) {
