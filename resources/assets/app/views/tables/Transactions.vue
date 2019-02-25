@@ -16,6 +16,28 @@
                       clearable
                       class="pr-3 flex xs6 sm4 md3"
         />
+        <CompanySelect v-if="policies.canSeeList(policies.itemsTypes.companies)"
+                       v-model="filters.companyId"
+                       class="pr-3 flex xs6 sm4 md3"
+                       @input="updateQueryParameters"
+        />
+        <RouteSelect v-if="policies.canSeeList(policies.itemsTypes.routes)"
+                     v-model="filters.routeId"
+                     :company-id="filters.companyId"
+                     class="pr-3 flex xs6 sm4 md3"
+                     @input="updateQueryParameters"
+        />
+        <TariffSelect v-if="policies.canSeeList(policies.itemsTypes.tariffs)"
+                      v-model="filters.tariffId"
+                      class="pr-3 flex xs6 sm4 md3"
+                      @input="updateQueryParameters"
+        />
+        <BusSelect v-if="policies.canSeeList(policies.itemsTypes.buses)"
+                   v-model="filters.busId"
+                   :company-id="filters.companyId"
+                   class="pr-3 flex xs6 sm4 md3"
+                   @input="updateQueryParameters"
+        />
         <CardTypesSelect v-if="policies.canSeeList(policies.itemsTypes.cardTypes)"
                          v-model="filters.cardTypeId"
                          class="pr-3 flex xs6 sm4 md3"
@@ -25,22 +47,6 @@
                          v-model="filters.validatorId"
                          class="pr-3 flex xs6 sm4 md3"
                          @input="updateQueryParameters"
-        />
-        <TariffSelect v-if="policies.canSeeList(policies.itemsTypes.tariffs)"
-                      v-model="filters.tariffId"
-                      class="pr-3 flex xs6 sm4 md3"
-                      @input="updateQueryParameters"
-        />
-        <CompanySelect v-if="policies.canSeeList(policies.itemsTypes.companies)"
-                       v-model="filters.companyId"
-                       class="pr-3 flex xs6 sm4 md3"
-                       @input="updateQueryParameters"
-        />
-        <BusSelect v-if="policies.canSeeList(policies.itemsTypes.buses)"
-                   v-model="filters.busId"
-                   :company-id="filters.companyId"
-                   class="pr-3 flex xs6 sm4 md3"
-                   @input="updateQueryParameters"
         />
         <DateSelect v-model="activeFrom"
                     :label="$t('transaction.active_from')"
@@ -151,6 +157,7 @@ import CardTypesSelect from '../dropdowns/CardTypeSelect';
 import ValidatorSelect from '../dropdowns/ValidatorSelect';
 import TariffSelect from '../dropdowns/TariffSelect';
 import PoliciesService from '../../services/PoliciesService';
+import RouteSelect from '../dropdowns/RouteSelect';
 
 const headers = [
   { value: 'id' },
@@ -181,6 +188,7 @@ headers.push({
 export default {
   name:       'Transactions',
   components: {
+    RouteSelect,
     TariffSelect,
     ValidatorSelect,
     CardTypesSelect,
@@ -204,6 +212,7 @@ export default {
         cardTypeId:  null,
         validatorId: null,
         tariffId:    null,
+        routeId:     null,
       },
       itemType: PoliciesService.itemsTypes.transactions,
     };
