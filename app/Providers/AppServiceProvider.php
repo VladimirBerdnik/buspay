@@ -40,6 +40,7 @@ use App\Http\Controllers\Api\v1\ReplenishmentsApiController;
 use App\Http\Controllers\Api\v1\RolesApiController;
 use App\Http\Controllers\Api\v1\RoutesApiController;
 use App\Http\Controllers\Api\v1\RouteSheetsApiController;
+use App\Http\Controllers\Api\v1\TariffFaresApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\TransactionsApiController;
@@ -190,6 +191,7 @@ class AppServiceProvider extends ServiceProvider
         $app->when(RoutesApiController::class)->needs($transformer)->give(RouteTransformer::class);
         $app->when(TariffPeriodsApiController::class)->needs($transformer)->give(TariffPeriodTransformer::class);
         $app->when(TariffsApiController::class)->needs($transformer)->give(TariffTransformer::class);
+        $app->when(TariffFaresApiController::class)->needs($transformer)->give(TariffTransformer::class);
         $app->when(TransactionsApiController::class)->needs($transformer)->give(TransactionTransformer::class);
         $app->when(UsersApiController::class)->needs($transformer)->give(ProfileTransformer::class);
         $app->when(ValidatorsApiController::class)->needs($transformer)->give(ValidatorTransformer::class);

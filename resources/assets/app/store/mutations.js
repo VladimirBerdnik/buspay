@@ -16,6 +16,7 @@ export const PROFILE_MUTATION = 'profile';
 export const CARD_TYPES_MUTATION = 'cardTypes';
 export const TARIFF_PERIODS_MUTATION = 'tariffPeriods';
 export const TARIFFS_MUTATION = 'tariffs';
+export const TARIFF_FARES_MUTATION = 'tariffFares';
 export const COMPANIES_MUTATION = 'companies';
 export const USERS_MUTATION = 'users';
 export const ROLES_MUTATION = 'roles';
@@ -218,6 +219,7 @@ const mutations = {
 const simpleMutations = [
   CARD_TYPES_MUTATION,
   TARIFF_PERIODS_MUTATION,
+  TARIFF_FARES_MUTATION,
   TARIFFS_MUTATION,
   COMPANIES_MUTATION,
   USERS_MUTATION,

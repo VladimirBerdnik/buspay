@@ -60,17 +60,17 @@
 <script>
 import i18n from '../../lang/i18n';
 import TariffPeriodsService from '../../services/TariffPeriodsService';
-import TariffsService from '../../services/TariffsService';
+import TariffFaresService from '../../services/TariffFaresService';
 import CardTypesService from '../../services/CardTypesService';
 import SimpleTableMixin from '../../mixins/SimpleTableMixin';
 
 export default {
-  name:   'Tariffs',
+  name:   'TariffFares',
   mixins: [SimpleTableMixin],
   data() {
     return {
       tariffPeriod: null,
-      service:      TariffsService,
+      service:      TariffFaresService,
     };
   },
   computed: {
@@ -103,7 +103,7 @@ export default {
      * Reloads table data.
      */
     reloadTable() {
-      TariffsService.read(this.tariffPeriod);
+      this.service.read(this.tariffPeriod);
     },
     /**
      * Searches amount of tariff fare for given card type.

@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Home from '../views/Home';
 import Cabinet from '../views/Cabinet';
 import CardTypes from '../views/tables/CardTypes';
-import Tariffs from '../views/tables/Tariffs';
+import TariffFares from '../views/tables/TariffFares';
 import Companies from '../views/tables/Companies';
 import Users from '../views/tables/Users';
 import Routes from '../views/tables/Routes';
@@ -19,7 +19,7 @@ import Transactions from '../views/tables/Transactions';
 export const ROUTE_HOME = 'home';
 export const ROUTE_CABINET = 'cabinet';
 export const ROUTE_CARD_TYPES = 'cardTypes';
-export const ROUTE_TARIFFS = 'tariffs';
+export const ROUTE_TARIFF_FARES = 'tariffs';
 export const ROUTE_COMPANIES = 'companies';
 export const ROUTE_USERS = 'users';
 export const ROUTE_ROUTES = 'routes';
@@ -47,7 +47,7 @@ export default new Router({
     name:      ROUTE_CABINET,
     children:  [
       { path: 'cardTypes', component: CardTypes, name: ROUTE_CARD_TYPES },
-      { path: 'tariffs', component: Tariffs, name: ROUTE_TARIFFS },
+      { path: 'tariffs', component: TariffFares, name: ROUTE_TARIFF_FARES },
       { path: 'companies', component: Companies, name: ROUTE_COMPANIES },
       { path: 'users', component: Users, name: ROUTE_USERS },
       { path: 'routes', component: Routes, name: ROUTE_ROUTES },

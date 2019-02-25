@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\v1\ReplenishmentsApiController;
 use App\Http\Controllers\Api\v1\RolesApiController;
 use App\Http\Controllers\Api\v1\RoutesApiController;
 use App\Http\Controllers\Api\v1\RouteSheetsApiController;
+use App\Http\Controllers\Api\v1\TariffFaresApiController;
 use App\Http\Controllers\Api\v1\TariffPeriodsApiController;
 use App\Http\Controllers\Api\v1\TariffsApiController;
 use App\Http\Controllers\Api\v1\TransactionsApiController;
@@ -84,10 +85,11 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
         // Tariffs related routes
         $registrar->get(
             'tariffPeriods/{tariffPeriod}/tariffs',
-            TariffsApiController::class,
+            TariffFaresApiController::class,
             ApiResourceRegistrar::ACTION_INDEX
         );
         $registrar->get('tariffPeriods', TariffPeriodsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
+        $registrar->get('tariffs', TariffsApiController::class, ApiResourceRegistrar::ACTION_INDEX);
 
         // Companies related routes
         $registrar->resource('companies', CompaniesApiController::class, [

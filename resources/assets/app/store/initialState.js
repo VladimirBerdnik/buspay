@@ -29,6 +29,7 @@ export default function getInitialState() {
     cardTypes:       [],
     tariffPeriods:   [],
     tariffs:         [],
+    tariffFares:     [],
     companies:       [],
     users:           [],
     roles:           [],

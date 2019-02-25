@@ -20,6 +20,7 @@ class EntitiesTypes extends Enum
     public const ROUTE_SHEET = 'routeSheet';
     public const ROUTE = 'route';
     public const TARIFF = 'tariff';
+    public const TARIFF_FARE = 'tariffFare';
     public const TARIFF_PERIOD = 'tariffPeriod';
     public const TRANSACTION = 'transaction';
     public const USER = 'user';

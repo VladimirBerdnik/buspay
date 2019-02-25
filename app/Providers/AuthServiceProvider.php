@@ -12,6 +12,7 @@ use App\Models\Role;
 use App\Models\Route;
 use App\Models\RouteSheet;
 use App\Models\Tariff;
+use App\Models\TariffFare;
 use App\Models\TariffPeriod;
 use App\Models\Transaction;
 use App\Models\User;
@@ -43,6 +44,7 @@ class AuthServiceProvider extends ServiceProvider
         RouteSheet::class => EntityTypePolicy::class,
         Route::class => EntityTypePolicy::class,
         Tariff::class => EntityTypePolicy::class,
+        TariffFare::class => EntityTypePolicy::class,
         TariffPeriod::class => EntityTypePolicy::class,
         User::class => EntityTypePolicy::class,
         Validator::class => EntityTypePolicy::class,
