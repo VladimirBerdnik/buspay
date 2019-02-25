@@ -4,6 +4,7 @@ namespace App\Domain\Reports;
 
 use App\Domain\Dto\Filters\GeneralReportFilterData;
 use App\Domain\Dto\Reports\GeneralReportRow;
+use App\Domain\Enums\CardTypesIdentifiers;
 use DB;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Collection;
@@ -84,12 +85,12 @@ class SqlGeneralReportService
 companies
     inner join route_sheets on companies.id = route_sheets.company_id
     inner join buses on route_sheets.bus_id = buses.id
-    inner join drivers on route_sheets.driver_id = drivers.id
-    inner join routes on route_sheets.route_id = routes.id
+    left join drivers on route_sheets.driver_id = drivers.id
+    left join routes on route_sheets.route_id = routes.id
     inner join transactions on route_sheets.id = transactions.route_sheet_id
     inner join cards on transactions.card_id = cards.id
     inner join card_types on cards.card_type_id = card_types.id
-    inner join tariffs on transactions.tariff_id = tariffs.id
+    left join tariffs on transactions.tariff_id = tariffs.id
     inner join validators on transactions.validator_id = validators.id
 sql;
 
@@ -121,6 +122,9 @@ sql;
 
             $query->where($field, $operator, $value);
         }
+
+        $query->where('card_types.id', '!=', CardTypesIdentifiers::DRIVER);
+        $query->where('card_types.id', '!=', CardTypesIdentifiers::SERVICE);
 
         $reportData = $query->get();
 
