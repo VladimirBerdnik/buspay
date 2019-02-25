@@ -21,7 +21,8 @@ class SqlGeneralReportService
         GeneralReportFields::DRIVER => 'drivers.full_name',
         GeneralReportFields::VALIDATOR => 'validators.serial_number',
         GeneralReportFields::CARD_TYPE => 'card_types.slug',
-        GeneralReportFields::DATE => 'date(transactions.authorized_at)',
+        GeneralReportFields::DATE => 'DATE(transactions.authorized_at)',
+        GeneralReportFields::HOUR => 'HOUR(transactions.authorized_at)',
     ];
 
     /**
@@ -37,7 +38,7 @@ class SqlGeneralReportService
         GeneralReportFields::DRIVER => 'drivers.id',
         GeneralReportFields::VALIDATOR => 'validators.id',
         GeneralReportFields::CARD_TYPE => 'card_types.id',
-        GeneralReportFields::DATE => 'transactions.authorized_at',
+        GeneralReportFields::HOUR => null,
     ];
 
     /**
@@ -81,6 +82,10 @@ sql;
 
         foreach ($criteria as $criterion) {
             $field = $this->filterableFieldsMapping[$criterion->attribute];
+            if (!$field) {
+                continue;
+            }
+
             if ($criterion->operator === 'in') {
                 $query->whereIn($field, $criterion->value, $criterion->boolean);
             } else {

@@ -17,4 +17,5 @@ class GeneralReportFields extends Enum
     public const VALIDATOR = 'validator';
     public const CARD_TYPE = 'cardType';
     public const DATE = 'date';
+    public const HOUR = 'hour';
 }
