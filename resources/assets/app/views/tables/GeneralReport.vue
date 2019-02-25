@@ -123,7 +123,6 @@
         </v-layout>
         <v-layout class="xs12 sm8 md6 flex">
           <DateSelect v-model="activeFrom"
-                      :readonly="selectedFields.indexOf(availableFields.date) === -1"
                       :label="$t('transaction.active_from')"
                       :default-hours="0"
                       :default-minutes="0"
@@ -132,7 +131,6 @@
                       class="pr-3 flex v-input"
           />
           <DateSelect v-model="activeTo"
-                      :readonly="selectedFields.indexOf(availableFields.date) === -1"
                       :label="$t('transaction.active_to')"
                       :default-hours="23"
                       :default-minutes="59"
