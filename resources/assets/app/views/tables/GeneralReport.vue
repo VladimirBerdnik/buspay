@@ -15,7 +15,6 @@
                       class="shrink mr-2"
           />
           <CompanySelect v-model="filters.companyId"
-                         :readonly="selectedFields.indexOf(availableFields.company) === -1"
                          class="pr-3 flex"
                          @input="updateQueryParameters"
           />
@@ -30,7 +29,6 @@
           />
           <RouteSelect v-model="filters.routeId"
                        :company-id="filters.companyId"
-                       :readonly="selectedFields.indexOf(availableFields.route) === -1"
                        class="pr-3 flex"
                        @input="updateQueryParameters"
           />
@@ -44,7 +42,6 @@
                       class="shrink mr-2"
           />
           <TariffSelect v-model="filters.tariffId"
-                        :readonly="selectedFields.indexOf(availableFields.tariff) === -1"
                         class="pr-3 flex"
                         @input="updateQueryParameters"
           />
@@ -59,7 +56,6 @@
           />
           <BusSelect v-model="filters.busId"
                      :company-id="filters.companyId"
-                     :readonly="selectedFields.indexOf(availableFields.bus) === -1"
                      class="pr-3 flex"
                      @input="updateQueryParameters"
           />
@@ -74,7 +70,6 @@
           />
           <DriverSelect v-model="filters.driverId"
                         :company-id="filters.companyId"
-                        :readonly="selectedFields.indexOf(availableFields.driver) === -1"
                         class="pr-3 flex"
                         @input="updateQueryParameters"
           />
@@ -88,7 +83,6 @@
                       class="shrink mr-2"
           />
           <CardTypesSelect v-model="filters.cardTypeId"
-                           :readonly="selectedFields.indexOf(availableFields.cardType) === -1"
                            class="pr-3 flex"
                            @input="updateQueryParameters"
           />
@@ -102,7 +96,6 @@
                       class="shrink mr-2"
           />
           <ValidatorSelect v-model="filters.validatorId"
-                           :readonly="selectedFields.indexOf(availableFields.validator) === -1"
                            class="pr-3 flex"
                            @input="updateQueryParameters"
           />
