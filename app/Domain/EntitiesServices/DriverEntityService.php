@@ -154,25 +154,23 @@ class DriverEntityService extends EntityService
             throw new DriverReassignException($driver);
         }
 
-        $cardChanged = $driver->card_id !== $driverData->card_id;
-        $previouslyAssignedCard = $driver->card;
-        $assignedCardId = $driverData->card_id;
-
         $driver->fill($driverData->toArray());
 
         Validator::validate($driver->toArray(), $this->getDriverValidationRules($driver));
 
-        $this->handleTransaction(function () use (
-            $previouslyAssignedCard,
-            $assignedCardId,
-            $driverData,
-            $cardChanged,
-            $driver
-        ): void {
+        $this->handleTransaction(function () use ($driverData, $driver): void {
             $date = Carbon::now();
+            if ($driverData instanceof DriverFullData) {
+                $cardChanged = $driver->card_id !== $driverData->card_id;
+                $previouslyAssignedCard = $driver->card;
+                $assignedCardId = $driverData->card_id;
 
-            if ($previouslyAssignedCard && $cardChanged) {
-                $this->closeDriverCardPeriod($driver, $previouslyAssignedCard, $date);
+                if ($previouslyAssignedCard && $cardChanged) {
+                    $this->closeDriverCardPeriod($driver, $previouslyAssignedCard, $date);
+                }
+            } else {
+                $cardChanged = null;
+                $assignedCardId = null;
             }
 
             $this->getRepository()->save($driver);
