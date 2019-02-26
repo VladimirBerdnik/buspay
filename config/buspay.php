@@ -13,6 +13,7 @@ return [
             CardTypesIdentifiers::CHILD,
             CardTypesIdentifiers::RETIRE,
             CardTypesIdentifiers::FREE,
+            CardTypesIdentifiers::QR,
         ],
         // Base passenger payment card type identifier
         'base_card_type_id' => CardTypesIdentifiers::DEFAULT,

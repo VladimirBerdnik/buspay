@@ -18,6 +18,7 @@ class FillCardTypesTable extends CommentsTablesMigration
             4 => 'child',
             5 => 'retire',
             6 => 'free',
+            7 => 'qr',
         ];
 
         foreach ($cardTypes as $id => $slug) {

@@ -15,4 +15,5 @@ class CardTypesIdentifiers extends Enum
     public const CHILD = 4;
     public const RETIRE = 5;
     public const FREE = 6;
+    public const QR = 7;
 }
