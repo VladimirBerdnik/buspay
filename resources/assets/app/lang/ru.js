@@ -252,7 +252,7 @@ export default {
       [roles.ADMIN]:                      'Администратор',
       [roles.SUPPORT]:                    'Тех.поддержка',
       [roles.TRANSPORT_COMPANY_OPERATOR]: 'Оператор',
-      [roles.GOVERNMENT]:                 'Гос.служащщий',
+      [roles.GOVERNMENT]:                 'Гос.служащий',
     },
   },
   tariffPeriod: {
@@ -344,8 +344,8 @@ export default {
         name: 'Тариф',
       },
     },
-    active_from: 'Авторизованы с',
-    active_to:   'Авторизованы по',
+    active_from: 'Период с',
+    active_to:   'Период по',
   },
   pages: {
     cardBalance: {
