@@ -19,7 +19,6 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Saritasa\Middleware\ForceHttps;
 use Saritasa\Roles\Middleware\VerifyRole;
 
 class Kernel extends HttpKernel
@@ -52,7 +51,7 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
-            ForceHttps::class,
+            // ForceHttps::class,
         ],
 
         'api' => [
