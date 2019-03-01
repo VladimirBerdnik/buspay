@@ -2,8 +2,6 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
@@ -12,10 +10,8 @@ use Psr\Log\LogLevel;
 /**
  * Notification about logged message.
  */
-class LogNotification extends Notification implements ShouldQueue
+class LogNotification extends Notification
 {
-    use Queueable;
-
     /**
      * Message that was logged.
      *
