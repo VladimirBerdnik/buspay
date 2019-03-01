@@ -27,7 +27,7 @@ export default {
    * @throws Error
    */
   async read() {
-    const response = await axios.get('/me/');
+    const response = await axios.get('/me');
 
     this.profileMutation(response.data || {});
 

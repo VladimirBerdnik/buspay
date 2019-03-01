@@ -31,7 +31,7 @@ export default {
   async read() {
     this.itemsMutation([]);
 
-    const response = await axios.get('/companies/');
+    const response = await axios.get('/companies');
 
     this.itemsMutation(response.data.results || []);
 
@@ -49,9 +49,9 @@ export default {
     let response = null;
 
     if (company.id) {
-      response = await axios.put(`/companies/${company.id}/`, company);
+      response = await axios.put(`/companies/${company.id}`, company);
     } else {
-      response = await axios.post('/companies/', company);
+      response = await axios.post('/companies', company);
     }
 
     return response.data;
@@ -65,7 +65,7 @@ export default {
    * @return {*}
    */
   delete(company) {
-    return axios.delete(`/companies/${company.id}/`);
+    return axios.delete(`/companies/${company.id}`);
   },
 
   /**

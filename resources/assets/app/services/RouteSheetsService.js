@@ -36,7 +36,7 @@ export default {
   async read(params) {
     this.itemsMutation([]);
 
-    const response = await axios.get('/route_sheets/', { params });
+    const response = await axios.get('/route_sheets', { params });
 
     this.itemsMutation(response.data.results || []);
     this.itemsPaginationMutation(response.data.pagination || {});
@@ -69,9 +69,9 @@ export default {
     let response = null;
 
     if (routeSheet.id) {
-      response = await axios.put(`/route_sheets/${routeSheet.id}/`, routeSheet);
+      response = await axios.put(`/route_sheets/${routeSheet.id}`, routeSheet);
     } else {
-      response = await axios.post('/route_sheets/', routeSheet);
+      response = await axios.post('/route_sheets', routeSheet);
     }
 
     return response.data;
@@ -94,7 +94,7 @@ export default {
    * @return {*}
    */
   delete(routeSheet) {
-    return axios.delete(`/route_sheets/${routeSheet.id}/`);
+    return axios.delete(`/route_sheets/${routeSheet.id}`);
   },
 
   /**

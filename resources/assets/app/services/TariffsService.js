@@ -32,7 +32,7 @@ export default {
   async read() {
     this.itemsMutation([]);
 
-    const response = await axios.get('/tariffs/');
+    const response = await axios.get('/tariffs');
 
     this.itemsMutation(response.data.results || []);
 

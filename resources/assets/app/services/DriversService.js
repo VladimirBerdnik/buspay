@@ -29,7 +29,7 @@ export default {
   async read() {
     this.itemsMutation([]);
 
-    const response = await axios.get('/drivers/');
+    const response = await axios.get('/drivers');
 
     this.itemsMutation(response.data.results || []);
 
@@ -47,9 +47,9 @@ export default {
     let response = null;
 
     if (driver.id) {
-      response = await axios.put(`/drivers/${driver.id}/`, driver);
+      response = await axios.put(`/drivers/${driver.id}`, driver);
     } else {
-      response = await axios.post('/drivers/', driver);
+      response = await axios.post('/drivers', driver);
     }
 
     return response.data;
@@ -63,7 +63,7 @@ export default {
    * @return {*}
    */
   delete(driver) {
-    return axios.delete(`/drivers/${driver.id}/`);
+    return axios.delete(`/drivers/${driver.id}`);
   },
 
   /**

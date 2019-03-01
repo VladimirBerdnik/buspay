@@ -29,7 +29,7 @@ export default {
   async read() {
     this.itemsMutation([]);
 
-    const response = await axios.get('/routes/');
+    const response = await axios.get('/routes');
 
     this.itemsMutation(response.data.results || []);
 
@@ -47,9 +47,9 @@ export default {
     let response = null;
 
     if (route.id) {
-      response = await axios.put(`/routes/${route.id}/`, route);
+      response = await axios.put(`/routes/${route.id}`, route);
     } else {
-      response = await axios.post('/routes/', route);
+      response = await axios.post('/routes', route);
     }
 
     return response.data;
@@ -63,7 +63,7 @@ export default {
    * @return {*}
    */
   delete(route) {
-    return axios.delete(`/routes/${route.id}/`);
+    return axios.delete(`/routes/${route.id}`);
   },
 
   /**

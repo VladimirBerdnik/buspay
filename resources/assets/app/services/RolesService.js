@@ -29,7 +29,7 @@ export default {
   async read() {
     this.itemsMutation([]);
 
-    const response = await axios.get('/roles/');
+    const response = await axios.get('/roles');
 
     this.itemsMutation(response.data.results || []);
 

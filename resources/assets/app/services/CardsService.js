@@ -35,7 +35,7 @@ export default {
   async read(params) {
     this.itemsMutation([]);
 
-    const response = await axios.get('/cards/', { params });
+    const response = await axios.get('/cards', { params });
 
     this.itemsMutation(response.data.results || []);
     this.itemsPaginationMutation(response.data.pagination || {});

@@ -34,7 +34,7 @@ export default {
    * @throws Error
    */
   async login(email, password) {
-    const response = await axios.post('/auth/', { email, password });
+    const response = await axios.post('/auth', { email, password });
 
     this.loginMutation(response.data.token);
 
@@ -50,7 +50,7 @@ export default {
    */
   async logout() {
     try {
-      await axios.delete('/auth/');
+      await axios.delete('/auth');
     } finally {
       this.logoutMutation();
     }
@@ -64,7 +64,7 @@ export default {
    * @throws Error
    */
   async refreshToken() {
-    const response = await axios.put('/auth/');
+    const response = await axios.put('/auth');
 
     this.loginMutation(response.data.token);
 

@@ -29,7 +29,7 @@ export default {
   async read() {
     this.itemsMutation([]);
 
-    const response = await axios.get('/validators/');
+    const response = await axios.get('/validators');
 
     this.itemsMutation(response.data.results || []);
 
@@ -46,7 +46,7 @@ export default {
   async save(validator) {
     let response = null;
 
-    response = await axios.put(`/validators/${validator.id}/`, validator);
+    response = await axios.put(`/validators/${validator.id}`, validator);
 
     return response.data;
   },

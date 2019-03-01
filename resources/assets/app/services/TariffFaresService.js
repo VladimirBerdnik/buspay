@@ -34,7 +34,7 @@ export default {
   async read(tariffPeriod) {
     this.itemsMutation([]);
 
-    const response = await axios.get(`/tariffPeriods/${tariffPeriod.id}/tariffs/`);
+    const response = await axios.get(`/tariffPeriods/${tariffPeriod.id}/tariffs`);
 
     this.itemsMutation(response.data.results || []);
 

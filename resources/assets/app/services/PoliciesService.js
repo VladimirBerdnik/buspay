@@ -20,7 +20,7 @@ export default {
    * @throws Error
    */
   async read() {
-    const response = await axios.get('/policies/');
+    const response = await axios.get('/policies');
 
     this.policies = (response.data || {});
 

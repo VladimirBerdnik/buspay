@@ -16,7 +16,7 @@ export default {
   async read(params) {
     this.reportData = [];
 
-    const response = await axios.get('/reports/general/', { params });
+    const response = await axios.get('/reports/general', { params });
 
     this.reportData = response.data.results || [];
 

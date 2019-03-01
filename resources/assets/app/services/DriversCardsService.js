@@ -29,7 +29,7 @@ export default {
   async read() {
     this.itemsMutation([]);
 
-    const response = await axios.get('/cards/drivers/');
+    const response = await axios.get('/cards/drivers');
 
     this.itemsMutation(response.data.results || []);
 

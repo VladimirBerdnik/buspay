@@ -30,7 +30,7 @@ export default {
   async read() {
     this.itemsMutation([]);
 
-    const response = await axios.get('/users/');
+    const response = await axios.get('/users');
 
     this.itemsMutation(response.data.results || []);
 
@@ -48,9 +48,9 @@ export default {
     let response = null;
 
     if (user.id) {
-      response = await axios.put(`/users/${user.id}/`, user);
+      response = await axios.put(`/users/${user.id}`, user);
     } else {
-      response = await axios.post('/users/', user);
+      response = await axios.post('/users', user);
     }
 
     return response.data;
@@ -64,7 +64,7 @@ export default {
    * @return {*}
    */
   delete(user) {
-    return axios.delete(`/users/${user.id}/`);
+    return axios.delete(`/users/${user.id}`);
   },
 
   /**
