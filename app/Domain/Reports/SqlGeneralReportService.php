@@ -62,7 +62,7 @@ class SqlGeneralReportService
      * @param string[] $requestedFields Requested report fields
      * @param GeneralReportFilterData $reportFilterData Filters to retrieve general report data
      *
-     * @return Collection|mixed[]
+     * @return Collection|GeneralReportRow[]
      */
     public function getData(
         array $requestedFields,
@@ -76,8 +76,8 @@ class SqlGeneralReportService
                 ? DB::raw($selectedColumnWithAlias)
                 : $selectedColumnWithAlias;
         }
-        $selectedColumns[] = DB::raw('count(transactions.id) as transactionsCount');
-        $selectedColumns[] = DB::raw('sum(transactions.amount) as transactionsSum');
+        $selectedColumns[] = DB::raw('count(transactions.id) as count');
+        $selectedColumns[] = DB::raw('sum(transactions.amount) as sum');
 
         $groupableFields = array_only($this->selectableFieldsMapping, $requestedFields);
 

@@ -174,5 +174,6 @@ $api->version(config('api.version'), ['middleware' => 'bindings'], function (Rou
 
         // Reports related urls
         $registrar->get('reports/general', GeneralReportApiController::class, ApiResourceRegistrar::ACTION_INDEX);
+        $registrar->get('reports/general/export', GeneralReportApiController::class, 'export');
     });
 });

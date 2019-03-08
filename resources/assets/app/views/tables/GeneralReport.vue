@@ -143,7 +143,7 @@
           {{ $t('common.buttons.refresh') }}
         </v-btn>
         <v-btn color="success"
-               @click="() => {}"
+               @click="exportRecords"
         >
           <v-icon>file_download</v-icon>
           {{ $t('common.buttons.export') }}
@@ -170,8 +170,8 @@
         >
           {{ props.item[reportField] }}
         </td>
-        <td>{{ props.item.transactionsCount }}</td>
-        <td>{{ props.item.transactionsSum }}</td>
+        <td>{{ props.item.count }}</td>
+        <td>{{ props.item.sum }}</td>
       </template>
 
     </v-data-table>
@@ -240,8 +240,8 @@ export default {
         headers.push({ value: field });
       });
 
-      headers.push({ value: 'transactionsCount' });
-      headers.push({ value: 'transactionsSum' });
+      headers.push({ value: 'count' });
+      headers.push({ value: 'sum' });
 
       // Table headers translates
       Object.values(headers).forEach((header, key) => {
@@ -290,6 +290,26 @@ export default {
         // no action required
       } finally {
         this.loadingInProgress = false;
+      }
+    },
+    /**
+     * Exports table data.
+     */
+    async exportRecords() {
+      this.reportFields = this.selectedFields.slice();
+
+      try {
+        const params = Object.assign(
+          {},
+          { filters: this.filters },
+          { fields: this.reportFields || [] },
+          { active_from: this.activeFrom },
+          { active_to: this.activeTo }
+        );
+
+        await this.service.export(params);
+      } catch (exception) {
+        // no action required
       }
     },
   },

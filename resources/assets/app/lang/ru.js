@@ -36,17 +36,17 @@ export default {
   reports: {
     general: {
       fields: {
-        company:           'Компания',
-        route:             'Маршрут',
-        tariff:            'Тариф',
-        bus:               'Автобус',
-        driver:            'Водитель',
-        validator:         'Валидатор',
-        cardType:          'Тип карты',
-        date:              'Дата',
-        hour:              'Час',
-        transactionsCount: 'Количество',
-        transactionsSum:   'Сумма',
+        company:   'Компания',
+        route:     'Маршрут',
+        tariff:    'Тариф',
+        bus:       'Автобус',
+        driver:    'Водитель',
+        validator: 'Валидатор',
+        cardType:  'Тип карты',
+        date:      'Дата',
+        hour:      'Час',
+        count:     'Количество',
+        sum:       'Сумма',
       },
       labels: {
         byHour:             'Разбивка по часам',

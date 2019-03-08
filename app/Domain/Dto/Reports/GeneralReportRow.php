@@ -17,8 +17,8 @@ use Saritasa\Dto;
  * @property-read string|null $cardType Card type name
  * @property-read string|null $date Date of report row
  * @property-read string|null $hour Hour of report row
- * @property-read number|null $transactionsCount Transactions count within given report group
- * @property-read number|null $transactionsSum Transactions sum within given report group
+ * @property-read number|null $count Transactions count within given report group
+ * @property-read number|null $sum Transactions sum within given report group
  */
 class GeneralReportRow extends Dto implements Arrayable
 {
@@ -31,8 +31,8 @@ class GeneralReportRow extends Dto implements Arrayable
     public const CARD_TYPE = 'cardType';
     public const DATE = 'date';
     public const HOUR = 'hour';
-    public const TRANSACTIONS_COUNT = 'transactionsCount';
-    public const TRANSACTIONS_SUM = 'transactionsSum';
+    public const COUNT = 'count';
+    public const SUM = 'sum';
 
     /**
      * Company name.
@@ -102,12 +102,12 @@ class GeneralReportRow extends Dto implements Arrayable
      *
      * @var number|null
      */
-    protected $transactionsCount;
+    protected $count;
 
     /**
      * Transactions sum within given report group.
      *
      * @var number|null
      */
-    protected $transactionsSum;
+    protected $sum;
 }

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Domain\Dto\Filters\GeneralReportFilterData;
+use App\Domain\Export\GeneralReportExporter;
 use App\Domain\Reports\SqlGeneralReportService;
 use App\Http\Requests\Api\FilteredListRequest;
 use App\Http\Requests\Api\GeneralReportDataRequest;
 use Dingo\Api\Http\Response;
 use Saritasa\Transformers\IDataTransformer;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * General report API controller. Allows to retrieve report data in requested format.
@@ -22,15 +24,27 @@ class GeneralReportApiController extends BaseApiController
     private $generalReportService;
 
     /**
+     * Service that allows to export CSV report.
+     *
+     * @var GeneralReportExporter
+     */
+    private $generalReportExporter;
+
+    /**
      * Roles requests API controller.
      *
      * @param IDataTransformer $transformer Handled by controller entities default transformer
      * @param SqlGeneralReportService $generalReportService Service that allows to retrieve general report data
+     * @param GeneralReportExporter $generalReportExporter Service that allows to export CSV report
      */
-    public function __construct(IDataTransformer $transformer, SqlGeneralReportService $generalReportService)
-    {
+    public function __construct(
+        IDataTransformer $transformer,
+        SqlGeneralReportService $generalReportService,
+        GeneralReportExporter $generalReportExporter
+    ) {
         parent::__construct($transformer);
         $this->generalReportService = $generalReportService;
+        $this->generalReportExporter = $generalReportExporter;
     }
 
     /**
@@ -52,6 +66,24 @@ class GeneralReportApiController extends BaseApiController
             $reportData,
             $this->transformer
         );
+    }
+
+    /**
+     * Exports general report.
+     *
+     * @param GeneralReportDataRequest $request Request with parameters to retrieve sorted filtered data of general
+     *     report
+     *
+     * @return BinaryFileResponse
+     */
+    public function export(GeneralReportDataRequest $request): BinaryFileResponse
+    {
+        $exportedFileName = $this->generalReportExporter->export(
+            $request->fields ?? [],
+            $this->getReportFilterData($request)
+        );
+
+        return new BinaryFileResponse($exportedFileName);
     }
 
     /**

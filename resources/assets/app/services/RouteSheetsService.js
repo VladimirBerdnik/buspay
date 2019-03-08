@@ -44,7 +44,6 @@ export default {
     return response.data;
   },
 
-
   /**
    * Initiates route sheets list downloading.
    *
