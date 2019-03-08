@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import datatablesConfig from '../config/datatables';
+import defaults from '../config/defaults';
 
 /**
  * Mixin for page with list of items. Has methods to display and reload list of items.
@@ -39,6 +40,10 @@ export default {
     items() {
       return this.service.get();
     },
+  },
+  mounted() {
+    // Unexpectedly doesn't work if this value is set in data object
+    this.activeFrom = defaults.activeFrom;
   },
   watch: {
     pagination: {

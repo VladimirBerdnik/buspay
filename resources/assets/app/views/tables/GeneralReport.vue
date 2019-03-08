@@ -179,6 +179,7 @@
 </template>
 
 <script>
+import defaults from '../../config/defaults';
 import i18n from '../../lang/i18n';
 import WithUrlQueryFilterMixin from '../../mixins/WithUrlQueryFilterMixin';
 import ActionCell from './components/ActionCell';
@@ -257,6 +258,10 @@ export default {
     items() {
       return this.service.get();
     },
+  },
+  mounted() {
+    // Unexpectedly doesn't work if this value is set in data object
+    this.activeFrom = defaults.activeFrom;
   },
   methods: {
     /**
