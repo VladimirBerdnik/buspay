@@ -35,7 +35,7 @@ class SqlGeneralReportService
             GeneralReportFields::VALIDATOR => 'validators.serial_number',
             GeneralReportFields::CARD_TYPE => 'card_types.slug',
             GeneralReportFields::DATE => DB::raw('DATE(transactions.authorized_at)'),
-            GeneralReportFields::HOUR => DB::raw('HOUR(transactions.authorized_at)'),
+            GeneralReportFields::HOUR => DB::raw('EXTRACT(HOUR from transactions.authorized_at)'),
         ];
     }
 
