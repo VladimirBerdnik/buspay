@@ -9,6 +9,7 @@ import App from './App';
 import i18n from './lang/i18n';
 import router from './router';
 import PoliciesMixin from './mixins/PoliciesMixin';
+import RoutesMixin from './mixins/RoutesMixin';
 import store from './store';
 import './utils/filters';
 
@@ -26,6 +27,7 @@ Vue.use(Vuetify, {
 });
 
 Vue.mixin(PoliciesMixin);
+Vue.mixin(RoutesMixin);
 
 // eslint-disable-next-line no-new
 new Vue({

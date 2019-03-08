@@ -48,6 +48,19 @@
             </v-list-tile-content>
           </v-list-tile>
         </template>
+        <v-list-tile :to="{name: routes.ROUTE_GENERAL_REPORT}"
+                     :title="$t('layout.toolbar.menu.generalReport')"
+                     class="py-2"
+        >
+          <v-list-tile-action class="my-2">
+            <v-icon x-large>insert_chart</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content class="my-2">
+            <v-list-tile-title class="subheading">
+              {{ $t('layout.toolbar.menu.generalReport') }}
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <router-view/>
