@@ -2862,16 +2862,16 @@
         },
         {
             "name": "saritasa/laravel-repositories",
-            "version": "3.2.2",
+            "version": "3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Saritasa/php-laravel-repositories.git",
-                "reference": "aa81d5cf40f840ce0e5cc956495bb3b77c60afe3"
+                "reference": "8ec62d997be7a39930f749d25cd6a7cb54efc908"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Saritasa/php-laravel-repositories/zipball/aa81d5cf40f840ce0e5cc956495bb3b77c60afe3",
-                "reference": "aa81d5cf40f840ce0e5cc956495bb3b77c60afe3",
+                "url": "https://api.github.com/repos/Saritasa/php-laravel-repositories/zipball/8ec62d997be7a39930f749d25cd6a7cb54efc908",
+                "reference": "8ec62d997be7a39930f749d25cd6a7cb54efc908",
                 "shasum": ""
             },
             "require": {
@@ -2881,8 +2881,8 @@
                 "saritasa/dingo-api-custom": "^2.0"
             },
             "require-dev": {
-                "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^6.0",
+                "mockery/mockery": "^1.1",
+                "phpunit/phpunit": "^7.5",
                 "squizlabs/php_codesniffer": "^3.0"
             },
             "type": "library",
@@ -2917,7 +2917,7 @@
                 "laravel",
                 "repository"
             ],
-            "time": "2019-02-04T05:07:04+00:00"
+            "time": "2019-03-07T11:15:48+00:00"
         },
         {
             "name": "saritasa/php-common",
